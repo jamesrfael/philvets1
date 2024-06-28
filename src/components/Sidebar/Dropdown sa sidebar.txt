@@ -1,0 +1,96 @@
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import {
+  TbReportMoney,
+  TbFilePlus,
+  TbChevronDown,
+  TbReceiptRefund,
+} from "react-icons/tb";
+import { MdDownloading } from "react-icons/md";
+import SidebarItem from "../Sidebar/SidebarItem";
+
+const DropdownMenu = ({ label, icon, items }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const location = useLocation();
+
+  const isActive = items.some((item) => location.pathname.includes(item.link));
+
+  useEffect(() => {
+    if (isActive) {
+      setIsDropdownOpen(true);
+    }
+  }, [isActive]);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  return (
+    <DropdownContainer>
+      <DropdownToggle onClick={toggleDropdown} isActive={isActive || isDropdownOpen}>
+        <DropdownLabel>
+          {icon}
+          <span>{label}</span>
+        </DropdownLabel>
+        <TbChevronDown />
+      </DropdownToggle>
+
+      {(isDropdownOpen || isActive) && (
+        <DropdownItems>
+          {items.map((item) => (
+            <SidebarItem key={item.label} icon={item.icon} label={item.label} link={item.link} />
+          ))}
+        </DropdownItems>
+      )}
+    </DropdownContainer>
+  );
+};
+
+const DropdownContainer = styled.div`
+  position: relative;
+`;
+
+const DropdownToggle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  background-color: ${(props) => (props.isActive ? "#4880FF" : "transparent")};
+  color: ${(props) => (props.isActive ? "white" : "black")};
+  cursor: pointer;
+
+  &:hover {
+    background-color: #4880ff;
+    color: white;
+  }
+`;
+
+const DropdownLabel = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  span {
+    margin-left: 8px;
+    font-size: 14px;
+  }
+`;
+
+const DropdownItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #f0faff;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 4px;
+`;
+
+export default DropdownMenu;
