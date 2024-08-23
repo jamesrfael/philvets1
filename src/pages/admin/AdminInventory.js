@@ -53,7 +53,6 @@ const AdminInventory = () => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        {/* FilterOptions and SearchInput components */}
       </SearchFilterBar>
       <MainContent>
         <InventoryTable>
@@ -91,7 +90,6 @@ const AdminInventory = () => {
           </tbody>
         </InventoryTable>
       </MainContent>
-      {/* PaginationControls component */}
       {showDetailModal && (
         <InventoryDetailModal item={selectedItem} onClose={closeDetailModal} />
       )}
@@ -104,35 +102,51 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: #FFFFFF;
-  padding: 1rem 2rem;
+  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @media (min-width: 600px) {
+    padding: 1rem 2rem;
+  }
 `;
 
 const PageTitle = styled.h1`
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #333333;
+  @media (min-width: 600px) {
+    font-size: 2rem;
+  }
 `;
 
 const SearchFilterBar = styled.div`
   display: flex;
-  justify-content: center;
-  padding: 1rem 2rem;
+  flex-direction: column;
+  padding: 1rem;
   background-color: #F5F5F5;
+  @media (min-width: 600px) {
+    flex-direction: row;
+    padding: 1rem 2rem;
+  }
 `;
 
 const SearchInput = styled.input`
-  flex: 1; /* Take up remaining space */
-  width: 500px; /* Adjusted width */
+  flex: 1;
+  width: 100%;
+  max-width: 500px;
   padding: 10px;
   border: 1px solid #CCCCCC;
   border-radius: 5px;
-  margin-right: 1rem;
   font-size: 16px;
+  @media (min-width: 600px) {
+    margin-right: 1rem;
+  }
 `;
 
 const MainContent = styled.div`
-  padding: 0 2rem;
+  padding: 1rem;
+  @media (min-width: 600px) {
+    padding: 2rem;
+  }
 `;
 
 const InventoryTable = styled.table`
@@ -140,6 +154,11 @@ const InventoryTable = styled.table`
   border-collapse: collapse;
   background-color: #FFFFFF;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  @media (max-width: 600px) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 `;
 
 const TableRow = styled.tr`
@@ -152,15 +171,24 @@ const TableCell = styled.td`
   border-bottom: 1px solid #ddd;
   padding: 12px;
   font-size: 16px;
-  text-align: center; /* Center the cells */
+  text-align: center;
+  @media (max-width: 600px) {
+    display: block;
+    padding: 8px;
+  }
 `;
 
 const TableHeader = styled.th`
   border-bottom: 2px solid #ddd;
   padding: 12px;
-  text-align: center; /* Center the headers */
+  text-align: center;
   font-size: 16px;
   background-color: #f2f2f2;
+  @media (max-width: 600px) {
+    display: block;
+    padding: 8px;
+    text-align: left;
+  }
 `;
 
 const ActionButton = styled.button`
@@ -190,4 +218,3 @@ const Button = styled.button`
 `;
 
 export default AdminInventory;
- 

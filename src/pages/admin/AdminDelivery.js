@@ -1,70 +1,51 @@
 import React, { useState } from "react";
 import LayoutHS from "../../components/LayoutHS";
 import styled from "styled-components";
-import CreateDeliveryModal from "../../components/AdminDelivery/CreateDeliveryModal";
 import DeliveryDetailsModal from "../../components/AdminDelivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
+import { deliveries } from "../data/DeliveryData";
 
 const AdminDelivery = () => {
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState(null);
-  const deliveries = [
-    {
-      id: "0000001",
-      name: "Christine",
-      date: "Feb 14, 2023",
-      type: "Purchase",
-      status: "Completed",
-    },
-    {
-      id: "0000002",
-      name: "John",
-      date: "Mar 5, 2023",
-      type: "Return",
-      status: "Pending",
-    },
-    {
-      id: "0000003",
-      name: "Sarah",
-      date: "Apr 12, 2023",
-      type: "Purchase",
-      status: "Completed",
-    },
-    {
-      id: "0000004",
-      name: "Michael",
-      date: "May 20, 2023",
-      type: "Refund",
-      status: "Cancelled",
-    },
-    // Add more examples as needed
-  ];
 
-  const openCreateModal = () => setIsCreateModalOpen(true);
-  const closeCreateModal = () => setIsCreateModalOpen(false);
-  const openDetailsModal = (delivery) => setSelectedDelivery(delivery);
+  const filteredDeliveries = deliveries.filter((delivery) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return (
+      delivery.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      delivery.date.toLowerCase().includes(lowerCaseSearchTerm) ||
+      delivery.type.toLowerCase().includes(lowerCaseSearchTerm) ||
+      delivery.status.toLowerCase().includes(lowerCaseSearchTerm)
+    );
+  });
+
+  const calculateTotalQuantity = (orderDetails) =>
+    orderDetails.reduce((sum, item) => sum + item.quantity, 0);
+
+  const calculateTotalAmount = (orderDetails) =>
+    orderDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const openDetailsModal = (delivery) =>
+    setSelectedDelivery({
+      ...delivery,
+      totalQuantity: calculateTotalQuantity(delivery.orderDetails),
+      totalAmount: calculateTotalAmount(delivery.orderDetails),
+    });
+
   const closeDetailsModal = () => setSelectedDelivery(null);
 
   return (
     <LayoutHS>
       <Controls>
-        <SearchBar placeholder="Search deliveries..." />
-        <Button onClick={openCreateModal}>Create Delivery</Button>
+        <SearchBar
+          placeholder="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </Controls>
-      <FilterDropdown>
-        <label htmlFor="filter">Filter by:</label>
-        <select id="filter" name="filter">
-          <option value="id">ID</option>
-          <option value="name">Name</option>
-          <option value="date">Order Date</option>
-          <option value="type">Type</option>
-          <option value="status">Status</option>
-        </select>
-      </FilterDropdown>
       <Table>
         <thead>
           <tr>
-            <TableHeader>ID</TableHeader>
             <TableHeader>Name</TableHeader>
             <TableHeader>Order Date</TableHeader>
             <TableHeader>Type</TableHeader>
@@ -73,9 +54,8 @@ const AdminDelivery = () => {
           </tr>
         </thead>
         <tbody>
-          {deliveries.map((delivery, index) => (
+          {filteredDeliveries.map((delivery, index) => (
             <TableRow key={index}>
-              <TableCell>{delivery.id}</TableCell>
               <TableCell>{delivery.name}</TableCell>
               <TableCell>{delivery.date}</TableCell>
               <TableCell>{delivery.type}</TableCell>
@@ -83,24 +63,25 @@ const AdminDelivery = () => {
                 <Status status={delivery.status}>{delivery.status}</Status>
               </TableCell>
               <TableCell>
-                <ActionButton onClick={() => openDetailsModal(delivery)}>View</ActionButton>
+                <ActionButton onClick={() => openDetailsModal(delivery)}>
+                  Details
+                </ActionButton>
               </TableCell>
             </TableRow>
           ))}
         </tbody>
       </Table>
-      {isCreateModalOpen && <CreateDeliveryModal onClose={closeCreateModal} />}
-      {selectedDelivery && <DeliveryDetailsModal delivery={selectedDelivery} onClose={closeDetailsModal} />}
+      {selectedDelivery && (
+        <DeliveryDetailsModal
+          delivery={selectedDelivery}
+          onClose={closeDetailsModal}
+        />
+      )}
     </LayoutHS>
   );
 };
 
-const Title = styled.h1`
-  font-size: 36px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 16px;
-`;
+// Styled components
 
 const Controls = styled.div`
   display: flex;
@@ -110,44 +91,12 @@ const Controls = styled.div`
   padding: 0 16px;
 `;
 
-const Button = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
-`;
-
 const SearchBar = styled.input`
   padding: 10px;
   width: 200px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-`;
-
-const FilterDropdown = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 16px;
-  padding: 0 16px;
-
-  label {
-    margin-right: 8px;
-  }
-
-  select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
 `;
 
 const Table = styled.table`
@@ -160,10 +109,11 @@ const Table = styled.table`
 
 const TableHeader = styled.th`
   border-bottom: 2px solid #ddd;
+  color: white;
   padding: 12px;
   text-align: center;
-  font-size: 16px;
-  background-color: #f2f2f2;
+  font-size: 17px;
+  background-color: ${colors.primary};
 `;
 
 const TableRow = styled.tr`

@@ -1,167 +1,168 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import LayoutHS from "../../components/LayoutHS";
-import SampleData from "../data/Sampledata";
-import StaffDetailModal from "../../components/AdminStaffs/StaffDetailModal";
-import AddStaffModal from "../../components/AdminStaffs/AddStaffModal";
-import ProfilePic from "../../assets/profile.png";
+import styled from "styled-components";
 import { colors } from "../../colors";
+import { staff as initialStaff } from "../data/StaffData";
+import AddStaffModal from "../../components/AdminStaffs/AddStaffModal";
+import EditStaffModal from "../../components/AdminStaffs/EditStaffModal";
 
 const AdminStaffs = () => {
+  const [staff, setStaff] = useState(initialStaff);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredStaff, setFilteredStaff] = useState(SampleData);
-  const [showDetailModal, setShowDetailModal] = useState(false);
-  const [selectedStaff, setSelectedStaff] = useState(null);
-  const [showAddStaffModal, setShowAddStaffModal] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingStaff, setEditingStaff] = useState(null);
 
-  const handleSearch = (event) => {
-    const value = event.target.value.trim().toLowerCase(); // Trim and convert to lowercase
-    setSearchTerm(value);
-    const filtered = SampleData.filter((staff) => {
-      if (!value) {
-        return true; // Show all staff if search input is empty
-      }
-      // Check if any part of the name matches the search term
-      if (
-        (staff.firstName && staff.firstName.toLowerCase().includes(value)) ||
-        (staff.middleName && staff.middleName.toLowerCase().includes(value)) ||
-        (staff.lastName && staff.lastName.toLowerCase().includes(value))
-      ) {
-        return true;
-      }
-      return false;
-    });
-    setFilteredStaff(filtered);
+  const filteredStaff = staff.filter((member) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return (
+      member.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      member.email.toLowerCase().includes(lowerCaseSearchTerm) ||
+      member.username.toLowerCase().includes(lowerCaseSearchTerm)
+    );
+  });
+
+  const handleAddStaff = (newStaff) => {
+    setStaff([...staff, newStaff]);
   };
 
-  const openDetailModal = (staff) => {
-    setSelectedStaff(staff);
-    setShowDetailModal(true);
+  const handleEditStaff = (updatedStaff) => {
+    setStaff(staff.map((member) =>
+      member.email === updatedStaff.email ? updatedStaff : member
+    ));
   };
 
-  const closeDetailModal = () => {
-    setShowDetailModal(false);
-    setSelectedStaff(null);
-  };
-
-  const openAddStaffModal = () => {
-    setShowAddStaffModal(true);
-  };
-
-  const closeAddStaffModal = () => {
-    setShowAddStaffModal(false);
+  const handleDeleteStaff = (email) => {
+    setStaff(staff.filter((member) => member.email !== email));
   };
 
   return (
     <LayoutHS>
-      <SearchContainer>
-        <SearchInput
-          type="text"
-          placeholder="Search"
+      <Controls>
+        <SearchBar
+          placeholder="Search staff..."
           value={searchTerm}
-          onChange={handleSearch}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <AddButton onClick={openAddStaffModal}>Add Staff</AddButton>
-      </SearchContainer>
-      <StaffCardsContainer>
-        {filteredStaff.map((staff, index) => (
-          <StaffCard key={index} onClick={() => openDetailModal(staff)}>
-            <ProfilePicture src={ProfilePic} alt="Profile" />
-            <StaffName>{`${staff.firstName} ${staff.middleName} ${staff.lastName}`}</StaffName>
-            <PhoneNumber>{staff.phoneNumber}</PhoneNumber>
-            <DetailButton
-              onClick={(e) => {
-                e.stopPropagation();
-                openDetailModal(staff);
-              }}
-            >
-              Details
-            </DetailButton>
-          </StaffCard>
-        ))}
-      </StaffCardsContainer>
-      {showDetailModal && (
-        <StaffDetailModal staff={selectedStaff} onClose={closeDetailModal} />
+        <ButtonGroup>
+          <AddButton onClick={() => setIsAddModalOpen(true)}>Add Staff</AddButton>
+        </ButtonGroup>
+      </Controls>
+      <Table>
+        <thead>
+          <tr>
+            <TableHeader>Image</TableHeader>
+            <TableHeader>Name</TableHeader>
+            <TableHeader>Email</TableHeader>
+            <TableHeader>Username</TableHeader>
+            <TableHeader>Actions</TableHeader>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredStaff.map((member, index) => (
+            <TableRow key={index}>
+              <TableCell><img src={member.image} alt={member.name} width="50" /></TableCell>
+              <TableCell>{member.name}</TableCell>
+              <TableCell>{member.email}</TableCell>
+              <TableCell>{member.username}</TableCell>
+              <TableCell>
+                <ActionButton onClick={() => { setIsEditModalOpen(true); setEditingStaff(member); }}>Edit</ActionButton>
+                <ActionButton onClick={() => handleDeleteStaff(member.email)}>Delete</ActionButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </tbody>
+      </Table>
+      {isAddModalOpen && (
+        <AddStaffModal
+          onClose={() => setIsAddModalOpen(false)}
+          onSave={handleAddStaff}
+        />
       )}
-      {showAddStaffModal && <AddStaffModal onClose={closeAddStaffModal} />}
+      {isEditModalOpen && (
+        <EditStaffModal
+          staff={editingStaff}
+          onClose={() => setIsEditModalOpen(false)}
+          onSave={handleEditStaff}
+        />
+      )}
     </LayoutHS>
   );
 };
 
-
-const SearchContainer = styled.div`
+// Styled Components
+const Controls = styled.div`
   display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 16px;
 `;
 
-const SearchInput = styled.input`
+const SearchBar = styled.input`
+  padding: 10px;
+  width: 200px;
   border: 1px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
+  border-radius: 4px;
+  font-size: 16px;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 const AddButton = styled.button`
-  margin-left: 0.5rem;
-  padding: 0.5rem 1rem;
   background-color: ${colors.primary};
   color: white;
+  padding: 8px 16px;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
   &:hover {
     background-color: ${colors.primaryHover};
   }
 `;
 
-const StaffCardsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  margin: 0;
-  padding: 1rem;
-  justify-items: center; /* Center items horizontally */
-`;
-
-const StaffCard = styled.div`
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  width: 200px;
-  background-color: #fff;
+const Table = styled.table`
   text-align: center;
-  cursor: pointer;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  padding: 0 16px;
 `;
 
-const ProfilePicture = styled.img`
-  width: 100px; /* Adjust the size as per your design */
-  height: 100px; /* Adjust the size as per your design */
-  border-radius: 50%;
-  margin-bottom: 0.5rem;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+const TableHeader = styled.th`
+  border-bottom: 2px solid #ddd;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-size: 17px;
+  background-color: ${colors.primary};
 `;
 
-const StaffName = styled.p`
-  font-weight: bold;
-  font-size: 1.125rem;
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f9f9f9;
+  }
 `;
 
-const PhoneNumber = styled.p`
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
-  font-weight: normal;
+const TableCell = styled.td`
+  border-bottom: 1px solid #ddd;
+  padding: 12px;
+  font-size: 16px;
 `;
 
-const DetailButton = styled.button`
-  margin-top: 0.5rem;
-  padding: 0.5rem 1rem;
+const ActionButton = styled.button`
   background-color: ${colors.primary};
   color: white;
+  padding: 8px 16px;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
+  margin: 0 5px;
   &:hover {
     background-color: ${colors.primaryHover};
   }

@@ -1,5 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
 import styled from "styled-components";
 
 const data = [
@@ -14,7 +22,7 @@ const data = [
 
 const RevenueGraph = ({
   titleFontSize = "1rem",
-  titleFontWeight = 400,
+  titleFontWeight = 500,
   axisFontSize = "0.8rem",
   axisFontWeight = 400,
   legendFontSize = "0.8rem",
@@ -24,38 +32,30 @@ const RevenueGraph = ({
 }) => {
   const graphCardRef = useRef(null);
   const [chartWidth, setChartWidth] = useState(0);
-  const [timeFrame, setTimeFrame] = useState("Week");
 
   useEffect(() => {
     const handleResize = () => {
       if (graphCardRef.current) {
-        setChartWidth(graphCardRef.current.offsetWidth - 40); // Subtracting padding/margin
+        setChartWidth(graphCardRef.current.offsetWidth - 40); // Adjust width dynamically
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const handleTimeFrameChange = (e) => {
-    setTimeFrame(e.target.value);
-  };
 
   return (
     <GraphCard ref={graphCardRef}>
-      <GraphTitle fontSize={titleFontSize} fontWeight={titleFontWeight}>Revenue Graph</GraphTitle>
+      <GraphTitle fontSize={titleFontSize} fontWeight={titleFontWeight}>
+        Revenue Graph
+      </GraphTitle>
       <LegendDropdownContainer>
         <LegendWrapper>
           <Legend fontSize={legendFontSize} fontWeight={legendFontWeight} />
         </LegendWrapper>
-        <TimeFrameDropdown onChange={handleTimeFrameChange} value={timeFrame}>
-          <option value="Week">Week</option>
-          <option value="Month">Month</option>
-        </TimeFrameDropdown>
       </LegendDropdownContainer>
-      <TimeFrameIndicator>{timeFrame}</TimeFrameIndicator>
       <GraphContainer>
         <LineChart
           width={chartWidth}
@@ -64,11 +64,14 @@ const RevenueGraph = ({
           margin={chartMargin}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fontSize={axisFontSize} fontWeight={axisFontWeight} interval={0}>
-          </XAxis>
+          <XAxis
+            dataKey="name"
+            fontSize={axisFontSize}
+            fontWeight={axisFontWeight}
+          />
           <YAxis fontSize={axisFontSize} fontWeight={axisFontWeight} />
           <Tooltip />
-          <Line type="monotone" dataKey="revenue" stroke="#4037e1" />
+          <Line type="monotone" dataKey="revenue" stroke="#f08400" />
           <Line type="monotone" dataKey="cost" stroke="#07b64a" />
           <Legend />
         </LineChart>
@@ -88,21 +91,16 @@ const GraphCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box; // Ensure padding and border are included in the width
 `;
 
 const LegendDropdownContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center; // Center the dropdown
   align-items: center;
   width: 100%;
   padding: 0 20px;
   margin-bottom: 10px;
-`;
-
-const TimeFrameDropdown = styled.select`
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ccc;
 `;
 
 const GraphContainer = styled.div`
@@ -110,18 +108,13 @@ const GraphContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  overflow: hidden; // Ensure content doesn't overflow
 `;
 
 const GraphTitle = styled.h3`
   font-size: ${(props) => props.fontSize};
   font-weight: ${(props) => props.fontWeight};
   margin-bottom: 10px;
-`;
-
-const TimeFrameIndicator = styled.div`
-  font-size: 0.8rem;
-  font-weight: 400;
-  margin-top: 10px;
 `;
 
 const LegendWrapper = styled.div`

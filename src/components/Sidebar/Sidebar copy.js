@@ -1,4 +1,3 @@
-// Sidebar.js
 import React from "react";
 import styled from "styled-components";
 import philvetsLogo from "../../assets/philvets.png";
@@ -14,13 +13,14 @@ import {
   TbFileReport,
   TbLogout2,
 } from "react-icons/tb";
+
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
 import { LuWarehouse } from "react-icons/lu";
 import { GrGroup } from "react-icons/gr";
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = () => {
   return (
-    <SidebarContainer isOpen={isOpen}>
+    <SidebarContainer>
       <SidebarHeader>
         <LogoContainer>
           <Logo src={philvetsLogo} alt="PHILVETS Logo" />
@@ -87,24 +87,8 @@ const SidebarContainer = styled.div`
   width: 200px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
-
-  /* Styles for smaller screens */
-  @media (max-width: 768px) {
-    position: fixed;
-    transform: ${({ isOpen }) =>
-      isOpen ? "translateX(0)" : "translateX(-100%)"};
-  }
-
-  /* Styles for larger screens */
-  @media (min-width: 769px) {
-    position: static; /* or relative, based on your layout */
-    transform: translateX(0);
-  }
-
-  top: 0;
-  left: 0;
-  height: 100%;
+  transition: width 0.3s;
+  min-width: 200px;
 `;
 
 const SidebarHeader = styled.div`

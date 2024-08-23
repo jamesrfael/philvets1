@@ -1,22 +1,20 @@
 // colors.js
 
 export const colors = {
-    primary: "#00C4FF",
-    primaryHover: "#0082AA",
+  primary: "#00C4FF",
+  primaryHover: "#0082AA",
 
+  secondary: "#f08400",
+  secondaryHover: "#975300",
+  success: "##1DBA0B",
+  successHover: "#137C07",
+  fail: "#ff5757",
+  failHover: "#e52424",
+  text: "#000000",
+  background: "#FFFFFF",
+};
 
-    secondary: "#f08400",
-    secondaryHover: "#975300",
-    success: "##1DBA0B",
-    successHover: "#137C07",
-    fail: "#ff5757",
-    failHover: "#e52424",
-    text: "#000000",
-    background: "#FFFFFF",
-  };
-  
-
-  /*HOW TO USE
+/*HOW TO USE
   1. IMPORT
  import { colors } from "../../colors";
  2. PUT TO COLOR

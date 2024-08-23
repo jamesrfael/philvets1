@@ -1,22 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
 
-const AddStaffModal = ({ onClose, onSave }) => {
+const EditStaffModal = ({ staff, onClose, onSave }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    if (staff) {
+      setName(staff.name);
+      setEmail(staff.email);
+      setUsername(staff.username);
+      setPassword(staff.password); // Assuming the password can be pre-filled, otherwise leave it empty.
+    }
+  }, [staff]);
+
   const handleSave = () => {
-    const newStaff = {
+    const updatedStaff = {
+      ...staff,
       name,
       email,
       username,
       password,
     };
-    onSave(newStaff);
+    onSave(updatedStaff);
     onClose();
   };
 
@@ -24,14 +34,14 @@ const AddStaffModal = ({ onClose, onSave }) => {
     <ModalOverlay>
       <ModalContent>
         <ModalHeader>
-          <h2>Add Staff Member</h2>
+          <h2>Edit Staff Member</h2>
           <CloseButton onClick={onClose}>
             <IoCloseCircle />
           </CloseButton>
         </ModalHeader>
         <ModalBody>
           <Field>
-            <Label>Add Image</Label>
+            <Label>Edit Image</Label>
             <Input type="file" />
           </Field>
           <Field>
@@ -66,7 +76,7 @@ const AddStaffModal = ({ onClose, onSave }) => {
           </Field>
         </ModalBody>
         <ModalFooter>
-          <SaveButton onClick={handleSave}>Save Staff</SaveButton>
+          <SaveButton onClick={handleSave}>Save Changes</SaveButton>
         </ModalFooter>
       </ModalContent>
     </ModalOverlay>
@@ -158,4 +168,4 @@ const SaveButton = styled.button`
   }
 `;
 
-export default AddStaffModal;
+export default EditStaffModal;

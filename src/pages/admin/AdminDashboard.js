@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/LayoutHS";
 import { AiOutlineStock } from "react-icons/ai";
-import { MdOutlinePendingActions } from "react-icons/md";
-import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
-import { TbUserDollar } from "react-icons/tb";
+import { TbUserDollar, TbCategory, TbPackage   } from "react-icons/tb";
 import { LuWarehouse } from "react-icons/lu";
 import { GrGroup } from "react-icons/gr";
-import RevenueGraph from "../../components/AdminDashboard/RevenueGraph";
+import HighestSellingProducts from "../../components/AdminDashboard/HighestSellingProducts";
+import LatestSales from "../../components/AdminDashboard/LatestSales";
+import RecentlyAddedProducts from "../../components/AdminDashboard/RecentlyAddedProducts";
 
 const cardData = [
   {
@@ -17,21 +17,9 @@ const cardData = [
     color: "#08d908",
   },
   {
-    title: "Pending Orders",
-    number: "150",
-    icon: <MdOutlinePendingActions />,
-    color: "#ebdf00",
-  },
-  {
-    title: "Outgoing Deliveries",
-    number: "7",
-    icon: <FaRegArrowAltCircleUp />,
-    color: "#77dd77",
-  },
-  {
-    title: "Incoming Deliveries",
-    number: "3",
-    icon: <FaRegArrowAltCircleDown />,
+    title: "Products",
+    number: "120",
+    icon: <TbPackage />,
     color: "#ff6961",
   },
   {
@@ -40,8 +28,24 @@ const cardData = [
     icon: <TbUserDollar />,
     color: "#ffb347",
   },
-  { title: "Suppliers", number: "23", icon: <LuWarehouse />, color: "#6da6ba" },
-  { title: "Staffs", number: "12", icon: <GrGroup />, color: "#c893c8" },
+  {
+    title: "Suppliers",
+    number: "23",
+    icon: <LuWarehouse />,
+    color: "#6da6ba",
+  },
+  {
+    title: "Staffs",
+    number: "12",
+    icon: <GrGroup />,
+    color: "#c893c8",
+  },
+  {
+    title: "Category",
+    number: "5",
+    icon: <TbCategory  />,
+    color: "#6b5b95",
+  },
 ];
 
 const AdminDashboard = () => {
@@ -58,9 +62,11 @@ const AdminDashboard = () => {
           </Card>
         ))}
       </CardContainer>
-      <GraphContainer>
-        <RevenueGraph />
-      </GraphContainer>
+      <TablesContainer>
+        <HighestSellingProducts />
+        <LatestSales />
+        <RecentlyAddedProducts />
+      </TablesContainer>
     </LayoutHS>
   );
 };
@@ -82,7 +88,7 @@ const CardContainer = styled.div`
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center; /* Center content */
   justify-content: center;
   background-color: white;
   border-radius: 0.5rem;
@@ -91,10 +97,16 @@ const Card = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   width: 220px;
   height: 150px;
+
+  @media (max-width: 480px) {
+    width: 90%;
+    height: auto;
+    padding: 1rem;
+  }
 `;
 
 const CardContent = styled.div`
-  text-align: left;
+  text-align: center; /* Center text */
 `;
 
 const IconWrapper = styled.div`
@@ -108,28 +120,43 @@ const IconWrapper = styled.div`
   align-items: center;
 
   svg {
-    width: 22px;
+    width: 24px;
     height: auto;
     color: white;
+  }
+
+  @media (max-width: 480px) {
+    svg {
+      width: 28px;
+    }
   }
 `;
 
 const CardTitle = styled.h2`
   font-size: 1rem;
   font-weight: 400;
+
+  @media (max-width: 480px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const CardNumber = styled.p`
   font-size: 1.9rem;
   font-weight: bold;
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
 `;
 
-const GraphContainer = styled.div`
+const TablesContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 2rem auto;
   max-width: 1000px;
   width: 100%;
+  gap: 1rem;
 
   @media (max-width: 1000px) {
     flex-direction: column;

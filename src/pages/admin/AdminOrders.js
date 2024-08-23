@@ -1,94 +1,81 @@
-// src/pages/AdminOrders.js
-
 import React, { useState } from "react";
-import styled from "styled-components";
 import LayoutHS from "../../components/LayoutHS";
+import styled from "styled-components";
 import OrderDetailsModal from "../../components/AdminOrders/OrderDetailsModal";
+import AddPurchaseModal from "../../components/AdminOrders/AddPurchaseModal";
+import AddSalesModal from "../../components/AdminOrders/AddSalesModal";
 import { colors } from "../../colors";
+import { orders as initialOrders } from "../data/OrderData";
 
 const AdminOrders = () => {
-  const orders = [
-    {
-      id: "0000001",
-      name: "Christine",
-      date: "Feb 14, 2023",
-      type: "Purchase",
-      status: "Completed",
-    },
-    {
-      id: "0000002",
-      name: "John",
-      date: "Mar 5, 2023",
-      type: "Return",
-      status: "Pending",
-    },
-    {
-      id: "0000003",
-      name: "Sarah",
-      date: "Apr 12, 2023",
-      type: "Purchase",
-      status: "Completed",
-    },
-    {
-      id: "0000004",
-      name: "Michael",
-      date: "May 20, 2023",
-      type: "Refund",
-      status: "Cancelled",
-    },
-    // Add more examples as needed
-  ];
-
+  const [orders, setOrders] = useState(initialOrders);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isAddingPurchase, setIsAddingPurchase] = useState(false);
+  const [isAddingSales, setIsAddingSales] = useState(false);
 
-  const handleViewClick = (order) => {
-    setSelectedOrder(order);
-  };
+  const filteredOrders = orders.filter((order) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return (
+      order.orderType.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.purchaseOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.salesOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.clientId?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.supplierId?.toString().toLowerCase().includes(lowerCaseSearchTerm)
+    );
+  });
 
-  const closeModal = () => {
-    setSelectedOrder(null);
+  const openDetailsModal = (order) => setSelectedOrder(order);
+  const closeDetailsModal = () => setSelectedOrder(null);
+
+  const openAddPurchaseModal = () => setIsAddingPurchase(true);
+  const closeAddPurchaseModal = () => setIsAddingPurchase(false);
+
+  const openAddSalesModal = () => setIsAddingSales(true);
+  const closeAddSalesModal = () => setIsAddingSales(false);
+
+  const handleSaveNewOrder = (newOrder) => {
+    setOrders([...orders, newOrder]);
   };
 
   return (
     <LayoutHS>
       <Controls>
-        <SearchBar placeholder="Search orders..." />
-        <Button>Create Order</Button>
+        <SearchBar
+          placeholder="Search orders..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <ButtonGroup>
+          <AddButton onClick={openAddPurchaseModal}>Add Purchase</AddButton>
+          <AddButton onClick={openAddSalesModal}>Add Sales</AddButton>
+        </ButtonGroup>
       </Controls>
-      <FilterDropdown>
-        <label htmlFor="filter">Filter by:</label>
-        <select id="filter" name="filter">
-          <option value="id">ID</option>
-          <option value="name">Name</option>
-          <option value="date">Order Date</option>
-          <option value="type">Type</option>
-          <option value="status">Status</option>
-        </select>
-      </FilterDropdown>
       <Table>
         <thead>
           <tr>
-            <TableHeader>ID</TableHeader>
-            <TableHeader>Name</TableHeader>
+            <TableHeader>Order Type</TableHeader>
             <TableHeader>Order Date</TableHeader>
-            <TableHeader>Type</TableHeader>
             <TableHeader>Status</TableHeader>
             <TableHeader>Action</TableHeader>
           </tr>
         </thead>
         <tbody>
-          {orders.map((order, index) => (
+          {filteredOrders.map((order, index) => (
             <TableRow key={index}>
-              <TableCell>{order.id}</TableCell>
-              <TableCell>{order.name}</TableCell>
-              <TableCell>{order.date}</TableCell>
-              <TableCell>{order.type}</TableCell>
+              <TableCell>{order.orderType}</TableCell>
+              <TableCell>{order.orderDate}</TableCell>
               <TableCell>
-                <Status status={order.status}>{order.status}</Status>
+                <Status
+                  status={order.purchaseOrderStatus || order.salesOrderStatus}
+                >
+                  {order.purchaseOrderStatus || order.salesOrderStatus}
+                </Status>
               </TableCell>
               <TableCell>
-                <ActionButton onClick={() => handleViewClick(order)}>
-                  View
+                <ActionButton onClick={() => openDetailsModal(order)}>
+                  Details
                 </ActionButton>
               </TableCell>
             </TableRow>
@@ -96,11 +83,25 @@ const AdminOrders = () => {
         </tbody>
       </Table>
       {selectedOrder && (
-        <OrderDetailsModal order={selectedOrder} onClose={closeModal} />
+        <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
+      )}
+      {isAddingPurchase && (
+        <AddPurchaseModal
+          onClose={closeAddPurchaseModal}
+          onSave={handleSaveNewOrder}
+        />
+      )}
+      {isAddingSales && (
+        <AddSalesModal
+          onClose={closeAddSalesModal}
+          onSave={handleSaveNewOrder}
+        />
       )}
     </LayoutHS>
   );
 };
+
+// Styled Components
 
 const Controls = styled.div`
   display: flex;
@@ -108,19 +109,6 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 16px;
-`;
-
-const Button = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 const SearchBar = styled.input`
@@ -131,22 +119,21 @@ const SearchBar = styled.input`
   font-size: 16px;
 `;
 
-const FilterDropdown = styled.div`
+const ButtonGroup = styled.div`
   display: flex;
-  justify-content: left;
-  align-items: center;
-  margin-bottom: 16px;
-  padding: 0 16px;
+  gap: 10px;
+`;
 
-  label {
-    margin-right: 8px;
-  }
-
-  select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+const AddButton = styled.button`
+  background-color: ${colors.primary};
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  &:hover {
+    background-color: ${colors.primaryHover};
   }
 `;
 
@@ -160,10 +147,11 @@ const Table = styled.table`
 
 const TableHeader = styled.th`
   border-bottom: 2px solid #ddd;
+  color: white;
   padding: 12px;
   text-align: center;
-  font-size: 16px;
-  background-color: #f2f2f2;
+  font-size: 17px;
+  background-color: ${colors.primary};
 `;
 
 const TableRow = styled.tr`
@@ -180,7 +168,7 @@ const TableCell = styled.td`
 
 const Status = styled.span`
   background-color: ${(props) =>
-    props.status === "Completed"
+    props.status === "Approved" || props.status === "Received"
       ? "#1DBA0B"
       : props.status === "Pending"
       ? "#f08400"

@@ -1,102 +1,161 @@
-import React from "react";
-import styled from "styled-components";
-import { colors } from "../../colors";
+import React, { useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import { IoCloseCircle } from 'react-icons/io5';
+import { colors } from '../../colors'; // Ensure the path to colors is correct
 
 const OrderDetailsModal = ({ order, onClose }) => {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+  const formatCurrency = (amount) => `₱${amount.toFixed(2)}`;
+
   if (!order) return null;
 
   return (
-    <Backdrop onClick={onClose}>
-      <Modal onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>×</CloseButton>
-        <ModalTitle>Order Details</ModalTitle>
-        <DetailItem>
-          <DetailLabel>Status:</DetailLabel>
-          <Status status={order.status}>{order.status}</Status>
-        </DetailItem>
-        <DetailItem>
-          <DetailLabel>Type:</DetailLabel>
-          <DetailValue>{order.type}</DetailValue>
-        </DetailItem>
-        <DetailItem>
-          <DetailLabel>ID:</DetailLabel>
-          <DetailValue>{order.id}</DetailValue>
-        </DetailItem>
-        <DetailItem>
-          <DetailLabel>Name:</DetailLabel>
-          <DetailValue>{order.name}</DetailValue>
-        </DetailItem>
-        <DetailItem>
-          <DetailLabel>Date:</DetailLabel>
-          <DetailValue>{order.date}</DetailValue>
-        </DetailItem>
-      </Modal>
-    </Backdrop>
+    <ModalOverlay>
+      <ModalContent ref={modalRef}>
+        <Header>
+          <Title>Order Details</Title>
+          <CloseButton onClick={onClose}>
+            <IoCloseCircle />
+          </CloseButton>
+        </Header>
+        <Section>
+          <h3>Order Summary</h3>
+          <p><strong>Order Date:</strong> {order.orderDate}</p>
+          <p><strong>Order Type:</strong> {order.orderType}</p>
+          {order.orderType === 'Purchase Order' ? (
+            <>
+              <p><strong>Purchase Order Date:</strong> {order.purchaseOrderDate}</p>
+              <p><strong>Status:</strong> {order.purchaseOrderStatus}</p>
+              <p><strong>Total Quantity:</strong> {order.purchaseOrderTotQty}</p>
+              <p><strong>Total Amount:</strong> {formatCurrency(order.purchaseOrderTotal)}</p>
+              <p><strong>Supplier ID:</strong> {order.supplierId}</p>
+            </>
+          ) : (
+            <>
+              <p><strong>Sales Order Date:</strong> {order.salesOrderDate}</p>
+              <p><strong>Delivery Date:</strong> {order.salesOrderDlvryDate}</p>
+              <p><strong>Status:</strong> {order.salesOrderStatus}</p>
+              <p><strong>Total Quantity:</strong> {order.salesOrderTotQty}</p>
+              <p><strong>Total Amount:</strong> {formatCurrency(order.salesOrderTotal)}</p>
+              <p><strong>Discount:</strong> {formatCurrency(order.salesOrderDiscount)}</p>
+              <p><strong>Delivery Option:</strong> {order.salesOrderDlvrOpt}</p>
+              <p><strong>Client ID:</strong> {order.clientId}</p>
+            </>
+          )}
+        </Section>
+        <Section>
+          <h3>Product Details</h3>
+          <Table>
+            <thead>
+              <tr>
+                <TableHeader>Product Name</TableHeader>
+                <TableHeader>Description</TableHeader>
+                <TableHeader>Quantity</TableHeader>
+                <TableHeader>Price</TableHeader>
+                <TableHeader>Total</TableHeader>
+              </tr>
+            </thead>
+            <tbody>
+              {(order.purchaseOrderDetails || order.salesOrderDetails).map((detail, index) => (
+                <TableRow key={index}>
+                  <TableCell>{detail.purchOrderProdName || detail.salesOrderProdName}</TableCell>
+                  <TableCell>{detail.purchOrderDescription || detail.salesOrderDescription}</TableCell>
+                  <TableCell>{detail.purchOrderQty || detail.salesOrderQty}</TableCell>
+                  <TableCell>{formatCurrency(detail.purchOrderPrice || detail.salesOrderPrice)}</TableCell>
+                  <TableCell>{formatCurrency(detail.purchOrderLineTotal || detail.salesOrderLineTotal)}</TableCell>
+                </TableRow>
+              ))}
+            </tbody>
+          </Table>
+        </Section>
+      </ModalContent>
+    </ModalOverlay>
   );
 };
 
-const Backdrop = styled.div`
+// Styled Components
+
+const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
 `;
 
-const Modal = styled.div`
+const ModalContent = styled.div`
   background: white;
-  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  position: relative;
+  padding: 20px;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-`;
-
-const ModalTitle = styled.h2`
-  text-align: center;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 `;
 
-const DetailItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
+const Title = styled.h2`
+  margin: 0;
+  font-size: 24px;
 `;
 
-const DetailLabel = styled.span`
-  font-weight: bold;
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: ${colors.fail};
 `;
 
-const DetailValue = styled.span`
-  text-align: right;
+const Section = styled.div`
+  margin-bottom: 20px;
 `;
 
-const Status = styled.span`
-  background-color: ${(props) =>
-    props.status === "Completed" ? "#1DBA0B" :
-    props.status === "Pending" ? "#f08400" :
-    props.status === "Cancelled" ? "#ff5757" :
-    "gray"};
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+const TableHeader = styled.th`
+  background-color: ${colors.primary};
   color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 12px;
+  text-align: center;
+  font-size: 16px;
+`;
+
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+`;
+
+const TableCell = styled.td`
+  text-align: center;
+  padding: 8px;
   font-size: 14px;
-  font-weight: bold;
+  border-bottom: 1px solid #ddd;
 `;
 
 export default OrderDetailsModal;
