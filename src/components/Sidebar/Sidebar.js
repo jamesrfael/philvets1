@@ -1,5 +1,5 @@
 // Sidebar.js
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import philvetsLogo from "../../assets/philvets.png";
 import SidebarItem from "../Sidebar/SidebarItem";
@@ -18,9 +18,27 @@ import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
 import { LuWarehouse } from "react-icons/lu";
 import { GrGroup } from "react-icons/gr";
 
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, onClose }) => {
+  const sidebarRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    // Add event listener for clicks
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener on unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
-    <SidebarContainer isOpen={isOpen}>
+    <SidebarContainer ref={sidebarRef} isOpen={isOpen}>
       <SidebarHeader>
         <LogoContainer>
           <Logo src={philvetsLogo} alt="PHILVETS Logo" />
@@ -94,6 +112,9 @@ const SidebarContainer = styled.div`
     position: fixed;
     transform: ${({ isOpen }) =>
       isOpen ? "translateX(0)" : "translateX(-100%)"};
+    z-index: 1000; /* Ensure the sidebar appears on top */
+    box-shadow: ${({ isOpen }) =>
+      isOpen ? "2px 0 5px rgba(0, 0, 0, 0.3)" : "none"};
   }
 
   /* Styles for larger screens */

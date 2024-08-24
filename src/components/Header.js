@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { TbUserCircle } from "react-icons/tb";
-import { FaRegBell } from "react-icons/fa";
+import { FaRegBell, FaBars } from "react-icons/fa";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { colors } from "../colors";
 
-// Mapping paths to titles
 const pageTitles = {
   "/admin/dashboard": "Dashboard",
   "/admin/orders": "Orders",
@@ -23,7 +22,7 @@ const pageTitles = {
   "/staff/profile": "Staff Profile",
 };
 
-const Header = () => {
+const Header = ({ toggleSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
   const pageTitle = pageTitles[location.pathname] || "Page Title";
@@ -38,9 +37,8 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <LeftSection>
-        <PageTitle>{pageTitle}</PageTitle>
-      </LeftSection>
+      <HamburgerMenu onClick={toggleSidebar} />
+      <PageTitle>{pageTitle}</PageTitle>
       <RightSection>
         <FaRegBell className="mr-1" />
         <ProfileContainer
@@ -68,7 +66,7 @@ const Header = () => {
 
 const HeaderContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* Align items to the left */
   align-items: center;
   background-color: white;
   color: black;
@@ -76,13 +74,9 @@ const HeaderContainer = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
   }
-`;
-
-const LeftSection = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const PageTitle = styled.h1`
@@ -93,6 +87,22 @@ const PageTitle = styled.h1`
 const RightSection = styled.div`
   display: flex;
   align-items: center;
+  margin-left: auto; /* Pushes the right section to the far right */
+`;
+
+const HamburgerMenu = styled(FaBars)`
+  font-size: 24px;
+  margin-right: 9px;
+  cursor: pointer;
+  display: none; /* Hidden by default */
+
+  &:hover {
+    color: ${colors.primary};
+  }
+
+  @media (max-width: 768px) {
+    display: block; /* Show on small screens */
+  }
 `;
 
 const ProfileContainer = styled.div`

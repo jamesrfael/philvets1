@@ -100,11 +100,11 @@ const ButtonGroup = styled.div`
 const Button = styled.button`
   background-color: ${colors.primary};
   color: white;
-  padding: 10px 20px;
+  padding: 10px 19px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   &:hover {
     background-color: ${colors.primaryHover};
   }

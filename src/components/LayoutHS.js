@@ -1,16 +1,27 @@
-import React from "react";
+// LayoutHS.js
+import React, { useState } from "react";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Header from "../components/Header";
 import styled from "styled-components";
 import { colors } from "../colors";
 
 const LayoutHS = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <LayoutContainer>
       <MainContent>
-        <Sidebar />
+        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
         <Content>
-          <Header />
+          <Header toggleSidebar={toggleSidebar} />
           <MainContentLayout>{children}</MainContentLayout>
         </Content>
       </MainContent>
@@ -18,23 +29,7 @@ const LayoutHS = ({ children }) => {
   );
 };
 
-const MainContentLayout = ({ children }) => {
-  return <StyledMainContent>{children}</StyledMainContent>;
-};
-
-const StyledMainContent = styled.div`
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 20px;
-  flex-grow: 1;
-  min-height: calc(100vh - 100px);
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-`;
-
+// Styled Components
 const LayoutContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,6 +44,21 @@ const MainContent = styled.div`
 const Content = styled.div`
   flex-grow: 1;
   background-color: ${colors.primary};
+  overflow-x: auto; /* Enable horizontal scrolling */
+`;
+
+const MainContentLayout = styled.div`
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  flex-grow: 1;
+  min-height: calc(100vh - 100px);
+  max-height: calc(100vh - 100px);
+  overflow-y: auto; /* Vertical scrolling */
+  overflow-x: auto; /* Horizontal scrolling */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 `;
 
 export default LayoutHS;
