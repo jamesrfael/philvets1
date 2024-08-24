@@ -48,7 +48,7 @@ const Content = styled.div`
 `;
 
 const MainContentLayout = styled.div`
-  padding: 10px;
+  padding: 15px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
