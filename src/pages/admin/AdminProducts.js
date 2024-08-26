@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import LayoutHS from "../../components/LayoutHS";
 import styled from "styled-components";
 import { colors } from "../../colors";
-import productData from "../data/ProductData"; // Import the consolidated data
+import productData from "../data/ProductData";
+import SearchBar from "../../components/SearchBar"; // Import the SearchBar component
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,14 +20,13 @@ const AdminProducts = () => {
     return (
       product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
       category?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      productDetail?.PROD_DETAILS_SIZE
-        ?.toLowerCase()
-        .includes(lowerCaseSearchTerm) ||
-      productDetail?.PROD_DETAILS_BRAND
-        ?.toLowerCase()
-        .includes(lowerCaseSearchTerm) ||
-      productDetail?.PROD_DETALS_PRICE
-        ?.toString()
+      productDetail?.PROD_DETAILS_SIZE?.toLowerCase().includes(
+        lowerCaseSearchTerm
+      ) ||
+      productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(
+        lowerCaseSearchTerm
+      ) ||
+      productDetail?.PROD_DETALS_PRICE?.toString()
         .toLowerCase()
         .includes(lowerCaseSearchTerm)
     );
@@ -36,7 +36,7 @@ const AdminProducts = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search products..."
+          placeholder="Search product..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -108,14 +108,6 @@ const Button = styled.button`
   &:hover {
     background-color: ${colors.primaryHover};
   }
-`;
-
-const SearchBar = styled.input`
-  padding: 10px;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
 `;
 
 const Table = styled.table`

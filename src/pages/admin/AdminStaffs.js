@@ -1,3 +1,4 @@
+// src/pages/AdminStaffs.js
 import React, { useState } from "react";
 import LayoutHS from "../../components/LayoutHS";
 import styled from "styled-components";
@@ -5,6 +6,7 @@ import { colors } from "../../colors";
 import { staff as initialStaff } from "../data/StaffData";
 import AddStaffModal from "../../components/AdminStaffs/AddStaffModal";
 import EditStaffModal from "../../components/AdminStaffs/EditStaffModal";
+import SearchBar from "../../components/SearchBar"; // Import SearchBar
 
 const AdminStaffs = () => {
   const [staff, setStaff] = useState(initialStaff);
@@ -97,14 +99,6 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 16px;
-`;
-
-const SearchBar = styled.input`
-  padding: 10px;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
 `;
 
 const ButtonGroup = styled.div`

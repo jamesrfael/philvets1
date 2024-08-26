@@ -1,0 +1,58 @@
+import React from 'react';
+import styled from 'styled-components';
+import { colors } from '../colors';
+
+// Table Component
+const Table = ({ headers, rows }) => {
+  return (
+    <StyledTable>
+      <thead>
+        <TableRow>
+          {headers.map((header, index) => (
+            <TableHeader key={index}>{header}</TableHeader>
+          ))}
+        </TableRow>
+      </thead>
+      <tbody>
+        {rows.map((row, rowIndex) => (
+          <TableRow key={rowIndex}>
+            {row.map((cell, cellIndex) => (
+              <TableCell key={cellIndex}>{cell}</TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </tbody>
+    </StyledTable>
+  );
+};
+
+// Styled Components
+const StyledTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 16px;
+`;
+
+const TableHeader = styled.th`
+  background-color: ${colors.primary};
+  color: white;
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-size: 17px;
+`;
+
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+`;
+
+const TableCell = styled.td`
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+`;
+
+export default Table;

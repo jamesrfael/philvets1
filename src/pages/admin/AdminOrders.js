@@ -4,6 +4,7 @@ import styled from "styled-components";
 import OrderDetailsModal from "../../components/AdminOrders/OrderDetailsModal";
 import AddPurchaseModal from "../../components/AdminOrders/AddPurchaseModal";
 import AddSalesModal from "../../components/AdminOrders/AddSalesModal";
+import SearchBar from "../../components/SearchBar"; // Import the new SearchBar component
 import { colors } from "../../colors";
 import { orders as initialOrders } from "../data/OrderData";
 
@@ -14,6 +15,7 @@ const AdminOrders = () => {
   const [isAddingPurchase, setIsAddingPurchase] = useState(false);
   const [isAddingSales, setIsAddingSales] = useState(false);
 
+  // Apply the filter based on searchTerm
   const filteredOrders = orders.filter((order) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
@@ -43,7 +45,7 @@ const AdminOrders = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search orders..."
+          placeholder="Search order..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -109,14 +111,6 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 16px;
-`;
-
-const SearchBar = styled.input`
-  padding: 10px;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
 `;
 
 const ButtonGroup = styled.div`

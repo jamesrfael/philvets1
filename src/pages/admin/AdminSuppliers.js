@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/LayoutHS";
 import SupplierDetailsModal from "../../components/AdminSuppliers/SupplierDetailsModal";
+import SearchBar from "../../components/SearchBar"; // Importing the reusable SearchBar component
 import { colors } from "../../colors";
 
 const sampleSuppliers = [
@@ -50,7 +51,12 @@ const AdminSuppliers = () => {
       if (!value) {
         return true;
       }
-      return supplier.supplierName.toLowerCase().includes(value);
+      return (
+        supplier.supplierName.toLowerCase().includes(value) ||
+        supplier.supplierNumber.includes(value) ||
+        supplier.contactPersonName.toLowerCase().includes(value) ||
+        supplier.contactPersonNumber.includes(value)
+      );
     });
     setFilteredSuppliers(filtered);
   };
@@ -67,108 +73,120 @@ const AdminSuppliers = () => {
 
   return (
     <LayoutHS>
-      <SearchContainer>
-        <SearchInput
-          type="text"
-          placeholder="Search"
+      <Controls>
+        <SearchBar
+          placeholder="Search supplier..."
           value={searchTerm}
           onChange={handleSearch}
         />
-        <AddButton>Add Supplier</AddButton>
-      </SearchContainer>
-      <SuppliersContainer>
-        {filteredSuppliers.map((supplier, index) => (
-          <SupplierCard key={index}>
-            <SupplierName>{supplier.supplierName}</SupplierName>
-            <SupplierNumber>{supplier.supplierNumber}</SupplierNumber>
-            <ContactPerson>{supplier.contactPersonName}</ContactPerson>
-            <ContactPersonNumber>
-              {supplier.contactPersonNumber}
-            </ContactPersonNumber>
-            <ViewButton onClick={() => openModal(supplier)}>View</ViewButton>
-          </SupplierCard>
-        ))}
-      </SuppliersContainer>
+        <ButtonGroup>
+          <AddButton>Add Supplier</AddButton>
+        </ButtonGroup>
+      </Controls>
+      <Table>
+        <thead>
+          <tr>
+            <TableHeader>Supplier Name</TableHeader>
+            <TableHeader>Supplier Number</TableHeader>
+            <TableHeader>Contact Person</TableHeader>
+            <TableHeader>Contact Number</TableHeader>
+            <TableHeader>Action</TableHeader>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredSuppliers.map((supplier, index) => (
+            <TableRow key={index}>
+              <TableCell>{supplier.supplierName}</TableCell>
+              <TableCell>{supplier.supplierNumber}</TableCell>
+              <TableCell>{supplier.contactPersonName}</TableCell>
+              <TableCell>{supplier.contactPersonNumber}</TableCell>
+              <TableCell>
+                <ActionButton onClick={() => openModal(supplier)}>
+                  View
+                </ActionButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </tbody>
+      </Table>
       {showModal && (
-        <SupplierDetailsModal supplier={selectedSupplier} onClose={closeModal} />
+        <SupplierDetailsModal
+          supplier={selectedSupplier}
+          onClose={closeModal}
+        />
       )}
     </LayoutHS>
   );
 };
 
-const SearchContainer = styled.div`
+// Styled components
+
+const Controls = styled.div`
   display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 16px;
 `;
 
-const SearchInput = styled.input`
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 const AddButton = styled.button`
-  margin-left: 0.5rem;
-  padding: 0.5rem 1rem;
   background-color: ${colors.primary};
   color: white;
+  padding: 8px 16px;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
   &:hover {
     background-color: ${colors.primaryHover};
   }
 `;
 
-const SuppliersContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  margin: 0;
-  padding: 1rem;
-  justify-items: center;
-`;
-
-const SupplierCard = styled.div`
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  width: 200px;
-  background-color: #fff;
+const Table = styled.table`
   text-align: center;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  padding: 0 16px;
 `;
 
-const SupplierName = styled.p`
-  font-weight: bold;
-  font-size: 1.25rem;
-`;
-
-const SupplierNumber = styled.p`
-  font-size: 0.875rem;
-  margin-bottom: 8px;
-`;
-
-const ViewButton = styled.button`
-  margin-bottom: 8px;
-  padding: 0.5rem 1rem;
-  background-color: ${colors.primary};
+const TableHeader = styled.th`
+  border-bottom: 2px solid #ddd;
   color: white;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  &:hover {
-    background-color: ${colors.primaryHover};
+  padding: 12px;
+  text-align: center;
+  font-size: 17px;
+  background-color: ${colors.primary};
+`;
+
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f9f9f9;
   }
 `;
 
-const ContactPerson = styled.p`
-  font-weight: bold;
-  font-size: 0.875rem;
+const TableCell = styled.td`
+  border-bottom: 1px solid #ddd;
+  padding: 12px;
+  font-size: 16px;
 `;
 
-const ContactPersonNumber = styled.p`
-  font-size: 0.875rem;
+const ActionButton = styled.button`
+  background-color: ${colors.primary};
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  &:hover {
+    background-color: ${colors.primaryHover};
+  }
 `;
 
 export default AdminSuppliers;

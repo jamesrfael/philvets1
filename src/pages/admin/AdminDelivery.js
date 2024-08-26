@@ -4,6 +4,7 @@ import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/AdminDelivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
 import { deliveries } from "../data/DeliveryData";
+import SearchBar from "../../components/SearchBar"; // Import the reusable SearchBar component
 
 const AdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,7 +39,7 @@ const AdminDelivery = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search"
+          placeholder="Search delivery..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -89,14 +90,6 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 16px;
-`;
-
-const SearchBar = styled.input`
-  padding: 10px;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
 `;
 
 const Table = styled.table`

@@ -1,122 +1,132 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/LayoutHS";
+import SearchBar from "../../components/SearchBar";
+import Table from "../../components/Table"; // Import the reusable Table component
 
 const AdminLogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
+
   const logData = [
     {
       id: 1,
-      timestamp: "2024-06-28 09:00 AM",
-      action: "Admin Logged In",
-      details: "Admin John Doe logged into the system."
+      timestamp: "2024-08-26 10:15 AM",
+      action: "Added Stock",
+      productName: "Example Product",
+      sku: "12345",
+      quantityChange: "+50",
+      previousValue: "100",
+      newValue: "150",
+      user: "John Doe",
+      notes: "Restocked after inventory check"
     },
     {
       id: 2,
-      timestamp: "2024-06-28 09:30 AM",
-      action: "Restocked Item",
-      details: "Restocked 50 units of Widget A."
+      timestamp: "2024-08-25 02:30 PM",
+      action: "Price Change",
+      productName: "Sample Item",
+      sku: "67890",
+      quantityChange: "N/A",
+      previousValue: "₱500",
+      newValue: "₱450",
+      user: "Jane Smith",
+      notes: "Discount applied for end-of-season sale"
     },
     {
       id: 3,
-      timestamp: "2024-06-28 10:00 AM",
-      action: "New Item Added",
-      details: "Added new item Widget B to the inventory."
+      timestamp: "2024-08-24 09:00 AM",
+      action: "Order Fulfillment",
+      productName: "Office Chair",
+      sku: "54321",
+      quantityChange: "-10",
+      previousValue: "50",
+      newValue: "40",
+      user: "Emily Brown",
+      notes: "Order #ORD1234 fulfilled"
     },
     {
       id: 4,
-      timestamp: "2024-06-28 11:00 AM",
-      action: "Staff Logged In",
-      details: "Staff member Jane Smith logged into the system."
+      timestamp: "2024-08-23 11:45 AM",
+      action: "Restocking",
+      productName: "Laptop",
+      sku: "98765",
+      quantityChange: "+20",
+      previousValue: "15",
+      newValue: "35",
+      user: "Michael Johnson",
+      notes: "Restocked after supplier delivery"
     },
     {
       id: 5,
-      timestamp: "2024-06-28 11:30 AM",
-      action: "Order Processed",
-      details: "Processed order #12345 for 10 units of Widget A."
+      timestamp: "2024-08-22 03:00 PM",
+      action: "Damage or Loss",
+      productName: "Printer",
+      sku: "11223",
+      quantityChange: "-1",
+      previousValue: "10",
+      newValue: "9",
+      user: "Sarah Lee",
+      notes: "Printer damaged during transit"
     },
+    {
+      id: 6,
+      timestamp: "2024-08-21 08:30 AM",
+      action: "User Action",
+      productName: "Monitor",
+      sku: "33445",
+      quantityChange: "N/A",
+      previousValue: "N/A",
+      newValue: "N/A",
+      user: "Admin",
+      notes: "Deleted old stock records"
+    }
   ];
 
   const filteredLogs = logData.filter((log) =>
     log.timestamp.toLowerCase().includes(searchTerm.toLowerCase()) ||
     log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.details.toLowerCase().includes(searchTerm.toLowerCase())
+    log.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    log.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    log.notes.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const headers = [
+    "Date", "Action", "Product Name", "SKU", "Quantity Change", "Previous Value", "New Value", "User", "Notes"
+  ];
+
+  const rows = filteredLogs.map(log => [
+    log.timestamp,
+    log.action,
+    log.productName,
+    log.sku,
+    log.quantityChange,
+    log.previousValue,
+    log.newValue,
+    log.user,
+    log.notes
+  ]);
 
   return (
     <LayoutHS>
-      <Title></Title>
-      <SearchBar
-        type="text"
-        placeholder="Search"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <LogList>
-        {filteredLogs.map((log) => (
-          <LogEntry key={log.id}>
-            <LogTimestamp>{log.timestamp}</LogTimestamp>
-            <LogAction>{log.action}</LogAction>
-            <LogDetails>{log.details}</LogDetails>
-          </LogEntry>
-        ))}
-      </LogList>
+      <Controls>
+        <SearchBar
+          placeholder="Search logs..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </Controls>
+      <Table headers={headers} rows={rows} />
     </LayoutHS>
   );
 };
 
-const Title = styled.h1`
-  font-size: 36px;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 16px;
-`;
-
-const SearchBar = styled.input`
-  display: block;
-  width: 500px;
-  padding: 8px;
-  margin: 0 auto 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-`;
-
-const LogList = styled.div`
+const Controls = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-`;
-
-const LogEntry = styled.div`
-  background: white;
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 2, 0.3);
-  display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* Align search bar to the left */
   align-items: center;
-`;
-
-const LogTimestamp = styled.div`
-  font-size: 14px;
-  color: #999;
-  margin-bottom: 8px;
-  flex: 1;
-`;
-
-const LogAction = styled.div`
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 4px;
-  flex: 1;
-`;
-
-const LogDetails = styled.div`
-  font-size: 16px;
-  color: #666;
-  flex: 2;
+  margin-bottom: 16px;
+  padding: 0 16px;
 `;
 
 export default AdminLogs;
