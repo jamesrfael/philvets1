@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/LayoutHS";
 import SupplierDetailsModal from "../../components/AdminSuppliers/SupplierDetailsModal";
-import SearchBar from "../../components/SearchBar"; // Importing the reusable SearchBar component
+import SearchBar from "../../components/SearchBar";
 import { colors } from "../../colors";
+import Table from "../../components/Table"; // Import the custom Table component
 
 const sampleSuppliers = [
   {
@@ -71,6 +72,22 @@ const AdminSuppliers = () => {
     setShowModal(false);
   };
 
+  const headers = [
+    "Supplier Name",
+    "Supplier Number",
+    "Contact Person",
+    "Contact Number",
+    "Action"
+  ];
+
+  const rows = filteredSuppliers.map((supplier) => [
+    supplier.supplierName,
+    supplier.supplierNumber,
+    supplier.contactPersonName,
+    supplier.contactPersonNumber,
+    <ActionButton key="action" onClick={() => openModal(supplier)}>View</ActionButton>
+  ]);
+
   return (
     <LayoutHS>
       <Controls>
@@ -83,33 +100,8 @@ const AdminSuppliers = () => {
           <AddButton>Add Supplier</AddButton>
         </ButtonGroup>
       </Controls>
-      <Table>
-        <thead>
-          <tr>
-            <TableHeader>Supplier Name</TableHeader>
-            <TableHeader>Supplier Number</TableHeader>
-            <TableHeader>Contact Person</TableHeader>
-            <TableHeader>Contact Number</TableHeader>
-            <TableHeader>Action</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredSuppliers.map((supplier, index) => (
-            <TableRow key={index}>
-              <TableCell>{supplier.supplierName}</TableCell>
-              <TableCell>{supplier.supplierNumber}</TableCell>
-              <TableCell>{supplier.contactPersonName}</TableCell>
-              <TableCell>{supplier.contactPersonNumber}</TableCell>
-              <TableCell>
-                <ActionButton onClick={() => openModal(supplier)}>
-                  View
-                </ActionButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </tbody>
-      </Table>
-      {showModal && (
+      <Table headers={headers} rows={rows} />
+      {showModal && selectedSupplier && (
         <SupplierDetailsModal
           supplier={selectedSupplier}
           onClose={closeModal}
@@ -145,35 +137,6 @@ const AddButton = styled.button`
   &:hover {
     background-color: ${colors.primaryHover};
   }
-`;
-
-const Table = styled.table`
-  text-align: center;
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto;
-  padding: 0 16px;
-`;
-
-const TableHeader = styled.th`
-  border-bottom: 2px solid #ddd;
-  color: white;
-  padding: 12px;
-  text-align: center;
-  font-size: 17px;
-  background-color: ${colors.primary};
-`;
-
-const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-`;
-
-const TableCell = styled.td`
-  border-bottom: 1px solid #ddd;
-  padding: 12px;
-  font-size: 16px;
 `;
 
 const ActionButton = styled.button`

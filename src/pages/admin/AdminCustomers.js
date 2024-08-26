@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/LayoutHS";
 import { colors } from "../../colors";
-import SearchBar from "../../components/SearchBar"; // Import the reusable SearchBar component
+import SearchBar from "../../components/SearchBar";
+import Table from "../../components/Table"; // Import the custom Table component
 
 // Sample customer data
 const sampleCustomers = [
@@ -54,6 +55,22 @@ const AdminCustomers = () => {
     console.log("Viewing customer:", customer);
   };
 
+  const headers = [
+    "Name",
+    "Email",
+    "Phone",
+    "Registration Date",
+    "Action"
+  ];
+
+  const rows = filteredCustomers.map((customer) => [
+    `${customer.firstName} ${customer.lastName}`,
+    customer.email,
+    customer.phone,
+    customer.registrationDate,
+    <ActionButton key="action" onClick={() => handleViewCustomer(customer)}>View</ActionButton>
+  ]);
+
   return (
     <LayoutHS>
       <Controls>
@@ -64,32 +81,7 @@ const AdminCustomers = () => {
         />
         <AddButton onClick={openAddCustomerModal}>Add Customer</AddButton>
       </Controls>
-      <Table>
-        <thead>
-          <tr>
-            <TableHeader>Name</TableHeader>
-            <TableHeader>Email</TableHeader>
-            <TableHeader>Phone</TableHeader>
-            <TableHeader>Registration Date</TableHeader>
-            <TableHeader>Action</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredCustomers.map((customer, index) => (
-            <TableRow key={index}>
-              <TableCell>{`${customer.firstName} ${customer.lastName}`}</TableCell>
-              <TableCell>{customer.email}</TableCell>
-              <TableCell>{customer.phone}</TableCell>
-              <TableCell>{customer.registrationDate}</TableCell>
-              <TableCell>
-                <ActionButton onClick={() => handleViewCustomer(customer)}>
-                  View
-                </ActionButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </tbody>
-      </Table>
+      <Table headers={headers} rows={rows} />
     </LayoutHS>
   );
 };
@@ -115,35 +107,6 @@ const AddButton = styled.button`
   &:hover {
     background-color: ${colors.primaryHover};
   }
-`;
-
-const Table = styled.table`
-  text-align: center;
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto;
-  padding: 0 16px;
-`;
-
-const TableHeader = styled.th`
-  border-bottom: 2px solid #ddd;
-  color: white;
-  padding: 12px;
-  text-align: center;
-  font-size: 17px;
-  background-color: ${colors.primary};
-`;
-
-const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-`;
-
-const TableCell = styled.td`
-  border-bottom: 1px solid #ddd;
-  padding: 12px;
-  font-size: 16px;
 `;
 
 const ActionButton = styled.button`

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { colors } from "../../colors";
 import productData from "../data/ProductData";
 import SearchBar from "../../components/SearchBar"; // Import the SearchBar component
+import Table from "../../components/Table"; // Import the new Table component
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,6 +33,25 @@ const AdminProducts = () => {
     );
   });
 
+  const headers = ["Product", "Category", "Unit", "Brand", "Price", "Action"];
+  const rows = filteredProducts.map((product) => {
+    const productDetail = productData.productDetails.find(
+      (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
+    );
+    const category = productData.productCategories.find(
+      (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
+    )?.PROD_CAT_NAME;
+
+    return [
+      product.PROD_NAME,
+      category,
+      productDetail?.PROD_DETAILS_SIZE,
+      productDetail?.PROD_DETAILS_BRAND,
+      `₱${productDetail?.PROD_DETALS_PRICE}`,
+      <ActionButton key="action">View</ActionButton>
+    ];
+  });
+
   return (
     <LayoutHS>
       <Controls>
@@ -45,41 +65,7 @@ const AdminProducts = () => {
           <Button>Add Product</Button>
         </ButtonGroup>
       </Controls>
-      <Table>
-        <thead>
-          <tr>
-            <TableHeader>Product</TableHeader>
-            <TableHeader>Category</TableHeader>
-            <TableHeader>Unit</TableHeader>
-            <TableHeader>Brand</TableHeader>
-            <TableHeader>Price</TableHeader>
-            <TableHeader>Action</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredProducts.map((product, index) => {
-            const productDetail = productData.productDetails.find(
-              (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
-            );
-            const category = productData.productCategories.find(
-              (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
-            )?.PROD_CAT_NAME;
-
-            return (
-              <TableRow key={index}>
-                <TableCell>{product.PROD_NAME}</TableCell>
-                <TableCell>{category}</TableCell>
-                <TableCell>{productDetail?.PROD_DETAILS_SIZE}</TableCell>
-                <TableCell>{productDetail?.PROD_DETAILS_BRAND}</TableCell>
-                <TableCell>₱{productDetail?.PROD_DETALS_PRICE}</TableCell>
-                <TableCell>
-                  <ActionButton>View</ActionButton>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-        </tbody>
-      </Table>
+      <Table headers={headers} rows={rows} />
     </LayoutHS>
   );
 };
@@ -108,36 +94,6 @@ const Button = styled.button`
   &:hover {
     background-color: ${colors.primaryHover};
   }
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto;
-  padding: 0 16px;
-  text-align: center;
-`;
-
-const TableHeader = styled.th`
-  color: white;
-  border-bottom: 2px solid #ddd;
-  padding: 12px;
-  text-align: center;
-  font-size: 16px;
-  background-color: ${colors.primary};
-`;
-
-const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-`;
-
-const TableCell = styled.td`
-  border-bottom: 1px solid #ddd;
-  padding: 12px;
-  font-size: 16px;
-  text-align: center;
 `;
 
 const ActionButton = styled.button`

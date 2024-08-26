@@ -39,7 +39,7 @@ const AdminDelivery = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search delivery..."
+          placeholder="Search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

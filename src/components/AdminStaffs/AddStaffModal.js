@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
@@ -8,6 +8,23 @@ const AddStaffModal = ({ onClose, onSave }) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [image, setImage] = useState(null);
+
+  const modalRef = useRef();
+
+  useEffect(() => {
+    // Close modal on clicking outside
+    const handleOutsideClick = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [onClose]);
 
   const handleSave = () => {
     const newStaff = {
@@ -15,14 +32,26 @@ const AddStaffModal = ({ onClose, onSave }) => {
       email,
       username,
       password,
+      image,
     };
     onSave(newStaff);
     onClose();
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <ModalOverlay>
-      <ModalContent>
+      <ModalContent ref={modalRef}>
         <ModalHeader>
           <h2>Add Staff Member</h2>
           <CloseButton onClick={onClose}>
@@ -31,15 +60,15 @@ const AddStaffModal = ({ onClose, onSave }) => {
         </ModalHeader>
         <ModalBody>
           <Field>
-            <Label>Add Image</Label>
-            <Input type="file" />
+            <Label>Image</Label>
+            <ImageContainer>
+              {image && <img src={image} alt="Staff" />}
+              <Input type="file" onChange={handleImageChange} />
+            </ImageContainer>
           </Field>
           <Field>
             <Label>Name</Label>
-            <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+            <Input value={name} onChange={(e) => setName(e.target.value)} />
           </Field>
           <Field>
             <Label>Email</Label>
@@ -137,6 +166,30 @@ const Input = styled.input`
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+  
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
 `;
 
 const ModalFooter = styled.div`

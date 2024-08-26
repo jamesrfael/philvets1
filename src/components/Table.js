@@ -38,9 +38,11 @@ const StyledTable = styled.table`
 const TableHeader = styled.th`
   background-color: ${colors.primary};
   color: white;
-  padding: 12px;
-  border: 1px solid #ddd;
+  padding: 10px;
+  border-top: 1px solid #ddd; /* Top border */
+  border-bottom: 1px solid #ddd; /* Bottom border */
   font-size: 17px;
+  text-align: center;
 `;
 
 const TableRow = styled.tr`
@@ -50,9 +52,10 @@ const TableRow = styled.tr`
 `;
 
 const TableCell = styled.td`
-  padding: 12px;
-  border: 1px solid #ddd;
-  font-size: 16px;
+  padding: 10px;
+  border-top: 1px solid #ddd; /* Top border */
+  border-bottom: 1px solid #ddd; /* Bottom border */
+  font-size: 14px;
 `;
 
 export default Table;

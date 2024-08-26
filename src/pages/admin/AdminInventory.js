@@ -1,10 +1,12 @@
+// src/pages/AdminInventory.js
 import React, { useState } from "react";
 import LayoutHS from "../../components/LayoutHS";
 import styled from "styled-components";
 import { colors } from "../../colors";
-import SampleInventoryData from "../data/SampleInventoryData";
+import SampleInventoryData from "../data/SampleInventoryData"; // Import sample inventory data
 import InventoryDetailModal from "../../components/AdminInventory/InventoryDetailModal";
-import SearchBar from "../../components/SearchBar"; // Import the reusable SearchBar component
+import Table from "../../components/Table"; // Import the custom Table component
+import SearchBar from "../../components/SearchBar"; // Import SearchBar
 
 const AdminInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,8 +22,8 @@ const AdminInventory = () => {
       item.supplier.toLowerCase().includes(lowerCaseSearchTerm) ||
       item.location.toLowerCase().includes(lowerCaseSearchTerm) ||
       item.status.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.quantity.toString().includes(lowerCaseSearchTerm) ||
-      item.price.toFixed(2).includes(lowerCaseSearchTerm)
+      item.quantity.toString().includes(lowerCaseSearchTerm) || // search by quantity
+      item.price.toFixed(2).includes(lowerCaseSearchTerm) // search by price
     );
   });
 
@@ -35,56 +37,42 @@ const AdminInventory = () => {
     setSelectedItem(null);
   };
 
+  const headers = [
+    "Image",
+    "Name",
+    "SKU",
+    "Category",
+    "Quantity",
+    "Price",
+    "Supplier",
+    "Location",
+    "Status",
+    "Action"
+  ];
+
+  const rows = filteredInventory.map((item) => [
+    <img src={item.image} alt={item.name} width="50" height="50" />,
+    item.name,
+    item.sku,
+    item.category,
+    item.quantity,
+    `₱${item.price.toFixed(2)}`,
+    item.supplier,
+    item.location,
+    <Status status={item.status}>{item.status}</Status>,
+    <ActionButton onClick={() => handleDetailClick(item)}>Details</ActionButton>
+  ]);
+
   return (
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search inventory..."
+          placeholder="Search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
-      <Table>
-        <thead>
-          <tr>
-            <TableHeader>Image</TableHeader>
-            <TableHeader>Name</TableHeader>
-            <TableHeader>SKU</TableHeader>
-            <TableHeader>Category</TableHeader>
-            <TableHeader>Quantity</TableHeader>
-            <TableHeader>Price</TableHeader>
-            <TableHeader>Supplier</TableHeader>
-            <TableHeader>Location</TableHeader>
-            <TableHeader>Status</TableHeader>
-            <TableHeader>Action</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredInventory.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>
-                <img src={item.image} alt={item.name} width="50" height="50" />
-              </TableCell>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.sku}</TableCell>
-              <TableCell>{item.category}</TableCell>
-              <TableCell>{item.quantity}</TableCell>
-              <TableCell>₱{item.price.toFixed(2)}</TableCell>
-              <TableCell>{item.supplier}</TableCell>
-              <TableCell>{item.location}</TableCell>
-              <TableCell>
-                <Status status={item.status}>{item.status}</Status>
-              </TableCell>
-              <TableCell>
-                <ActionButton onClick={() => handleDetailClick(item)}>
-                  Details
-                </ActionButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </tbody>
-      </Table>
-
+      <Table headers={headers} rows={rows} />
       {showDetailModal && selectedItem && (
         <InventoryDetailModal
           item={selectedItem}
@@ -103,35 +91,6 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 16px;
-`;
-
-const Table = styled.table`
-  text-align: center;
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto;
-  padding: 0 16px;
-`;
-
-const TableHeader = styled.th`
-  border-bottom: 2px solid #ddd;
-  color: white;
-  padding: 12px;
-  text-align: center;
-  font-size: 17px;
-  background-color: ${colors.primary};
-`;
-
-const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-`;
-
-const TableCell = styled.td`
-  border-bottom: 1px solid #ddd;
-  padding: 12px;
-  font-size: 16px;
 `;
 
 const Status = styled.span`

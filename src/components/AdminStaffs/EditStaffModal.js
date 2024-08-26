@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
@@ -8,6 +8,10 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [status, setStatus] = useState("Active");
+  const [image, setImage] = useState(null);
+
+  const modalRef = useRef();
 
   useEffect(() => {
     if (staff) {
@@ -15,8 +19,23 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
       setEmail(staff.email);
       setUsername(staff.username);
       setPassword(staff.password); // Assuming the password can be pre-filled, otherwise leave it empty.
+      setStatus(staff.status);
+      setImage(staff.image);
     }
   }, [staff]);
+
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [onClose]);
 
   const handleSave = () => {
     const updatedStaff = {
@@ -25,14 +44,27 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
       email,
       username,
       password,
+      status,
+      image
     };
     onSave(updatedStaff);
     onClose();
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <ModalOverlay>
-      <ModalContent>
+      <ModalContent ref={modalRef}>
         <ModalHeader>
           <h2>Edit Staff Member</h2>
           <CloseButton onClick={onClose}>
@@ -41,8 +73,11 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
         </ModalHeader>
         <ModalBody>
           <Field>
-            <Label>Edit Image</Label>
-            <Input type="file" />
+            <Label>Image</Label>
+            <ImageContainer>
+              {image && <img src={image} alt="Staff" />}
+              <Input type="file" onChange={handleImageChange} />
+            </ImageContainer>
           </Field>
           <Field>
             <Label>Name</Label>
@@ -73,6 +108,13 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+          </Field>
+          <Field>
+            <Label>Status</Label>
+            <Select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </Select>
           </Field>
         </ModalBody>
         <ModalFooter>
@@ -147,6 +189,37 @@ const Input = styled.input`
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+`;
+
+const Select = styled.select`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+  
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+
+  input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
 `;
 
 const ModalFooter = styled.div`
