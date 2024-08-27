@@ -5,28 +5,35 @@ import { colors } from '../colors';
 // Table Component
 const Table = ({ headers, rows }) => {
   return (
-    <StyledTable>
-      <thead>
-        <TableRow>
-          {headers.map((header, index) => (
-            <TableHeader key={index}>{header}</TableHeader>
-          ))}
-        </TableRow>
-      </thead>
-      <tbody>
-        {rows.map((row, rowIndex) => (
-          <TableRow key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <TableCell key={cellIndex}>{cell}</TableCell>
+    <TableContainer>
+      <StyledTable>
+        <thead>
+          <TableRow>
+            {headers.map((header, index) => (
+              <TableHeader key={index}>{header}</TableHeader>
             ))}
           </TableRow>
-        ))}
-      </tbody>
-    </StyledTable>
+        </thead>
+        <tbody>
+          {rows.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {row.map((cell, cellIndex) => (
+                <TableCell key={cellIndex}>{cell}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </tbody>
+      </StyledTable>
+    </TableContainer>
   );
 };
 
 // Styled Components
+const TableContainer = styled.div`
+  max-height: 400px; /* Adjust this value as needed */
+  overflow-y: auto;
+`;
+
 const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;

@@ -5,6 +5,7 @@ import DeliveryDetailsModal from "../../components/AdminDelivery/DeliveryDetails
 import { colors } from "../../colors";
 import { deliveries } from "../data/DeliveryData";
 import SearchBar from "../../components/SearchBar"; // Import the reusable SearchBar component
+import Table from "../../components/Table"; // Import the reusable Table component
 
 const AdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,43 +36,26 @@ const AdminDelivery = () => {
 
   const closeDetailsModal = () => setSelectedDelivery(null);
 
+  const headers = ["Name", "Order Date", "Type", "Status", "Action"];
+
+  const rows = filteredDeliveries.map((delivery) => [
+    delivery.name,
+    delivery.date,
+    delivery.type,
+    <Status status={delivery.status}>{delivery.status}</Status>,
+    <ActionButton onClick={() => openDetailsModal(delivery)}>Details</ActionButton>,
+  ]);
+
   return (
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search"
+          placeholder="Search delivery..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
-      <Table>
-        <thead>
-          <tr>
-            <TableHeader>Name</TableHeader>
-            <TableHeader>Order Date</TableHeader>
-            <TableHeader>Type</TableHeader>
-            <TableHeader>Status</TableHeader>
-            <TableHeader>Action</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredDeliveries.map((delivery, index) => (
-            <TableRow key={index}>
-              <TableCell>{delivery.name}</TableCell>
-              <TableCell>{delivery.date}</TableCell>
-              <TableCell>{delivery.type}</TableCell>
-              <TableCell>
-                <Status status={delivery.status}>{delivery.status}</Status>
-              </TableCell>
-              <TableCell>
-                <ActionButton onClick={() => openDetailsModal(delivery)}>
-                  Details
-                </ActionButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </tbody>
-      </Table>
+      <Table headers={headers} rows={rows} />
       {selectedDelivery && (
         <DeliveryDetailsModal
           delivery={selectedDelivery}
@@ -90,35 +74,6 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 16px;
-`;
-
-const Table = styled.table`
-  text-align: center;
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto;
-  padding: 0 16px;
-`;
-
-const TableHeader = styled.th`
-  border-bottom: 2px solid #ddd;
-  color: white;
-  padding: 12px;
-  text-align: center;
-  font-size: 17px;
-  background-color: ${colors.primary};
-`;
-
-const TableRow = styled.tr`
-  &:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-`;
-
-const TableCell = styled.td`
-  border-bottom: 1px solid #ddd;
-  padding: 12px;
-  font-size: 16px;
 `;
 
 const Status = styled.span`

@@ -4,10 +4,14 @@ import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
 
 const AddStaffModal = ({ onClose, onSave }) => {
-  const [name, setName] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [midinitial, setMidinitial] = useState("");
+  const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [acctype, setAcctype] = useState("Staff"); // Default to 'Staff'
   const [image, setImage] = useState(null);
 
   const modalRef = useRef();
@@ -26,17 +30,40 @@ const AddStaffModal = ({ onClose, onSave }) => {
     };
   }, [onClose]);
 
-  const handleSave = () => {
-    const newStaff = {
-      name,
-      email,
-      username,
-      password,
-      image,
-    };
-    onSave(newStaff);
-    onClose();
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append('user_firstname', firstname);
+    formData.append('user_midinitial', midinitial);
+    formData.append('user_lastname', lastname);
+    formData.append('user_email', email);
+    formData.append('user_password', password);
+    formData.append('user_phone_number', phoneNumber);
+    formData.append('user_address', address);
+    formData.append('user_acctype', acctype);
+    if (image) {
+      formData.append('user_image', image);
+    }
+  
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/staff/create/', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        alert('Staff created successfully');
+        onSave();
+        onClose();
+      } else {
+        const result = await response.json();
+        alert(`Error: ${result.detail || 'An error occurred'}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
+  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -67,8 +94,25 @@ const AddStaffModal = ({ onClose, onSave }) => {
             </ImageContainer>
           </Field>
           <Field>
-            <Label>Name</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
+            <Label>First Name</Label>
+            <Input
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Middle Initial</Label>
+            <Input
+              value={midinitial}
+              onChange={(e) => setMidinitial(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Last Name</Label>
+            <Input
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+            />
           </Field>
           <Field>
             <Label>Email</Label>
@@ -79,19 +123,36 @@ const AddStaffModal = ({ onClose, onSave }) => {
             />
           </Field>
           <Field>
-            <Label>Username</Label>
-            <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </Field>
-          <Field>
             <Label>Password</Label>
             <Input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+          </Field>
+          <Field>
+            <Label>Phone Number</Label>
+            <Input
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Address</Label>
+            <Input
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Account Type</Label>
+            <select
+              value={acctype}
+              onChange={(e) => setAcctype(e.target.value)}
+            >
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
+            </select>
           </Field>
         </ModalBody>
         <ModalFooter>
