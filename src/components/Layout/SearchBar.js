@@ -13,10 +13,10 @@ const SearchBar = ({ placeholder, value, onChange }) => {
 };
 
 const SearchInput = styled.input`
-  border: 1px solid #ccc;
+  border: 1.6px solid #878b8c;
   padding: 0.5rem;
   border-radius: 0.25rem;
-  width: 200px;
+  width: 250px;
 `;
 
 export default SearchBar;

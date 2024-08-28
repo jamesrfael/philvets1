@@ -183,7 +183,7 @@ const Controls = styled.div`
   justify-content: flex-start; /* Align search bar to the left */
   align-items: center;
   margin-bottom: 16px;
-  padding: 0 16px;
+  padding: 0 1px;
 `;
 
 export default AdminLogs;

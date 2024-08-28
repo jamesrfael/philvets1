@@ -15,22 +15,21 @@ const Card = ({ label, value, bgColor = colors.primary }) => {
 const CardContainer = styled.div`
   background-color: ${colors.primary};
   color: white;
-  padding: 16px;
+  padding: 14px;
   border-radius: 8px;
   flex: 1;
-  max-width: 200px;
+  max-width: 150px;
   text-align: left;
 `;
 
 const Label = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: normal;
 `;
 
 const Value = styled.p`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
-  margin: 4px 0 0;
 `;
 
 export default Card;

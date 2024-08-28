@@ -108,7 +108,7 @@ const Controls = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
-  padding: 0 16px;
+  padding: 0 1px;
 `;
 
 const MainContent = styled.div`
