@@ -1,8 +1,8 @@
 // Sidebar.js
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
-import philvetsLogo from "../../assets/philvets.png";
-import SidebarItem from "../Sidebar/SidebarItem";
+import philvetsLogo from "../../../assets/philvets.png";
+import SidebarItem from "../../Layout/Sidebar/SidebarItem";
 import {
   TbLayoutDashboard,
   TbTruckDelivery,

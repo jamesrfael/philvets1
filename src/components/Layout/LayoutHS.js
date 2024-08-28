@@ -1,9 +1,9 @@
 // LayoutHS.js
 import React, { useState } from "react";
-import Sidebar from "../components/Sidebar/Sidebar";
-import Header from "../components/Header";
+import Sidebar from "../Layout/Sidebar/Sidebar";
+import Header from "./Header";
 import styled from "styled-components";
-import { colors } from "../colors";
+import { colors } from "../../colors";
 
 const LayoutHS = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

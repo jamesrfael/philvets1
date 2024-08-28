@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import SupplierDetailsModal from "../../components/AdminSuppliers/SupplierDetailsModal";
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../components/Layout/SearchBar";
 import { colors } from "../../colors";
-import Table from "../../components/Table"; // Import the custom Table component
+import Table from "../../components/Layout/Table"; // Import the custom Table component
 
 const sampleSuppliers = [
   {
@@ -77,7 +77,7 @@ const AdminSuppliers = () => {
     "Supplier Number",
     "Contact Person",
     "Contact Number",
-    "Action"
+    "Action",
   ];
 
   const rows = filteredSuppliers.map((supplier) => [
@@ -85,7 +85,9 @@ const AdminSuppliers = () => {
     supplier.supplierNumber,
     supplier.contactPersonName,
     supplier.contactPersonNumber,
-    <ActionButton key="action" onClick={() => openModal(supplier)}>View</ActionButton>
+    <ActionButton key="action" onClick={() => openModal(supplier)}>
+      View
+    </ActionButton>,
   ]);
 
   return (

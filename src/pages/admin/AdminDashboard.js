@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import { AiOutlineStock } from "react-icons/ai";
-import { TbUserDollar, TbCategory, TbPackage   } from "react-icons/tb";
+import { TbUserDollar, TbCategory, TbPackage } from "react-icons/tb";
 import { LuWarehouse } from "react-icons/lu";
 import { GrGroup } from "react-icons/gr";
 import HighestSellingProducts from "../../components/AdminDashboard/HighestSellingProducts";
@@ -43,7 +43,7 @@ const cardData = [
   {
     title: "Category",
     number: "5",
-    icon: <TbCategory  />,
+    icon: <TbCategory />,
     color: "#6b5b95",
   },
 ];

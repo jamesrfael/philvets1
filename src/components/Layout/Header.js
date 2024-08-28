@@ -3,7 +3,7 @@ import { TbUserCircle } from "react-icons/tb";
 import { FaRegBell, FaBars } from "react-icons/fa";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
-import { colors } from "../colors";
+import { colors } from "../../colors";
 
 const pageTitles = {
   "/admin/dashboard": "Dashboard",

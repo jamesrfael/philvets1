@@ -1,4 +1,4 @@
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 
 const temp = () => {
   return (

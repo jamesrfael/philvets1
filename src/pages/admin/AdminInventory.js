@@ -1,12 +1,12 @@
 // src/pages/AdminInventory.js
 import React, { useState } from "react";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import SampleInventoryData from "../data/SampleInventoryData"; // Import sample inventory data
 import InventoryDetailModal from "../../components/AdminInventory/InventoryDetailModal";
-import Table from "../../components/Table"; // Import the custom Table component
-import SearchBar from "../../components/SearchBar"; // Import SearchBar
+import Table from "../../components/Layout/Table"; // Import the custom Table component
+import SearchBar from "../../components/Layout/SearchBar"; // Import SearchBar
 
 const AdminInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -47,7 +47,7 @@ const AdminInventory = () => {
     "Supplier",
     "Location",
     "Status",
-    "Action"
+    "Action",
   ];
 
   const rows = filteredInventory.map((item) => [
@@ -60,24 +60,23 @@ const AdminInventory = () => {
     item.supplier,
     item.location,
     <Status status={item.status}>{item.status}</Status>,
-    <ActionButton onClick={() => handleDetailClick(item)}>Details</ActionButton>
+    <ActionButton onClick={() => handleDetailClick(item)}>
+      Details
+    </ActionButton>,
   ]);
 
   return (
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search"
+          placeholder="Search inventory..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
       <Table headers={headers} rows={rows} />
       {showDetailModal && selectedItem && (
-        <InventoryDetailModal
-          item={selectedItem}
-          closeModal={closeModal}
-        />
+        <InventoryDetailModal item={selectedItem} closeModal={closeModal} />
       )}
     </LayoutHS>
   );

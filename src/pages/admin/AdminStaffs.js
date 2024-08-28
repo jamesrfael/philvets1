@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { staff as initialStaff } from "../data/StaffData";
 import AddStaffModal from "../../components/AdminStaffs/AddStaffModal";
 import EditStaffModal from "../../components/AdminStaffs/EditStaffModal";
-import SearchBar from "../../components/SearchBar";
-import Table from "../../components/Table";
+import SearchBar from "../../components/Layout/SearchBar";
+import Table from "../../components/Layout/Table";
 
 const AdminStaffs = () => {
   const [staff, setStaff] = useState(initialStaff);
@@ -18,11 +18,14 @@ const AdminStaffs = () => {
 
   const filteredStaff = staff.filter((member) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const isActiveFilter = showInactive ? member.status === "Inactive" : member.status === "Active";
-    return isActiveFilter && (
-      member.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-      member.email.toLowerCase().includes(lowerCaseSearchTerm) ||
-      member.username.toLowerCase().includes(lowerCaseSearchTerm)
+    const isActiveFilter = showInactive
+      ? member.status === "Inactive"
+      : member.status === "Active";
+    return (
+      isActiveFilter &&
+      (member.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        member.email.toLowerCase().includes(lowerCaseSearchTerm) ||
+        member.username.toLowerCase().includes(lowerCaseSearchTerm))
     );
   });
 
@@ -31,26 +34,27 @@ const AdminStaffs = () => {
   };
 
   const handleEditStaff = (updatedStaff) => {
-    setStaff(staff.map((member) =>
-      member.email === updatedStaff.email ? updatedStaff : member
-    ));
+    setStaff(
+      staff.map((member) =>
+        member.email === updatedStaff.email ? updatedStaff : member
+      )
+    );
   };
 
   const handleActivateDeactivateStaff = (email) => {
-    setStaff(staff.map((member) =>
-      member.email === email
-        ? { ...member, status: member.status === "Active" ? "Inactive" : "Active" }
-        : member
-    ));
+    setStaff(
+      staff.map((member) =>
+        member.email === email
+          ? {
+              ...member,
+              status: member.status === "Active" ? "Inactive" : "Active",
+            }
+          : member
+      )
+    );
   };
 
-  const headers = [
-    "Image",
-    "Name",
-    "Email",
-    "Username",
-    "Actions"
-  ];
+  const headers = ["Image", "Name", "Email", "Username", "Actions"];
 
   const rows = filteredStaff.map((member) => [
     <img src={member.image} alt={member.name} width="50" />,
@@ -58,13 +62,18 @@ const AdminStaffs = () => {
     member.email,
     member.username,
     <>
-      <ActionButton onClick={() => { setIsEditModalOpen(true); setEditingStaff(member); }}>
+      <ActionButton
+        onClick={() => {
+          setIsEditModalOpen(true);
+          setEditingStaff(member);
+        }}
+      >
         Edit
       </ActionButton>
       <ActionButton onClick={() => handleActivateDeactivateStaff(member.email)}>
         {member.status === "Active" ? "Deactivate" : "Activate"}
       </ActionButton>
-    </>
+    </>,
   ]);
 
   return (
@@ -76,10 +85,10 @@ const AdminStaffs = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <AddButton onClick={() => setIsAddModalOpen(true)}>Add Staff</AddButton>
-          <ToggleButton
-            onClick={() => setShowInactive(!showInactive)}
-          >
+          <AddButton onClick={() => setIsAddModalOpen(true)}>
+            Add Staff
+          </AddButton>
+          <ToggleButton onClick={() => setShowInactive(!showInactive)}>
             {showInactive ? "Show Active" : "Show Inactive"}
           </ToggleButton>
         </ButtonGroup>

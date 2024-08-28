@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import { colors } from "../../colors";
-import SearchBar from "../../components/SearchBar";
-import Table from "../../components/Table"; // Import the custom Table component
+import SearchBar from "../../components/Layout/SearchBar";
+import Table from "../../components/Layout/Table"; // Import the custom Table component
 
 // Sample customer data
 const sampleCustomers = [
@@ -55,20 +55,16 @@ const AdminCustomers = () => {
     console.log("Viewing customer:", customer);
   };
 
-  const headers = [
-    "Name",
-    "Email",
-    "Phone",
-    "Registration Date",
-    "Action"
-  ];
+  const headers = ["Name", "Email", "Phone", "Registration Date", "Action"];
 
   const rows = filteredCustomers.map((customer) => [
     `${customer.firstName} ${customer.lastName}`,
     customer.email,
     customer.phone,
     customer.registrationDate,
-    <ActionButton key="action" onClick={() => handleViewCustomer(customer)}>View</ActionButton>
+    <ActionButton key="action" onClick={() => handleViewCustomer(customer)}>
+      View
+    </ActionButton>,
   ]);
 
   return (

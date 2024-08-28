@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/AdminOrders/OrderDetailsModal";
 import AddPurchaseModal from "../../components/AdminOrders/AddPurchaseModal";
 import AddSalesModal from "../../components/AdminOrders/AddSalesModal";
-import SearchBar from "../../components/SearchBar"; // Import the new SearchBar component
-import Table from "../../components/Table"; // Import the reusable Table component
+import SearchBar from "../../components/Layout/SearchBar"; // Import the new SearchBar component
+import Table from "../../components/Layout/Table"; // Import the reusable Table component
 import { colors } from "../../colors";
 import { orders as initialOrders } from "../data/OrderData";
 
@@ -42,24 +42,17 @@ const AdminOrders = () => {
     setOrders([...orders, newOrder]);
   };
 
-  const headers = [
-    "Order Type", 
-    "Order Date", 
-    "Status", 
-    "Action"
-  ];
+  const headers = ["Order Type", "Order Date", "Status", "Action"];
 
   const rows = filteredOrders.map((order, index) => [
     order.orderType,
     order.orderDate,
-    <Status
-      status={order.purchaseOrderStatus || order.salesOrderStatus}
-    >
+    <Status status={order.purchaseOrderStatus || order.salesOrderStatus}>
       {order.purchaseOrderStatus || order.salesOrderStatus}
     </Status>,
     <ActionButton onClick={() => openDetailsModal(order)}>
       Details
-    </ActionButton>
+    </ActionButton>,
   ]);
 
   return (

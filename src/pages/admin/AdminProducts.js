@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import productData from "../data/ProductData";
-import SearchBar from "../../components/SearchBar"; // Import the SearchBar component
-import Table from "../../components/Table"; // Import the new Table component
+import SearchBar from "../../components/Layout/SearchBar"; // Import the SearchBar component
+import Table from "../../components/Layout/Table"; // Import the new Table component
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,7 +48,7 @@ const AdminProducts = () => {
       productDetail?.PROD_DETAILS_SIZE,
       productDetail?.PROD_DETAILS_BRAND,
       `₱${productDetail?.PROD_DETALS_PRICE}`,
-      <ActionButton key="action">View</ActionButton>
+      <ActionButton key="action">View</ActionButton>,
     ];
   });
 

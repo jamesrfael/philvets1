@@ -1,11 +1,14 @@
+// src/pages/AdminSales.js
 import React, { useState } from "react";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
-import SearchBar from "../../components/SearchBar";
-import Table from "../../components/Table";
+import SearchBar from "../../components/Layout/SearchBar";
+import Table from "../../components/Layout/Table";
 import { colors } from "../../colors";
 import { sales as initialSales } from "../data/SalesData";
 import SalesDetailsModal from "../../components/AdminSales/SalesDetailsModal";
+import CardTotalSales from "../../components/CardsData/CardTotalSales"; // Import CardTotalSales
+import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions"; // Import CardTotalTransactions
 
 const AdminSales = () => {
   const [sales] = useState(initialSales);
@@ -27,12 +30,20 @@ const AdminSales = () => {
     return (
       sale.SALES_INV_ID.toLowerCase().includes(lowerCaseSearchTerm) ||
       sale.SALES_INV_DATETIME.toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_TOTAL.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_DISCOUNT.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_TOTAL_DLVRY.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
+      sale.SALES_INV_TOTAL.toString()
+        .toLowerCase()
+        .includes(lowerCaseSearchTerm) ||
+      sale.SALES_INV_DISCOUNT.toString()
+        .toLowerCase()
+        .includes(lowerCaseSearchTerm) ||
+      sale.SALES_INV_TOTAL_DLVRY.toString()
+        .toLowerCase()
+        .includes(lowerCaseSearchTerm) ||
       sale.SALES_ORDER_DLVRY_OPT.toLowerCase().includes(lowerCaseSearchTerm) ||
       sale.CLIENT_ID.toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_CREATED_USER_ID.toLowerCase().includes(lowerCaseSearchTerm) ||
+      sale.SALES_INV_CREATED_USER_ID.toLowerCase().includes(
+        lowerCaseSearchTerm
+      ) ||
       sale.SALES_ORDER_ID.toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
@@ -47,7 +58,7 @@ const AdminSales = () => {
     "Client ID",
     "Created By",
     "Order ID",
-    "Action"
+    "Action",
   ];
 
   const rows = filteredSales.map((sale, index) => [
@@ -60,7 +71,7 @@ const AdminSales = () => {
     sale.CLIENT_ID,
     sale.SALES_INV_CREATED_USER_ID,
     sale.SALES_ORDER_ID,
-    <ActionButton onClick={() => setSelectedSale(sale)}>Details</ActionButton>
+    <ActionButton onClick={() => setSelectedSale(sale)}>Details</ActionButton>,
   ]);
 
   const handleCloseModal = () => {
@@ -77,21 +88,14 @@ const AdminSales = () => {
         />
       </Controls>
       <AnalyticsContainer>
-        <AnalyticsCard>
-          <Label>Total Sales</Label>
-          <Value>₱{totalSalesInPesos.toFixed(2)}</Value>
-        </AnalyticsCard>
-        <AnalyticsCard>
-          <Label>Total Transactions</Label>
-          <Value>{totalTransactions}</Value>
-        </AnalyticsCard>
+        <CardTotalSales totalSales={totalSalesInPesos} />{" "}
+        {/* Use CardTotalSales */}
+        <CardTotalTransactions totalTransactions={totalTransactions} />{" "}
+        {/* Use CardTotalTransactions */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedSale && (
-        <SalesDetailsModal
-          sale={selectedSale}
-          onClose={handleCloseModal}
-        />
+        <SalesDetailsModal sale={selectedSale} onClose={handleCloseModal} />
       )}
     </LayoutHS>
   );
@@ -111,27 +115,6 @@ const AnalyticsContainer = styled.div`
   gap: 16px;
   margin-bottom: 16px;
   padding: 0 16px;
-`;
-
-const AnalyticsCard = styled.div`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 16px;
-  border-radius: 8px;
-  flex: 1;
-  max-width: 200px;
-  text-align: left;
-`;
-
-const Label = styled.span`
-  font-size: 14px;
-  font-weight: normal;
-`;
-
-const Value = styled.p`
-  font-size: 24px;
-  font-weight: bold;
-  margin: 4px 0 0;
 `;
 
 const ActionButton = styled.button`

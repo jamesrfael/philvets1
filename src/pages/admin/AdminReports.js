@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import { AiOutlineStock } from "react-icons/ai";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
@@ -181,7 +181,6 @@ const StatNumber = styled.p`
   color: ${(props) => props.color};
 `;
 
-
 const GraphContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -195,8 +194,5 @@ const GraphContainer = styled.div`
     align-items: center;
   }
 `;
-
-
-
 
 export default AdminReports;

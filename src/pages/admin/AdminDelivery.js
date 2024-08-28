@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/LayoutHS";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/AdminDelivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
 import { deliveries } from "../data/DeliveryData";
-import SearchBar from "../../components/SearchBar"; // Import the reusable SearchBar component
-import Table from "../../components/Table"; // Import the reusable Table component
+import SearchBar from "../../components/Layout/SearchBar"; // Import the reusable SearchBar component
+import Table from "../../components/Layout/Table"; // Import the reusable Table component
 
 const AdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -43,7 +43,9 @@ const AdminDelivery = () => {
     delivery.date,
     delivery.type,
     <Status status={delivery.status}>{delivery.status}</Status>,
-    <ActionButton onClick={() => openDetailsModal(delivery)}>Details</ActionButton>,
+    <ActionButton onClick={() => openDetailsModal(delivery)}>
+      Details
+    </ActionButton>,
   ]);
 
   return (
