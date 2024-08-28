@@ -57,28 +57,30 @@ const OrderDetailsModal = ({ order, onClose }) => {
         </Section>
         <Section>
           <h3>Product Details</h3>
-          <Table>
-            <thead>
-              <tr>
-                <TableHeader>Product Name</TableHeader>
-                <TableHeader>Description</TableHeader>
-                <TableHeader>Quantity</TableHeader>
-                <TableHeader>Price</TableHeader>
-                <TableHeader>Total</TableHeader>
-              </tr>
-            </thead>
-            <tbody>
-              {(order.purchaseOrderDetails || order.salesOrderDetails).map((detail, index) => (
-                <TableRow key={index}>
-                  <TableCell>{detail.purchOrderProdName || detail.salesOrderProdName}</TableCell>
-                  <TableCell>{detail.purchOrderDescription || detail.salesOrderDescription}</TableCell>
-                  <TableCell>{detail.purchOrderQty || detail.salesOrderQty}</TableCell>
-                  <TableCell>{formatCurrency(detail.purchOrderPrice || detail.salesOrderPrice)}</TableCell>
-                  <TableCell>{formatCurrency(detail.purchOrderLineTotal || detail.salesOrderLineTotal)}</TableCell>
-                </TableRow>
-              ))}
-            </tbody>
-          </Table>
+          <TableWrapper>
+            <Table>
+              <thead>
+                <tr>
+                  <TableHeader>Product Name</TableHeader>
+                  <TableHeader>Description</TableHeader>
+                  <TableHeader>Quantity</TableHeader>
+                  <TableHeader>Price</TableHeader>
+                  <TableHeader>Total</TableHeader>
+                </tr>
+              </thead>
+              <tbody>
+                {(order.purchaseOrderDetails || order.salesOrderDetails).map((detail, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{detail.purchOrderProdName || detail.salesOrderProdName}</TableCell>
+                    <TableCell>{detail.purchOrderDescription || detail.salesOrderDescription}</TableCell>
+                    <TableCell>{detail.purchOrderQty || detail.salesOrderQty}</TableCell>
+                    <TableCell>{formatCurrency(detail.purchOrderPrice || detail.salesOrderPrice)}</TableCell>
+                    <TableCell>{formatCurrency(detail.purchOrderLineTotal || detail.salesOrderLineTotal)}</TableCell>
+                  </TableRow>
+                ))}
+              </tbody>
+            </Table>
+          </TableWrapper>
         </Section>
       </ModalContent>
     </ModalOverlay>
@@ -130,6 +132,10 @@ const CloseButton = styled.button`
 
 const Section = styled.div`
   margin-bottom: 20px;
+`;
+
+const TableWrapper = styled.div`
+  overflow-x: auto;
 `;
 
 const Table = styled.table`

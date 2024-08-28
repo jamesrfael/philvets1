@@ -4,7 +4,7 @@ export const orders = [
   {
     orderId: 1001,
     orderType: 'Purchase Order',
-    orderDate: '2024-08-01',
+    orderDate: '2023-08-01',
     purchaseOrderId: 501,
     purchaseOrderDate: '2024-08-01',
     purchaseOrderStatus: 'Pending',

@@ -1,3 +1,4 @@
+// src/pages/AdminSuppliers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
@@ -5,6 +6,7 @@ import SupplierDetailsModal from "../../components/AdminSuppliers/SupplierDetail
 import SearchBar from "../../components/Layout/SearchBar";
 import { colors } from "../../colors";
 import Table from "../../components/Layout/Table"; // Import the custom Table component
+import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers"; // Import CardTotalSuppliers component
 
 const sampleSuppliers = [
   {
@@ -102,6 +104,10 @@ const AdminSuppliers = () => {
           <AddButton>Add Supplier</AddButton>
         </ButtonGroup>
       </Controls>
+      <AnalyticsContainer>
+        <CardTotalSuppliers totalSuppliers={filteredSuppliers.length} />{" "}
+        {/* Use CardTotalSuppliers */}
+      </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showModal && selectedSupplier && (
         <SupplierDetailsModal
@@ -119,6 +125,13 @@ const Controls = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 16px;
+  padding: 0 1px;
+`;
+
+const AnalyticsContainer = styled.div`
+  display: flex;
+  gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
 `;

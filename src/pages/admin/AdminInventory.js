@@ -7,11 +7,21 @@ import SampleInventoryData from "../data/SampleInventoryData"; // Import sample 
 import InventoryDetailModal from "../../components/AdminInventory/InventoryDetailModal";
 import Table from "../../components/Layout/Table"; // Import the custom Table component
 import SearchBar from "../../components/Layout/SearchBar"; // Import SearchBar
+import CardLowStocks from "../../components/CardsData/CardLowStocks"; // Import CardLowStocks
+import CardTotalProducts from "../../components/CardsData/CardTotalProducts"; // Import CardTotalProducts
 
 const AdminInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  // Calculate the number of low-stock items
+  const lowStockCount = SampleInventoryData.filter(
+    (item) => item.status === "Low stock"
+  ).length;
+
+  // Calculate the total number of products
+  const totalProducts = SampleInventoryData.length;
 
   const filteredInventory = SampleInventoryData.filter((item) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -74,6 +84,12 @@ const AdminInventory = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
+      <AnalyticsContainer>
+        <CardTotalProducts totalProducts={totalProducts} />{" "}
+        {/* Display Total Products */}
+        <CardLowStocks lowStockCount={lowStockCount} />{" "}
+        {/* Display Low Stock count */}
+      </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showDetailModal && selectedItem && (
         <InventoryDetailModal item={selectedItem} closeModal={closeModal} />
@@ -88,6 +104,13 @@ const Controls = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 16px;
+  padding: 0 1px;
+`;
+
+const AnalyticsContainer = styled.div`
+  display: flex;
+  gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
 `;
