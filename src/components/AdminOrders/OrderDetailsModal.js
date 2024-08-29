@@ -21,6 +21,16 @@ const OrderDetailsModal = ({ order, onClose }) => {
 
   if (!order) return null;
 
+  // Calculate totals
+  const totalQuantity = (order.purchaseOrderDetails || order.salesOrderDetails).reduce(
+    (total, detail) => total + (detail.purchOrderQty || detail.salesOrderQty || 0),
+    0
+  );
+  const totalAmount = (order.purchaseOrderDetails || order.salesOrderDetails).reduce(
+    (total, detail) => total + (detail.purchOrderLineTotal || detail.salesOrderLineTotal || 0),
+    0
+  );
+
   return (
     <ModalOverlay>
       <ModalContent ref={modalRef}>
@@ -29,6 +39,9 @@ const OrderDetailsModal = ({ order, onClose }) => {
           <CloseButton onClick={onClose}>
             <IoCloseCircle />
           </CloseButton>
+          <Status status={order.orderType === 'Purchase Order' ? order.purchaseOrderStatus : order.salesOrderStatus}>
+            {order.orderType === 'Purchase Order' ? order.purchaseOrderStatus : order.salesOrderStatus}
+          </Status>
         </Header>
         <Section>
           <h3>Order Summary</h3>
@@ -81,6 +94,10 @@ const OrderDetailsModal = ({ order, onClose }) => {
               </tbody>
             </Table>
           </TableWrapper>
+          <TotalSummary>
+            <p><strong>Total Quantity:</strong> {totalQuantity}</p>
+            <p><strong>Total Amount:</strong> <HighlightedTotal>{formatCurrency(totalAmount)}</HighlightedTotal></p>
+          </TotalSummary>
         </Section>
       </ModalContent>
     </ModalOverlay>
@@ -108,6 +125,7 @@ const ModalContent = styled.div`
   max-width: 800px;
   width: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 `;
 
 const Header = styled.div`
@@ -128,6 +146,25 @@ const CloseButton = styled.button`
   font-size: 1.5rem;
   cursor: pointer;
   color: ${colors.fail};
+`;
+
+const Status = styled.span`
+  position: absolute;
+  top: 70px; /* Adjusted to move below the close button */
+  right: 20px;
+  background-color: ${(props) =>
+    props.status === "Approved" || props.status === "Received"
+      ? "#1DBA0B"
+      : props.status === "Pending"
+      ? "#f08400"
+      : props.status === "Cancelled"
+      ? "#ff5757"
+      : "gray"};
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
 `;
 
 const Section = styled.div`
@@ -162,6 +199,17 @@ const TableCell = styled.td`
   padding: 8px;
   font-size: 14px;
   border-bottom: 1px solid #ddd;
+`;
+
+const TotalSummary = styled.div`
+  margin-top: 20px;
+  text-align: right;
+`;
+
+const HighlightedTotal = styled.span`
+  color: green;
+  font-weight: bold;
+  font-size: 16px;
 `;
 
 export default OrderDetailsModal;

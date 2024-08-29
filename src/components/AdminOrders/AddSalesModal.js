@@ -1,7 +1,14 @@
+// src/components/AddSalesModal.js
+
 import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
+import {
+  calculateLineTotal,
+  calculateTotalQuantity,
+  calculateTotalValue,
+} from "../../utils/CalculationUtils"; // Import utility functions
 
 // Sample products for selection
 const products = [
@@ -16,15 +23,29 @@ const AddSalesModal = ({ onClose, onSave }) => {
   const [deliveryOption, setDeliveryOption] = useState("Standard");
   const [description, setDescription] = useState("");
   const [orderDetails, setOrderDetails] = useState([
-    { productId: "", productName: "", price: 0, quantity: 1, lineTotal: 0 },
+    {
+      productId: "",
+      productName: "",
+      price: 0,
+      quantity: 1,
+      discountType: "amount", // "amount" or "percent"
+      discountValue: 0,
+      lineTotal: 0,
+    },
   ]);
-  const [discountType, setDiscountType] = useState("amount"); // "amount" or "percent"
-  const [discountValue, setDiscountValue] = useState(0);
 
   const handleAddProduct = () => {
     setOrderDetails([
       ...orderDetails,
-      { productId: "", productName: "", price: 0, quantity: 1, lineTotal: 0 },
+      {
+        productId: "",
+        productName: "",
+        price: 0,
+        quantity: 1,
+        discountType: "amount",
+        discountValue: 0,
+        lineTotal: 0,
+      },
     ]);
   };
 
@@ -37,16 +58,36 @@ const AddSalesModal = ({ onClose, onSave }) => {
       updatedOrderDetails[index].productName = selectedProduct?.name || "";
       updatedOrderDetails[index].price = selectedProduct?.price || 0;
     }
-    updatedOrderDetails[index].lineTotal =
-      updatedOrderDetails[index].quantity * updatedOrderDetails[index].price;
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(
+      updatedOrderDetails[index]
+    );
     setOrderDetails(updatedOrderDetails);
   };
 
   const handleQuantityChange = (index, value) => {
     const updatedOrderDetails = [...orderDetails];
     updatedOrderDetails[index].quantity = Math.max(1, value); // Ensure quantity is at least 1
-    updatedOrderDetails[index].lineTotal =
-      updatedOrderDetails[index].quantity * updatedOrderDetails[index].price;
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(
+      updatedOrderDetails[index]
+    );
+    setOrderDetails(updatedOrderDetails);
+  };
+
+  const handleDiscountChange = (index, field, value) => {
+    const updatedOrderDetails = [...orderDetails];
+
+    if (field === "discountValue") {
+      // If the input is a leading zero, remove it unless the value is zero
+      if (value !== "" && !isNaN(value)) {
+        value = String(value).replace(/^0+(?=\d)/, "");
+        if (value < 0) return; // Ignore negative input
+      }
+    }
+
+    updatedOrderDetails[index][field] = value;
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(
+      updatedOrderDetails[index]
+    );
     setOrderDetails(updatedOrderDetails);
   };
 
@@ -59,12 +100,8 @@ const AddSalesModal = ({ onClose, onSave }) => {
       location,
       salesOrderDlvryDate: today, // Set delivery date to today
       salesOrderStatus: "Pending",
-      salesOrderTotQty: orderDetails.reduce(
-        (acc, item) => acc + item.quantity,
-        0
-      ),
-      salesOrderTotal: finalTotal, // Adjusted total
-      salesOrderDiscount: discountValue,
+      salesOrderTotQty: calculateTotalQuantity(orderDetails), // Use utility function
+      salesOrderTotal: calculateTotalValue(orderDetails), // Use utility function
       salesOrderDlvrOpt: deliveryOption,
       clientId: "", // Not used for now
       salesOrderDetails: orderDetails.map(({ lineTotal, ...rest }) => rest),
@@ -79,22 +116,9 @@ const AddSalesModal = ({ onClose, onSave }) => {
     setOrderDetails(updatedOrderDetails);
   };
 
-  // Compute totals
-  const totalQuantity = orderDetails.reduce(
-    (acc, item) => acc + item.quantity,
-    0
-  );
-  const totalValue = orderDetails.reduce(
-    (acc, item) => acc + item.lineTotal,
-    0
-  );
-
-  // Compute discount amount based on type
-  const discountAmount =
-    discountType === "percent"
-      ? totalValue * (discountValue / 100)
-      : discountValue;
-  const finalTotal = totalValue - discountAmount;
+  // Compute totals using utility functions
+  const totalQuantity = calculateTotalQuantity(orderDetails);
+  const totalValue = calculateTotalValue(orderDetails);
 
   return (
     <ModalOverlay>
@@ -145,6 +169,7 @@ const AddSalesModal = ({ onClose, onSave }) => {
                   <th>Product</th>
                   <th>Price</th>
                   <th>Quantity</th>
+                  <th>Discount</th>
                   <th>Total</th>
                   <th>Action</th>
                 </tr>
@@ -178,12 +203,38 @@ const AddSalesModal = ({ onClose, onSave }) => {
                         min="1"
                         value={detail.quantity}
                         onChange={(e) =>
-                          handleQuantityChange(
-                            index,
-                            Number(e.target.value)
-                          )
+                          handleQuantityChange(index, Number(e.target.value))
                         }
                       />
+                    </td>
+                    <td>
+                      <DiscountContainer>
+                        <DiscountInput
+                          type="number"
+                          min="0"
+                          value={detail.discountValue}
+                          onChange={(e) =>
+                            handleDiscountChange(
+                              index,
+                              "discountValue",
+                              e.target.value
+                            )
+                          }
+                        />
+                        <DiscountSelect
+                          value={detail.discountType}
+                          onChange={(e) =>
+                            handleDiscountChange(
+                              index,
+                              "discountType",
+                              e.target.value
+                            )
+                          }
+                        >
+                          <option value="amount">Amount</option>
+                          <option value="percent">Percent</option>
+                        </DiscountSelect>
+                      </DiscountContainer>
                     </td>
                     <td>{`₱${detail.lineTotal.toFixed(2)}`}</td>
                     <td>
@@ -206,29 +257,6 @@ const AddSalesModal = ({ onClose, onSave }) => {
               <TotalRow>
                 <TotalLabel>Subtotal:</TotalLabel>
                 <TotalValue>{`₱${totalValue.toFixed(2)}`}</TotalValue>
-              </TotalRow>
-              <TotalRow>
-                <TotalLabel>Discount:</TotalLabel>
-                <DiscountContainer>
-                  <DiscountInput
-                    type="number"
-                    value={discountValue}
-                    onChange={(e) => setDiscountValue(Number(e.target.value))}
-                  />
-                  <DiscountSelect
-                    value={discountType}
-                    onChange={(e) => setDiscountType(e.target.value)}
-                  >
-                    <option value="amount">Amount</option>
-                    <option value="percent">%</option>
-                  </DiscountSelect>
-                </DiscountContainer>
-              </TotalRow>
-              <TotalRow>
-                <TotalLabel>Total:</TotalLabel>
-                <TotalValue
-                  style={{ color: "green", fontWeight: "bold" }}
-                >{`₱${finalTotal.toFixed(2)}`}</TotalValue>
               </TotalRow>
             </TotalSection>
           </OrderDetailsSection>
@@ -259,13 +287,13 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
   background: white;
   border-radius: 8px;
-  width: 90%;
-  max-width: 600px;
+  width: 95%;
+  max-width: 900px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-height: 90vh;
   overflow-y: auto;
-  position: relative; /* For positioning the close button */
+  position: relative;
 `;
 
 const ModalHeader = styled.div`
@@ -273,57 +301,54 @@ const ModalHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 700; /* Make the h2 bolder */
-  }
 `;
 
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: ${colors.fail};
+const ModalBody = styled.div`
+  margin-bottom: 20px;
 `;
 
-const ModalBody = styled.div``;
+const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+`;
 
 const Field = styled.div`
   margin-bottom: 15px;
 `;
 
 const Label = styled.label`
+  font-weight: bold;
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
   border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
 `;
 
 const Select = styled.select`
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
   border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
 `;
 
 const DescriptionBox = styled.textarea`
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
   border-radius: 4px;
-  min-height: 100px;
+  border: 1px solid #ccc;
+  font-size: 1em;
 `;
 
 const OrderDetailsSection = styled.div`
-  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 
 const Table = styled.table`
@@ -333,38 +358,45 @@ const Table = styled.table`
 
   th,
   td {
-    padding: 10px;
-    border-top: 1px solid #ddd; /* Add border at the top */
-    border-bottom: 1px solid #ddd; /* Add border at the bottom */
-    border-left: none; /* Remove border on the left */
-    border-right: none; /* Remove border on the right */
+    padding: 8px;
     text-align: center;
+    border-bottom: 1px solid #ddd;
   }
 
   th {
-    background: ${colors.primary};
+    background-color: ${colors.primary};
     color: white;
   }
 `;
 
-
 const AddProductButton = styled.button`
-  background: ${colors.primary};
+  background-color: ${colors.primary};
   color: white;
+  padding: 10px;
   border: none;
-  padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+`;
+
+const DeleteButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  color: red;
 `;
 
 const TotalSection = styled.div`
   margin-top: 20px;
+  text-align: right;
 `;
 
 const TotalRow = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
 
 const TotalLabel = styled.span`
@@ -372,7 +404,24 @@ const TotalLabel = styled.span`
 `;
 
 const TotalValue = styled.span`
-  font-weight: bold; /* Make TotalValue bold */
+  font-weight: bold;
+`;
+
+const SaveButton = styled.button`
+  background-color: ${colors.primary};
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: ${colors.fail};
 `;
 
 const DiscountContainer = styled.div`
@@ -381,40 +430,17 @@ const DiscountContainer = styled.div`
 `;
 
 const DiscountInput = styled.input`
-  width: 60px;
+  width: 50%;
   padding: 5px;
-  border: 1px solid #ddd;
+  margin-right: 5px;
   border-radius: 4px;
-  margin-right: 10px;
+  border: 1px solid #ccc;
 `;
 
 const DiscountSelect = styled.select`
   padding: 5px;
-  border: 1px solid #ddd;
   border-radius: 4px;
-`;
-
-const DeleteButton = styled.button`
-  background: none;
-  border: none;
-  color: ${colors.fail};
-  font-size: 1.2rem;
-  cursor: pointer;
-`;
-
-const SaveButton = styled.button`
-  background: ${colors.primary};
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
-const ModalFooter = styled.div`
-  margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
+  border: 1px solid #ccc;
 `;
 
 export default AddSalesModal;
