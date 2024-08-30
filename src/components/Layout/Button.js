@@ -27,7 +27,7 @@ const StyledButton = styled.button`
   font-size: 14px;
   margin: 2px 3.5px;
   transition: background-color 0.3s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background-color: ${(props) => props.hoverColor || colors.primaryHover};
