@@ -4,11 +4,11 @@ import styled from "styled-components";
 import OrderDetailsModal from "../../components/AdminOrders/OrderDetailsModal";
 import AddPurchaseModal from "../../components/AdminOrders/AddPurchaseModal";
 import AddSalesModal from "../../components/AdminOrders/AddSalesModal";
-import SearchBar from "../../components/Layout/SearchBar"; // Import the SearchBar component
-import Table from "../../components/Layout/Table"; // Import the reusable Table component
-import CardTotalOrders from "../../components/CardsData/CardTotalOrders"; // Import the CardTotalOrders component
-import { colors } from "../../colors";
-import { orders as initialOrders } from "../../pages/data/OrderData"; // Update import path
+import SearchBar from "../../components/Layout/SearchBar";
+import Table from "../../components/Layout/Table";
+import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
+import Button from "../../components/Layout/Button"; // Import the Button component
+import { orders as initialOrders } from "../../pages/data/OrderData";
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState(initialOrders);
@@ -17,7 +17,6 @@ const AdminOrders = () => {
   const [isAddingPurchase, setIsAddingPurchase] = useState(false);
   const [isAddingSales, setIsAddingSales] = useState(false);
 
-  // Apply the filter based on searchTerm
   const filteredOrders = orders.filter((order) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
@@ -51,9 +50,9 @@ const AdminOrders = () => {
     <Status status={order.purchaseOrderStatus || order.salesOrderStatus}>
       {order.purchaseOrderStatus || order.salesOrderStatus}
     </Status>,
-    <ActionButton onClick={() => openDetailsModal(order)}>
+    <Button onClick={() => openDetailsModal(order)} fontSize="14px">
       Details
-    </ActionButton>,
+    </Button>,
   ]);
 
   return (
@@ -65,12 +64,12 @@ const AdminOrders = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <AddButton onClick={openAddPurchaseModal}>Add Purchase</AddButton>
-          <AddButton onClick={openAddSalesModal}>Add Sales</AddButton>
+          <Button onClick={openAddPurchaseModal}>Add Purchase</Button>
+          <Button onClick={openAddSalesModal}>Add Sales</Button>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalOrders /> {/* Display Total Orders */}
+        <CardTotalOrders />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (
@@ -104,7 +103,6 @@ const Controls = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 10px;
 `;
 
 const AnalyticsContainer = styled.div`
@@ -112,19 +110,6 @@ const AnalyticsContainer = styled.div`
   gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
-`;
-
-const AddButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 const Status = styled.span`
@@ -141,19 +126,6 @@ const Status = styled.span`
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
-`;
-
-const ActionButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 export default AdminOrders;

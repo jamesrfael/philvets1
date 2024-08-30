@@ -1,14 +1,14 @@
-// src/pages/AdminCustomers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import { colors } from "../../colors";
 import SearchBar from "../../components/Layout/SearchBar";
-import Table from "../../components/Layout/Table"; // Import the custom Table component
-import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers"; // Import CardTotalCustomers
+import Table from "../../components/Layout/Table";
+import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
+import Button from "../../components/Layout/Button"; // Import the Button component
 
 // Sample customer data
-import customersData from "../data/CustomersData"; // Import customer data
+import customersData from "../data/CustomersData";
 
 const AdminCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -46,9 +46,14 @@ const AdminCustomers = () => {
     customer.email,
     customer.phone,
     customer.registrationDate,
-    <ActionButton key="action" onClick={() => handleViewCustomer(customer)}>
+    <Button
+      backgroundColor={colors.primary}
+      hoverColor={colors.primaryHover}
+      onClick={() => handleViewCustomer(customer)}
+      key="action"
+    >
       View
-    </ActionButton>,
+    </Button>,
   ]);
 
   return (
@@ -59,7 +64,13 @@ const AdminCustomers = () => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        <AddButton onClick={openAddCustomerModal}>Add Customer</AddButton>
+        <Button
+          backgroundColor={colors.primary}
+          hoverColor={colors.primaryHover}
+          onClick={openAddCustomerModal}
+        >
+          Add Customer
+        </Button>
       </Controls>
       <SummarySection>
         <CardTotalCustomers /> {/* Use the CardTotalCustomers component */}
@@ -83,32 +94,6 @@ const SummarySection = styled.div`
   display: flex;
   justify-content: left;
   margin-bottom: 20px;
-`;
-
-const AddButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
-`;
-
-const ActionButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 export default AdminCustomers;

@@ -4,27 +4,24 @@ import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import { colors } from "../../colors";
 import { sales as initialSales } from "../data/SalesData";
 import SalesDetailsModal from "../../components/AdminSales/SalesDetailsModal";
-import CardTotalSales from "../../components/CardsData/CardTotalSales"; // Import CardTotalSales
-import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions"; // Import CardTotalTransactions
+import CardTotalSales from "../../components/CardsData/CardTotalSales";
+import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions";
+import Button from "../../components/Layout/Button"; // Import the Button component
 
 const AdminSales = () => {
   const [sales] = useState(initialSales);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSale, setSelectedSale] = useState(null);
 
-  // Calculate total sales in Pesos
   const totalSalesInPesos = sales.reduce(
     (total, sale) => total + sale.SALES_INV_TOTAL,
     0
   );
 
-  // Calculate total number of transactions
   const totalTransactions = sales.length;
 
-  // Apply the filter based on searchTerm
   const filteredSales = sales.filter((sale) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
@@ -71,7 +68,7 @@ const AdminSales = () => {
     sale.CLIENT_ID,
     sale.SALES_INV_CREATED_USER_ID,
     sale.SALES_ORDER_ID,
-    <ActionButton onClick={() => setSelectedSale(sale)}>Details</ActionButton>,
+    <Button onClick={() => setSelectedSale(sale)}>Details</Button>,
   ]);
 
   const handleCloseModal = () => {
@@ -88,8 +85,8 @@ const AdminSales = () => {
         />
       </Controls>
       <AnalyticsContainer>
-        <CardTotalSales totalSales={totalSalesInPesos} /> {/* Use CardTotalSales */}
-        <CardTotalTransactions totalTransactions={totalTransactions} /> {/* Use CardTotalTransactions */}
+        <CardTotalSales totalSales={totalSalesInPesos} />
+        <CardTotalTransactions totalTransactions={totalTransactions} />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedSale && (
@@ -113,19 +110,6 @@ const AnalyticsContainer = styled.div`
   gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
-`;
-
-const ActionButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 export default AdminSales;

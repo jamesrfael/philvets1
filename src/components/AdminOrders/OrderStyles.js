@@ -85,6 +85,7 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 
   th,
   td {
@@ -116,7 +117,7 @@ export const DeleteButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 1.2em;
-  color: red;
+  color: ${colors.fail};
 `;
 
 export const TotalSection = styled.div`

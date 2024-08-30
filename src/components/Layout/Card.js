@@ -14,6 +14,7 @@ const Card = ({ label, value, bgColor = colors.primary }) => {
 
 const CardContainer = styled.div`
   background-color: ${colors.primary};
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   color: white;
   padding: 14px;
   border-radius: 8px;

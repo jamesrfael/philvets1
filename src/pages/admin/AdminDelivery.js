@@ -1,13 +1,13 @@
-// src/pages/AdminDelivery.js
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/AdminDelivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
-import { deliveries } from "../../pages/data/DeliveryData"; // Import the delivery data
+import { deliveries } from "../../pages/data/DeliveryData";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery"; // Import CardTotalDelivery
+import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
+import Button from "../../components/Layout/Button"; // Import the Button component
 
 const AdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,7 +35,13 @@ const AdminDelivery = () => {
     delivery.date,
     delivery.type,
     <Status status={delivery.status}>{delivery.status}</Status>,
-    <ActionButton onClick={() => openDetailsModal(delivery)}>Details</ActionButton>,
+    <Button
+      backgroundColor={colors.primary}
+      hoverColor={colors.primaryHover}
+      onClick={() => openDetailsModal(delivery)}
+    >
+      Details
+    </Button>,
   ]);
 
   return (
@@ -91,19 +97,6 @@ const Status = styled.span`
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
-`;
-
-const ActionButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 export default AdminDelivery;

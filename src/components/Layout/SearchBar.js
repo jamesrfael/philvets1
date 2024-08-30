@@ -13,6 +13,7 @@ const SearchBar = ({ placeholder, value, onChange }) => {
 };
 
 const SearchInput = styled.input`
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1.6px solid #878b8c;
   padding: 0.5rem;
   border-radius: 0.25rem;

@@ -18,7 +18,6 @@ import {
   DescriptionBox,
   OrderDetailsSection,
   Table,
-  AddProductButton,
   DeleteButton,
   TotalSection,
   TotalRow,
@@ -33,6 +32,7 @@ import {
   SuggestionsList,
   SuggestionItem,
 } from "./OrderStyles"; // Import styles from a separate file
+import Button from "../Layout/Button"; // Import the reusable Button component
 
 // Sample products for selection
 const products = [
@@ -247,75 +247,76 @@ const AddSalesModal = ({ onClose, onSave }) => {
                     </td>
                     <td>₱{detail.price.toFixed(2)}</td>
                     <td>
-                      <QuantityInput
-                        type="number"
-                        min="1"
-                        value={detail.quantity}
-                        onChange={(e) =>
-                          handleQuantityChange(index, Number(e.target.value))
-                        }
-                      />
-                    </td>
-                    <td>
-                      <DiscountContainer>
-                        <DiscountInput
-                          type="number"
-                          min="0"
-                          value={detail.discountValue}
-                          onChange={(e) =>
-                            handleDiscountChange(
-                              index,
-                              "discountValue",
-                              e.target.value
-                            )
-                          }
-                        />
-                        <DiscountSelect
-                          value={detail.discountType}
-                          onChange={(e) =>
-                            handleDiscountChange(
-                              index,
-                              "discountType",
-                              e.target.value
-                            )
-                          }
-                        >
-                          <option value="amount">Amount</option>
-                          <option value="percent">Percent</option>
-                        </DiscountSelect>
-                      </DiscountContainer>
-                    </td>
-                    <td>₱{detail.lineTotal.toFixed(2)}</td>
-                    <td>
-                      <DeleteButton onClick={() => handleRemoveProduct(index)}>
-                        <IoCloseCircle />
-                      </DeleteButton>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-            <AddProductButton onClick={handleAddProduct}>
-              Add Another Product
-            </AddProductButton>
-            <TotalSection>
-              <TotalRow>
-                <TotalLabel>Total Quantity:</TotalLabel>
-                <TotalValue>{totalQuantity}</TotalValue>
-              </TotalRow>
-              <TotalRow>
-                <TotalLabel>Subtotal:</TotalLabel>
-                <TotalValue>₱{totalValue.toFixed(2)}</TotalValue>
-              </TotalRow>
-            </TotalSection>
-          </OrderDetailsSection>
-        </ModalBody>
-        <ModalFooter>
-          <SaveButton onClick={handleSave}>Save Order</SaveButton>
-        </ModalFooter>
-      </ModalContent>
-    </ModalOverlay>
-  );
-};
+                    <QuantityInput
+                             type="number"
+                             min="1"
+                             value={detail.quantity}
+                             onChange={(e) =>
+                               handleQuantityChange(index, Number(e.target.value))
+                             }
+                           />
+                       </td>
+                       <td>
+                         <DiscountContainer>
+                           <DiscountInput
+                             type="number"
+                             min="0"
+                             value={detail.discountValue}
+                             onChange={(e) =>
+                               handleDiscountChange(
+                                 index,
+                                 "discountValue",
+                                 e.target.value
+                               )
+                             }
+                           />
+                           <DiscountSelect
+                             value={detail.discountType}
+                             onChange={(e) =>
+                               handleDiscountChange(
+                                 index,
+                                 "discountType",
+                                 e.target.value
+                               )
+                             }
+                           >
+                             <option value="amount">Amount</option>
+                             <option value="percent">Percent</option>
+                           </DiscountSelect>
+                         </DiscountContainer>
+                       </td>
+                       <td>₱{detail.lineTotal.toFixed(2)}</td>
+                       <td>
+                         <DeleteButton onClick={() => handleRemoveProduct(index)}>
+                           <IoCloseCircle />
+                         </DeleteButton>
+                       </td>
+                     </tr>
+                   ))}
+                 </tbody>
+               </Table>
+               <Button onClick={handleAddProduct}>
+                 Add Another Product
+               </Button>
+               <TotalSection>
+                 <TotalRow>
+                   <TotalLabel>Total Quantity:</TotalLabel>
+                   <TotalValue>{totalQuantity}</TotalValue>
+                 </TotalRow>
+                 <TotalRow>
+                   <TotalLabel>Subtotal:</TotalLabel>
+                   <TotalValue>₱{totalValue.toFixed(2)}</TotalValue>
+                 </TotalRow>
+               </TotalSection>
+             </OrderDetailsSection>
+           </ModalBody>
+           <ModalFooter>
+             <Button onClick={handleSave}>Save Order</Button>
+           </ModalFooter>
+         </ModalContent>
+       </ModalOverlay>
+     );
+   };
 
-export default AddSalesModal;
+   export default AddSalesModal;
+

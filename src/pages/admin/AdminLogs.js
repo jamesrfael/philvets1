@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
+import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import CardTotalLogs from "../../components/CardsData/CardTotalLogs"; // Import the CardTotalLogs component
-import { logData } from "../../pages/data/LogsData"; // Import log data
+import CardTotalLogs from "../../components/CardsData/CardTotalLogs";
+import { logData } from "../../pages/data/LogsData";
 
 const AdminLogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -53,7 +53,7 @@ const AdminLogs = () => {
         />
       </Controls>
       <AnalyticsContainer>
-        <CardTotalLogs /> {/* Display Total Logs */}
+        <CardTotalLogs />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
     </LayoutHS>
@@ -62,7 +62,7 @@ const AdminLogs = () => {
 
 const Controls = styled.div`
   display: flex;
-  justify-content: flex-start; /* Align search bar to the left */
+  justify-content: flex-start;
   align-items: center;
   margin-bottom: 16px;
   padding: 0 1px;

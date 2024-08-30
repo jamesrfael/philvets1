@@ -32,6 +32,7 @@ const Table = ({ headers, rows }) => {
 const TableContainer = styled.div`
   max-height: 400px; /* Adjust this value as needed */
   overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 `;
 
 const StyledTable = styled.table`

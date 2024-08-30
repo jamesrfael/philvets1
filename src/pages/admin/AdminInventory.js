@@ -1,14 +1,14 @@
-// src/pages/AdminInventory.js
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import { colors } from "../../colors";
-import SampleInventoryData from "../data/InventoryData"; // Import sample inventory data
+import SampleInventoryData from "../data/InventoryData";
 import InventoryDetailModal from "../../components/AdminInventory/InventoryDetailModal";
-import Table from "../../components/Layout/Table"; // Import the custom Table component
-import SearchBar from "../../components/Layout/SearchBar"; // Import SearchBar
-import CardLowStocks from "../../components/CardsData/CardLowStocks"; // Import CardLowStocks
-import CardTotalProducts from "../../components/CardsData/CardTotalProducts"; // Import CardTotalProducts
+import Table from "../../components/Layout/Table";
+import SearchBar from "../../components/Layout/SearchBar";
+import CardLowStocks from "../../components/CardsData/CardLowStocks";
+import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
+import Button from "../../components/Layout/Button"; // Import the Button component
 
 const AdminInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,8 +24,8 @@ const AdminInventory = () => {
       item.supplier.toLowerCase().includes(lowerCaseSearchTerm) ||
       item.location.toLowerCase().includes(lowerCaseSearchTerm) ||
       item.status.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.quantity.toString().includes(lowerCaseSearchTerm) || // search by quantity
-      item.price.toFixed(2).includes(lowerCaseSearchTerm) // search by price
+      item.quantity.toString().includes(lowerCaseSearchTerm) ||
+      item.price.toFixed(2).includes(lowerCaseSearchTerm)
     );
   });
 
@@ -62,9 +62,7 @@ const AdminInventory = () => {
     item.supplier,
     item.location,
     <Status status={item.status}>{item.status}</Status>,
-    <ActionButton onClick={() => handleDetailClick(item)}>
-      Details
-    </ActionButton>,
+    <Button onClick={() => handleDetailClick(item)}>Details</Button>,
   ]);
 
   return (
@@ -77,8 +75,8 @@ const AdminInventory = () => {
         />
       </Controls>
       <AnalyticsContainer>
-        <CardTotalProducts /> {/* Use CardTotalProducts without props */}
-        <CardLowStocks /> {/* Use CardLowStocks without props */}
+        <CardTotalProducts />
+        <CardLowStocks />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showDetailModal && selectedItem && (
@@ -87,8 +85,6 @@ const AdminInventory = () => {
     </LayoutHS>
   );
 };
-
-// Styled components
 
 const Controls = styled.div`
   display: flex;
@@ -119,19 +115,6 @@ const Status = styled.span`
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
-`;
-
-const ActionButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 export default AdminInventory;

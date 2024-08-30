@@ -6,7 +6,8 @@ import ReturnDetailModal from "../../components/AdminReturns/ReturnDetailModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
-import returnsData from "../data/ReturnsData"; // Import the returns data
+import returnsData from "../data/ReturnsData";
+import Button from "../../components/Layout/Button"; // Import the Button component
 
 const AdminReturns = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,7 +23,7 @@ const AdminReturns = () => {
     );
   });
 
-  const totalReturns = returnsData.length; // Total number of returns
+  const totalReturns = returnsData.length;
 
   const openDetailModal = (returnItem) => setSelectedReturn(returnItem);
   const closeDetailModal = () => setSelectedReturn(null);
@@ -35,9 +36,9 @@ const AdminReturns = () => {
     returnItem.type,
     <Status status={returnItem.status} key={returnItem.id}>{returnItem.status}</Status>,
     <>
-      <ActionButton bgColor="#00C4FF" onClick={() => openDetailModal(returnItem)}>View</ActionButton>
-      <ActionButton bgColor="#f08400">Edit</ActionButton>
-      <ActionButton bgColor="#ff1f1f">Delete</ActionButton>
+      <Button bgColor="#00C4FF" onClick={() => openDetailModal(returnItem)}>View</Button>
+      <Button bgColor="#f08400">Edit</Button>
+      <Button bgColor="#ff1f1f">Delete</Button>
     </>,
   ]);
 
@@ -51,7 +52,7 @@ const AdminReturns = () => {
         />
       </Controls>
       <AnalyticsContainer>
-        <CardTotalReturns totalReturns={totalReturns} /> {/* Display Total Returns */}
+        <CardTotalReturns totalReturns={totalReturns} />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedReturn && (
@@ -94,19 +95,6 @@ const Status = styled.span`
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
-`;
-
-const ActionButton = styled.button`
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  color: #ffffff;
-  background-color: ${(props) => props.bgColor};
-  cursor: pointer;
-  margin: 0 0.25rem;
-  &:hover {
-    opacity: 0.8;
-  }
 `;
 
 export default AdminReturns;

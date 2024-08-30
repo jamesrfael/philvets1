@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
-import { colors } from "../../colors";
 import productData from "../data/ProductData";
-import SearchBar from "../../components/Layout/SearchBar"; // Import the SearchBar component
-import Table from "../../components/Layout/Table"; // Import the new Table component
-import CardTotalProducts from "../../components/CardsData/CardTotalProducts"; // Import CardTotalProducts
+import SearchBar from "../../components/Layout/SearchBar";
+import Table from "../../components/Layout/Table";
+import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
+import Button from "../../components/Layout/Button"; // Import the Button component
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -49,7 +49,9 @@ const AdminProducts = () => {
       productDetail?.PROD_DETAILS_SIZE,
       productDetail?.PROD_DETAILS_BRAND,
       `₱${productDetail?.PROD_DETALS_PRICE}`,
-      <ActionButton key="action">View</ActionButton>,
+      <Button key="action" fontSize="14px">
+        View
+      </Button>,
     ];
   });
 
@@ -67,7 +69,7 @@ const AdminProducts = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalProducts /> {/* Display Total Products */}
+        <CardTotalProducts />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
     </LayoutHS>
@@ -86,33 +88,6 @@ const Controls = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 8px;
-`;
-
-const Button = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 10px 19px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
-`;
-
-const ActionButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 const AnalyticsContainer = styled.div`

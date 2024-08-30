@@ -1,13 +1,13 @@
-// src/pages/AdminSuppliers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import SupplierDetailsModal from "../../components/AdminSuppliers/SupplierDetailsModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import { colors } from "../../colors";
-import Table from "../../components/Layout/Table"; // Import the custom Table component
-import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers"; // Import CardTotalSuppliers component
-import { suppliers as initialSuppliers } from "../../pages/data/SupplierData"; // Import supplier data
+import Table from "../../components/Layout/Table";
+import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
+import { suppliers as initialSuppliers } from "../../pages/data/SupplierData";
+import Button from "../../components/Layout/Button"; // Import the new Button component
 
 const AdminSuppliers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -69,7 +69,7 @@ const AdminSuppliers = () => {
           onChange={handleSearch}
         />
         <ButtonGroup>
-          <AddButton>Add Supplier</AddButton>
+          <Button bgColor={colors.primary}>Add Supplier</Button>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
@@ -108,27 +108,8 @@ const ButtonGroup = styled.div`
   gap: 10px;
 `;
 
-const AddButton = styled.button`
+const ActionButton = styled(Button)`
   background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
-`;
-
-const ActionButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
   &:hover {
     background-color: ${colors.primaryHover};
   }

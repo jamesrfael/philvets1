@@ -9,6 +9,7 @@ import EditStaffModal from "../../components/AdminStaffs/EditStaffModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
+import Button from "../../components/Layout/Button";
 
 const AdminStaffs = () => {
   const [staff, setStaff] = useState(initialStaff);
@@ -64,17 +65,23 @@ const AdminStaffs = () => {
     member.email,
     member.username,
     <>
-      <ActionButton
+      <Button
+        backgroundColor={colors.primary}
+        hoverColor={colors.primaryHover}
         onClick={() => {
           setIsEditModalOpen(true);
           setEditingStaff(member);
         }}
       >
         Edit
-      </ActionButton>
-      <ActionButton onClick={() => handleActivateDeactivateStaff(member.email)}>
+      </Button>
+      <Button
+        backgroundColor={colors.primary}
+        hoverColor={colors.primaryHover}
+        onClick={() => handleActivateDeactivateStaff(member.email)}
+      >
         {member.status === "Active" ? "Deactivate" : "Activate"}
-      </ActionButton>
+      </Button>
     </>,
   ]);
 
@@ -87,12 +94,20 @@ const AdminStaffs = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <AddButton onClick={() => setIsAddModalOpen(true)}>
+          <Button
+            backgroundColor={colors.primary}
+            hoverColor={colors.primaryHover}
+            onClick={() => setIsAddModalOpen(true)}
+          >
             Add Staff
-          </AddButton>
-          <ToggleButton onClick={() => setShowInactive(!showInactive)}>
+          </Button>
+          <Button
+            backgroundColor={colors.secondary}
+            hoverColor={colors.secondaryHover}
+            onClick={() => setShowInactive(!showInactive)}
+          >
             {showInactive ? "Show Active" : "Show Inactive"}
-          </ToggleButton>
+          </Button>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
@@ -128,47 +143,6 @@ const Controls = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 10px;
-`;
-
-const AddButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
-`;
-
-const ToggleButton = styled.button`
-  background-color: ${colors.secondary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.secondaryHover};
-  }
-`;
-
-const ActionButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  margin: 0 5px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
 `;
 
 const AnalyticsContainer = styled.div`

@@ -100,9 +100,10 @@ const Sidebar = ({ isOpen, onClose }) => {
 };
 
 const SidebarContainer = styled.div`
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   background-color: white;
   color: black;
-  width: 200px;
+  max-width: 190px;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
@@ -114,7 +115,7 @@ const SidebarContainer = styled.div`
       isOpen ? "translateX(0)" : "translateX(-100%)"};
     z-index: 1000; /* Ensure the sidebar appears on top */
     box-shadow: ${({ isOpen }) =>
-      isOpen ? "2px 0 5px rgba(0, 0, 0, 0.3)" : "none"};
+      isOpen ? "2px 0 5px rgba(0, 0, 0, 0.5)" : "none"};
   }
 
   /* Styles for larger screens */
@@ -132,7 +133,7 @@ const SidebarHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 16px;
+
 `;
 
 const LogoContainer = styled.div`
@@ -141,10 +142,10 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  max-width: 100%;
+  max-width: 90%;
   height: auto;
-  height: 50px;
-  margin-right: 8px;
+  padding: 5px 15px 0px 20px;
+  margin-left: 6px;
 `;
 
 const SidebarContent = styled.div`
