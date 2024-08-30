@@ -1,13 +1,38 @@
-
 import React, { useState } from "react";
-import styled from "styled-components";
-import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
 import {
   calculateLineTotal,
   calculateTotalQuantity,
   calculateTotalValue,
 } from "../../utils/CalculationUtils"; // Import utility functions
+import {
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Field,
+  Label,
+  Input,
+  Select,
+  DescriptionBox,
+  OrderDetailsSection,
+  Table,
+  AddProductButton,
+  DeleteButton,
+  TotalSection,
+  TotalRow,
+  TotalLabel,
+  TotalValue,
+  SaveButton,
+  CloseButton,
+  DiscountContainer,
+  DiscountInput,
+  DiscountSelect,
+  QuantityInput,
+  SuggestionsList,
+  SuggestionItem,
+} from "./OrderStyles"; // Import styles from a separate file
 
 // Sample products for selection
 const products = [
@@ -32,6 +57,9 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
       lineTotal: 0,
     },
   ]);
+  const [productSearch, setProductSearch] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [currentEditingIndex, setCurrentEditingIndex] = useState(null); // Track which row is being edited
 
   const handleAddProduct = () => {
     setOrderDetails([
@@ -48,19 +76,35 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
     ]);
   };
 
-  const handleProductChange = (index, field, value) => {
-    const updatedOrderDetails = [...orderDetails];
-    const selectedProduct = products.find((p) => p.id === Number(value));
+  const handleProductInputChange = (index, value) => {
+    setCurrentEditingIndex(index); // Set the index of the row being edited
+    setProductSearch(value);
 
-    updatedOrderDetails[index][field] = value;
-    if (field === "productId") {
-      updatedOrderDetails[index].productName = selectedProduct?.name || "";
-      updatedOrderDetails[index].price = selectedProduct?.price || 0;
-    }
+    // Filter products based on input value
+    const filtered = products.filter((product) =>
+      product.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+
+    // Update order details with the input value as productName
+    const updatedOrderDetails = [...orderDetails];
+    updatedOrderDetails[index].productName = value;
+    setOrderDetails(updatedOrderDetails);
+  };
+
+  const handleProductSelect = (index, product) => {
+    const updatedOrderDetails = [...orderDetails];
+    updatedOrderDetails[index].productId = product.id;
+    updatedOrderDetails[index].productName = product.name;
+    updatedOrderDetails[index].price = product.price;
     updatedOrderDetails[index].lineTotal = calculateLineTotal(
       updatedOrderDetails[index]
     );
+
     setOrderDetails(updatedOrderDetails);
+    setProductSearch(""); // Reset search input after selection
+    setFilteredProducts(products); // Reset filtered products
+    setCurrentEditingIndex(null); // Reset current editing index
   };
 
   const handleQuantityChange = (index, value) => {
@@ -177,27 +221,33 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
                 {orderDetails.map((detail, index) => (
                   <tr key={index}>
                     <td>
-                      <Select
-                        value={detail.productId}
-                        onChange={(e) =>
-                          handleProductChange(
-                            index,
-                            "productId",
-                            e.target.value
-                          )
-                        }
-                      >
-                        <option value="">Select Product</option>
-                        {products.map((product) => (
-                          <option key={product.id} value={product.id}>
-                            {product.name}
-                          </option>
-                        ))}
-                      </Select>
+                      <div style={{ position: "relative" }}>
+                        <Input
+                          value={detail.productName}
+                          onChange={(e) =>
+                            handleProductInputChange(index, e.target.value)
+                          }
+                          placeholder="Search product" // Placeholder added here
+                        />
+                        {currentEditingIndex === index && productSearch && (
+                          <SuggestionsList>
+                            {filteredProducts.map((product) => (
+                              <SuggestionItem
+                                key={product.id}
+                                onClick={() =>
+                                  handleProductSelect(index, product)
+                                }
+                              >
+                                {product.name}
+                              </SuggestionItem>
+                            ))}
+                          </SuggestionsList>
+                        )}
+                      </div>
                     </td>
-                    <td>{`₱${detail.price.toFixed(2)}`}</td>
+                    <td>₱{detail.price.toFixed(2)}</td>
                     <td>
-                      <Input
+                      <QuantityInput
                         type="number"
                         min="1"
                         value={detail.quantity}
@@ -235,7 +285,7 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
                         </DiscountSelect>
                       </DiscountContainer>
                     </td>
-                    <td>{`₱${detail.lineTotal.toFixed(2)}`}</td>
+                    <td>₱{detail.lineTotal.toFixed(2)}</td>
                     <td>
                       <DeleteButton onClick={() => handleRemoveProduct(index)}>
                         <IoCloseCircle />
@@ -255,7 +305,7 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
               </TotalRow>
               <TotalRow>
                 <TotalLabel>Subtotal:</TotalLabel>
-                <TotalValue>{`₱${totalValue.toFixed(2)}`}</TotalValue>
+                <TotalValue>₱{totalValue.toFixed(2)}</TotalValue>
               </TotalRow>
             </TotalSection>
           </OrderDetailsSection>
@@ -267,179 +317,5 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
     </ModalOverlay>
   );
 };
-
-// Styled Components
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-`;
-
-const ModalContent = styled.div`
-  background: white;
-  border-radius: 8px;
-  width: 95%;
-  max-width: 900px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const ModalBody = styled.div`
-  margin-bottom: 20px;
-`;
-
-const ModalFooter = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-`;
-
-const Field = styled.div`
-  margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 1em;
-`;
-
-const Select = styled.select`
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 1em;
-`;
-
-const DescriptionBox = styled.textarea`
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 1em;
-`;
-
-const OrderDetailsSection = styled.div`
-  margin-bottom: 20px;
-`;
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-
-  th,
-  td {
-    padding: 8px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-  }
-
-  th {
-    background-color: ${colors.primary};
-    color: white;
-  }
-`;
-
-const AddProductButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 10px;
-`;
-
-const DeleteButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2em;
-  color: red;
-`;
-
-const TotalSection = styled.div`
-  margin-top: 20px;
-  text-align: right;
-`;
-
-const TotalRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-`;
-
-const TotalLabel = styled.span`
-  font-weight: bold;
-`;
-
-const TotalValue = styled.span`
-  font-weight: bold;
-`;
-
-const SaveButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.5em;
-  color: ${colors.fail};
-`;
-
-const DiscountContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const DiscountInput = styled.input`
-  width: 50%;
-  padding: 5px;
-  margin-right: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-`;
-
-const DiscountSelect = styled.select`
-  padding: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-`;
 
 export default AddPurchaseModal;

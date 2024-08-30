@@ -4,8 +4,9 @@ import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/AdminDelivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
 import { deliveries } from "../data/DeliveryData";
-import SearchBar from "../../components/Layout/SearchBar"; // Import the reusable SearchBar component
-import Table from "../../components/Layout/Table"; // Import the reusable Table component
+import SearchBar from "../../components/Layout/SearchBar";
+import Table from "../../components/Layout/Table";
+import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery"; // Import CardTotalDelivery
 
 const AdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,17 +22,29 @@ const AdminDelivery = () => {
     );
   });
 
-  const calculateTotalQuantity = (orderDetails) =>
-    orderDetails.reduce((sum, item) => sum + item.quantity, 0);
+  const calculateTotalQuantity = (deliveries) =>
+    deliveries.reduce(
+      (total, delivery) =>
+        total + delivery.orderDetails.reduce((sum, item) => sum + item.quantity, 0),
+      0
+    );
 
-  const calculateTotalAmount = (orderDetails) =>
-    orderDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const calculateTotalAmount = (deliveries) =>
+    deliveries.reduce(
+      (total, delivery) =>
+        total +
+        delivery.orderDetails.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        ),
+      0
+    );
 
   const openDetailsModal = (delivery) =>
     setSelectedDelivery({
       ...delivery,
-      totalQuantity: calculateTotalQuantity(delivery.orderDetails),
-      totalAmount: calculateTotalAmount(delivery.orderDetails),
+      totalQuantity: calculateTotalQuantity([delivery]),
+      totalAmount: calculateTotalAmount([delivery]),
     });
 
   const closeDetailsModal = () => setSelectedDelivery(null);
@@ -43,10 +56,10 @@ const AdminDelivery = () => {
     delivery.date,
     delivery.type,
     <Status status={delivery.status}>{delivery.status}</Status>,
-    <ActionButton onClick={() => openDetailsModal(delivery)}>
-      Details
-    </ActionButton>,
+    <ActionButton onClick={() => openDetailsModal(delivery)}>Details</ActionButton>,
   ]);
+
+  const totalDeliveries = deliveries.length; // Use original deliveries array
 
   return (
     <LayoutHS>
@@ -57,6 +70,9 @@ const AdminDelivery = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
+      <SummarySection>
+        <CardTotalDelivery totalDeliveries={totalDeliveries} /> {/* Use the new card component */}
+      </SummarySection>
       <Table headers={headers} rows={rows} />
       {selectedDelivery && (
         <DeliveryDetailsModal
@@ -76,6 +92,12 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 1px;
+`;
+
+const SummarySection = styled.div`
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
 `;
 
 const Status = styled.span`

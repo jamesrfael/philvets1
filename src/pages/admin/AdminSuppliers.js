@@ -1,4 +1,3 @@
-// src/pages/AdminSuppliers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
@@ -92,6 +91,8 @@ const AdminSuppliers = () => {
     </ActionButton>,
   ]);
 
+  const totalSuppliers = sampleSuppliers.length; // Use original sampleSuppliers array
+
   return (
     <LayoutHS>
       <Controls>
@@ -105,8 +106,7 @@ const AdminSuppliers = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalSuppliers totalSuppliers={filteredSuppliers.length} />{" "}
-        {/* Use CardTotalSuppliers */}
+        <CardTotalSuppliers totalSuppliers={totalSuppliers} /> {/* Use CardTotalSuppliers */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showModal && selectedSupplier && (

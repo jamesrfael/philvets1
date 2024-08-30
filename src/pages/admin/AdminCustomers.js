@@ -4,6 +4,7 @@ import LayoutHS from "../../components/Layout/LayoutHS";
 import { colors } from "../../colors";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table"; // Import the custom Table component
+import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers"; // Import CardTotalCustomers
 
 // Sample customer data
 const sampleCustomers = [
@@ -67,6 +68,8 @@ const AdminCustomers = () => {
     </ActionButton>,
   ]);
 
+  const totalCustomers = filteredCustomers.length; // Calculate total customers
+
   return (
     <LayoutHS>
       <Controls>
@@ -77,6 +80,9 @@ const AdminCustomers = () => {
         />
         <AddButton onClick={openAddCustomerModal}>Add Customer</AddButton>
       </Controls>
+      <SummarySection>
+        <CardTotalCustomers totalCustomers={totalCustomers} /> {/* Use the CardTotalCustomers component */}
+      </SummarySection>
       <Table headers={headers} rows={rows} />
     </LayoutHS>
   );
@@ -90,6 +96,12 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 1px;
+`;
+
+const SummarySection = styled.div`
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
 `;
 
 const AddButton = styled.button`

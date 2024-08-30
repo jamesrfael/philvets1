@@ -5,9 +5,13 @@ import { colors } from "../../colors";
 import productData from "../data/ProductData";
 import SearchBar from "../../components/Layout/SearchBar"; // Import the SearchBar component
 import Table from "../../components/Layout/Table"; // Import the new Table component
+import CardTotalProducts from "../../components/CardsData/CardTotalProducts"; // Import CardTotalProducts
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Total number of products (static)
+  const totalProducts = productData.products.length;
 
   const filteredProducts = productData.products.filter((product) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -65,10 +69,16 @@ const AdminProducts = () => {
           <Button>Add Product</Button>
         </ButtonGroup>
       </Controls>
+      <AnalyticsContainer>
+        <CardTotalProducts totalProducts={totalProducts} />{" "}
+        {/* Display Total Products */}
+      </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
     </LayoutHS>
   );
 };
+
+// Styled components
 
 const Controls = styled.div`
   display: flex;
@@ -107,6 +117,13 @@ const ActionButton = styled.button`
   &:hover {
     background-color: ${colors.primaryHover};
   }
+`;
+
+const AnalyticsContainer = styled.div`
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 0 1px;
 `;
 
 export default AdminProducts;

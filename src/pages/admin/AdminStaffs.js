@@ -1,3 +1,4 @@
+// src/pages/AdminStaffs.js
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
@@ -7,6 +8,7 @@ import AddStaffModal from "../../components/AdminStaffs/AddStaffModal";
 import EditStaffModal from "../../components/AdminStaffs/EditStaffModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
+import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
 
 const AdminStaffs = () => {
   const [staff, setStaff] = useState(initialStaff);
@@ -28,6 +30,8 @@ const AdminStaffs = () => {
         member.username.toLowerCase().includes(lowerCaseSearchTerm))
     );
   });
+
+  const totalStaffs = staff.length; // Total number of staff
 
   const handleAddStaff = (newStaff) => {
     setStaff([...staff, newStaff]);
@@ -93,6 +97,9 @@ const AdminStaffs = () => {
           </ToggleButton>
         </ButtonGroup>
       </Controls>
+      <AnalyticsContainer>
+        <CardTotalStaffs totalStaffs={totalStaffs} /> {/* Display Total Staffs */}
+      </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddModalOpen && (
         <AddStaffModal
@@ -164,6 +171,13 @@ const ActionButton = styled.button`
   &:hover {
     background-color: ${colors.primaryHover};
   }
+`;
+
+const AnalyticsContainer = styled.div`
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 0 1px;
 `;
 
 export default AdminStaffs;

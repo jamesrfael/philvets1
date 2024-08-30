@@ -1,11 +1,13 @@
+// src/pages/AdminOrders.js
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/AdminOrders/OrderDetailsModal";
 import AddPurchaseModal from "../../components/AdminOrders/AddPurchaseModal";
 import AddSalesModal from "../../components/AdminOrders/AddSalesModal";
-import SearchBar from "../../components/Layout/SearchBar"; // Import the new SearchBar component
+import SearchBar from "../../components/Layout/SearchBar"; // Import the SearchBar component
 import Table from "../../components/Layout/Table"; // Import the reusable Table component
+import CardTotalOrders from "../../components/CardsData/CardTotalOrders"; // Import the CardTotalOrders component
 import { colors } from "../../colors";
 import { orders as initialOrders } from "../data/OrderData";
 
@@ -55,6 +57,9 @@ const AdminOrders = () => {
     </ActionButton>,
   ]);
 
+  // Calculate the total number of orders
+  const totalOrders = orders.length;
+
   return (
     <LayoutHS>
       <Controls>
@@ -64,10 +69,13 @@ const AdminOrders = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <AddButton onClick={openAddPurchaseModal}>Ad Purchase</AddButton>
+          <AddButton onClick={openAddPurchaseModal}>Add Purchase</AddButton>
           <AddButton onClick={openAddSalesModal}>Add Sales</AddButton>
         </ButtonGroup>
       </Controls>
+      <AnalyticsContainer>
+        <CardTotalOrders totalOrders={totalOrders} /> {/* Display Total Orders */}
+      </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
@@ -101,6 +109,13 @@ const Controls = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
+`;
+
+const AnalyticsContainer = styled.div`
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 0 1px;
 `;
 
 const AddButton = styled.button`

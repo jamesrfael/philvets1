@@ -1,133 +1,25 @@
+// src/pages/AdminLogs.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import SearchBar from "../../components/Layout/SearchBar";
-import Table from "../../components/Layout/Table"; // Import the reusable Table component
+import Table from "../../components/Layout/Table";
+import CardTotalLogs from "../../components/CardsData/CardTotalLogs"; // Import the CardTotalLogs component
 
 const AdminLogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const logData = [
-    {
-      id: 1,
-      timestamp: "2024-08-26 10:15 AM",
-      action: "Added Stock",
-      productName: "Amoxicillin",
-      sku: "AMX123",
-      quantityChange: "+100",
-      previousValue: "200",
-      newValue: "300",
-      user: "Dr. John Doe",
-      notes: "Restocked after inventory check",
-    },
-    {
-      id: 2,
-      timestamp: "2024-08-25 02:30 PM",
-      action: "Price Change",
-      productName: "Syringes (Pack of 50)",
-      sku: "SYR678",
-      quantityChange: "N/A",
-      previousValue: "₱1,200",
-      newValue: "₱1,000",
-      user: "Nurse Jane Smith",
-      notes: "Discount applied for bulk purchase",
-    },
-    {
-      id: 3,
-      timestamp: "2024-08-24 09:00 AM",
-      action: "Order Fulfillment",
-      productName: "Flea Treatment",
-      sku: "FLE543",
-      quantityChange: "-20",
-      previousValue: "50",
-      newValue: "30",
-      user: "Emily Brown",
-      notes: "Order #ORD5678 fulfilled",
-    },
-    {
-      id: 4,
-      timestamp: "2024-08-23 11:45 AM",
-      action: "Restocking",
-      productName: "Veterinary Thermometer",
-      sku: "THER987",
-      quantityChange: "+15",
-      previousValue: "25",
-      newValue: "40",
-      user: "Michael Johnson",
-      notes: "Restocked after supplier delivery",
-    },
-    {
-      id: 5,
-      timestamp: "2024-08-22 03:00 PM",
-      action: "Damage or Loss",
-      productName: "Dog Shampoo",
-      sku: "SHAM112",
-      quantityChange: "-3",
-      previousValue: "20",
-      newValue: "17",
-      user: "Sarah Lee",
-      notes: "Shampoo bottle cracked during delivery",
-    },
-    {
-      id: 6,
-      timestamp: "2024-08-21 08:30 AM",
-      action: "User Action",
-      productName: "Old Inventory",
-      sku: "OLD001",
-      quantityChange: "N/A",
-      previousValue: "N/A",
-      newValue: "N/A",
-      user: "Admin",
-      notes: "Deleted outdated stock records",
-    },
-    {
-      id: 7,
-      timestamp: "2024-08-20 01:15 PM",
-      action: "Added Stock",
-      productName: "Antibiotic Ointment",
-      sku: "ANTO789",
-      quantityChange: "+50",
-      previousValue: "30",
-      newValue: "80",
-      user: "Dr. Alice Cooper",
-      notes: "Restocked after urgent request",
-    },
-    {
-      id: 8,
-      timestamp: "2024-08-19 11:00 AM",
-      action: "Price Change",
-      productName: "Cat Food (Large Bag)",
-      sku: "CATFOO321",
-      quantityChange: "N/A",
-      previousValue: "₱1,800",
-      newValue: "₱1,700",
-      user: "Nurse Alex Kim",
-      notes: "Price adjustment for new supplier",
-    },
-    {
-      id: 9,
-      timestamp: "2024-08-18 03:30 PM",
-      action: "Order Fulfillment",
-      productName: "Worming Tablets",
-      sku: "WORM456",
-      quantityChange: "-50",
-      previousValue: "100",
-      newValue: "50",
-      user: "Jessica Davis",
-      notes: "Order #ORD9101 processed",
-    },
-    {
-      id: 10,
-      timestamp: "2024-08-17 09:45 AM",
-      action: "Restocking",
-      productName: "Ear Cleaner Solution",
-      sku: "EARS789",
-      quantityChange: "+25",
-      previousValue: "10",
-      newValue: "35",
-      user: "Michael Johnson",
-      notes: "Additional stock from supplier",
-    },
+    { id: 1, timestamp: "2024-08-26 10:15 AM", action: "Added Stock", productName: "Amoxicillin", sku: "AMX123", quantityChange: "+100", previousValue: "200", newValue: "300", user: "Dr. John Doe", notes: "Restocked after inventory check" },
+    { id: 2, timestamp: "2024-08-25 02:30 PM", action: "Price Change", productName: "Syringes (Pack of 50)", sku: "SYR678", quantityChange: "N/A", previousValue: "₱1,200", newValue: "₱1,000", user: "Nurse Jane Smith", notes: "Discount applied for bulk purchase" },
+    { id: 3, timestamp: "2024-08-24 09:00 AM", action: "Order Fulfillment", productName: "Flea Treatment", sku: "FLE543", quantityChange: "-20", previousValue: "50", newValue: "30", user: "Emily Brown", notes: "Order #ORD5678 fulfilled" },
+    { id: 4, timestamp: "2024-08-23 11:45 AM", action: "Restocking", productName: "Veterinary Thermometer", sku: "THER987", quantityChange: "+15", previousValue: "25", newValue: "40", user: "Michael Johnson", notes: "Restocked after supplier delivery" },
+    { id: 5, timestamp: "2024-08-22 03:00 PM", action: "Damage or Loss", productName: "Dog Shampoo", sku: "SHAM112", quantityChange: "-3", previousValue: "20", newValue: "17", user: "Sarah Lee", notes: "Shampoo bottle cracked during delivery" },
+    { id: 6, timestamp: "2024-08-21 08:30 AM", action: "User Action", productName: "Old Inventory", sku: "OLD001", quantityChange: "N/A", previousValue: "N/A", newValue: "N/A", user: "Admin", notes: "Deleted outdated stock records" },
+    { id: 7, timestamp: "2024-08-20 01:15 PM", action: "Added Stock", productName: "Antibiotic Ointment", sku: "ANTO789", quantityChange: "+50", previousValue: "30", newValue: "80", user: "Dr. Alice Cooper", notes: "Restocked after urgent request" },
+    { id: 8, timestamp: "2024-08-19 11:00 AM", action: "Price Change", productName: "Cat Food (Large Bag)", sku: "CATFOO321", quantityChange: "N/A", previousValue: "₱1,800", newValue: "₱1,700", user: "Nurse Alex Kim", notes: "Price adjustment for new supplier" },
+    { id: 9, timestamp: "2024-08-18 03:30 PM", action: "Order Fulfillment", productName: "Worming Tablets", sku: "WORM456", quantityChange: "-50", previousValue: "100", newValue: "50", user: "Jessica Davis", notes: "Order #ORD9101 processed" },
+    { id: 10, timestamp: "2024-08-17 09:45 AM", action: "Restocking", productName: "Ear Cleaner Solution", sku: "EARS789", quantityChange: "+25", previousValue: "10", newValue: "35", user: "Michael Johnson", notes: "Additional stock from supplier" },
   ];
 
   const filteredLogs = logData.filter(
@@ -139,6 +31,8 @@ const AdminLogs = () => {
       log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.notes.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const totalLogs = logData.length; // Total number of logs
 
   const headers = [
     "Date",
@@ -173,6 +67,9 @@ const AdminLogs = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
+      <AnalyticsContainer>
+        <CardTotalLogs totalLogs={totalLogs} /> {/* Display Total Logs */}
+      </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
     </LayoutHS>
   );
@@ -182,6 +79,13 @@ const Controls = styled.div`
   display: flex;
   justify-content: flex-start; /* Align search bar to the left */
   align-items: center;
+  margin-bottom: 16px;
+  padding: 0 1px;
+`;
+
+const AnalyticsContainer = styled.div`
+  display: flex;
+  gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
 `;

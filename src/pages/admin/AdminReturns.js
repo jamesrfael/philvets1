@@ -1,47 +1,19 @@
+// src/pages/AdminReturns.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import ReturnDetailModal from "../../components/AdminReturns/ReturnDetailModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
+import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 
 // Sample return data
 const sampleReturns = [
-  {
-    id: 1,
-    name: "Item A",
-    returnDate: "2024-06-01",
-    type: "Purchase",
-    status: "Processing",
-  },
-  {
-    id: 2,
-    name: "Item B",
-    returnDate: "2024-06-02",
-    type: "Sales",
-    status: "Completed",
-  },
-  {
-    id: 3,
-    name: "Item C",
-    returnDate: "2024-06-03",
-    type: "Purchase",
-    status: "Processing",
-  },
-  {
-    id: 4,
-    name: "Item D",
-    returnDate: "2024-06-04",
-    type: "Sales",
-    status: "Pending",
-  },
-  {
-    id: 5,
-    name: "Item E",
-    returnDate: "2024-06-05",
-    type: "Purchase",
-    status: "Completed",
-  },
+  { id: 1, name: "Item A", returnDate: "2024-06-01", type: "Purchase", status: "Processing" },
+  { id: 2, name: "Item B", returnDate: "2024-06-02", type: "Sales", status: "Completed" },
+  { id: 3, name: "Item C", returnDate: "2024-06-03", type: "Purchase", status: "Processing" },
+  { id: 4, name: "Item D", returnDate: "2024-06-04", type: "Sales", status: "Pending" },
+  { id: 5, name: "Item E", returnDate: "2024-06-05", type: "Purchase", status: "Completed" },
 ];
 
 const AdminReturns = () => {
@@ -58,6 +30,8 @@ const AdminReturns = () => {
     );
   });
 
+  const totalReturns = sampleReturns.length; // Total number of returns
+
   const openDetailModal = (returnItem) => setSelectedReturn(returnItem);
   const closeDetailModal = () => setSelectedReturn(null);
 
@@ -67,14 +41,9 @@ const AdminReturns = () => {
     returnItem.name,
     returnItem.returnDate,
     returnItem.type,
-    <Status status={returnItem.status}>{returnItem.status}</Status>,
+    <Status status={returnItem.status} key={returnItem.id}>{returnItem.status}</Status>,
     <>
-      <ActionButton
-        bgColor="#00C4FF"
-        onClick={() => openDetailModal(returnItem)}
-      >
-        View
-      </ActionButton>
+      <ActionButton bgColor="#00C4FF" onClick={() => openDetailModal(returnItem)}>View</ActionButton>
       <ActionButton bgColor="#f08400">Edit</ActionButton>
       <ActionButton bgColor="#ff1f1f">Delete</ActionButton>
     </>,
@@ -89,9 +58,10 @@ const AdminReturns = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
-      <MainContent>
-        <Table headers={headers} rows={rows} />
-      </MainContent>
+      <AnalyticsContainer>
+        <CardTotalReturns totalReturns={totalReturns} /> {/* Display Total Returns */}
+      </AnalyticsContainer>
+      <Table headers={headers} rows={rows} />
       {selectedReturn && (
         <ReturnDetailModal
           returnItem={selectedReturn}
@@ -111,8 +81,11 @@ const Controls = styled.div`
   padding: 0 1px;
 `;
 
-const MainContent = styled.div`
-  padding: 0 2rem;
+const AnalyticsContainer = styled.div`
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 0 1px;
 `;
 
 const Status = styled.span`
