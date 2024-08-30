@@ -1,8 +1,12 @@
 // src/components/CardsData/CardTotalDelivery.js
 import React from "react";
 import Card from "../Layout/Card"; // Import the reusable Card component
+import { deliveries } from "../../pages/data/DeliveryData"; // Import the delivery data
 
-const CardTotalDelivery = ({ totalDeliveries }) => {
+const CardTotalDelivery = () => {
+  // Calculate the total number of deliveries
+  const totalDeliveries = deliveries.length;
+
   return (
     <Card
       label="Total Deliveries"

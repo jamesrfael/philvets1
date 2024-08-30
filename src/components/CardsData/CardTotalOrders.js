@@ -1,8 +1,10 @@
-// src/components/CardsData/CardTotalOrders.js
 import React from "react";
 import Card from "../Layout/Card"; // Import the reusable Card component
+import { orders } from "../../pages/data/OrderData"; // Import the orders data
 
-const CardTotalOrders = ({ totalOrders }) => {
+const CardTotalOrders = () => {
+  const totalOrders = orders.length; // Calculate total orders here
+
   return (
     <Card
       label="Total Orders"

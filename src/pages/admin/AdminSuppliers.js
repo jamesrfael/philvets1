@@ -1,3 +1,4 @@
+// src/pages/AdminSuppliers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
@@ -6,50 +7,18 @@ import SearchBar from "../../components/Layout/SearchBar";
 import { colors } from "../../colors";
 import Table from "../../components/Layout/Table"; // Import the custom Table component
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers"; // Import CardTotalSuppliers component
-
-const sampleSuppliers = [
-  {
-    supplierName: "Pet Care",
-    supplierNumber: "09123456789",
-    contactPersonName: "Gloria Madrigal",
-    contactPersonNumber: "0912346679",
-  },
-  {
-    supplierName: "Animal World",
-    supplierNumber: "09234567890",
-    contactPersonName: "John Doe",
-    contactPersonNumber: "0923456789",
-  },
-  {
-    supplierName: "Vet Supplies",
-    supplierNumber: "09345678901",
-    contactPersonName: "Jane Smith",
-    contactPersonNumber: "0934567890",
-  },
-  {
-    supplierName: "Pet Foods Inc.",
-    supplierNumber: "09456789012",
-    contactPersonName: "Alice Johnson",
-    contactPersonNumber: "0945678901",
-  },
-  {
-    supplierName: "Pet Accessories",
-    supplierNumber: "09567890123",
-    contactPersonName: "Bob Williams",
-    contactPersonNumber: "0956789012",
-  },
-];
+import { suppliers as initialSuppliers } from "../../pages/data/SupplierData"; // Import supplier data
 
 const AdminSuppliers = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredSuppliers, setFilteredSuppliers] = useState(sampleSuppliers);
+  const [filteredSuppliers, setFilteredSuppliers] = useState(initialSuppliers);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
     setSearchTerm(value);
-    const filtered = sampleSuppliers.filter((supplier) => {
+    const filtered = initialSuppliers.filter((supplier) => {
       if (!value) {
         return true;
       }
@@ -91,8 +60,6 @@ const AdminSuppliers = () => {
     </ActionButton>,
   ]);
 
-  const totalSuppliers = sampleSuppliers.length; // Use original sampleSuppliers array
-
   return (
     <LayoutHS>
       <Controls>
@@ -106,7 +73,7 @@ const AdminSuppliers = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalSuppliers totalSuppliers={totalSuppliers} /> {/* Use CardTotalSuppliers */}
+        <CardTotalSuppliers /> {/* Use CardTotalSuppliers without props */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showModal && selectedSupplier && (

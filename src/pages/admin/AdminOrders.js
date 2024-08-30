@@ -1,4 +1,3 @@
-// src/pages/AdminOrders.js
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
@@ -9,7 +8,7 @@ import SearchBar from "../../components/Layout/SearchBar"; // Import the SearchB
 import Table from "../../components/Layout/Table"; // Import the reusable Table component
 import CardTotalOrders from "../../components/CardsData/CardTotalOrders"; // Import the CardTotalOrders component
 import { colors } from "../../colors";
-import { orders as initialOrders } from "../data/OrderData";
+import { orders as initialOrders } from "../../pages/data/OrderData"; // Update import path
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState(initialOrders);
@@ -57,9 +56,6 @@ const AdminOrders = () => {
     </ActionButton>,
   ]);
 
-  // Calculate the total number of orders
-  const totalOrders = orders.length;
-
   return (
     <LayoutHS>
       <Controls>
@@ -74,7 +70,7 @@ const AdminOrders = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalOrders totalOrders={totalOrders} /> {/* Display Total Orders */}
+        <CardTotalOrders /> {/* Display Total Orders */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (

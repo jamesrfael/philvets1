@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import { colors } from "../../colors";
-import SampleInventoryData from "../data/SampleInventoryData"; // Import sample inventory data
+import SampleInventoryData from "../data/InventoryData"; // Import sample inventory data
 import InventoryDetailModal from "../../components/AdminInventory/InventoryDetailModal";
 import Table from "../../components/Layout/Table"; // Import the custom Table component
 import SearchBar from "../../components/Layout/SearchBar"; // Import SearchBar
@@ -14,14 +14,6 @@ const AdminInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
-  // Calculate the number of low-stock items
-  const lowStockCount = SampleInventoryData.filter(
-    (item) => item.status === "Low stock"
-  ).length;
-
-  // Calculate the total number of products
-  const totalProducts = SampleInventoryData.length;
 
   const filteredInventory = SampleInventoryData.filter((item) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -85,10 +77,8 @@ const AdminInventory = () => {
         />
       </Controls>
       <AnalyticsContainer>
-        <CardTotalProducts totalProducts={totalProducts} />{" "}
-        {/* Display Total Products */}
-        <CardLowStocks lowStockCount={lowStockCount} />{" "}
-        {/* Display Low Stock count */}
+        <CardTotalProducts /> {/* Use CardTotalProducts without props */}
+        <CardLowStocks /> {/* Use CardLowStocks without props */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showDetailModal && selectedItem && (

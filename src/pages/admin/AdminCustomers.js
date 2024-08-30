@@ -1,3 +1,4 @@
+// src/pages/AdminCustomers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
@@ -7,34 +8,16 @@ import Table from "../../components/Layout/Table"; // Import the custom Table co
 import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers"; // Import CardTotalCustomers
 
 // Sample customer data
-const sampleCustomers = [
-  {
-    customerId: "C001",
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
-    phone: "09478925611",
-    registrationDate: "2023-01-15",
-  },
-  {
-    customerId: "C002",
-    firstName: "Jane",
-    lastName: "Smith",
-    email: "jane.smith@example.com",
-    phone: "09213456785",
-    registrationDate: "2022-11-20",
-  },
-  // Add more sample customers as needed
-];
+import customersData from "../data/CustomersData"; // Import customer data
 
 const AdminCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCustomers, setFilteredCustomers] = useState(sampleCustomers);
+  const [filteredCustomers, setFilteredCustomers] = useState(customersData);
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
     setSearchTerm(value);
-    const filtered = sampleCustomers.filter((customer) => {
+    const filtered = customersData.filter((customer) => {
       if (!value) return true;
       const fullName =
         `${customer.firstName} ${customer.lastName}`.toLowerCase();
@@ -68,8 +51,6 @@ const AdminCustomers = () => {
     </ActionButton>,
   ]);
 
-  const totalCustomers = filteredCustomers.length; // Calculate total customers
-
   return (
     <LayoutHS>
       <Controls>
@@ -81,7 +62,7 @@ const AdminCustomers = () => {
         <AddButton onClick={openAddCustomerModal}>Add Customer</AddButton>
       </Controls>
       <SummarySection>
-        <CardTotalCustomers totalCustomers={totalCustomers} /> {/* Use the CardTotalCustomers component */}
+        <CardTotalCustomers /> {/* Use the CardTotalCustomers component */}
       </SummarySection>
       <Table headers={headers} rows={rows} />
     </LayoutHS>

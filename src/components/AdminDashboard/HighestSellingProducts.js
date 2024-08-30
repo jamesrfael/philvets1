@@ -1,6 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-import { colors } from "../../colors";
+import DashboardTable from "./DashboardTable"; // Import the new component
 
 const sampleData = [
   { id: 1, name: "Product A", quantity: 150, revenue: "₱ 15,000" },
@@ -9,60 +8,10 @@ const sampleData = [
 ];
 
 const HighestSellingProducts = () => {
-  return (
-    <TableWrapper>
-      <h3>Highest Selling Products</h3>
-      <Table>
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Quantity Sold</th>
-            <th>Revenue</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sampleData.map((product) => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>{product.quantity}</td>
-              <td>{product.revenue}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </TableWrapper>
-  );
+  const headers = ["Product Name", "Quantity Sold", "Revenue"];
+  const data = sampleData.map(product => [product.name, product.quantity, product.revenue]);
+
+  return <DashboardTable title="Highest Selling Products" headers={headers} data={data} />;
 };
-
-const TableWrapper = styled.div`
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  text-align: center;
-
-  h3{
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-`;
-
-
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-
-  th, td {
-    padding: 0.75rem;
-    border-bottom: 1px solid #ddd;
-  }
-
-  th {
-    background-color: ${colors.primary};
-    color: white;
-  }
-`;
 
 export default HighestSellingProducts;

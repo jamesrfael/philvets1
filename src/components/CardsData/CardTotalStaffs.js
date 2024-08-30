@@ -1,8 +1,12 @@
 // src/components/CardsData/CardTotalStaffs.js
 import React from "react";
-import Card from "../Layout/Card"; // Import the reusable Card component
+import Card from "../Layout/Card";
+import { staff } from "../../pages/data/StaffData"; // Import the staff data
 
-const CardTotalStaffs = ({ totalStaffs }) => {
+const CardTotalStaffs = () => {
+  // Calculate the total number of staff
+  const totalStaffs = staff.length;
+
   return (
     <Card
       label="Total Staffs"

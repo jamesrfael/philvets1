@@ -1,68 +1,142 @@
 const productData = {
-    products: [
-      {
-        PROD_ID: "P001",
-        PROD_NAME: "Product 1",
-        PROD_DETAILS_CODE: "D001",
-        PROD_RO_LEVEL: 50,
-        PROD_RO_QTY: 10,
-        PROD_QOH: 200,
-        PROD_IMG: "image1.png",
-        PROD_DATECREATED: "2024-08-01",
-        PROD_DATEUPDATED: "2024-08-20",
-        PROD_CAT_CODE: "C001",
-      },
-      {
-        PROD_ID: "P002",
-        PROD_NAME: "Product 2",
-        PROD_DETAILS_CODE: "D002",
-        PROD_RO_LEVEL: 30,
-        PROD_RO_QTY: 5,
-        PROD_QOH: 100,
-        PROD_IMG: "image2.png",
-        PROD_DATECREATED: "2024-07-15",
-        PROD_DATEUPDATED: "2024-08-18",
-        PROD_CAT_CODE: "C002",
-      },
-      // Add more products as needed
-    ],
-  
-    productDetails: [
-      {
-        PROD_DETAILS_CODE: "D001",
-        PROD_DETAILS_DESCRIPTION: "Detailed description for Product 1",
-        PROD_DETALS_PRICE: 19.99,
-        PROD_DETAILS_BRAND: "Brand A",
-        PROD_DETAILS_SIZE: "Medium",
-        PROD_DETAILS_MEASUREMENT: "500ml",
-        PROD_CAT_CODE: "C001",
-      },
-      {
-        PROD_DETAILS_CODE: "D002",
-        PROD_DETAILS_DESCRIPTION: "Detailed description for Product 2",
-        PROD_DETALS_PRICE: 29.99,
-        PROD_DETAILS_BRAND: "Brand B",
-        PROD_DETAILS_SIZE: "Large",
-        PROD_DETAILS_MEASUREMENT: "1L",
-        PROD_CAT_CODE: "C002",
-      },
-      // Add more product details as needed
-    ],
-  
-    productCategories: [
-      {
-        PROD_CAT_CODE: "C001",
-        PROD_CAT_NAME: "Category 1",
-        PROD_CAT_SUBCATEGORY: "Subcategory 1",
-      },
-      {
-        PROD_CAT_CODE: "C002",
-        PROD_CAT_NAME: "Category 2",
-        PROD_CAT_SUBCATEGORY: "Subcategory 2",
-      },
-      // Add more categories as needed
-    ],
-  };
-  
-  export default productData;
-  
+  products: [
+    {
+      PROD_ID: "P001",
+      PROD_NAME: "Amoxicillin",
+      PROD_DETAILS_CODE: "D001",
+      PROD_RO_LEVEL: 30,
+      PROD_RO_QTY: 10,
+      PROD_QOH: 100,
+      PROD_IMG: "amoxicillin.png",
+      PROD_DATECREATED: "2024-07-01",
+      PROD_DATEUPDATED: "2024-08-10",
+      PROD_CAT_CODE: "C001",
+    },
+    {
+      PROD_ID: "P002",
+      PROD_NAME: "Anti-Flea Shampoo",
+      PROD_DETAILS_CODE: "D002",
+      PROD_RO_LEVEL: 50,
+      PROD_RO_QTY: 15,
+      PROD_QOH: 200,
+      PROD_IMG: "anti_flea_shampoo.png",
+      PROD_DATECREATED: "2024-06-15",
+      PROD_DATEUPDATED: "2024-08-15",
+      PROD_CAT_CODE: "C002",
+    },
+    {
+      PROD_ID: "P003",
+      PROD_NAME: "Syringes Pack",
+      PROD_DETAILS_CODE: "D003",
+      PROD_RO_LEVEL: 20,
+      PROD_RO_QTY: 5,
+      PROD_QOH: 50,
+      PROD_IMG: "syringes_pack.png",
+      PROD_DATECREATED: "2024-05-01",
+      PROD_DATEUPDATED: "2024-08-20",
+      PROD_CAT_CODE: "C003",
+    },
+    {
+      PROD_ID: "P004",
+      PROD_NAME: "Veterinary Thermometer",
+      PROD_DETAILS_CODE: "D004",
+      PROD_RO_LEVEL: 15,
+      PROD_RO_QTY: 8,
+      PROD_QOH: 40,
+      PROD_IMG: "thermometer.png",
+      PROD_DATECREATED: "2024-08-01",
+      PROD_DATEUPDATED: "2024-08-25",
+      PROD_CAT_CODE: "C004",
+    },
+    {
+      PROD_ID: "P005",
+      PROD_NAME: "Wound Care Ointment",
+      PROD_DETAILS_CODE: "D005",
+      PROD_RO_LEVEL: 25,
+      PROD_RO_QTY: 12,
+      PROD_QOH: 80,
+      PROD_IMG: "wound_care_ointment.png",
+      PROD_DATECREATED: "2024-07-20",
+      PROD_DATEUPDATED: "2024-08-18",
+      PROD_CAT_CODE: "C005",
+    },
+  ],
+
+  productDetails: [
+    {
+      PROD_DETAILS_CODE: "D001",
+      PROD_DETAILS_DESCRIPTION: "Broad-spectrum antibiotic used to treat bacterial infections.",
+      PROD_DETALS_PRICE: 29.99,
+      PROD_DETAILS_BRAND: "VetMed",
+      PROD_DETAILS_SIZE: "500mg",
+      PROD_DETAILS_MEASUREMENT: "Bottle",
+      PROD_CAT_CODE: "C001",
+    },
+    {
+      PROD_DETAILS_CODE: "D002",
+      PROD_DETAILS_DESCRIPTION: "Shampoo formulated to eliminate fleas and ticks from pets.",
+      PROD_DETALS_PRICE: 15.99,
+      PROD_DETAILS_BRAND: "FleaAway",
+      PROD_DETAILS_SIZE: "250ml",
+      PROD_DETAILS_MEASUREMENT: "Bottle",
+      PROD_CAT_CODE: "C002",
+    },
+    {
+      PROD_DETAILS_CODE: "D003",
+      PROD_DETAILS_DESCRIPTION: "Sterile syringes for administering injections.",
+      PROD_DETALS_PRICE: 9.99,
+      PROD_DETAILS_BRAND: "MedSupply",
+      PROD_DETAILS_SIZE: "10ml",
+      PROD_DETAILS_MEASUREMENT: "Pack of 10",
+      PROD_CAT_CODE: "C003",
+    },
+    {
+      PROD_DETAILS_CODE: "D004",
+      PROD_DETAILS_DESCRIPTION: "Digital thermometer for accurate temperature readings in animals.",
+      PROD_DETALS_PRICE: 22.50,
+      PROD_DETAILS_BRAND: "ThermoVet",
+      PROD_DETAILS_SIZE: "1 unit",
+      PROD_DETAILS_MEASUREMENT: "Unit",
+      PROD_CAT_CODE: "C004",
+    },
+    {
+      PROD_DETAILS_CODE: "D005",
+      PROD_DETAILS_DESCRIPTION: "Ointment for treating wounds and promoting healing.",
+      PROD_DETALS_PRICE: 12.99,
+      PROD_DETAILS_BRAND: "HealFast",
+      PROD_DETAILS_SIZE: "100g",
+      PROD_DETAILS_MEASUREMENT: "Tube",
+      PROD_CAT_CODE: "C005",
+    },
+  ],
+
+  productCategories: [
+    {
+      PROD_CAT_CODE: "C001",
+      PROD_CAT_NAME: "Antibiotics",
+      PROD_CAT_SUBCATEGORY: "Medication",
+    },
+    {
+      PROD_CAT_CODE: "C002",
+      PROD_CAT_NAME: "Flea & Tick Control",
+      PROD_CAT_SUBCATEGORY: "Topical Treatments",
+    },
+    {
+      PROD_CAT_CODE: "C003",
+      PROD_CAT_NAME: "Syringes",
+      PROD_CAT_SUBCATEGORY: "Medical Supplies",
+    },
+    {
+      PROD_CAT_CODE: "C004",
+      PROD_CAT_NAME: "Thermometers",
+      PROD_CAT_SUBCATEGORY: "Medical Equipment",
+    },
+    {
+      PROD_CAT_CODE: "C005",
+      PROD_CAT_NAME: "Wound Care",
+      PROD_CAT_SUBCATEGORY: "Treatment Ointments",
+    },
+  ],
+};
+
+export default productData;

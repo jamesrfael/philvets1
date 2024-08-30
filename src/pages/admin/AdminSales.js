@@ -88,10 +88,8 @@ const AdminSales = () => {
         />
       </Controls>
       <AnalyticsContainer>
-        <CardTotalSales totalSales={totalSalesInPesos} />{" "}
-        {/* Use CardTotalSales */}
-        <CardTotalTransactions totalTransactions={totalTransactions} />{" "}
-        {/* Use CardTotalTransactions */}
+        <CardTotalSales totalSales={totalSalesInPesos} /> {/* Use CardTotalSales */}
+        <CardTotalTransactions totalTransactions={totalTransactions} /> {/* Use CardTotalTransactions */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedSale && (

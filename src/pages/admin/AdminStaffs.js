@@ -31,8 +31,6 @@ const AdminStaffs = () => {
     );
   });
 
-  const totalStaffs = staff.length; // Total number of staff
-
   const handleAddStaff = (newStaff) => {
     setStaff([...staff, newStaff]);
   };
@@ -98,7 +96,7 @@ const AdminStaffs = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalStaffs totalStaffs={totalStaffs} /> {/* Display Total Staffs */}
+        <CardTotalStaffs /> {/* Display Total Staffs */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddModalOpen && (

@@ -1,8 +1,15 @@
 // src/components/CardTotalTransactions.js
 import React from "react";
-import Card from "../Layout/Card"; // Import the reusable Card component
+import Card from "../Layout/Card";
+import { sales as initialSales } from "../../pages/data/SalesData";
 
-const CardTotalTransactions = ({ totalTransactions }) => {
+const calculateTotalTransactions = (sales) => {
+  return sales.length; // Return the number of transactions
+};
+
+const CardTotalTransactions = () => {
+  const totalTransactions = calculateTotalTransactions(initialSales);
+
   return (
     <Card
       label="Total Transactions"

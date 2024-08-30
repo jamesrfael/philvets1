@@ -19,6 +19,7 @@ const CardContainer = styled.div`
   border-radius: 8px;
   flex: 1;
   max-width: 150px;
+  min-width: 150px;
   text-align: left;
 `;
 

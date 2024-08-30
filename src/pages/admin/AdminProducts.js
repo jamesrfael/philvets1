@@ -10,9 +10,6 @@ import CardTotalProducts from "../../components/CardsData/CardTotalProducts"; //
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Total number of products (static)
-  const totalProducts = productData.products.length;
-
   const filteredProducts = productData.products.filter((product) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const productDetail = productData.productDetails.find(
@@ -70,8 +67,7 @@ const AdminProducts = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalProducts totalProducts={totalProducts} />{" "}
-        {/* Display Total Products */}
+        <CardTotalProducts /> {/* Display Total Products */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
     </LayoutHS>

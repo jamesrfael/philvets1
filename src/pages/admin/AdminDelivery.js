@@ -1,9 +1,10 @@
+// src/pages/AdminDelivery.js
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/AdminDelivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
-import { deliveries } from "../data/DeliveryData";
+import { deliveries } from "../../pages/data/DeliveryData"; // Import the delivery data
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery"; // Import CardTotalDelivery
@@ -22,30 +23,8 @@ const AdminDelivery = () => {
     );
   });
 
-  const calculateTotalQuantity = (deliveries) =>
-    deliveries.reduce(
-      (total, delivery) =>
-        total + delivery.orderDetails.reduce((sum, item) => sum + item.quantity, 0),
-      0
-    );
-
-  const calculateTotalAmount = (deliveries) =>
-    deliveries.reduce(
-      (total, delivery) =>
-        total +
-        delivery.orderDetails.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0
-        ),
-      0
-    );
-
   const openDetailsModal = (delivery) =>
-    setSelectedDelivery({
-      ...delivery,
-      totalQuantity: calculateTotalQuantity([delivery]),
-      totalAmount: calculateTotalAmount([delivery]),
-    });
+    setSelectedDelivery(delivery);
 
   const closeDetailsModal = () => setSelectedDelivery(null);
 
@@ -59,8 +38,6 @@ const AdminDelivery = () => {
     <ActionButton onClick={() => openDetailsModal(delivery)}>Details</ActionButton>,
   ]);
 
-  const totalDeliveries = deliveries.length; // Use original deliveries array
-
   return (
     <LayoutHS>
       <Controls>
@@ -71,7 +48,7 @@ const AdminDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <CardTotalDelivery totalDeliveries={totalDeliveries} /> {/* Use the new card component */}
+        <CardTotalDelivery /> {/* Use the CardTotalDelivery component */}
       </SummarySection>
       <Table headers={headers} rows={rows} />
       {selectedDelivery && (

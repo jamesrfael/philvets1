@@ -6,21 +6,13 @@ import ReturnDetailModal from "../../components/AdminReturns/ReturnDetailModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
-
-// Sample return data
-const sampleReturns = [
-  { id: 1, name: "Item A", returnDate: "2024-06-01", type: "Purchase", status: "Processing" },
-  { id: 2, name: "Item B", returnDate: "2024-06-02", type: "Sales", status: "Completed" },
-  { id: 3, name: "Item C", returnDate: "2024-06-03", type: "Purchase", status: "Processing" },
-  { id: 4, name: "Item D", returnDate: "2024-06-04", type: "Sales", status: "Pending" },
-  { id: 5, name: "Item E", returnDate: "2024-06-05", type: "Purchase", status: "Completed" },
-];
+import returnsData from "../data/ReturnsData"; // Import the returns data
 
 const AdminReturns = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedReturn, setSelectedReturn] = useState(null);
 
-  const filteredReturns = sampleReturns.filter((returnItem) => {
+  const filteredReturns = returnsData.filter((returnItem) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
       returnItem.name.toLowerCase().includes(lowerCaseSearchTerm) ||
@@ -30,7 +22,7 @@ const AdminReturns = () => {
     );
   });
 
-  const totalReturns = sampleReturns.length; // Total number of returns
+  const totalReturns = returnsData.length; // Total number of returns
 
   const openDetailModal = (returnItem) => setSelectedReturn(returnItem);
   const closeDetailModal = () => setSelectedReturn(null);
