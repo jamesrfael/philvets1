@@ -63,7 +63,7 @@ const TableCell = styled.td`
   padding: 10px;
   border-top: 1px solid #ddd; /* Top border */
   border-bottom: 1px solid #ddd; /* Bottom border */
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 export default Table;

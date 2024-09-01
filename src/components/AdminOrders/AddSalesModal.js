@@ -138,7 +138,7 @@ const AddSalesModal = ({ onClose, onSave }) => {
     const today = new Date().toISOString().split("T")[0]; // Get today's date
 
     const newOrder = {
-      orderType: "Purchase Order",
+      orderType: "Sales Order",
       clientName,
       location,
       purchaseOrderDlvryDate: today, // Set delivery date to today
@@ -304,7 +304,7 @@ const AddSalesModal = ({ onClose, onSave }) => {
                    <TotalValue>{totalQuantity}</TotalValue>
                  </TotalRow>
                  <TotalRow>
-                   <TotalLabel>Subtotal:</TotalLabel>
+                   <TotalLabel>Total:</TotalLabel>
                    <TotalValue>₱{totalValue.toFixed(2)}</TotalValue>
                  </TotalRow>
                </TotalSection>

@@ -50,7 +50,7 @@ const AdminProducts = () => {
       productDetail?.PROD_DETAILS_BRAND,
       `₱${productDetail?.PROD_DETALS_PRICE}`,
       <Button key="action" fontSize="14px">
-        View
+        Details
       </Button>,
     ];
   });

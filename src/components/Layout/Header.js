@@ -91,7 +91,7 @@ const RightSection = styled.div`
 `;
 
 const HamburgerMenu = styled(FaBars)`
-  font-size: 24px;
+  font-size: 20px;
   margin-right: 9px;
   cursor: pointer;
   display: none; /* Hidden by default */

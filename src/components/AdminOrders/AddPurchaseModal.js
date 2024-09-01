@@ -304,7 +304,7 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
                 <TotalValue>{totalQuantity}</TotalValue>
               </TotalRow>
               <TotalRow>
-                <TotalLabel>Subtotal:</TotalLabel>
+                <TotalLabel>Total:</TotalLabel>
                 <TotalValue>₱{totalValue.toFixed(2)}</TotalValue>
               </TotalRow>
             </TotalSection>

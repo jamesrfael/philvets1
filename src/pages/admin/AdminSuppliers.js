@@ -56,7 +56,7 @@ const AdminSuppliers = () => {
     supplier.contactPersonName,
     supplier.contactPersonNumber,
     <ActionButton key="action" onClick={() => openModal(supplier)}>
-      View
+      Details
     </ActionButton>,
   ]);
 
