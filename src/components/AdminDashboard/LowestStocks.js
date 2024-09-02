@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardTable from "./DashboardTable"; // Import the new component
+import DashboardTable from "./DashboardTable";
 
 const sampleData = [
   { id: 1, name: "Product X", stocks: 10 },
@@ -9,9 +9,16 @@ const sampleData = [
 
 const LowestStocks = () => {
   const headers = ["Product Name", "Number of Stocks"];
-  const data = sampleData.map(product => [product.name, product.stocks]);
+  const data = sampleData.map((product) => [product.name, product.stocks]);
 
-  return <DashboardTable title="Lowest Stocks" headers={headers} data={data} />;
+  return (
+    <DashboardTable
+      title="Lowest Stocks"
+      headers={headers}
+      data={data}
+      onRowClick={(id) => (window.location.href = "/admin/inventory")}
+    />
+  );
 };
 
 export default LowestStocks;

@@ -2,6 +2,7 @@
 
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import HighestSellingProducts from "../../components/AdminDashboard/HighestSellingProducts";
 import LatestSales from "../../components/AdminDashboard/LatestSales";
@@ -11,29 +12,42 @@ import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
 
-
 const AdminDashboard = () => {
-
   return (
     <LayoutHS>
       <CardContainer>
-        <CardTotalProducts/>
-        <CardTotalSales/>
-        <CardLowStocks/>
+        <CardTotalProducts />
+        <CardTotalSales />
+        <CardLowStocks />
       </CardContainer>
       <TablesContainer>
         <Row>
-          <HighestSellingProducts />
-          <LatestSales />
+          <StyledLink to="/admin/products">
+            <HighestSellingProducts />
+          </StyledLink>
+          <StyledLink to="/admin/sales">
+            <LatestSales />
+          </StyledLink>
         </Row>
         <Row>
-          <RecentlyAddedProducts />
-          <LowestStocks />
+          <StyledLink to="/admin/products">
+            <RecentlyAddedProducts />
+          </StyledLink>
+          <StyledLink to="/admin/inventory">
+            <LowestStocks />
+          </StyledLink>
         </Row>
       </TablesContainer>
     </LayoutHS>
   );
 };
+
+// Styled Link to ensure it does not affect table styling
+const StyledLink = styled(Link)`
+  text-decoration: none; /* Remove underline from link */
+  display: block; /* Make the link a block element to ensure it covers the entire table */
+  width: 100%; /* Ensure it takes up full width */
+`;
 
 const CardContainer = styled.div`
   display: flex;

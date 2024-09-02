@@ -3,35 +3,68 @@ import React from "react";
 import styled from "styled-components";
 import { colors } from "../../colors"; // Ensure colors are correctly imported
 
-const Card = ({ label, value, bgColor = colors.primary }) => {
+const Card = ({ label, value, bgColor = colors.primary, icon }) => {
   return (
     <CardContainer bgColor={bgColor}>
-      <Label>{label}</Label>
-      <Value>{value}</Value>
+      {icon && <IconContainer>{icon}</IconContainer>}
+      <CardContent>
+        <TextContainer>
+          <Value>{value}</Value>
+          <Label>{label}</Label>
+        </TextContainer>
+      </CardContent>
     </CardContainer>
   );
 };
 
 const CardContainer = styled.div`
-  background-color: ${colors.primary};
+  position: relative; // Make sure the icon can be positioned absolutely
+  background-color: ${(props) => props.bgColor};
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   color: white;
   padding: 14px;
   border-radius: 8px;
   flex: 1;
-  max-width: 150px;
   min-width: 150px;
+  max-width: 100%; // Allow card to expand up to its container width
   text-align: left;
+  display: flex;
+  align-items: center;
+  overflow: hidden; // Hide overflowed content
+`;
+
+const CardContent = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
+const TextContainer = styled.div`
+  overflow: hidden;
 `;
 
 const Label = styled.span`
-  font-size: 12px;
-  font-weight: normal;
+  font-size: 15px;
+  font-weight: 450;
+  white-space: nowrap; // Prevent label from wrapping
+  overflow: hidden;
+  text-overflow: ellipsis; // Add ellipsis if text overflows
 `;
 
 const Value = styled.p`
   font-size: 20px;
   font-weight: bold;
+  white-space: nowrap; // Prevent value from wrapping
+  overflow: hidden;
+  text-overflow: ellipsis; // Add ellipsis if text overflows
+`;
+
+const IconContainer = styled.div`
+  position: absolute; // Position icon at the upper right
+  top: 8px;
+  right: -15px;
+  font-size: 90px;
+  color: rgba(255, 255, 255, 0.2); // Reduce opacity for a creative effect
 `;
 
 export default Card;

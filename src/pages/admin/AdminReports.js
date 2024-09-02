@@ -11,7 +11,6 @@ import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
 import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
-import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions";
 import RevenueGraph from "../../components/AdminReports/RevenueGraph";
 import CostBreakdownPieChart from "../../components/AdminReports/CostBreakdownPieChart";
 
@@ -29,7 +28,7 @@ const AdminReports = () => {
         <CardTotalSales />
         <CardTotalStaffs />
         <CardTotalSuppliers />
-        <CardTotalTransactions />
+
       </StatsContainer>
       <StatsContainer>
         <StatsCard>

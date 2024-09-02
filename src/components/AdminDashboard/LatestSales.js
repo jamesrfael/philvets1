@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardTable from "./DashboardTable"; // Import the new component
+import DashboardTable from "./DashboardTable";
 
 const sampleData = [
   { id: 1, date: "2024-08-20", product: "Cat Dewormer", amount: "₱ 5,000" },
@@ -11,7 +11,7 @@ const LatestSales = () => {
   const headers = ["Date", "Product", "Amount"];
   const data = sampleData.map(sale => [sale.date, sale.product, sale.amount]);
 
-  return <DashboardTable title="Latest Sales" headers={headers} data={data} />;
+  return <DashboardTable title="Latest Sales" headers={headers} data={data} onRowClick={(id) => window.location.href = "/admin/sales"} />;
 };
 
 export default LatestSales;

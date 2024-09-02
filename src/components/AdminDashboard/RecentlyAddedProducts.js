@@ -1,17 +1,24 @@
 import React from "react";
-import DashboardTable from "./DashboardTable"; // Import the new component
+import DashboardTable from "./DashboardTable";
 
 const sampleData = [
-  { id: 1, name: "Anti Flea Soap", addedDate: "2024-08-18" },
-  { id: 2, name: "Vaccine (Dog)", addedDate: "2024-08-19" },
-  { id: 3, name: "Vitamins", addedDate: "2024-08-20" },
+  { id: 1, name: "Product X", dateAdded: "2024-08-20" },
+  { id: 2, name: "Product Y", dateAdded: "2024-08-21" },
+  { id: 3, name: "Product Z", dateAdded: "2024-08-22" },
 ];
 
 const RecentlyAddedProducts = () => {
   const headers = ["Product Name", "Date Added"];
-  const data = sampleData.map(product => [product.name, product.addedDate]);
+  const data = sampleData.map((product) => [product.name, product.dateAdded]);
 
-  return <DashboardTable title="Recently Added Products" headers={headers} data={data} />;
+  return (
+    <DashboardTable
+      title="Recently Added Products"
+      headers={headers}
+      data={data}
+      onRowClick={(id) => (window.location.href = "/admin/products")}
+    />
+  );
 };
 
 export default RecentlyAddedProducts;
