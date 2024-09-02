@@ -23,7 +23,6 @@ import {
   TotalRow,
   TotalLabel,
   TotalValue,
-  SaveButton,
   CloseButton,
   DiscountContainer,
   DiscountInput,

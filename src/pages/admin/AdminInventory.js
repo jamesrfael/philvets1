@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
-import { colors } from "../../colors";
 import SampleInventoryData from "../data/InventoryData";
 import InventoryDetailModal from "../../components/AdminInventory/InventoryDetailModal";
 import Table from "../../components/Layout/Table";

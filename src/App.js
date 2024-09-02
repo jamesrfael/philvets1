@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminStaffs from "./pages/admin/AdminStaffs";
@@ -16,36 +16,39 @@ import AdminLogs from "./pages/admin/AdminLogs";
 
 import StaffDashboard from "./pages/client/StaffDashboard";
 import StaffProfile from "./pages/client/StaffProfile";
-
+import NotFoundPage from "./pages/NotFoundPage"; // Add a NotFoundPage component
 
 function App() {
   return (
     <Router>
       <div className="app-container">
         <div className="content">
-          <Switch>
+          <Routes>
             {/* Default Landing Page */}
-            <Route exact path="/" component={LoginPage} />
+            <Route path="/" element={<LoginPage />} />
 
             {/* Admin Routes */}
-            <Route path="/login" component={LoginPage} />
-            <Route path="/admin/dashboard" component={AdminDashboard} />
-            <Route path="/admin/staffs" component={AdminStaffs} />
-            <Route path="/admin/customers" component={AdminCustomers} />
-            <Route path="/admin/inventory" component={AdminInventory} />
-            <Route path="/admin/reports" component={AdminReports} />
-            <Route path="/admin/suppliers" component={AdminSuppliers} />
-            <Route path="/admin/orders" component={AdminOrders} />
-            <Route path="/admin/delivery" component={AdminDelivery} />
-            <Route path="/admin/products" component={AdminProducts} />
-            <Route path="/admin/sales" component={AdminSales} />
-            <Route path="/admin/returns" component={AdminReturns} />
-            <Route path="/admin/logs" component={AdminLogs} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/staffs" element={<AdminStaffs />} />
+            <Route path="/admin/customers" element={<AdminCustomers />} />
+            <Route path="/admin/inventory" element={<AdminInventory />} />
+            <Route path="/admin/reports" element={<AdminReports />} />
+            <Route path="/admin/suppliers" element={<AdminSuppliers />} />
+            <Route path="/admin/orders" element={<AdminOrders />} />
+            <Route path="/admin/delivery" element={<AdminDelivery />} />
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/sales" element={<AdminSales />} />
+            <Route path="/admin/returns" element={<AdminReturns />} />
+            <Route path="/admin/logs" element={<AdminLogs />} />
 
             {/* Staff Routes */}
-            <Route path="/staff/dashboard" component={StaffDashboard} />
-            <Route path="/staff/profile" component={StaffProfile} />
-          </Switch>
+            <Route path="/staff/dashboard" element={<StaffDashboard />} />
+            <Route path="/staff/profile" element={<StaffProfile />} />
+
+            {/* Fallback Route */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
         </div>
       </div>
     </Router>

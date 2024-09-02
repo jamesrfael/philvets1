@@ -6,7 +6,6 @@ import SidebarItem from "../../Layout/Sidebar/SidebarItem";
 import {
   TbLayoutDashboard,
   TbTruckDelivery,
-  TbBoxSeam,
   TbUserDollar,
   TbBasketDollar,
   TbTruckReturn,
@@ -15,7 +14,7 @@ import {
   TbLogout2,
 } from "react-icons/tb";
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
-import { LuWarehouse } from "react-icons/lu";
+import { LuWarehouse, LuBox } from "react-icons/lu";
 import { GrGroup } from "react-icons/gr";
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -61,7 +60,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           label="Delivery"
           link="/admin/delivery"
         />
-        <SidebarItem icon={TbBoxSeam} label="Products" link="/admin/products" />
+        <SidebarItem icon={LuBox} label="Products" link="/admin/products" />
         <SidebarItem
           icon={MdOutlineInventory2}
           label="Inventory"
