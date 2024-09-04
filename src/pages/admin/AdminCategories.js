@@ -51,7 +51,7 @@ const AdminCategories = () => {
           <Card
             key={category.PROD_CAT_CODE}
             label={category.PROD_CAT_NAME}
-            value={`${getCategoryProductCount(category.PROD_CAT_CODE)} Products`}
+            value={`${getCategoryProductCount(category.PROD_CAT_CODE)}`}
             bgColor={colors.primary} // Use the specified primary color
             icon={categoryIcons[category.PROD_CAT_CODE]} // Add icon here
             onClick={() => {}}
