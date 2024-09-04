@@ -1,11 +1,11 @@
 // LayoutHS.js
 import React, { useState } from "react";
-import Sidebar from "./Sidebar/AdminSidebar";
+import StaffSidebar from "./Sidebar/StaffSidebar";
 import Header from "./Header";
 import styled from "styled-components";
 import { colors } from "../../colors";
 
-const LayoutHS = ({ children }) => {
+const StaffLayoutHS = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -19,7 +19,7 @@ const LayoutHS = ({ children }) => {
   return (
     <LayoutContainer>
       <MainContent>
-        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+        <StaffSidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
         <Content>
           <Header toggleSidebar={toggleSidebar} />
           <MainContentLayout>{children}</MainContentLayout>
@@ -61,4 +61,4 @@ const MainContentLayout = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 `;
 
-export default LayoutHS;
+export default StaffLayoutHS;

@@ -2,22 +2,17 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import philvetsLogo from "../../../assets/philvets.png";
-import SidebarItem from "../../Layout/Sidebar/SidebarItem";
+import SidebarItem from "./SidebarItem";
 import {
   TbLayoutDashboard,
   TbTruckDelivery,
-  TbUserDollar,
-  TbBasketDollar,
-  TbTruckReturn,
-  TbHistory,
+  TbBoxSeam,
   TbFileReport,
   TbLogout2,
 } from "react-icons/tb";
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
-import { LuWarehouse, LuBox } from "react-icons/lu";
-import { GrGroup } from "react-icons/gr";
 
-const Sidebar = ({ isOpen, onClose }) => {
+const StaffSidebar = ({ isOpen, onClose }) => {
   const sidebarRef = useRef(null);
 
   useEffect(() => {
@@ -48,46 +43,28 @@ const Sidebar = ({ isOpen, onClose }) => {
         <SidebarItem
           icon={TbLayoutDashboard}
           label="Dashboard"
-          link="/admin/dashboard"
+          link="/staff/dashboard"
         />
         <SidebarItem
           icon={MdOutlineShoppingCart}
-          label="Orders"
-          link="/admin/orders"
+          label="Order"
+          link="/staff/orders"
         />
         <SidebarItem
           icon={TbTruckDelivery}
           label="Delivery"
-          link="/admin/delivery"
+          link="/staff/delivery"
         />
-        <SidebarItem icon={LuBox} label="Products" link="/admin/products" />
+        <SidebarItem icon={TbBoxSeam} label="Products" link="/staff/products" />
         <SidebarItem
           icon={MdOutlineInventory2}
           label="Inventory"
-          link="/admin/inventory"
+          link="/staff/inventory"
         />
-        <SidebarItem
-          icon={LuWarehouse}
-          label="Suppliers"
-          link="/admin/suppliers"
-        />
-        <SidebarItem
-          icon={TbUserDollar}
-          label="Customers"
-          link="/admin/customers"
-        />
-        <SidebarItem icon={GrGroup} label="Staffs" link="/admin/staffs" />
-        <SidebarItem icon={TbBasketDollar} label="Sales" link="/admin/sales" />
-        <SidebarItem
-          icon={TbTruckReturn}
-          label="Returns"
-          link="/admin/returns"
-        />
-        <SidebarItem icon={TbHistory} label="Logs" link="/admin/logs" />
         <SidebarItem
           icon={TbFileReport}
-          label="Reports"
-          link="/admin/reports"
+          label="Report"
+          link="/staff/report"
         />
       </SidebarContent>
 
@@ -99,10 +76,9 @@ const Sidebar = ({ isOpen, onClose }) => {
 };
 
 const SidebarContainer = styled.div`
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   background-color: white;
   color: black;
-  max-width: 190px;
+  width: 200px;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
@@ -114,7 +90,7 @@ const SidebarContainer = styled.div`
       isOpen ? "translateX(0)" : "translateX(-100%)"};
     z-index: 1000; /* Ensure the sidebar appears on top */
     box-shadow: ${({ isOpen }) =>
-      isOpen ? "2px 0 5px rgba(0, 0, 0, 0.5)" : "none"};
+      isOpen ? "2px 0 5px rgba(0, 0, 0, 0.3)" : "none"};
   }
 
   /* Styles for larger screens */
@@ -132,7 +108,7 @@ const SidebarHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  padding: 12px 16px;
 `;
 
 const LogoContainer = styled.div`
@@ -141,10 +117,10 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  max-width: 90%;
+  max-width: 100%;
   height: auto;
-  padding: 5px 15px 0px 20px;
-  margin-left: 6px;
+  height: 50px;
+  margin-right: 8px;
 `;
 
 const SidebarContent = styled.div`
@@ -157,4 +133,4 @@ const SidebarFooter = styled.div`
   padding: 16px;
 `;
 
-export default Sidebar;
+export default StaffSidebar;
