@@ -1,53 +1,160 @@
 import React from "react";
+import styled from "styled-components";
+import StaffLayoutHS from "../../components/Layout/StaffLayoutHS";
+import { TbUserDollar, TbCategory, TbPackage } from "react-icons/tb";
+import { LuWarehouse } from "react-icons/lu";
+import { GrGroup } from "react-icons/gr";
+import HighestSellingProducts from "../../components/AdminDashboard/HighestSellingProducts";
+import LatestSales from "../../components/AdminDashboard/LatestSales";
+import RecentlyAddedProducts from "../../components/AdminDashboard/RecentlyAddedProducts";
+
+const cardData = [
+  {
+    title: "Products",
+    number: "120",
+    icon: <TbPackage />,
+    color: "#ff6961",
+  },
+  {
+    title: "Customers",
+    number: "1,234",
+    icon: <TbUserDollar />,
+    color: "#ffb347",
+  },
+  {
+    title: "Suppliers",
+    number: "23",
+    icon: <LuWarehouse />,
+    color: "#6da6ba",
+  },
+  {
+    title: "Staffs",
+    number: "12",
+    icon: <GrGroup />,
+    color: "#c893c8",
+  },
+  {
+    title: "Category",
+    number: "5",
+    icon: <TbCategory />,
+    color: "#6b5b95",
+  },
+];
 
 const StaffDashboard = () => {
-  // Sample data for key metrics
-  const totalSales = 1500;
-  const pendingOrders = 10;
-  const lowStockItems = 5;
-  const recentDeliveries = 20;
-
   return (
-    <div className="admin-dashboard">
-      <div className="dashboard-content">
-        <h1>Welcome back, Admin!</h1>
-        <div className="key-metrics">
-          <div className="metric">
-            <h2>Total Sales</h2>
-            <p>{totalSales}</p>
-          </div>
-          <div className="metric">
-            <h2>Pending Orders</h2>
-            <p>{pendingOrders}</p>
-          </div>
-          <div className="metric">
-            <h2>Low Stock Items</h2>
-            <p>{lowStockItems}</p>
-          </div>
-          <div className="metric">
-            <h2>Recent Deliveries</h2>
-            <p>{recentDeliveries}</p>
-          </div>
-        </div>
-        <div className="charts">{/* Add graphs and charts here */}</div>
-        <div className="quick-links">
-          <h2>Quick Links</h2>
-          <ul>
-            <li>
-              <a href="/admin/staff">Manage Staff</a>
-            </li>
-            <li>
-              <a href="/admin/products">Manage Products</a>
-            </li>
-            <li>
-              <a href="/admin/orders">View Orders</a>
-            </li>
-            {/* Add more quick links as needed */}
-          </ul>
-        </div>
-      </div>
-    </div>
+    <StaffLayoutHS>
+      <CardContainer>
+        {cardData.map((card, index) => (
+          <Card key={index}>
+            <CardContent>
+              <IconWrapper color={card.color}>{card.icon}</IconWrapper>
+              <CardTitle>{card.title}</CardTitle>
+              <CardNumber>{card.number}</CardNumber>
+            </CardContent>
+          </Card>
+        ))}
+      </CardContainer>
+      <TablesContainer>
+        <HighestSellingProducts />
+        <LatestSales />
+        <RecentlyAddedProducts />
+      </TablesContainer>
+    </StaffLayoutHS>
   );
 };
+
+const CardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 1rem;
+  max-width: 1000px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content */
+  justify-content: center;
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: 220px;
+  height: 150px;
+
+  @media (max-width: 480px) {
+    width: 90%;
+    height: auto;
+    padding: 1rem;
+  }
+`;
+
+const CardContent = styled.div`
+  text-align: center; /* Center text */
+`;
+
+const IconWrapper = styled.div`
+  background-color: ${(props) => props.color};
+  color: white;
+  border-radius: 50%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    width: 24px;
+    height: auto;
+    color: white;
+  }
+
+  @media (max-width: 480px) {
+    svg {
+      width: 28px;
+    }
+  }
+`;
+
+const CardTitle = styled.h2`
+  font-size: 1rem;
+  font-weight: 400;
+
+  @media (max-width: 480px) {
+    font-size: 1.1rem;
+  }
+`;
+
+const CardNumber = styled.p`
+  font-size: 1.9rem;
+  font-weight: bold;
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
+`;
+
+const TablesContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem auto;
+  max-width: 1000px;
+  width: 100%;
+  gap: 1rem;
+
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 
 export default StaffDashboard;
