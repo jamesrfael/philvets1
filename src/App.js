@@ -18,6 +18,7 @@ import CategoryProducts from "./pages/admin/CategoryProducts";
 
 import StaffDashboard from "./pages/staff/StaffDashboard";
 import StaffProfile from "./pages/staff/StaffProfile";
+import StaffOrders from "./pages/staff/StaffOrders";
 import NotFoundPage from "./pages/NotFoundPage"; // Add a NotFoundPage component
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
             {/* Staff Routes */}
             <Route path="/staff/dashboard" element={<StaffDashboard />} />
             <Route path="/staff/profile" element={<StaffProfile />} />
+            <Route path="/staff/orders" element={<StaffOrders />} />
 
             {/* Fallback Route */}
             <Route path="*" element={<NotFoundPage />} />

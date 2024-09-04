@@ -50,7 +50,7 @@ const StaffSidebar = ({ isOpen, onClose }) => {
         />
         <SidebarItem
           icon={MdOutlineShoppingCart}
-          label="Orders"
+          label="Order"
           link="/staff/orders"
         />
         <SidebarItem
@@ -58,7 +58,11 @@ const StaffSidebar = ({ isOpen, onClose }) => {
           label="Delivery"
           link="/staff/delivery"
         />
-        <SidebarItem icon={LuBox} label="Products" link="/staff/products" />
+        <SidebarItem 
+          icon={LuBox} 
+          label="Product" 
+          link="/staff/products" 
+        />
         <SidebarItem
           icon={MdOutlineInventory2}
           label="Inventory"
@@ -66,12 +70,12 @@ const StaffSidebar = ({ isOpen, onClose }) => {
         />
         <SidebarItem
           icon={LuWarehouse}
-          label="Suppliers"
+          label="Supplier"
           link="/staff/suppliers"
         />
         <SidebarItem
           icon={TbUserDollar}
-          label="Customers"
+          label="Customer"
           link="/staff/customers"
         />
         <SidebarItem
@@ -79,7 +83,11 @@ const StaffSidebar = ({ isOpen, onClose }) => {
           label="Returns"
           link="/staff/returns"
         />
-        <SidebarItem icon={TbHistory} label="Logs" link="/admin/logs" />
+        <SidebarItem 
+          icon={TbHistory} 
+          label="Logs" 
+          link="/admin/logs" 
+        />
         <SidebarItem
           icon={TbFileReport}
           label="Reports"
@@ -88,7 +96,11 @@ const StaffSidebar = ({ isOpen, onClose }) => {
       </SidebarContent>
 
       <SidebarFooter>
-        <SidebarItem icon={TbLogout2} label="Logout" link="/login" />
+        <SidebarItem 
+          icon={TbLogout2} 
+          label="Logout" 
+          link="/login" 
+        />
       </SidebarFooter>
     </SidebarContainer>
   );

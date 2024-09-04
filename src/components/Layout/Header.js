@@ -7,13 +7,13 @@ import { colors } from "../../colors";
 
 const pageTitles = {
   "/admin/dashboard": "Dashboard",
-  "/admin/orders": "Orders",
+  "/admin/orders": "Order",
   "/admin/delivery": "Delivery",
-  "/admin/products": "Products",
+  "/admin/products": "Product",
   "/admin/inventory": "Inventory",
-  "/admin/suppliers": "Suppliers",
-  "/admin/customers": "Customers",
-  "/admin/staffs": "Staffs",
+  "/admin/suppliers": "Supplier",
+  "/admin/customers": "Customer",
+  "/admin/staffs": "Staff",
   "/admin/sales": "Sales",
   "/admin/returns": "Returns",
   "/admin/logs": "Logs",
@@ -21,6 +21,7 @@ const pageTitles = {
   "/admin/categories": "Products / Categories",
   "/staff/dashboard": "Staff Dashboard",
   "/staff/profile": "Staff Profile",
+  "/staff/orders": "Order",
 };
 
 const Header = ({ toggleSidebar }) => {
