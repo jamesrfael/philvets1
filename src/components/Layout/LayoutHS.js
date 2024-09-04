@@ -1,6 +1,6 @@
 // LayoutHS.js
 import React, { useState } from "react";
-import Sidebar from "./Sidebar/AdminSidebar";
+import AdminSidebar from "./Sidebar/AdminSidebar";
 import Header from "./Header";
 import styled from "styled-components";
 import { colors } from "../../colors";
@@ -19,7 +19,7 @@ const LayoutHS = ({ children }) => {
   return (
     <LayoutContainer>
       <MainContent>
-        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+        <AdminSidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
         <Content>
           <Header toggleSidebar={toggleSidebar} />
           <MainContentLayout>{children}</MainContentLayout>
