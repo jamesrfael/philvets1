@@ -69,7 +69,7 @@ const AdminOrders = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalOrders />
+        <CardTotalOrders totalOrders={orders.length}/>
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (

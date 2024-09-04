@@ -10,21 +10,22 @@ import Button from "../../components/Layout/Button"; // Import the Button compon
 import { orders as initialOrders } from "../../pages/data/OrderData";
 
 const StaffOrders = () => {
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState(
+    initialOrders.filter(order => order.orderType === "Sales Order")
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingSales, setIsAddingSales] = useState(false);
 
   const filteredOrders = orders.filter((order) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return (
-      order.orderType.toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.salesOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.clientId?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.supplierId?.toString().toLowerCase().includes(lowerCaseSearchTerm)
-    );
-  });
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      return (
+        order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
+        order.salesOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm) ||
+        order.clientId?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
+        order.salesOrderId?.toString().toLowerCase().includes(lowerCaseSearchTerm)
+      );
+    });
 
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
@@ -41,8 +42,8 @@ const StaffOrders = () => {
   const rows = filteredOrders.map((order, index) => [
     order.orderType,
     order.orderDate,
-    <Status status={order.purchaseOrderStatus || order.salesOrderStatus}>
-      {order.purchaseOrderStatus || order.salesOrderStatus}
+    <Status status={order.salesOrderStatus}>
+      {order.salesOrderStatus}
     </Status>,
     <Button onClick={() => openDetailsModal(order)} fontSize="14px">
       Details
@@ -62,7 +63,7 @@ const StaffOrders = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalOrders />
+        <CardTotalOrders totalOrders={filteredOrders.length} />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (
