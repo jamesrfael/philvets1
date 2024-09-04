@@ -1,4 +1,4 @@
-// LayoutHS.js
+// StaffLayoutHS.js
 import React, { useState } from "react";
 import StaffSidebar from "./Sidebar/StaffSidebar";
 import Header from "./Header";

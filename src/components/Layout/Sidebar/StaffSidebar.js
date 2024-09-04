@@ -6,11 +6,14 @@ import SidebarItem from "./SidebarItem";
 import {
   TbLayoutDashboard,
   TbTruckDelivery,
-  TbBoxSeam,
+  TbUserDollar,
+  TbTruckReturn,
+  TbHistory,
   TbFileReport,
   TbLogout2,
 } from "react-icons/tb";
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
+import { LuWarehouse, LuBox } from "react-icons/lu";
 
 const StaffSidebar = ({ isOpen, onClose }) => {
   const sidebarRef = useRef(null);
@@ -47,7 +50,7 @@ const StaffSidebar = ({ isOpen, onClose }) => {
         />
         <SidebarItem
           icon={MdOutlineShoppingCart}
-          label="Order"
+          label="Orders"
           link="/staff/orders"
         />
         <SidebarItem
@@ -55,20 +58,32 @@ const StaffSidebar = ({ isOpen, onClose }) => {
           label="Delivery"
           link="/staff/delivery"
         />
-        <SidebarItem 
-          icon={TbBoxSeam} 
-          label="Products" 
-          link="/staff/products"
-        />
+        <SidebarItem icon={LuBox} label="Products" link="/staff/products" />
         <SidebarItem
           icon={MdOutlineInventory2}
           label="Inventory"
           link="/staff/inventory"
         />
         <SidebarItem
+          icon={LuWarehouse}
+          label="Suppliers"
+          link="/staff/suppliers"
+        />
+        <SidebarItem
+          icon={TbUserDollar}
+          label="Customers"
+          link="/staff/customers"
+        />
+        <SidebarItem
+          icon={TbTruckReturn}
+          label="Returns"
+          link="/staff/returns"
+        />
+        <SidebarItem icon={TbHistory} label="Logs" link="/admin/logs" />
+        <SidebarItem
           icon={TbFileReport}
-          label="Report"
-          link="/staff/report"
+          label="Reports"
+          link="/staff/reports"
         />
       </SidebarContent>
 
@@ -80,9 +95,10 @@ const StaffSidebar = ({ isOpen, onClose }) => {
 };
 
 const SidebarContainer = styled.div`
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   background-color: white;
   color: black;
-  width: 200px;
+  max-width: 190px;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
@@ -94,7 +110,7 @@ const SidebarContainer = styled.div`
       isOpen ? "translateX(0)" : "translateX(-100%)"};
     z-index: 1000; /* Ensure the sidebar appears on top */
     box-shadow: ${({ isOpen }) =>
-      isOpen ? "2px 0 5px rgba(0, 0, 0, 0.3)" : "none"};
+      isOpen ? "2px 0 5px rgba(0, 0, 0, 0.5)" : "none"};
   }
 
   /* Styles for larger screens */
@@ -112,7 +128,7 @@ const SidebarHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 16px;
+
 `;
 
 const LogoContainer = styled.div`
@@ -121,10 +137,10 @@ const LogoContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  max-width: 100%;
+  max-width: 90%;
   height: auto;
-  height: 50px;
-  margin-right: 8px;
+  padding: 5px 15px 0px 20px;
+  margin-left: 6px;
 `;
 
 const SidebarContent = styled.div`
