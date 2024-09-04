@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
-import SupplierDetailsModal from "../../components/AdminSuppliers/SupplierDetailsModal";
+import SupplierDetailsModal from "../../components/Suppliers/SupplierDetailsModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import { colors } from "../../colors";
 import Table from "../../components/Layout/Table";

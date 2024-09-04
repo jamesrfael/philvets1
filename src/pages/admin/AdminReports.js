@@ -11,8 +11,8 @@ import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
 import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
-import RevenueGraph from "../../components/AdminReports/RevenueGraph";
-import CostBreakdownPieChart from "../../components/AdminReports/CostBreakdownPieChart";
+import RevenueGraph from "../../components/Reports/RevenueGraph";
+import CostBreakdownPieChart from "../../components/Reports/CostBreakdownPieChart";
 
 const AdminReports = () => {
   return (

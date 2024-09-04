@@ -5,7 +5,7 @@ import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import { sales as initialSales } from "../data/SalesData";
-import SalesDetailsModal from "../../components/AdminSales/SalesDetailsModal";
+import SalesDetailsModal from "../../components/Sales/SalesDetailsModal";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
 import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions";
 import Button from "../../components/Layout/Button"; // Import the Button component

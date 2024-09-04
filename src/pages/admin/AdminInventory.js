@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import SampleInventoryData from "../data/InventoryData";
-import InventoryDetailModal from "../../components/AdminInventory/InventoryDetailModal";
+import InventoryDetailModal from "../../components/Inventory/InventoryDetailModal";
 import Table from "../../components/Layout/Table";
 import SearchBar from "../../components/Layout/SearchBar";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";

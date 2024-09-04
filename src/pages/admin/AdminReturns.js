@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
-import ReturnDetailModal from "../../components/AdminReturns/ReturnDetailModal";
+import ReturnDetailModal from "../../components/Returns/ReturnDetailModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";

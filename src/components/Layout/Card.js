@@ -31,6 +31,11 @@ const CardContainer = styled.div`
   display: flex;
   align-items: center;
   overflow: hidden; // Hide overflowed content
+  transition: box-shadow 0.3s ease; // Smooth transition for shadow
+
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); // Larger shadow on hover
+  }
 `;
 
 const CardContent = styled.div`

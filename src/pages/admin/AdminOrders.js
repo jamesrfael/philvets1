@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
-import OrderDetailsModal from "../../components/AdminOrders/OrderDetailsModal";
-import AddPurchaseModal from "../../components/AdminOrders/AddPurchaseModal";
-import AddSalesModal from "../../components/AdminOrders/AddSalesModal";
+import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
+import AddPurchaseModal from "../../components/Orders/AddPurchaseModal";
+import AddSalesModal from "../../components/Orders/AddSalesModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalOrders from "../../components/CardsData/CardTotalOrders";

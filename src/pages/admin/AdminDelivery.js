@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
-import DeliveryDetailsModal from "../../components/AdminDelivery/DeliveryDetailsModal";
+import DeliveryDetailsModal from "../../components/Delivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
 import { deliveries } from "../../pages/data/DeliveryData";
 import SearchBar from "../../components/Layout/SearchBar";
