@@ -14,8 +14,8 @@ import AdminSales from "./pages/admin/AdminSales";
 import AdminReturns from "./pages/admin/AdminReturns";
 import AdminLogs from "./pages/admin/AdminLogs";
 
-import StaffDashboard from "./pages/client/StaffDashboard";
-import StaffProfile from "./pages/client/StaffProfile";
+import StaffDashboard from "./pages/staff/StaffDashboard";
+import StaffProfile from "./pages/staff/StaffProfile";
 import NotFoundPage from "./pages/NotFoundPage"; // Add a NotFoundPage component
 
 function App() {
