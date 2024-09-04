@@ -13,6 +13,8 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminSales from "./pages/admin/AdminSales";
 import AdminReturns from "./pages/admin/AdminReturns";
 import AdminLogs from "./pages/admin/AdminLogs";
+import AdminCategories from "./pages/admin/AdminCategories";
+import CategoryProducts from "./pages/admin/CategoryProducts";
 
 import StaffDashboard from "./pages/staff/StaffDashboard";
 import StaffProfile from "./pages/staff/StaffProfile";
@@ -41,6 +43,9 @@ function App() {
             <Route path="/admin/sales" element={<AdminSales />} />
             <Route path="/admin/returns" element={<AdminReturns />} />
             <Route path="/admin/logs" element={<AdminLogs />} />
+            <Route path="/admin/categories" element={<AdminCategories />} />
+            <Route path="/admin/categories/:categoryId" element={<CategoryProducts />} />
+            
 
             {/* Staff Routes */}
             <Route path="/staff/dashboard" element={<StaffDashboard />} />

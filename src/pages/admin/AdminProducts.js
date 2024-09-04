@@ -5,10 +5,15 @@ import productData from "../data/ProductData";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
-import Button from "../../components/Layout/Button"; // Import the Button component
+import CardTotalCategories from "../../components/CardsData/CardTotalCategories";
+import Button from "../../components/Layout/Button";
+import AddProductModal from "../../components/Products/AddProductModal";
+import AddCategoryModal from "../../components/Products/AddCategoryModal"; // Import the AddCategoryModal component
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false); // State for Add Product modal
+  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false); // State for Add Category modal
 
   const filteredProducts = productData.products.filter((product) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -55,6 +60,26 @@ const AdminProducts = () => {
     ];
   });
 
+  // Handle modal open/close
+  const openAddProductModal = () => setIsAddProductModalOpen(true);
+  const closeAddProductModal = () => setIsAddProductModalOpen(false);
+  const openAddCategoryModal = () => setIsAddCategoryModalOpen(true);
+  const closeAddCategoryModal = () => setIsAddCategoryModalOpen(false);
+
+  // Handle save actions in modals
+  const handleSaveProduct = (product, productDetails) => {
+    console.log("New product:", product);
+    console.log("New product details:", productDetails);
+    // Implement save logic here
+    closeAddProductModal();
+  };
+
+  const handleSaveCategory = (category) => {
+    console.log("New category:", category);
+    // Implement save logic here
+    closeAddCategoryModal();
+  };
+
   return (
     <LayoutHS>
       <Controls>
@@ -64,14 +89,21 @@ const AdminProducts = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <Button>Add Category</Button>
-          <Button>Add Product</Button>
+          <Button onClick={openAddProductModal}>Add Product</Button>
+          <Button onClick={openAddCategoryModal}>Add Category</Button>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
         <CardTotalProducts />
+        <CardTotalCategories />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
+      {isAddProductModalOpen && (
+        <AddProductModal onClose={closeAddProductModal} onSave={handleSaveProduct} />
+      )}
+      {isAddCategoryModalOpen && (
+        <AddCategoryModal onClose={closeAddCategoryModal} onSave={handleSaveCategory} />
+      )}
     </LayoutHS>
   );
 };

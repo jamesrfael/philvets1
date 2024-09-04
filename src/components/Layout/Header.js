@@ -18,6 +18,7 @@ const pageTitles = {
   "/admin/returns": "Returns",
   "/admin/logs": "Logs",
   "/admin/reports": "Reports",
+  "/admin/categories": "Products / Categories",
   "/staff/dashboard": "Staff Dashboard",
   "/staff/profile": "Staff Profile",
 };
