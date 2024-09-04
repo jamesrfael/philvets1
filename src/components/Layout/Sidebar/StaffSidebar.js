@@ -55,7 +55,11 @@ const StaffSidebar = ({ isOpen, onClose }) => {
           label="Delivery"
           link="/staff/delivery"
         />
-        <SidebarItem icon={TbBoxSeam} label="Products" link="/staff/products" />
+        <SidebarItem 
+          icon={TbBoxSeam} 
+          label="Products" 
+          link="/staff/products"
+        />
         <SidebarItem
           icon={MdOutlineInventory2}
           label="Inventory"
