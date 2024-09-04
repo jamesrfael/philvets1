@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import StaffLayoutHS from "../../components/Layout/StaffLayoutHS";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
-import AddPurchaseModal from "../../components/Orders/AddPurchaseModal";
 import AddSalesModal from "../../components/Orders/AddSalesModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
@@ -14,7 +13,6 @@ const StaffOrders = () => {
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isAddingPurchase, setIsAddingPurchase] = useState(false);
   const [isAddingSales, setIsAddingSales] = useState(false);
 
   const filteredOrders = orders.filter((order) => {
@@ -22,7 +20,6 @@ const StaffOrders = () => {
     return (
       order.orderType.toLowerCase().includes(lowerCaseSearchTerm) ||
       order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.purchaseOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm) ||
       order.salesOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm) ||
       order.clientId?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
       order.supplierId?.toString().toLowerCase().includes(lowerCaseSearchTerm)
@@ -31,9 +28,6 @@ const StaffOrders = () => {
 
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
-
-  const openAddPurchaseModal = () => setIsAddingPurchase(true);
-  const closeAddPurchaseModal = () => setIsAddingPurchase(false);
 
   const openAddSalesModal = () => setIsAddingSales(true);
   const closeAddSalesModal = () => setIsAddingSales(false);
@@ -64,7 +58,6 @@ const StaffOrders = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <Button onClick={openAddPurchaseModal}>Add Purchase</Button>
           <Button onClick={openAddSalesModal}>Add Sales</Button>
         </ButtonGroup>
       </Controls>
@@ -74,12 +67,6 @@ const StaffOrders = () => {
       <Table headers={headers} rows={rows} />
       {selectedOrder && (
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
-      )}
-      {isAddingPurchase && (
-        <AddPurchaseModal
-          onClose={closeAddPurchaseModal}
-          onSave={handleSaveNewOrder}
-        />
       )}
       {isAddingSales && (
         <AddSalesModal
