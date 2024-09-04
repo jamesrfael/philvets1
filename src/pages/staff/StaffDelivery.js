@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import StaffLayoutHS from "../../components/Layout/StaffLayoutHS";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/Delivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
-import { deliveries } from "../../pages/data/DeliveryData";
+import { deliveries as initialDeliveries } from "../../pages/data/DeliveryData";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
 import Button from "../../components/Layout/Button"; // Import the Button component
 
-const AdminDelivery = () => {
+const StaffDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState(null);
+
+  // Filter deliveries initially to include only "Sales"
+  const deliveries = initialDeliveries.filter(delivery => delivery.type === "Sales");
 
   const filteredDeliveries = deliveries.filter((delivery) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -23,9 +26,7 @@ const AdminDelivery = () => {
     );
   });
 
-  const openDetailsModal = (delivery) =>
-    setSelectedDelivery(delivery);
-
+  const openDetailsModal = (delivery) => setSelectedDelivery(delivery);
   const closeDetailsModal = () => setSelectedDelivery(null);
 
   const headers = ["Name", "Order Date", "Type", "Status", "Action"];
@@ -45,7 +46,7 @@ const AdminDelivery = () => {
   ]);
 
   return (
-    <LayoutHS>
+    <StaffLayoutHS>
       <Controls>
         <SearchBar
           placeholder="Search delivery..."
@@ -54,7 +55,7 @@ const AdminDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <CardTotalDelivery totalDeliveries={deliveries.length}/> {/* Use the CardTotalDelivery component */}
+        <CardTotalDelivery totalDeliveries={filteredDeliveries.length}/> {/* Use the CardTotalDelivery component */}
       </SummarySection>
       <Table headers={headers} rows={rows} />
       {selectedDelivery && (
@@ -63,7 +64,7 @@ const AdminDelivery = () => {
           onClose={closeDetailsModal}
         />
       )}
-    </LayoutHS>
+    </StaffLayoutHS>
   );
 };
 
@@ -99,4 +100,4 @@ const Status = styled.span`
   font-weight: bold;
 `;
 
-export default AdminDelivery;
+export default StaffDelivery;
