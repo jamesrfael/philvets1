@@ -4,10 +4,11 @@
 
 
 
-Products Admin/Staff
-- Add Category
-- AddProduct
+Products Admin/Staff   (Ongoing...)
+- Add Category 
+- Add Product
 - View Details
+
 
 Inventory Admin/Staff
 - Edit Inventory Details
@@ -15,17 +16,21 @@ Inventory Admin/Staff
 - Total Products Filter
 - Low Stocks Filter
 
+
 Supplier Admin/Staff
 - Add Supplier
 - Edit Supplier
+
 
 Customer Admin/Staff
 - Add Customer
 - Edit Customer
 
+
 Return Admin/Staff
 - Add Return
 - Edit Return
+
 
 - Reports
 - Notification
