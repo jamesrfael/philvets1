@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "../Layout/Card";
 import { suppliers as initialSuppliers } from "../../pages/data/SupplierData";
 import styled from "styled-components";
-import { FaUsers } from "react-icons/fa"; // Import an icon from react-icons
+import { FaWarehouse   } from "react-icons/fa"; // Import a different icon
 
 // Function to calculate the total number of suppliers
 const calculateTotalSuppliers = (suppliers) => {
@@ -20,7 +20,7 @@ const CardTotalSuppliers = () => {
       <Card
         label="Total Suppliers"
         value={totalSuppliers} // Display the total number of suppliers
-        icon={<FaUsers />} // Add the icon here
+        icon={<FaWarehouse   />} // Changed the icon to FaDolly 
       />
     </CardContainer>
   );
