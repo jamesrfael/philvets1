@@ -1,27 +1,26 @@
-// src/components/CardTotalTransactions.js
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../Layout/Card";
-import { sales as initialSales } from "../../pages/data/SalesData";
+import { suppliers as initialSuppliers } from "../../pages/data/SupplierData";
 import styled from "styled-components";
-import { FaExchangeAlt } from "react-icons/fa"; // Import an icon from react-icons
+import { FaUsers } from "react-icons/fa"; // Import an icon from react-icons
 
-const calculateTotalTransactions = (sales) => {
-  return sales.length; // Return the number of transactions
+// Function to calculate the total number of suppliers
+const calculateTotalSuppliers = (suppliers) => {
+  return suppliers.length;
 };
 
-const CardTotalTransactions = () => {
+const CardTotalSuppliers = () => {
   const navigate = useNavigate();
 
-  const totalTransactions = calculateTotalTransactions(initialSales);
+  const totalSuppliers = calculateTotalSuppliers(initialSuppliers);
 
   return (
-    <CardContainer onClick={() => navigate('/admin/sales')}>
+    <CardContainer onClick={() => navigate('/admin/suppliers')}>
       <Card
-        label="Total Transactions"
-        value={totalTransactions} // Display the total number of transactions
-        icon={<FaExchangeAlt />} // Add the icon here
+        label="Total Suppliers"
+        value={totalSuppliers} // Display the total number of suppliers
+        icon={<FaUsers />} // Add the icon here
       />
     </CardContainer>
   );
@@ -31,4 +30,4 @@ const CardContainer = styled.div`
   cursor: pointer;
 `;
 
-export default CardTotalTransactions;
+export default CardTotalSuppliers;
