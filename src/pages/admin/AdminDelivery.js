@@ -54,7 +54,7 @@ const AdminDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <CardTotalDelivery totalDeliveries={deliveries.length}/> {/* Use the CardTotalDelivery component */}
+        <CardTotalDelivery /> {/* Use the CardTotalDelivery component */}
       </SummarySection>
       <Table headers={headers} rows={rows} />
       {selectedDelivery && (
