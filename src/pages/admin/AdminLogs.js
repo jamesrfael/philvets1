@@ -47,7 +47,7 @@ const AdminLogs = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search logs..."
+          placeholder="Search / Filter logs..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

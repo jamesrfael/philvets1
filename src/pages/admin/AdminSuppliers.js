@@ -64,7 +64,7 @@ const AdminSuppliers = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search supplier..."
+          placeholder="Search / Filter supplier..."
           value={searchTerm}
           onChange={handleSearch}
         />

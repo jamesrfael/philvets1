@@ -79,13 +79,13 @@ const CloseButton = styled.button`
 
 const StatusContainer = styled.span`
   background-color: ${(props) =>
-    props.status === "Completed"
-      ? "#1DBA0B"
-      : props.status === "Pending"
+    props.status === "Completed" || props.status === "In stock"
+      ? "#1DBA0B" 
+      : props.status === "Pending" || props.status === "Low stock"
       ? "#f08400"
-      : props.status === "Cancelled"
-      ? "#ff5757"
-      : "gray"};
+      : props.status === "Cancelled" || props.status === "Out of stock"
+      ? "#ff5757" 
+      : "gray"}; 
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -98,6 +98,7 @@ const StatusContainer = styled.span`
   margin-top: 10px;
   align-self: flex-end;
 `;
+
 
 const CompletedDate = styled.div`
   font-size: 11px;

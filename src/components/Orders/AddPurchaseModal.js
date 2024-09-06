@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "../Layout/Modal";
-import { IoCloseCircle } from "react-icons/io5"; 
+import { IoCloseCircle } from "react-icons/io5";
 import {
   calculateLineTotal,
   calculateTotalQuantity,
@@ -164,10 +164,7 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
       </Field>
       <Field>
         <Label>Location</Label>
-        <Input
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
+        <Input value={location} onChange={(e) => setLocation(e.target.value)} />
       </Field>
       <Field>
         <Label>Delivery Option</Label>
@@ -209,7 +206,7 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
                       onChange={(e) =>
                         handleProductInputChange(index, e.target.value)
                       }
-                      placeholder="Search product"
+                      placeholder="Search / Filter product"
                     />
                     {currentEditingIndex === index && productSearch && (
                       <SuggestionsList>

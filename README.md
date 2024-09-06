@@ -10,8 +10,8 @@
 
 
     Inventory Admin/Staff
-    - Edit Inventory Details ...file:
-    - Close Button
+    - Edit Inventory Details ✔
+    - Close Button ✔
     - Total Products Filter
     - Low Stocks Filter
 

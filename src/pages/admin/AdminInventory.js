@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import SampleInventoryData from "../data/InventoryData";
-import InventoryDetailModal from "../../components/Inventory/InventoryDetailModal";
 import Table from "../../components/Layout/Table";
 import SearchBar from "../../components/Layout/SearchBar";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import Button from "../../components/Layout/Button";
+import InventoryDetailsModal from "../../components/Inventory/InventoryDetailsModal"; // Ensure the path is correct
 
 const AdminInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -35,15 +35,8 @@ const AdminInventory = () => {
     setSelectedItem(null);
   };
 
-  // Function to set the search term to "Low Stock" when CardLowStocks is clicked
-  const handleLowStockClick = () => {
-    setSearchTerm("Low Stock");
-  };
-
-  // Update headers to include only required fields
   const headers = ["Image", "Name", "Supplier", "Quantity", "Status", "Action"];
 
-  // Update rows to map only required fields
   const rows = filteredInventory.map((item) => [
     <img src={item.image} alt={item.name} width="50" height="50" />,
     item.name,
@@ -57,19 +50,18 @@ const AdminInventory = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search inventory..."
+          placeholder="Search / Filter inventory..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
       <AnalyticsContainer>
         <CardTotalProducts />
-        {/* Add onClick to set search term to "Low Stock" */}
-        <CardLowStocks onClick={handleLowStockClick} />
+        <CardLowStocks /> {/* No onClick handler here */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showDetailModal && selectedItem && (
-        <InventoryDetailModal item={selectedItem} closeModal={closeModal} />
+        <InventoryDetailsModal item={selectedItem} onClose={closeModal} />
       )}
     </LayoutHS>
   );

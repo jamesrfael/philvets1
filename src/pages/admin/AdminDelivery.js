@@ -23,8 +23,7 @@ const AdminDelivery = () => {
     );
   });
 
-  const openDetailsModal = (delivery) =>
-    setSelectedDelivery(delivery);
+  const openDetailsModal = (delivery) => setSelectedDelivery(delivery);
 
   const closeDetailsModal = () => setSelectedDelivery(null);
 
@@ -48,7 +47,7 @@ const AdminDelivery = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search delivery..."
+          placeholder="Search / Filter delivery..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

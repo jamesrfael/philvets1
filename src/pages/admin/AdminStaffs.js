@@ -89,7 +89,7 @@ const AdminStaffs = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search staff..."
+          placeholder="Search / Filter staff..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

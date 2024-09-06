@@ -14,7 +14,9 @@ const StaffDelivery = () => {
   const [selectedDelivery, setSelectedDelivery] = useState(null);
 
   // Filter deliveries initially to include only "Sales"
-  const deliveries = initialDeliveries.filter(delivery => delivery.type === "Sales");
+  const deliveries = initialDeliveries.filter(
+    (delivery) => delivery.type === "Sales"
+  );
 
   const filteredDeliveries = deliveries.filter((delivery) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -49,13 +51,14 @@ const StaffDelivery = () => {
     <StaffLayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search delivery..."
+          placeholder="Search / Filter delivery..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
       <SummarySection>
-        <CardTotalDelivery totalDeliveries={filteredDeliveries.length}/> {/* Use the CardTotalDelivery component */}
+        <CardTotalDelivery totalDeliveries={filteredDeliveries.length} />{" "}
+        {/* Use the CardTotalDelivery component */}
       </SummarySection>
       <Table headers={headers} rows={rows} />
       {selectedDelivery && (

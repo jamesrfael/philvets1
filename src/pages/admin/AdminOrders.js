@@ -59,7 +59,7 @@ const AdminOrders = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search order..."
+          placeholder="Search / Filter order..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

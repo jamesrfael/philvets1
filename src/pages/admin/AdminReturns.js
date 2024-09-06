@@ -34,9 +34,13 @@ const AdminReturns = () => {
     returnItem.name,
     returnItem.returnDate,
     returnItem.type,
-    <Status status={returnItem.status} key={returnItem.id}>{returnItem.status}</Status>,
+    <Status status={returnItem.status} key={returnItem.id}>
+      {returnItem.status}
+    </Status>,
     <>
-      <Button bgColor="#00C4FF" onClick={() => openDetailModal(returnItem)}>View</Button>
+      <Button bgColor="#00C4FF" onClick={() => openDetailModal(returnItem)}>
+        View
+      </Button>
       <Button bgColor="#f08400">Edit</Button>
       <Button bgColor="#ff1f1f">Delete</Button>
     </>,
@@ -46,7 +50,7 @@ const AdminReturns = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search returns..."
+          placeholder="Search / Filter returns..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

@@ -60,7 +60,7 @@ const AdminCustomers = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search customer..."
+          placeholder="Search / Filter customer..."
           value={searchTerm}
           onChange={handleSearch}
         />

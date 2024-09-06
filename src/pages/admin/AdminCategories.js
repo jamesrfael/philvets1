@@ -6,7 +6,14 @@ import Card from "../../components/Layout/Card";
 import Button from "../../components/Layout/Button";
 import SearchBar from "../../components/Layout/SearchBar";
 import { colors } from "../../colors"; // Ensure colors are correctly imported
-import { FaBox, FaGift, FaFlask, FaThermometerHalf, FaMedkit, FaArrowLeft } from "react-icons/fa"; // Import your icons
+import {
+  FaBox,
+  FaGift,
+  FaFlask,
+  FaThermometerHalf,
+  FaMedkit,
+  FaArrowLeft,
+} from "react-icons/fa"; // Import your icons
 import AddCategoryModal from "../../components/Products/AddCategoryModal"; // Adjust the path if needed
 
 const AdminCategories = () => {
@@ -14,11 +21,11 @@ const AdminCategories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
   const categoryIcons = {
-    "C001": <FaBox />,
-    "C002": <FaGift />,
-    "C003": <FaFlask />,
-    "C004": <FaThermometerHalf />,
-    "C005": <FaMedkit />,
+    C001: <FaBox />,
+    C002: <FaGift />,
+    C003: <FaFlask />,
+    C004: <FaThermometerHalf />,
+    C005: <FaMedkit />,
   };
 
   const getCategoryProductCount = (categoryCode) => {
@@ -39,7 +46,7 @@ const AdminCategories = () => {
             <FaArrowLeft />
           </BackButton>
           <SearchBar
-            placeholder="Search category..."
+            placeholder="Search / Filter category..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />

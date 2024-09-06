@@ -8,12 +8,16 @@ import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalCategories from "../../components/CardsData/CardTotalCategories";
 import Button from "../../components/Layout/Button";
 import AddProductModal from "../../components/Products/AddProductModal";
-import AddCategoryModal from "../../components/Products/AddCategoryModal"; // Import the AddCategoryModal component
+import AddCategoryModal from "../../components/Products/AddCategoryModal";
+import ProductDetailsModal from "../../components/Products/ProductDetailsModal"; // Import the ProductDetailsModal component
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false); // State for Add Product modal
-  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false); // State for Add Category modal
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
+  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] =
+    useState(false);
 
   const filteredProducts = productData.products.filter((product) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -54,7 +58,11 @@ const AdminProducts = () => {
       productDetail?.PROD_DETAILS_SIZE,
       productDetail?.PROD_DETAILS_BRAND,
       `₱${productDetail?.PROD_DETALS_PRICE}`,
-      <Button key="action" fontSize="14px">
+      <Button
+        key="action"
+        fontSize="14px"
+        onClick={() => openProductDetailsModal(product.PROD_ID)}
+      >
         Details
       </Button>,
     ];
@@ -65,6 +73,14 @@ const AdminProducts = () => {
   const closeAddProductModal = () => setIsAddProductModalOpen(false);
   const openAddCategoryModal = () => setIsAddCategoryModalOpen(true);
   const closeAddCategoryModal = () => setIsAddCategoryModalOpen(false);
+  const openProductDetailsModal = (productId) => {
+    setSelectedProductId(productId);
+    setIsProductDetailsModalOpen(true);
+  };
+  const closeProductDetailsModal = () => {
+    setSelectedProductId(null);
+    setIsProductDetailsModalOpen(false);
+  };
 
   // Handle save actions in modals
   const handleSaveProduct = (product, productDetails) => {
@@ -84,7 +100,7 @@ const AdminProducts = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
-          placeholder="Search product..."
+          placeholder="Search / Filter product..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -99,10 +115,22 @@ const AdminProducts = () => {
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddProductModalOpen && (
-        <AddProductModal onClose={closeAddProductModal} onSave={handleSaveProduct} />
+        <AddProductModal
+          onClose={closeAddProductModal}
+          onSave={handleSaveProduct}
+        />
       )}
       {isAddCategoryModalOpen && (
-        <AddCategoryModal onClose={closeAddCategoryModal} onSave={handleSaveCategory} />
+        <AddCategoryModal
+          onClose={closeAddCategoryModal}
+          onSave={handleSaveCategory}
+        />
+      )}
+      {isProductDetailsModalOpen && selectedProductId && (
+        <ProductDetailsModal
+          productId={selectedProductId}
+          onClose={closeProductDetailsModal}
+        />
       )}
     </LayoutHS>
   );
