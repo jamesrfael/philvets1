@@ -85,6 +85,8 @@ const StatusContainer = styled.span`
       ? "#f08400"
       : props.status === "Cancelled" || props.status === "Out of stock"
       ? "#ff5757" 
+      : props.status === "Processing"
+      ? "#00C4FF" 
       : "gray"}; 
   color: white;
   padding: 4px 8px;

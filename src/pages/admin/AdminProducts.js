@@ -43,7 +43,7 @@ const AdminProducts = () => {
     );
   });
 
-  const headers = ["Product", "Category", "Unit", "Brand", "Price", "Action"];
+  const headers = ["Image", "Product", "Category", "Unit", "Brand", "Price", "Action"];
   const rows = filteredProducts.map((product) => {
     const productDetail = productData.productDetails.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
@@ -53,6 +53,11 @@ const AdminProducts = () => {
     )?.PROD_CAT_NAME;
 
     return [
+      <img
+        src={product.PROD_IMAGE} // Use PROD_IMAGE here
+        alt={product.PROD_NAME}
+        style={{ width: '50px', height: 'auto' }}
+      />,
       product.PROD_NAME,
       category,
       productDetail?.PROD_DETAILS_SIZE,

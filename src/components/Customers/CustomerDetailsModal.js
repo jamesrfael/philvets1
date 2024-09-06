@@ -1,13 +1,14 @@
+// src/components/CustomerDetailsModal.js
 import React, { useState } from 'react';
 import Modal from '../Layout/Modal'; // Ensure the path to Modal is correct
 import styled from 'styled-components';
 import Button from '../Layout/Button'; // Import the Button component
 
-const InventoryDetailsModal = ({ item, onClose }) => {
+const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedItem, setEditedItem] = useState(item);
+  const [editedCustomer, setEditedCustomer] = useState(customer);
 
-  if (!item) return null;
+  if (!customer) return null;
 
   const handleEdit = () => setIsEditing(true);
 
@@ -15,7 +16,7 @@ const InventoryDetailsModal = ({ item, onClose }) => {
     const confirmSave = window.confirm("Are you sure you want to save the changes?");
     if (confirmSave) {
       // Implement save logic here
-      alert("Inventory details saved");
+      alert("Customer details saved");
       setIsEditing(false);
     }
   };
@@ -24,88 +25,68 @@ const InventoryDetailsModal = ({ item, onClose }) => {
     const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
     if (confirmCancel) {
       setIsEditing(false);
-      setEditedItem(item);
+      setEditedCustomer(customer);
     }
   };
 
   const handleRemove = () => {
-    const confirmRemoval = window.confirm("Are you sure you want to remove this item?");
+    const confirmRemoval = window.confirm("Are you sure you want to remove this customer?");
     if (confirmRemoval) {
-      // Implement remove logic here
-      alert(`Item ${item.name} removed`);
+      onRemove(customer.customerId); // Call the remove callback with the customer ID
       onClose(); // Close the modal after removal
     }
   };
 
   return (
     <Modal
-      title={isEditing ? `Edit ${item.name}` : `${item.name} Details`}
-      status={item.status}
+      title={isEditing ? `Edit ${customer.firstName} ${customer.lastName}` : `Customer Details`}
       onClose={onClose}
     >
       {isEditing ? (
         <>
           <Details>
             <DetailItem>
-              <strong>Image:</strong>
-              <ImagePreview src={editedItem.image} alt="Preview" />
-              <ImageInput
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setEditedItem({ ...editedItem, image: reader.result });
-                    };
-                    reader.readAsDataURL(file);
-                  }
-                }}
-              />
-            </DetailItem>
-            <DetailItem>
-              <strong>Name:</strong>
+              <strong>First Name:</strong>
               <Input
                 type="text"
-                value={editedItem.name}
-                onChange={(e) => setEditedItem({ ...editedItem, name: e.target.value })}
+                value={editedCustomer.firstName}
+                onChange={(e) => setEditedCustomer({ ...editedCustomer, firstName: e.target.value })}
                 border
               />
             </DetailItem>
             <DetailItem>
-              <strong>SKU:</strong>
+              <strong>Last Name:</strong>
               <Input
                 type="text"
-                value={editedItem.sku}
-                onChange={(e) => setEditedItem({ ...editedItem, sku: e.target.value })}
+                value={editedCustomer.lastName}
+                onChange={(e) => setEditedCustomer({ ...editedCustomer, lastName: e.target.value })}
                 border
               />
             </DetailItem>
             <DetailItem>
-              <strong>Supplier:</strong>
+              <strong>Email:</strong>
               <Input
-                type="text"
-                value={editedItem.supplier}
-                onChange={(e) => setEditedItem({ ...editedItem, supplier: e.target.value })}
+                type="email"
+                value={editedCustomer.email}
+                onChange={(e) => setEditedCustomer({ ...editedCustomer, email: e.target.value })}
                 border
               />
             </DetailItem>
             <DetailItem>
-              <strong>Quantity:</strong>
+              <strong>Phone:</strong>
               <Input
-                type="number"
-                value={editedItem.quantity}
-                onChange={(e) => setEditedItem({ ...editedItem, quantity: e.target.value })}
+                type="tel"
+                value={editedCustomer.phone}
+                onChange={(e) => setEditedCustomer({ ...editedCustomer, phone: e.target.value })}
                 border
               />
             </DetailItem>
             <DetailItem>
-              <strong>Status:</strong>
+              <strong>Registration Date:</strong>
               <Input
                 type="text"
-                value={editedItem.status}
-                onChange={(e) => setEditedItem({ ...editedItem, status: e.target.value })}
+                value={editedCustomer.registrationDate}
+                onChange={(e) => setEditedCustomer({ ...editedCustomer, registrationDate: e.target.value })}
                 border
               />
             </DetailItem>
@@ -118,21 +99,20 @@ const InventoryDetailsModal = ({ item, onClose }) => {
       ) : (
         <>
           <Section>
-            <Image src={item.image} alt={item.name} />
             <Detail>
-              <DetailLabel>Name:</DetailLabel> {item.name}
+              <DetailLabel>First Name:</DetailLabel> {customer.firstName}
             </Detail>
             <Detail>
-              <DetailLabel>SKU:</DetailLabel> {item.sku}
+              <DetailLabel>Last Name:</DetailLabel> {customer.lastName}
             </Detail>
             <Detail>
-              <DetailLabel>Supplier:</DetailLabel> {item.supplier}
+              <DetailLabel>Email:</DetailLabel> {customer.email}
             </Detail>
             <Detail>
-              <DetailLabel>Quantity:</DetailLabel> {item.quantity}
+              <DetailLabel>Phone:</DetailLabel> {customer.phone}
             </Detail>
             <Detail>
-              <DetailLabel>Status:</DetailLabel> {item.status}
+              <DetailLabel>Registration Date:</DetailLabel> {customer.registrationDate}
             </Detail>
           </Section>
           <ButtonGroup>
@@ -150,23 +130,7 @@ const InventoryDetailsModal = ({ item, onClose }) => {
 const Section = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align to the left */
-`;
-
-const Image = styled.img`
-  width: 100px;
-  height: 100px;
-  margin-bottom: 20px;
-`;
-
-const ImagePreview = styled.img`
-  width: 100px;
-  height: 100px;
-  margin-bottom: 10px;
-`;
-
-const ImageInput = styled.input`
-  margin-top: 10px;
+  align-items: flex-start;
 `;
 
 const Details = styled.div`
@@ -177,7 +141,7 @@ const DetailItem = styled.div`
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align to the left */
+  align-items: flex-start;
 `;
 
 const Detail = styled.div`
@@ -206,4 +170,4 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-export default InventoryDetailsModal;
+export default CustomerDetailsModal;

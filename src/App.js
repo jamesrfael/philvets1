@@ -15,6 +15,7 @@ import AdminReturns from "./pages/admin/AdminReturns";
 import AdminLogs from "./pages/admin/AdminLogs";
 import AdminCategories from "./pages/admin/AdminCategories";
 import CategoryProducts from "./pages/admin/CategoryProducts";
+import AdminProfile from "./pages/admin/AdminProfile";
 
 import StaffDashboard from "./pages/staff/StaffDashboard";
 import StaffProfile from "./pages/staff/StaffProfile";
@@ -34,6 +35,7 @@ function App() {
             {/* Admin Routes */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/profile" element={<AdminProfile />} />
             <Route path="/admin/staffs" element={<AdminStaffs />} />
             <Route path="/admin/customers" element={<AdminCustomers />} />
             <Route path="/admin/inventory" element={<AdminInventory />} />

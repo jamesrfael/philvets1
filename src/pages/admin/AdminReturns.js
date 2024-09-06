@@ -1,4 +1,3 @@
-// src/pages/AdminReturns.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
@@ -7,7 +6,7 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import returnsData from "../data/ReturnsData";
-import Button from "../../components/Layout/Button"; // Import the Button component
+import Button from "../../components/Layout/Button";
 
 const AdminReturns = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,6 +27,13 @@ const AdminReturns = () => {
   const openDetailModal = (returnItem) => setSelectedReturn(returnItem);
   const closeDetailModal = () => setSelectedReturn(null);
 
+  const handleCancelReturn = (returnId) => {
+    // Logic to cancel the return, e.g., update state or call API
+    console.log(`Return with ID ${returnId} has been cancelled.`);
+    // Example: Update the local state to reflect the cancellation
+    setSelectedReturn(null); // Close the modal after cancel
+  };
+
   const headers = ["ID", "Name", "Return Date", "Type", "Status", "Actions"];
   const rows = filteredReturns.map((returnItem) => [
     returnItem.id,
@@ -41,8 +47,6 @@ const AdminReturns = () => {
       <Button bgColor="#00C4FF" onClick={() => openDetailModal(returnItem)}>
         View
       </Button>
-      <Button bgColor="#f08400">Edit</Button>
-      <Button bgColor="#ff1f1f">Delete</Button>
     </>,
   ]);
 
@@ -63,6 +67,7 @@ const AdminReturns = () => {
         <ReturnDetailModal
           returnItem={selectedReturn}
           onClose={closeDetailModal}
+          onCancelReturn={handleCancelReturn}  // Passing the cancel function here
         />
       )}
     </LayoutHS>

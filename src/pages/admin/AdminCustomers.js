@@ -1,3 +1,4 @@
+// src/pages/AdminCustomers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
@@ -5,14 +6,17 @@ import { colors } from "../../colors";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
-import Button from "../../components/Layout/Button"; // Import the Button component
-
-// Sample customer data
+import Button from "../../components/Layout/Button";
+import AddCustomerModal from "../../components/Customers/AddCustomerModal";
+import CustomerDetailsModal from "../../components/Customers/CustomerDetailsModal"; // Import CustomerDetailsModal
 import customersData from "../data/CustomersData";
 
 const AdminCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCustomers, setFilteredCustomers] = useState(customersData);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false); // State for CustomerDetailsModal
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
@@ -31,12 +35,29 @@ const AdminCustomers = () => {
   };
 
   const openAddCustomerModal = () => {
-    // Function to open the add customer modal
+    setShowAddModal(true);
   };
 
-  const handleViewCustomer = (customer) => {
-    // Function to handle the view customer button click
-    console.log("Viewing customer:", customer);
+  const openDetailsModal = (customer) => {
+    setSelectedCustomer(customer);
+    setShowDetailsModal(true);
+  };
+
+  const closeModals = () => {
+    setShowAddModal(false);
+    setShowDetailsModal(false); // Close CustomerDetailsModal
+    setSelectedCustomer(null);
+  };
+
+  const handleAddCustomer = (newCustomer) => {
+    setFilteredCustomers([...filteredCustomers, newCustomer]);
+  };
+
+  const handleRemoveCustomer = (customerId) => {
+    const updatedCustomers = filteredCustomers.filter(
+      (customer) => customer.customerId !== customerId
+    );
+    setFilteredCustomers(updatedCustomers);
   };
 
   const headers = ["Name", "Email", "Phone", "Registration Date", "Action"];
@@ -49,10 +70,10 @@ const AdminCustomers = () => {
     <Button
       backgroundColor={colors.primary}
       hoverColor={colors.primaryHover}
-      onClick={() => handleViewCustomer(customer)}
+      onClick={() => openDetailsModal(customer)}
       key="action"
     >
-      View
+      Details
     </Button>,
   ]);
 
@@ -73,14 +94,25 @@ const AdminCustomers = () => {
         </Button>
       </Controls>
       <SummarySection>
-        <CardTotalCustomers /> {/* Use the CardTotalCustomers component */}
+        <CardTotalCustomers />
       </SummarySection>
       <Table headers={headers} rows={rows} />
+
+      {showAddModal && (
+        <AddCustomerModal onClose={closeModals} onAdd={handleAddCustomer} />
+      )}
+      {showDetailsModal && selectedCustomer && (
+        <CustomerDetailsModal
+          customer={selectedCustomer}
+          onClose={closeModals}
+          onRemove={handleRemoveCustomer}
+        />
+      )}
     </LayoutHS>
   );
 };
 
-// Styled Components
+// Styled components
 
 const Controls = styled.div`
   display: flex;

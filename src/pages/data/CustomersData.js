@@ -1,23 +1,85 @@
 // src/pages/data/CustomersData.js
 const customersData = [
-    {
-      customerId: "C001",
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      phone: "09478925611",
-      registrationDate: "2023-01-15",
-    },
-    {
-      customerId: "C002",
-      firstName: "Jane",
-      lastName: "Smith",
-      email: "jane.smith@example.com",
-      phone: "09213456785",
-      registrationDate: "2022-11-20",
-    },
-    // Add more sample customers as needed
-  ];
-  
-  export default customersData;
-  
+  {
+    customerId: "C001",
+    firstName: "John",
+    lastName: "Doe",
+    email: "john.doe@example.com",
+    phone: "09478925611",
+    registrationDate: "2023-01-15",
+  },
+  {
+    customerId: "C002",
+    firstName: "Jane",
+    lastName: "Smith",
+    email: "jane.smith@example.com",
+    phone: "09213456785",
+    registrationDate: "2022-11-20",
+  },
+  {
+    customerId: "C003",
+    firstName: "Michael",
+    lastName: "Johnson",
+    email: "michael.johnson@example.com",
+    phone: "09324567899",
+    registrationDate: "2023-03-10",
+  },
+  {
+    customerId: "C004",
+    firstName: "Emily",
+    lastName: "Williams",
+    email: "emily.williams@example.com",
+    phone: "09123456789",
+    registrationDate: "2022-08-05",
+  },
+  {
+    customerId: "C005",
+    firstName: "David",
+    lastName: "Brown",
+    email: "david.brown@example.com",
+    phone: "09451237890",
+    registrationDate: "2023-06-25",
+  },
+  {
+    customerId: "C006",
+    firstName: "Sarah",
+    lastName: "Jones",
+    email: "sarah.jones@example.com",
+    phone: "09347890123",
+    registrationDate: "2023-02-14",
+  },
+  {
+    customerId: "C007",
+    firstName: "James",
+    lastName: "Davis",
+    email: "james.davis@example.com",
+    phone: "09267894561",
+    registrationDate: "2022-12-30",
+  },
+  {
+    customerId: "C008",
+    firstName: "Patricia",
+    lastName: "Martinez",
+    email: "patricia.martinez@example.com",
+    phone: "09123459876",
+    registrationDate: "2023-05-18",
+  },
+  {
+    customerId: "C009",
+    firstName: "Robert",
+    lastName: "Garcia",
+    email: "robert.garcia@example.com",
+    phone: "09234567891",
+    registrationDate: "2023-04-01",
+  },
+  {
+    customerId: "C010",
+    firstName: "Linda",
+    lastName: "Miller",
+    email: "linda.miller@example.com",
+    phone: "09345678901",
+    registrationDate: "2022-09-12",
+  },
+];
+
+export default customersData;

@@ -2,6 +2,7 @@ const productData = {
   products: [
     {
       PROD_ID: "P001",
+      PROD_IMAGE: "https://via.placeholder.com/50",
       PROD_NAME: "Amoxicillin",
       PROD_DETAILS_CODE: "D001",
       PROD_RO_LEVEL: 30,
@@ -14,6 +15,7 @@ const productData = {
     },
     {
       PROD_ID: "P002",
+      PROD_IMAGE: "https://via.placeholder.com/50",
       PROD_NAME: "Anti-Flea Shampoo",
       PROD_DETAILS_CODE: "D002",
       PROD_RO_LEVEL: 50,
@@ -26,6 +28,7 @@ const productData = {
     },
     {
       PROD_ID: "P003",
+      PROD_IMAGE: "https://via.placeholder.com/50",
       PROD_NAME: "Syringes Pack",
       PROD_DETAILS_CODE: "D003",
       PROD_RO_LEVEL: 20,
@@ -38,6 +41,7 @@ const productData = {
     },
     {
       PROD_ID: "P004",
+      PROD_IMAGE: "https://via.placeholder.com/50",
       PROD_NAME: "Veterinary Thermometer",
       PROD_DETAILS_CODE: "D004",
       PROD_RO_LEVEL: 15,
@@ -50,6 +54,7 @@ const productData = {
     },
     {
       PROD_ID: "P005",
+      PROD_IMAGE: "https://via.placeholder.com/50",
       PROD_NAME: "Wound Care Ointment",
       PROD_DETAILS_CODE: "D005",
       PROD_RO_LEVEL: 25,

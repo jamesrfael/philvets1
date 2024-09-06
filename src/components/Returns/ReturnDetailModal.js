@@ -1,123 +1,189 @@
 import React from "react";
 import styled from "styled-components";
+import Modal from "../Layout/Modal"; // Reusable Modal component
 import { colors } from "../../colors";
 
-const ReturnDetailModal = ({ returnItem, onClose }) => {
-  if (!returnItem) return null;
+// Utility function to format numbers as currency
+const formatCurrency = (amount) => {
+  return `₱${amount.toFixed(2)}`;
+};
+
+const ReturnDetailModal = ({ returnItem = {}, onClose, onCancelReturn }) => {
+  const calculateSubTotal = () => {
+    if (!returnItem.products) return 0;
+    return returnItem.products.reduce(
+      (sum, product) => sum + product.price * product.quantity,
+      0
+    );
+  };
+
+  const calculateTotalQuantity = () => {
+    if (!returnItem.products) return 0;
+    return returnItem.products.reduce(
+      (total, product) => total + product.quantity,
+      0
+    );
+  };
+
+  const canBeCancelled = returnItem.status !== "Completed";
 
   return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        <ModalHeader>
-          <ModalTitle>Return Details</ModalTitle>
-          <CloseButton onClick={onClose}>×</CloseButton>
-        </ModalHeader>
-        <ModalBody>
-          <DetailRow>
-            <DetailLabel>ID:</DetailLabel>
-            <DetailValue>{returnItem.id}</DetailValue>
-          </DetailRow>
-          <DetailRow>
-            <DetailLabel>Name:</DetailLabel>
-            <DetailValue>{returnItem.name}</DetailValue>
-          </DetailRow>
-          <DetailRow>
-            <DetailLabel>Return Date:</DetailLabel>
-            <DetailValue>{returnItem.returnDate}</DetailValue>
-          </DetailRow>
-          <DetailRow>
-            <DetailLabel>Type:</DetailLabel>
-            <DetailValue>{returnItem.type}</DetailValue>
-          </DetailRow>
-          <DetailRow>
-            <DetailLabel>Status:</DetailLabel>
-            <DetailValue>{returnItem.status}</DetailValue>
-          </DetailRow>
-          <ActionButtonContainer>
-            <ActionButton bgColor={colors.primary}>Edit</ActionButton>
-            <ActionButton bgColor={colors.fail} onClick={() => alert("Delete action")}>
-              Delete
-            </ActionButton>
-          </ActionButtonContainer>
-        </ModalBody>
-      </ModalContent>
-    </ModalOverlay>
+    <Modal
+      title="Return Details"
+      status={returnItem.status}
+      completedDate={returnItem.returnDate}
+      onClose={onClose}
+    >
+      <DetailsContainer>
+        <Column align="left">
+          <FormGroup>
+            <Label>Name:</Label>
+            <Value>{returnItem.name || ""}</Value>
+          </FormGroup>
+          <FormGroup>
+            <Label>Return Date:</Label>
+            <Value>{returnItem.returnDate || ""}</Value>
+          </FormGroup>
+          <FormGroup>
+            <Label>Type:</Label>
+            <Value>{returnItem.type || ""}</Value>
+          </FormGroup>
+        </Column>
+      </DetailsContainer>
+
+      <FormGroup>
+        <DescriptionBox>
+          <p>{returnItem.description || "No description available."}</p>
+        </DescriptionBox>
+      </FormGroup>
+
+      <ProductTable>
+        <thead>
+          <tr>
+            <TableHeader>Product Name</TableHeader>
+            <TableHeader>Quantity</TableHeader>
+            <TableHeader>Price</TableHeader>
+          </tr>
+        </thead>
+        <tbody>
+          {(returnItem.products || []).map((product, index) => (
+            <TableRow key={index}>
+              <TableCell>{product.productName || ""}</TableCell>
+              <TableCell>{product.quantity || 0}</TableCell>
+              <TableCell>{formatCurrency(product.price || 0)}</TableCell>
+            </TableRow>
+          ))}
+        </tbody>
+      </ProductTable>
+
+      <FormSection>
+        <FormGroup>
+          <Label>Order Sub Total:</Label>
+          <Value>{formatCurrency(calculateSubTotal())}</Value>
+        </FormGroup>
+        <FormGroup>
+          <Label>Total Quantity:</Label>
+          <Value>{calculateTotalQuantity()}</Value>
+        </FormGroup>
+      </FormSection>
+
+      {canBeCancelled && (
+        <ActionsContainer>
+          <CancelButton onClick={() => onCancelReturn(returnItem.id)}>
+            Cancel Return
+          </CancelButton>
+        </ActionsContainer>
+      )}
+    </Modal>
   );
 };
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+// Styled components
+
+const DetailsContainer = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 `;
 
-const ModalContent = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 4px;
-  max-width: 400px;
+const Column = styled.div`
+  width: 48%;
+  text-align: ${(props) => props.align || "left"};
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+`;
+
+const Label = styled.div`
+  font-weight: bold;
+  color: black;
+`;
+
+const Value = styled.div`
+  color: ${colors.text};
+`;
+
+const ProductTable = styled.table`
   width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
 `;
 
-const ModalHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const TableHeader = styled.th`
+  background-color: ${colors.primary};
+  color: white;
+  padding: 10px;
+  text-align: center;
+`;
+
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+`;
+
+const TableCell = styled.td`
+  padding: 10px;
   border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
 `;
 
-const ModalTitle = styled.h2`
-  font-size: 18px;
-  font-weight: bold;
-`;
-
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: #aaa;
-`;
-
-const ModalBody = styled.div`
-  padding: 20px 0;
-`;
-
-const DetailRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-`;
-
-const DetailLabel = styled.span`
-  font-weight: bold;
-`;
-
-const DetailValue = styled.span``;
-
-const ActionButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
+const FormSection = styled.div`
   margin-top: 20px;
 `;
 
-const ActionButton = styled.button`
+const DescriptionBox = styled.div`
+  border: 1px solid #3b3b3bf7;
+  border-radius: 4px;
+  padding: 10px;
+  max-height: 100px;
+  overflow-y: auto;
+  width: 100%;
+  text-align: left;
+  background: #f9f9f9;
+`;
+
+const ActionsContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;  // Align the button to the right
+  margin-top: 20px;
+`;
+
+const CancelButton = styled.button`
+  background-color: #ff4d4d;
+  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  color: white;
-  background-color: ${(props) => props.bgColor};
   cursor: pointer;
-  margin-left: 10px;
+  font-size: 16px;
+  font-weight: bold;
   &:hover {
-    opacity: 0.8;
+    background-color: #ff1f1f;
   }
 `;
 

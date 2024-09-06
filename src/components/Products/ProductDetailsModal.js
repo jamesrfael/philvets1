@@ -12,6 +12,7 @@ const ProductDetailsModal = ({ productId, onClose }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedProduct, setEditedProduct] = useState(product);
   const [editedProductDetail, setEditedProductDetail] = useState(productDetail);
+  const [selectedImage, setSelectedImage] = useState(product.PROD_IMAGE);
 
   if (!product || !productDetail || !category) {
     return null; // Or show a loading spinner/error message
@@ -32,9 +33,9 @@ const ProductDetailsModal = ({ productId, onClose }) => {
     const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
     if (confirmCancel) {
       setIsEditing(false);
-      // Optionally, reset the state to the original values
       setEditedProduct(product);
       setEditedProductDetail(productDetail);
+      setSelectedImage(product.PROD_IMAGE);
     }
   };
 
@@ -47,11 +48,36 @@ const ProductDetailsModal = ({ productId, onClose }) => {
     }
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
-    <Modal title={isEditing ? `Edit ${product.PROD_NAME} details` : `${product.PROD_NAME} details`} onClose={onClose}>
+    <Modal title={isEditing ? `Edit ${product.PROD_NAME}` : `${product.PROD_NAME} Details`} onClose={onClose}>
       {isEditing ? (
         <>
           <Details>
+            <DetailItem>
+              <strong>Image:</strong>
+              <ImagePreview src={selectedImage} alt="Preview" />
+              <ImageInput type="file" accept="image/*" onChange={handleImageChange} />
+            </DetailItem>
+            <DetailItem>
+              <strong>Name:</strong>
+              <Input
+                type="text"
+                value={editedProduct.PROD_NAME}
+                onChange={(e) => setEditedProduct({ ...editedProduct, PROD_NAME: e.target.value })}
+                border
+              />
+            </DetailItem>
             <DetailItem>
               <strong>Category:</strong>
               <Input
@@ -97,6 +123,33 @@ const ProductDetailsModal = ({ productId, onClose }) => {
                 border
               />
             </DetailItem>
+            <DetailItem>
+              <strong>Reorder Level:</strong>
+              <Input
+                type="number"
+                value={editedProduct.PROD_RO_LEVEL}
+                onChange={(e) => setEditedProduct({ ...editedProduct, PROD_RO_LEVEL: e.target.value })}
+                border
+              />
+            </DetailItem>
+            <DetailItem>
+              <strong>Reorder Quantity:</strong>
+              <Input
+                type="number"
+                value={editedProduct.PROD_RO_QTY}
+                onChange={(e) => setEditedProduct({ ...editedProduct, PROD_RO_QTY: e.target.value })}
+                border
+              />
+            </DetailItem>
+            <DetailItem>
+              <strong>Quantity on Hand:</strong>
+              <Input
+                type="number"
+                value={editedProduct.PROD_QOH}
+                onChange={(e) => setEditedProduct({ ...editedProduct, PROD_QOH: e.target.value })}
+                border
+              />
+            </DetailItem>
           </Details>
           <ButtonGroup>
             <Button onClick={handleSave}>Save</Button>
@@ -105,23 +158,42 @@ const ProductDetailsModal = ({ productId, onClose }) => {
         </>
       ) : (
         <>
-          <Details>
-            <DetailItem>
-              <strong>Category:</strong> {category.PROD_CAT_NAME}
-            </DetailItem>
-            <DetailItem>
-              <strong>Size:</strong> {productDetail.PROD_DETAILS_SIZE}
-            </DetailItem>
-            <DetailItem>
-              <strong>Brand:</strong> {productDetail.PROD_DETAILS_BRAND}
-            </DetailItem>
-            <DetailItem>
-              <strong>Price:</strong> ₱{productDetail.PROD_DETALS_PRICE}
-            </DetailItem>
-            <DetailItem>
-              <strong>Description:</strong> {productDetail.PROD_DETAILS_DESCRIPTION}
-            </DetailItem>
-          </Details>
+          <Section>
+            <Image src={product.PROD_IMAGE} alt={product.PROD_NAME} />
+            <Detail>
+              <DetailLabel>Name:</DetailLabel> {product.PROD_NAME}
+            </Detail>
+            <Detail>
+              <DetailLabel>Category:</DetailLabel> {category.PROD_CAT_NAME}
+            </Detail>
+            <Detail>
+              <DetailLabel>Size:</DetailLabel> {productDetail.PROD_DETAILS_SIZE}
+            </Detail>
+            <Detail>
+              <DetailLabel>Brand:</DetailLabel> {productDetail.PROD_DETAILS_BRAND}
+            </Detail>
+            <Detail>
+              <DetailLabel>Price:</DetailLabel> ₱{productDetail.PROD_DETALS_PRICE}
+            </Detail>
+            <Detail>
+              <DetailLabel>Description:</DetailLabel> {productDetail.PROD_DETAILS_DESCRIPTION}
+            </Detail>
+            <Detail>
+              <DetailLabel>Reorder Level:</DetailLabel> {product.PROD_RO_LEVEL}
+            </Detail>
+            <Detail>
+              <DetailLabel>Reorder Quantity:</DetailLabel> {product.PROD_RO_QTY}
+            </Detail>
+            <Detail>
+              <DetailLabel>Quantity on Hand:</DetailLabel> {product.PROD_QOH}
+            </Detail>
+            <Detail>
+              <DetailLabel>Date Created:</DetailLabel> {product.PROD_DATECREATED}
+            </Detail>
+            <Detail>
+              <DetailLabel>Date Updated:</DetailLabel> {product.PROD_DATEUPDATED}
+            </Detail>
+          </Section>
           <ButtonGroup>
             <Button onClick={handleEdit}>Edit</Button>
             <Button onClick={handleRemove} variant="danger">Remove</Button>
@@ -134,12 +206,49 @@ const ProductDetailsModal = ({ productId, onClose }) => {
 
 // Styled Components
 
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align to the left */
+`;
+
+const Image = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+`;
+
+const ImagePreview = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
+`;
+
+const ImageInput = styled.input`
+  margin-top: 10px;
+`;
+
 const Details = styled.div`
   margin-bottom: 20px;
 `;
 
 const DetailItem = styled.div`
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align to the left */
+`;
+
+const Detail = styled.div`
+  margin-bottom: 10px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+`;
+
+const DetailLabel = styled.span`
+  font-weight: bold;
+  margin-right: 8px;
 `;
 
 const ButtonGroup = styled.div`

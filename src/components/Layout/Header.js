@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TbUserCircle } from "react-icons/tb";
 import { FaRegBell, FaBars } from "react-icons/fa";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { colors } from "../../colors";
 
 const pageTitles = {
@@ -15,10 +15,10 @@ const pageTitles = {
   "/admin/customers": "Customer",
   "/admin/staffs": "Staff",
   "/admin/sales": "Sales",
-  "/admin/returns": "Returns",
-  "/admin/logs": "Logs",
-  "/admin/reports": "Reports",
-  "/admin/categories": "Products / Categories",
+  "/admin/returns": "Return",
+  "/admin/logs": "Log",
+  "/admin/reports": "Report",
+  "/admin/categories": "Product / Category",
   "/staff/dashboard": "Staff Dashboard",
   "/staff/profile": "Staff Profile",
   "/staff/orders": "Order",
@@ -28,6 +28,8 @@ const pageTitles = {
 const Header = ({ toggleSidebar }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
   const pageTitle = pageTitles[location.pathname] || "Page Title";
 
   const handleMouseEnter = () => {
@@ -36,6 +38,10 @@ const Header = ({ toggleSidebar }) => {
 
   const handleMouseLeave = () => {
     setIsDropdownOpen(false);
+  };
+
+  const goToProfile = () => {
+    navigate("/admin/profile"); // Always navigate to /admin/profile
   };
 
   return (
@@ -49,7 +55,7 @@ const Header = ({ toggleSidebar }) => {
           onMouseLeave={handleMouseLeave}
         >
           <ProfileButton>
-            <span>Username</span>
+            <span>Admin</span>
             <TbUserCircle className="h-5 w-5 ml-1" />
           </ProfileButton>
           {isDropdownOpen && (
@@ -57,7 +63,7 @@ const Header = ({ toggleSidebar }) => {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <DropdownItem href="#">Profile</DropdownItem>
+              <DropdownItem onClick={goToProfile}>Profile</DropdownItem>
               <DropdownItem href="#">Sign out</DropdownItem>
             </DropdownContent>
           )}
@@ -69,7 +75,7 @@ const Header = ({ toggleSidebar }) => {
 
 const HeaderContainer = styled.div`
   display: flex;
-  justify-content: flex-start; /* Align items to the left */
+  justify-content: flex-start;
   align-items: center;
   background-color: white;
   color: black;
@@ -90,21 +96,21 @@ const PageTitle = styled.h1`
 const RightSection = styled.div`
   display: flex;
   align-items: center;
-  margin-left: auto; /* Pushes the right section to the far right */
+  margin-left: auto;
 `;
 
 const HamburgerMenu = styled(FaBars)`
   font-size: 20px;
   margin-right: 9px;
   cursor: pointer;
-  display: none; /* Hidden by default */
+  display: none;
 
   &:hover {
     color: ${colors.primary};
   }
 
   @media (max-width: 768px) {
-    display: block; /* Show on small screens */
+    display: block;
   }
 `;
 
@@ -139,12 +145,13 @@ const DropdownContent = styled.div`
   z-index: 10;
 `;
 
-const DropdownItem = styled.a`
+const DropdownItem = styled.div`
   display: block;
   padding: 8px 16px;
   font-size: 12px;
   color: black;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     background-color: ${colors.primary};

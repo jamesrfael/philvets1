@@ -52,7 +52,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
         />
         <SidebarItem
           icon={MdOutlineShoppingCart}
-          label="Orders"
+          label="Order"
           link="/admin/orders"
         />
         <SidebarItem
@@ -60,7 +60,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
           label="Delivery"
           link="/admin/delivery"
         />
-        <SidebarItem icon={LuBox} label="Products" link="/admin/products" />
+        <SidebarItem icon={LuBox} label="Product" link="/admin/products" />
         <SidebarItem
           icon={MdOutlineInventory2}
           label="Inventory"
@@ -68,27 +68,23 @@ const AdminSidebar = ({ isOpen, onClose }) => {
         />
         <SidebarItem
           icon={LuWarehouse}
-          label="Suppliers"
+          label="Supplier"
           link="/admin/suppliers"
         />
         <SidebarItem
           icon={TbUserDollar}
-          label="Customers"
+          label="Customer"
           link="/admin/customers"
         />
-        <SidebarItem icon={GrGroup} label="Staffs" link="/admin/staffs" />
+        <SidebarItem icon={GrGroup} label="Staff" link="/admin/staffs" />
         <SidebarItem icon={TbBasketDollar} label="Sales" link="/admin/sales" />
         <SidebarItem
           icon={TbTruckReturn}
-          label="Returns"
+          label="Return"
           link="/admin/returns"
         />
         <SidebarItem icon={TbHistory} label="Logs" link="/admin/logs" />
-        <SidebarItem
-          icon={TbFileReport}
-          label="Reports"
-          link="/admin/reports"
-        />
+        <SidebarItem icon={TbFileReport} label="Report" link="/admin/reports" />
       </SidebarContent>
 
       <SidebarFooter>
@@ -132,7 +128,6 @@ const SidebarHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
 `;
 
 const LogoContainer = styled.div`
