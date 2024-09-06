@@ -7,7 +7,7 @@ import Table from "../../components/Layout/Table";
 import SearchBar from "../../components/Layout/SearchBar";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
-import Button from "../../components/Layout/Button"; // Import the Button component
+import Button from "../../components/Layout/Button";
 
 const AdminInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,12 +19,9 @@ const AdminInventory = () => {
     return (
       item.name.toLowerCase().includes(lowerCaseSearchTerm) ||
       item.sku.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.category.toLowerCase().includes(lowerCaseSearchTerm) ||
       item.supplier.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.location.toLowerCase().includes(lowerCaseSearchTerm) ||
       item.status.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.quantity.toString().includes(lowerCaseSearchTerm) ||
-      item.price.toFixed(2).includes(lowerCaseSearchTerm)
+      item.quantity.toString().includes(lowerCaseSearchTerm)
     );
   });
 
@@ -38,28 +35,20 @@ const AdminInventory = () => {
     setSelectedItem(null);
   };
 
-  const headers = [
-    "Image",
-    "Name",
-    "SKU",
-    "Category",
-    "Quantity",
-    "Price",
-    "Supplier",
-    "Location",
-    "Status",
-    "Action",
-  ];
+  // Function to set the search term to "Low Stock" when CardLowStocks is clicked
+  const handleLowStockClick = () => {
+    setSearchTerm("Low Stock");
+  };
 
+  // Update headers to include only required fields
+  const headers = ["Image", "Name", "Supplier", "Quantity", "Status", "Action"];
+
+  // Update rows to map only required fields
   const rows = filteredInventory.map((item) => [
     <img src={item.image} alt={item.name} width="50" height="50" />,
     item.name,
-    item.sku,
-    item.category,
-    item.quantity,
-    `₱${item.price.toFixed(2)}`,
     item.supplier,
-    item.location,
+    item.quantity,
     <Status status={item.status}>{item.status}</Status>,
     <Button onClick={() => handleDetailClick(item)}>Details</Button>,
   ]);
@@ -75,7 +64,8 @@ const AdminInventory = () => {
       </Controls>
       <AnalyticsContainer>
         <CardTotalProducts />
-        <CardLowStocks />
+        {/* Add onClick to set search term to "Low Stock" */}
+        <CardLowStocks onClick={handleLowStockClick} />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showDetailModal && selectedItem && (
@@ -114,6 +104,7 @@ const Status = styled.span`
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
+  white-space: nowrap; /* Prevent text wrapping */
 `;
 
 export default AdminInventory;

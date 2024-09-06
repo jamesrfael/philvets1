@@ -4,12 +4,13 @@
 
     Products Admin/Staff   (Ongoing...)
     - Add Category ✔ 
+    - View Category
     - Add Product ✔
     - View Details
 
 
     Inventory Admin/Staff
-    - Edit Inventory Details
+    - Edit Inventory Details ...file:
     - Close Button
     - Total Products Filter
     - Low Stocks Filter

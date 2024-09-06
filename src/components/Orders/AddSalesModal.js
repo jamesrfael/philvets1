@@ -1,16 +1,12 @@
 import React, { useState } from "react";
-import { IoCloseCircle } from "react-icons/io5";
+import Modal from "../Layout/Modal";
+import { IoCloseCircle } from "react-icons/io5"; 
 import {
   calculateLineTotal,
   calculateTotalQuantity,
   calculateTotalValue,
-} from "../../utils/CalculationUtils"; // Import utility functions
+} from "../../utils/CalculationUtils";
 import {
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Field,
   Label,
   Input,
@@ -18,22 +14,21 @@ import {
   DescriptionBox,
   OrderDetailsSection,
   Table,
+  AddProductButton,
   DeleteButton,
   TotalSection,
   TotalRow,
   TotalLabel,
   TotalValue,
-  CloseButton,
+  SaveButton,
   DiscountContainer,
   DiscountInput,
   DiscountSelect,
   QuantityInput,
   SuggestionsList,
   SuggestionItem,
-} from "./OrderStyles"; // Import styles from a separate file
-import Button from "../Layout/Button"; // Import the reusable Button component
+} from "./OrderStyles";
 
-// Sample products for selection
 const products = [
   { id: 1, name: "Canine Dewormer", price: 20.0 },
   { id: 2, name: "Feline Dewormer", price: 8.0 },
@@ -51,14 +46,14 @@ const AddSalesModal = ({ onClose, onSave }) => {
       productName: "",
       price: 0,
       quantity: 1,
-      discountType: "amount", // "amount" or "percent"
+      discountType: "amount",
       discountValue: 0,
       lineTotal: 0,
     },
   ]);
   const [productSearch, setProductSearch] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
-  const [currentEditingIndex, setCurrentEditingIndex] = useState(null); // Track which row is being edited
+  const [currentEditingIndex, setCurrentEditingIndex] = useState(null);
 
   const handleAddProduct = () => {
     setOrderDetails([
@@ -76,16 +71,14 @@ const AddSalesModal = ({ onClose, onSave }) => {
   };
 
   const handleProductInputChange = (index, value) => {
-    setCurrentEditingIndex(index); // Set the index of the row being edited
+    setCurrentEditingIndex(index);
     setProductSearch(value);
 
-    // Filter products based on input value
     const filtered = products.filter((product) =>
       product.name.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredProducts(filtered);
 
-    // Update order details with the input value as productName
     const updatedOrderDetails = [...orderDetails];
     updatedOrderDetails[index].productName = value;
     setOrderDetails(updatedOrderDetails);
@@ -101,14 +94,14 @@ const AddSalesModal = ({ onClose, onSave }) => {
     );
 
     setOrderDetails(updatedOrderDetails);
-    setProductSearch(""); // Reset search input after selection
-    setFilteredProducts(products); // Reset filtered products
-    setCurrentEditingIndex(null); // Reset current editing index
+    setProductSearch("");
+    setFilteredProducts(products);
+    setCurrentEditingIndex(null);
   };
 
   const handleQuantityChange = (index, value) => {
     const updatedOrderDetails = [...orderDetails];
-    updatedOrderDetails[index].quantity = Math.max(1, value); // Ensure quantity is at least 1
+    updatedOrderDetails[index].quantity = Math.max(1, value);
     updatedOrderDetails[index].lineTotal = calculateLineTotal(
       updatedOrderDetails[index]
     );
@@ -119,10 +112,9 @@ const AddSalesModal = ({ onClose, onSave }) => {
     const updatedOrderDetails = [...orderDetails];
 
     if (field === "discountValue") {
-      // If the input is a leading zero, remove it unless the value is zero
       if (value !== "" && !isNaN(value)) {
         value = String(value).replace(/^0+(?=\d)/, "");
-        if (value < 0) return; // Ignore negative input
+        if (value < 0) return;
       }
     }
 
@@ -134,18 +126,18 @@ const AddSalesModal = ({ onClose, onSave }) => {
   };
 
   const handleSave = () => {
-    const today = new Date().toISOString().split("T")[0]; // Get today's date
+    const today = new Date().toISOString().split("T")[0];
 
     const newOrder = {
-      orderType: "Sales Order",
+      orderType: "Purchase Order",
       clientName,
       location,
-      purchaseOrderDlvryDate: today, // Set delivery date to today
+      purchaseOrderDlvryDate: today,
       purchaseOrderStatus: "Pending",
-      purchaseOrderTotQty: calculateTotalQuantity(orderDetails), // Use utility function
-      purchaseOrderTotal: calculateTotalValue(orderDetails), // Use utility function
+      purchaseOrderTotQty: calculateTotalQuantity(orderDetails),
+      purchaseOrderTotal: calculateTotalValue(orderDetails),
       purchaseOrderDlvrOpt: deliveryOption,
-      clientId: "", // Not used for now
+      clientId: "",
       purchaseOrderDetails: orderDetails.map(({ lineTotal, ...rest }) => rest),
     };
     onSave(newOrder);
@@ -158,164 +150,148 @@ const AddSalesModal = ({ onClose, onSave }) => {
     setOrderDetails(updatedOrderDetails);
   };
 
-  // Compute totals using utility functions
   const totalQuantity = calculateTotalQuantity(orderDetails);
   const totalValue = calculateTotalValue(orderDetails);
 
   return (
-    <ModalOverlay>
-      <ModalContent>
-        <ModalHeader>
-          <h2>Add Sales Order</h2>
-          <CloseButton onClick={onClose}>
-            <IoCloseCircle />
-          </CloseButton>
-        </ModalHeader>
-        <ModalBody>
-          <Field>
-            <Label>Client Name</Label>
-            <Input
-              value={clientName}
-              onChange={(e) => setClientName(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <Label>Location</Label>
-            <Input
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <Label>Delivery Option</Label>
-            <Select
-              value={deliveryOption}
-              onChange={(e) => setDeliveryOption(e.target.value)}
-            >
-              <option value="Standard">Standard</option>
-              <option value="Express">Express</option>
-            </Select>
-          </Field>
-          <Field>
-            <Label>Description</Label>
-            <DescriptionBox
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Field>
-          <OrderDetailsSection>
-            <h3>Products</h3>
-            <Table>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Discount</th>
-                  <th>Total</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orderDetails.map((detail, index) => (
-                  <tr key={index}>
-                    <td>
-                      <div style={{ position: "relative" }}>
-                        <Input
-                          value={detail.productName}
-                          onChange={(e) =>
-                            handleProductInputChange(index, e.target.value)
-                          }
-                          placeholder="Search product" // Placeholder added here
-                        />
-                        {currentEditingIndex === index && productSearch && (
-                          <SuggestionsList>
-                            {filteredProducts.map((product) => (
-                              <SuggestionItem
-                                key={product.id}
-                                onClick={() =>
-                                  handleProductSelect(index, product)
-                                }
-                              >
-                                {product.name}
-                              </SuggestionItem>
-                            ))}
-                          </SuggestionsList>
-                        )}
-                      </div>
-                    </td>
-                    <td>₱{detail.price.toFixed(2)}</td>
-                    <td>
-                    <QuantityInput
-                             type="number"
-                             min="1"
-                             value={detail.quantity}
-                             onChange={(e) =>
-                               handleQuantityChange(index, Number(e.target.value))
-                             }
-                           />
-                       </td>
-                       <td>
-                         <DiscountContainer>
-                           <DiscountInput
-                             type="number"
-                             min="0"
-                             value={detail.discountValue}
-                             onChange={(e) =>
-                               handleDiscountChange(
-                                 index,
-                                 "discountValue",
-                                 e.target.value
-                               )
-                             }
-                           />
-                           <DiscountSelect
-                             value={detail.discountType}
-                             onChange={(e) =>
-                               handleDiscountChange(
-                                 index,
-                                 "discountType",
-                                 e.target.value
-                               )
-                             }
-                           >
-                             <option value="amount">Amount</option>
-                             <option value="percent">Percent</option>
-                           </DiscountSelect>
-                         </DiscountContainer>
-                       </td>
-                       <td>₱{detail.lineTotal.toFixed(2)}</td>
-                       <td>
-                         <DeleteButton onClick={() => handleRemoveProduct(index)}>
-                           <IoCloseCircle />
-                         </DeleteButton>
-                       </td>
-                     </tr>
-                   ))}
-                 </tbody>
-               </Table>
-               <Button onClick={handleAddProduct}>
-                 Add Another Product
-               </Button>
-               <TotalSection>
-                 <TotalRow>
-                   <TotalLabel>Total Quantity:</TotalLabel>
-                   <TotalValue>{totalQuantity}</TotalValue>
-                 </TotalRow>
-                 <TotalRow>
-                   <TotalLabel>Total:</TotalLabel>
-                   <TotalValue>₱{totalValue.toFixed(2)}</TotalValue>
-                 </TotalRow>
-               </TotalSection>
-             </OrderDetailsSection>
-           </ModalBody>
-           <ModalFooter>
-             <Button onClick={handleSave}>Save Order</Button>
-           </ModalFooter>
-         </ModalContent>
-       </ModalOverlay>
-     );
-   };
+    <Modal title="Add Sales Order" onClose={onClose}>
+      <Field>
+        <Label>Client Name</Label>
+        <Input
+          value={clientName}
+          onChange={(e) => setClientName(e.target.value)}
+        />
+      </Field>
+      <Field>
+        <Label>Location</Label>
+        <Input
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+        />
+      </Field>
+      <Field>
+        <Label>Delivery Option</Label>
+        <Select
+          value={deliveryOption}
+          onChange={(e) => setDeliveryOption(e.target.value)}
+        >
+          <option value="Standard">Standard</option>
+          <option value="Express">Express</option>
+        </Select>
+      </Field>
+      <Field>
+        <Label>Description</Label>
+        <DescriptionBox
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </Field>
+      <OrderDetailsSection>
+        <h3>Products</h3>
+        <Table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Discount</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderDetails.map((detail, index) => (
+              <tr key={index}>
+                <td>
+                  <div style={{ position: "relative" }}>
+                    <Input
+                      value={detail.productName}
+                      onChange={(e) =>
+                        handleProductInputChange(index, e.target.value)
+                      }
+                      placeholder="Search product"
+                    />
+                    {currentEditingIndex === index && productSearch && (
+                      <SuggestionsList>
+                        {filteredProducts.map((product) => (
+                          <SuggestionItem
+                            key={product.id}
+                            onClick={() => handleProductSelect(index, product)}
+                          >
+                            {product.name}
+                          </SuggestionItem>
+                        ))}
+                      </SuggestionsList>
+                    )}
+                  </div>
+                </td>
+                <td>₱{detail.price.toFixed(2)}</td>
+                <td>
+                  <QuantityInput
+                    type="number"
+                    min="1"
+                    value={detail.quantity}
+                    onChange={(e) =>
+                      handleQuantityChange(index, Number(e.target.value))
+                    }
+                  />
+                </td>
+                <td>
+                  <DiscountContainer>
+                    <DiscountInput
+                      type="number"
+                      min="0"
+                      value={detail.discountValue}
+                      onChange={(e) =>
+                        handleDiscountChange(
+                          index,
+                          "discountValue",
+                          e.target.value
+                        )
+                      }
+                    />
+                    <DiscountSelect
+                      value={detail.discountType}
+                      onChange={(e) =>
+                        handleDiscountChange(
+                          index,
+                          "discountType",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="amount">Amount</option>
+                      <option value="percent">Percent</option>
+                    </DiscountSelect>
+                  </DiscountContainer>
+                </td>
+                <td>₱{detail.lineTotal.toFixed(2)}</td>
+                <td>
+                  <DeleteButton onClick={() => handleRemoveProduct(index)}>
+                    <IoCloseCircle />
+                  </DeleteButton>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <AddProductButton onClick={handleAddProduct}>
+          Add Another Product
+        </AddProductButton>
+        <TotalSection>
+          <TotalRow>
+            <TotalLabel>Total Quantity:</TotalLabel>
+            <TotalValue>{totalQuantity}</TotalValue>
+          </TotalRow>
+          <TotalRow>
+            <TotalLabel>Total:</TotalLabel>
+            <TotalValue>₱{totalValue.toFixed(2)}</TotalValue>
+          </TotalRow>
+        </TotalSection>
+      </OrderDetailsSection>
+      <SaveButton onClick={handleSave}>Save Order</SaveButton>
+    </Modal>
+  );
+};
 
-   export default AddSalesModal;
-
+export default AddSalesModal;

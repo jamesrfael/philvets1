@@ -1,22 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
+import { colors } from "../../colors";
 
 const InventoryDetailModal = ({ item, onClose }) => {
   if (!item) return null;
 
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose(); // Close modal if clicked outside the modal content
+    }
+  };
+
   return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        <ModalHeader>
-          <ModalTitle>Inventory Details</ModalTitle>
-          <CloseButton onClick={onClose}>
-            <IoCloseCircle color="#aaa" size={24} />
-          </CloseButton>
-        </ModalHeader>
+    <Backdrop onClick={handleBackdropClick}>
+      <Modal>
+        <CloseButton onClick={onClose}>
+          <IoCloseCircle color="#ff5757" size={24} />
+        </CloseButton>
+        <ModalTitle>Inventory Details</ModalTitle>
         <ModalBody>
-          <ItemImage src={item.image} alt={item.name} />
+          <CenteredImageContainer>
+            <ItemImage src={item.image} alt={item.name} />
+          </CenteredImageContainer>
           <DetailRow>
             <DetailLabel>Name:</DetailLabel>
             <DetailValue>{item.name}</DetailValue>
@@ -47,7 +53,9 @@ const InventoryDetailModal = ({ item, onClose }) => {
           </DetailRow>
           <DetailRow>
             <DetailLabel>Status:</DetailLabel>
-            <DetailValue>{item.status}</DetailValue>
+            <DetailValue>
+              <StatusBadge status={item.status}>{item.status}</StatusBadge>
+            </DetailValue>
           </DetailRow>
           <ActionButtonContainer>
             <ActionButton bgColor={colors.primary}>Edit</ActionButton>
@@ -56,54 +64,60 @@ const InventoryDetailModal = ({ item, onClose }) => {
             </ActionButton>
           </ActionButtonContainer>
         </ModalBody>
-      </ModalContent>
-    </ModalOverlay>
+      </Modal>
+    </Backdrop>
   );
 };
 
-const ModalOverlay = styled.div`
+const Backdrop = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  align-items: center;
   justify-content: center;
-`;
-
-const ModalContent = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 4px;
-  max-width: 400px;
-  width: 100%;
-`;
-
-const ModalHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
+  z-index: 1000;
 `;
 
-const ModalTitle = styled.h2`
-  font-size: 18px;
-  font-weight: bold;
+const Modal = styled.div`
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 95%;
+  max-width: 500px;
+  max-height: 90%;
+  overflow-y: auto;
+  position: relative;
 `;
 
 const CloseButton = styled.button`
-  background: none;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
   border: none;
   cursor: pointer;
+`;
+
+const ModalTitle = styled.h2`
+  text-align: center;
   font-size: 24px;
-  color: #aaa;
+  font-weight: bold;
+  margin-bottom: 20px;
 `;
 
 const ModalBody = styled.div`
   padding: 20px 0;
+`;
+
+const CenteredImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 `;
 
 const ItemImage = styled.img`
@@ -111,7 +125,6 @@ const ItemImage = styled.img`
   height: 100px;
   object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 20px;
 `;
 
 const DetailRow = styled.div`
@@ -143,6 +156,17 @@ const ActionButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
+`;
+
+const StatusBadge = styled.span`
+  background-color: ${(props) =>
+    props.status === "In stock" ? "#1DBA0B"
+    : props.status === "Low stock" ? "#f08400"
+    : "#ff5757"};
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
 `;
 
 export default InventoryDetailModal;
