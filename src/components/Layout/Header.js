@@ -43,7 +43,11 @@ const Header = ({ toggleSidebar }) => {
   };
 
   const goToProfile = () => {
-    navigate("/admin/profile"); // Always navigate to /admin/profile
+    if (location.pathname.startsWith("/admin")) {
+        navigate("/admin/profile");
+    } else if (location.pathname.startsWith("/staff")) {
+        navigate("/staff/profile");
+    }
   };
 
   return (
