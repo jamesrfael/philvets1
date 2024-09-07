@@ -3,20 +3,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../Layout/Card"; // Import the reusable Card component
-import { orders } from "../../pages/data/OrderData"; // Import the orders data
+import { orders as allOrders } from "../../pages/data/OrderData"; // Import the orders data
 import styled from "styled-components";
 import { FaClipboardCheck } from "react-icons/fa"; // Import an icon from react-icons
 
-const CardTotalOrders = () => {
+const CardTotalOrders = ({ totalOrders, isAdmin = false }) => {
   const navigate = useNavigate();
 
-  const totalOrders = orders.length; // Calculate total orders here
+  //Calculation for total number of orders 
+  const orderCount = isAdmin ? allOrders.length : totalOrders; 
 
   return (
-    <CardContainer onClick={() => navigate('/admin/orders')}>
+    <CardContainer onClick={() => navigate(isAdmin ? '/admin/orders' : '/staff/orders')}>
       <Card
         label="Total Orders"
-        value={totalOrders} // Display the total number of orders
+        value={orderCount} // Display the total number of orders
         icon={<FaClipboardCheck />} // Add the icon here
       />
     </CardContainer>
