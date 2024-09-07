@@ -86,7 +86,7 @@ const StaffSidebar = ({ isOpen, onClose }) => {
         <SidebarItem 
           icon={TbHistory} 
           label="Logs" 
-          link="/admin/logs" 
+          link="/staff/logs" 
         />
         <SidebarItem
           icon={TbFileReport}

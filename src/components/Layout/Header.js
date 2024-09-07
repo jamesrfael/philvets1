@@ -23,6 +23,7 @@ const pageTitles = {
   "/staff/profile": "Staff Profile",
   "/staff/orders": "Order",
   "/staff/delivery": "Delivery",
+  "/staff/products": "Product",
 };
 
 const Header = ({ toggleSidebar }) => {
