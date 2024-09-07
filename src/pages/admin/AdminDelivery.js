@@ -53,7 +53,7 @@ const AdminDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <CardTotalDelivery /> {/* Use the CardTotalDelivery component */}
+        <CardTotalDelivery isAdmin={true} /> {/* Use the CardTotalDelivery component */}
       </SummarySection>
       <Table headers={headers} rows={rows} />
       {selectedDelivery && (
