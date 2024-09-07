@@ -13,7 +13,7 @@ import {
   TbLogout2,
 } from "react-icons/tb";
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
-import { LuWarehouse, LuBox } from "react-icons/lu";
+import { LuBox } from "react-icons/lu";
 
 const StaffSidebar = ({ isOpen, onClose }) => {
   const sidebarRef = useRef(null);
@@ -67,11 +67,6 @@ const StaffSidebar = ({ isOpen, onClose }) => {
           icon={MdOutlineInventory2}
           label="Inventory"
           link="/staff/inventory"
-        />
-        <SidebarItem
-          icon={LuWarehouse}
-          label="Supplier"
-          link="/staff/suppliers"
         />
         <SidebarItem
           icon={TbUserDollar}
