@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import StaffLayoutHS from "../../components/Layout/StaffLayoutHS";
 import styled from "styled-components";
 import productData from "../data/ProductData";
 import SearchBar from "../../components/Layout/SearchBar";
@@ -102,7 +102,7 @@ const StaffProducts = () => {
   };
 
   return (
-    <LayoutHS>
+    <StaffLayoutHS>
       <Controls>
         <SearchBar
           placeholder="Search / Filter product..."
@@ -137,7 +137,7 @@ const StaffProducts = () => {
           onClose={closeProductDetailsModal}
         />
       )}
-    </LayoutHS>
+    </StaffLayoutHS>
   );
 };
 
