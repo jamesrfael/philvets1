@@ -13,7 +13,7 @@ import {
   TbLogout2,
 } from "react-icons/tb";
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
-import { LuWarehouse, LuBox } from "react-icons/lu";
+import { LuBox } from "react-icons/lu";
 
 const StaffSidebar = ({ isOpen, onClose }) => {
   const sidebarRef = useRef(null);
@@ -69,11 +69,6 @@ const StaffSidebar = ({ isOpen, onClose }) => {
           link="/staff/inventory"
         />
         <SidebarItem
-          icon={LuWarehouse}
-          label="Supplier"
-          link="/staff/suppliers"
-        />
-        <SidebarItem
           icon={TbUserDollar}
           label="Customer"
           link="/staff/customers"
@@ -86,7 +81,7 @@ const StaffSidebar = ({ isOpen, onClose }) => {
         <SidebarItem 
           icon={TbHistory} 
           label="Logs" 
-          link="/admin/logs" 
+          link="/staff/logs" 
         />
         <SidebarItem
           icon={TbFileReport}
