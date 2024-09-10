@@ -34,3 +34,4 @@
     - Reports
     - Notification
     - Profile
+    - Forgot Password

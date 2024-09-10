@@ -1,178 +1,331 @@
-import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import LayoutHS from "../../components/Layout/LayoutHS";
 import { colors } from "../../colors";
-import Button from "../../components/Layout/Button";
-
-// Import the profile picture
+import { FaPencilAlt } from "react-icons/fa";
 import profilePic from "../../assets/profile.png";
 
-// Styled components
-const ProfileContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
-`;
-
-const ProfileHeader = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const ProfilePicture = styled.img`
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  border: 2px solid ${colors.primary};
-  margin-right: 20px;
-`;
-
-const ProfileInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ProfileName = styled.h1`
-  font-size: 24px;
-  margin: 0;
-`;
-
-const ProfileRole = styled.h2`
-  font-size: 18px;
-  color: ${colors.secondary};
-  margin: 5px 0;
-`;
-
-const ProfileEmail = styled.p`
-  font-size: 16px;
-  margin: 5px 0;
-`;
-
-const TabContainer = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-`;
-
-const TabButton = styled.button`
-  flex: 1;
-  padding: 10px;
-  border: none;
-  background-color: ${colors.background};
-  cursor: pointer;
-  border-bottom: 2px solid ${props => (props.active ? colors.primary : 'transparent')};
-  transition: border-bottom 0.3s;
-
-  &:hover {
-    background-color: ${colors.hover};
-  }
-`;
-
-const ContentSection = styled.div`
-  width: 100%;
-  max-width: 800px;
-  padding: 20px;
-  background-color: ${colors.backgroundLight};
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 15px;
-`;
-
-const FormLabel = styled.label`
-  display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
-`;
-
-const FormInput = styled.input`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid ${colors.border};
-  border-radius: 4px;
-`;
-
-const FormTextarea = styled.textarea`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid ${colors.border};
-  border-radius: 4px;
-`;
-
 const AdminProfile = () => {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
+  const [isEditingPassword, setIsEditingPassword] = useState(false);
+  const [isEditingContact, setIsEditingContact] = useState(false);
 
-  // Profile data for the admin
-  const profileData = {
-    name: "Admin User",
-    email: "admin@example.com",
-    role: "Administrator",
-    profilePicture: profilePic // Use the imported image
+  const [name, setName] = useState("Maria Santos");
+  const [email, setEmail] = useState("maria.santos@example.com");
+  const [password, setPassword] = useState("MariaAdminPassword");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [contact, setContact] = useState("09123456789");
+  const [profileImage, setProfileImage] = useState(profilePic);
+
+  const [hasChanges, setHasChanges] = useState(false);
+  const [saveClicked, setSaveClicked] = useState(false);
+
+  const handleProfileImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => setProfileImage(reader.result);
+      reader.readAsDataURL(file);
+      setHasChanges(true);
+    }
+  };
+
+  useEffect(() => {
+    if (
+      isEditingName ||
+      isEditingEmail ||
+      isEditingPassword ||
+      isEditingContact
+    ) {
+      setHasChanges(true);
+    } else {
+      setHasChanges(false);
+    }
+  }, [name, email, password, confirmPassword, contact]);
+
+  const handleSaveChanges = () => {
+    console.log("Changes saved!");
+    setIsEditingName(false);
+    setIsEditingEmail(false);
+    setIsEditingPassword(false);
+    setIsEditingContact(false);
+    setSaveClicked(true);
   };
 
   return (
     <LayoutHS>
       <ProfileContainer>
-        <ProfileHeader>
-          <ProfilePicture src={profileData.profilePicture} alt="Admin Profile Picture" />
+        <LeftPanel>
+          <ProfileImageWrapper>
+            <ProfileImage src={profileImage} alt="Admin Profile" />
+            <EditProfilePicButton htmlFor="upload-photo">
+              <FaPencilAlt />
+            </EditProfilePicButton>
+            <input
+              type="file"
+              id="upload-photo"
+              style={{ display: "none" }}
+              accept="image/*"
+              onChange={handleProfileImageChange}
+            />
+          </ProfileImageWrapper>
+
           <ProfileInfo>
-            <ProfileName>{profileData.name}</ProfileName>
-            <ProfileRole>{profileData.role}</ProfileRole>
-            <ProfileEmail>{profileData.email}</ProfileEmail>
+            <AdminText>Admin</AdminText>
+            <NameText>{name}</NameText>
+            <EmailText>{email}</EmailText>
           </ProfileInfo>
-        </ProfileHeader>
+        </LeftPanel>
 
-        <TabContainer>
-          <TabButton active={activeTab === "overview"} onClick={() => setActiveTab("overview")}>Overview</TabButton>
-          <TabButton active={activeTab === "settings"} onClick={() => setActiveTab("settings")}>Account Settings</TabButton>
-          <TabButton active={activeTab === "activity"} onClick={() => setActiveTab("activity")}>Activity Log</TabButton>
-        </TabContainer>
+        <RightPanel>
+          <ProfileField>
+            <Label>Name</Label>
+            <FieldContainer>
+              {isEditingName ? (
+                <InputField
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  showBorder={isEditingName}
+                />
+              ) : (
+                <FieldText>{name}</FieldText>
+              )}
+              <EditButton onClick={() => setIsEditingName(!isEditingName)}>
+                <FaPencilAlt />
+              </EditButton>
+            </FieldContainer>
+          </ProfileField>
 
-        <ContentSection>
-          {activeTab === "overview" && (
-            <div>
-              <h3>Overview</h3>
-              <p>Welcome to your profile. Here you can view and update your personal information.</p>
-              <FormGroup>
-                <FormLabel>About Me</FormLabel>
-                <FormTextarea rows="4" defaultValue="Admin user with extensive experience in system management and operations."></FormTextarea>
-              </FormGroup>
-              <Button>Update Profile</Button>
-            </div>
+          <ProfileField>
+            <Label>Email</Label>
+            <FieldContainer>
+              {isEditingEmail ? (
+                <InputField
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  showBorder={isEditingEmail}
+                />
+              ) : (
+                <FieldText>{email}</FieldText>
+              )}
+              <EditButton onClick={() => setIsEditingEmail(!isEditingEmail)}>
+                <FaPencilAlt />
+              </EditButton>
+            </FieldContainer>
+          </ProfileField>
+
+          <ProfileField>
+            <Label>Contact</Label>
+            <FieldContainer>
+              {isEditingContact ? (
+                <InputField
+                  type="tel"
+                  value={contact}
+                  onChange={(e) => setContact(e.target.value)}
+                  showBorder={isEditingContact}
+                />
+              ) : (
+                <FieldText>{contact}</FieldText>
+              )}
+              <EditButton onClick={() => setIsEditingContact(!isEditingContact)}>
+                <FaPencilAlt />
+              </EditButton>
+            </FieldContainer>
+          </ProfileField>
+
+          <ProfileField>
+            <Label>Password</Label>
+            {isEditingPassword ? (
+              <InputContainer>
+                <InputField
+                  type="password"
+                  value={password}
+                  placeholder="New Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  showBorder={isEditingPassword}
+                />
+                <InputField
+                  type="password"
+                  value={confirmPassword}
+                  placeholder="Confirm Password"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  showBorder={isEditingPassword}
+                />
+                <EditButton onClick={() => setIsEditingPassword(!isEditingPassword)}>
+                  <FaPencilAlt />
+                </EditButton>
+              </InputContainer>
+            ) : (
+              <FieldContainer>
+                <FieldText>********</FieldText>
+                <EditButton onClick={() => setIsEditingPassword(!isEditingPassword)}>
+                  <FaPencilAlt />
+                </EditButton>
+              </FieldContainer>
+            )}
+          </ProfileField>
+
+          {hasChanges && !saveClicked && (
+            <SaveChangesButton onClick={handleSaveChanges}>
+              Save Changes
+            </SaveChangesButton>
           )}
-          
-          {activeTab === "settings" && (
-            <div>
-              <h3>Account Settings</h3>
-              <FormGroup>
-                <FormLabel>Change Email</FormLabel>
-                <FormInput type="email" defaultValue={profileData.email} />
-              </FormGroup>
-              <FormGroup>
-                <FormLabel>Change Password</FormLabel>
-                <FormInput type="password" placeholder="New password" />
-              </FormGroup>
-              <Button>Save Changes</Button>
-            </div>
-          )}
-          
-          {activeTab === "activity" && (
-            <div>
-              <h3>Activity Log</h3>
-              <ul>
-                <li><strong>2024-09-05:</strong> Updated profile picture.</li>
-                <li><strong>2024-09-04:</strong> Changed password.</li>
-                <li><strong>2024-09-03:</strong> Edited profile details.</li>
-              </ul>
-            </div>
-          )}
-        </ContentSection>
+        </RightPanel>
       </ProfileContainer>
     </LayoutHS>
   );
 };
+
+// Styled components
+const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
+const LeftPanel = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center items vertically */
+  margin-bottom: 20px;
+
+  @media (min-width: 768px) {
+    margin-bottom: 0;
+  }
+`;
+
+const RightPanel = styled.div`
+  flex: 2;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const ProfileImageWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+`;
+
+const ProfileImage = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+const EditProfilePicButton = styled.label`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: ${colors.primary};
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+`;
+
+const ProfileInfo = styled.div`
+  text-align: center;
+`;
+
+const AdminText = styled.p`
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5px 0;
+`;
+
+const NameText = styled.p`
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0;
+`;
+
+const EmailText = styled.p`
+  font-size: 14px;
+  color: gray;
+  margin: 5px 0;
+`;
+
+const ProfileField = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+`;
+
+const Label = styled.label`
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #555;
+`;
+
+const FieldText = styled.p`
+  font-size: 18px;
+  margin-right: 10px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+`;
+
+const InputField = styled.input`
+  padding: 8px;
+  font-size: 18px;
+  margin-right: 10px;
+  flex: 1;
+  border: ${({ showBorder }) => (showBorder ? "1px solid #ccc" : "none")};
+  border-radius: 8px;
+`;
+
+const EditButton = styled.button`
+  background-color: ${colors.primary};
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+`;
+
+const FieldContainer = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+
+const SaveChangesButton = styled.button`
+  background-color: ${colors.primary};
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 export default AdminProfile;
