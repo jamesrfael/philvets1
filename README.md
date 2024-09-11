@@ -33,5 +33,5 @@
 
     - Reports
     - Notification
-    - Profile
-    - Forgot Password
+    - Profile ✔
+    - Forgot Password ✔

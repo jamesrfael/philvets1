@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // Import the ForgotPasswordPage component
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminStaffs from "./pages/admin/AdminStaffs";
 import AdminCustomers from "./pages/admin/AdminCustomers";
@@ -25,7 +26,6 @@ import StaffProducts from "./pages/staff/StaffProducts";
 import StaffInventory from "./pages/staff/StaffInventory";
 import NotFoundPage from "./pages/NotFoundPage"; // Add a NotFoundPage component
 
-
 function App() {
   return (
     <Router>
@@ -35,8 +35,13 @@ function App() {
             {/* Default Landing Page */}
             <Route path="/" element={<LoginPage />} />
 
-            {/* Admin Routes */}
+            {/* Login Route */}
             <Route path="/login" element={<LoginPage />} />
+
+            {/* Forgot Password Route */}
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* New Forgot Password route */}
+
+            {/* Admin Routes */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
             <Route path="/admin/staffs" element={<AdminStaffs />} />
@@ -53,7 +58,6 @@ function App() {
             <Route path="/admin/categories" element={<AdminCategories />} />
             <Route path="/admin/categories/:categoryId" element={<CategoryProducts />} />
             
-
             {/* Staff Routes */}
             <Route path="/staff/dashboard" element={<StaffDashboard />} />
             <Route path="/staff/profile" element={<StaffProfile />} />

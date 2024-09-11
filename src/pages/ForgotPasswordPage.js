@@ -4,22 +4,21 @@ import styled from "styled-components";
 import logo from "../assets/roundlogo.png";
 import loginbg from "../assets/loginbg.jpg";
 
-const LoginPage = () => {
+const ForgotPassword = () => {
   return (
     <BackgroundContainer>
       <FormContainer>
         <LogoContainer>
           <Logo src={logo} alt="Logo" />
         </LogoContainer>
-        <Title>Login to your account</Title>
-        <Input type="text" placeholder="Username" />
-        <Input type="password" placeholder="Password" />
-        {/* Link ForgotPassword to the ForgotPasswordPage */}
-        <Link to="/forgot-password">
-          <ForgotPassword>Forgot password?</ForgotPassword>
-        </Link>
-        <Link to="/admin/dashboard">
-          <LoginButton>Login</LoginButton>
+        <Title>Forgot Your Password?</Title>
+        <InstructionText>
+          Enter your email address and we will send you instructions to reset your password.
+        </InstructionText>
+        <Input type="email" placeholder="Email Address" />
+        <SubmitButton>Send Reset Link</SubmitButton>
+        <Link to="/login">
+          <BackToLoginLink>Return to Login</BackToLoginLink>
         </Link>
       </FormContainer>
     </BackgroundContainer>
@@ -57,28 +56,39 @@ const FormContainer = styled.div`
 
 const LogoContainer = styled.div`
   position: absolute;
-  top: -60px; /* Adjusted to accommodate the larger logo */
+  top: -60px;
   display: flex;
   justify-content: center;
   width: 100%;
 `;
 
 const Logo = styled.img`
-  width: 140px; /* Increased size */
+  width: 140px;
 
   @media (min-width: 768px) {
-    width: 150px; /* Larger size on bigger screens */
+    width: 150px;
   }
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
-  margin: 70px 0 20px 0; /* Adjusted top margin to account for the larger logo */
+  margin: 70px 0 20px 0;
   text-align: center;
 
   @media (min-width: 768px) {
     font-size: 28px;
+  }
+`;
+
+const InstructionText = styled.p`
+  font-size: 16px;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+
+  @media (min-width: 768px) {
+    font-size: 18px;
   }
 `;
 
@@ -100,19 +110,7 @@ const Input = styled.input`
   }
 `;
 
-const ForgotPassword = styled.p`
-  font-size: 14px;
-  color: gray;
-  margin-bottom: 20px;
-  text-align: center;
-
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-`;
-
-const LoginButton = styled.button`
+const SubmitButton = styled.button`
   width: 100%;
   padding: 12px;
   background-color: #EF893E;
@@ -129,4 +127,16 @@ const LoginButton = styled.button`
   }
 `;
 
-export default LoginPage;
+const BackToLoginLink = styled.p`
+  margin-top: 20px;
+  font-size: 14px;
+  color: gray;
+  text-align: center;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+export default ForgotPassword;
