@@ -300,8 +300,9 @@ const InputField = styled.input`
   margin-right: 10px;
   border: ${({ showBorder }) => (showBorder ? "1px solid #ccc" : "none")};
   border-radius: 8px;
-  width: ${({ value }) => `${Math.max(10, value.length + 1)}ch`}; /* Auto-adjust based on value length */
-  min-width: 300px; /* Minimum width */
+  width: 100%; /* Full width by default */
+  max-width: 500px; /* Maximum width for larger screens */
+  box-sizing: border-box; /* Ensure padding is included in width */
 `;
 
 const EditButton = styled.button`
@@ -332,7 +333,6 @@ const InputContainer = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    align-items: stretch;
   }
 `;
 
@@ -340,6 +340,7 @@ const FieldContainer = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  width: 100%; /* Full width */
 `;
 
 const EyeIcon = styled.div`
