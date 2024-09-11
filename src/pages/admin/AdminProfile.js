@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import { colors } from "../../colors";
-import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import profilePic from "../../assets/profile.png";
 
 const AdminProfile = () => {
@@ -17,6 +17,8 @@ const AdminProfile = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [contact, setContact] = useState("09123456789");
   const [profileImage, setProfileImage] = useState(profilePic);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [hasChanges, setHasChanges] = useState(false);
   const [saveClicked, setSaveClicked] = useState(false);
@@ -140,20 +142,30 @@ const AdminProfile = () => {
             <Label>Password</Label>
             {isEditingPassword ? (
               <InputContainer>
-                <InputField
-                  type="password"
-                  value={password}
-                  placeholder="New Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  showBorder={isEditingPassword}
-                />
-                <InputField
-                  type="password"
-                  value={confirmPassword}
-                  placeholder="Confirm Password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  showBorder={isEditingPassword}
-                />
+                <FieldContainer>
+                  <InputField
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    placeholder="New Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    showBorder={isEditingPassword}
+                  />
+                  <EyeIcon onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </EyeIcon>
+                </FieldContainer>
+                <FieldContainer>
+                  <InputField
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    placeholder="Confirm Password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    showBorder={isEditingPassword}
+                  />
+                  <EyeIcon onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  </EyeIcon>
+                </FieldContainer>
                 <EditButton onClick={() => setIsEditingPassword(!isEditingPassword)}>
                   <FaPencilAlt />
                 </EditButton>
@@ -286,9 +298,10 @@ const InputField = styled.input`
   padding: 8px;
   font-size: 18px;
   margin-right: 10px;
-  flex: 1;
   border: ${({ showBorder }) => (showBorder ? "1px solid #ccc" : "none")};
   border-radius: 8px;
+  width: ${({ value }) => `${Math.max(10, value.length + 1)}ch`}; /* Auto-adjust based on value length */
+  min-width: 300px; /* Minimum width */
 `;
 
 const EditButton = styled.button`
@@ -299,6 +312,16 @@ const EditButton = styled.button`
   padding: 8px;
   cursor: pointer;
   margin-left: 10px;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    height: 16px;
+    width: 16px;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -306,12 +329,24 @@ const InputContainer = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 10px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const FieldContainer = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+`;
+
+const EyeIcon = styled.div`
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+  color: ${colors.primary};
 `;
 
 const SaveChangesButton = styled.button`
