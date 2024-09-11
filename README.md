@@ -34,4 +34,4 @@ Return Admin/Staff
     - Notification    ✔
     - Profile         ✔
     - Forgot Password ✔
-    - Reports        --
+    - Reports         --
