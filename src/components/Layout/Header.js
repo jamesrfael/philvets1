@@ -142,10 +142,11 @@ const ProfileButton = styled.button`
   background: transparent;
   color: black;
   font-weight: 600;
-  padding: 8px 16px;
+  padding: 5px 8px;
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
+  margin-left: 10px;
 
   svg {
     width: 20px;
