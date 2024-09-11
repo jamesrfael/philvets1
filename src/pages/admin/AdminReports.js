@@ -10,6 +10,7 @@ import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
 import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
+import CardTotalNotification from "../../components/CardsData/CardTotalNotification";
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
 import RevenueGraph from "../../components/Reports/RevenueGraph";
 import CostBreakdownPieChart from "../../components/Reports/CostBreakdownPieChart";
@@ -28,6 +29,7 @@ const AdminReports = () => {
         <CardTotalSales />
         <CardTotalStaffs />
         <CardTotalSuppliers />
+        <CardTotalNotification />
 
       </StatsContainer>
       <StatsContainer>
@@ -55,20 +57,6 @@ const AdminReports = () => {
     </LayoutHS>
   );
 };
-
-// const CardContainer = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   margin: 0 auto;
-//   gap: 1rem;
-//   max-width: 1000px;
-
-//   @media (max-width: 900px) {
-//     flex-direction: column;
-//     align-items: center;
-//   }
-// `;
 
 const StatsContainer = styled.div`
   display: flex;

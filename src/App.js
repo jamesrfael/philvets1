@@ -1,7 +1,9 @@
+// src/App.js
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage"; // Import the ForgotPasswordPage component
+import ForgotPassword from "./pages/ForgotPasswordPage"; // Import the ForgotPassword component
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminStaffs from "./pages/admin/AdminStaffs";
 import AdminCustomers from "./pages/admin/AdminCustomers";
@@ -17,6 +19,7 @@ import AdminLogs from "./pages/admin/AdminLogs";
 import AdminCategories from "./pages/admin/AdminCategories";
 import CategoryProducts from "./pages/admin/CategoryProducts";
 import AdminProfile from "./pages/admin/AdminProfile";
+import AdminNotification from "./pages/admin/AdminNotification"; // Import AdminNotification
 
 import StaffDashboard from "./pages/staff/StaffDashboard";
 import StaffProfile from "./pages/staff/StaffProfile";
@@ -39,7 +42,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
 
             {/* Forgot Password Route */}
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* New Forgot Password route */}
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
             {/* Admin Routes */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
@@ -57,6 +60,7 @@ function App() {
             <Route path="/admin/logs" element={<AdminLogs />} />
             <Route path="/admin/categories" element={<AdminCategories />} />
             <Route path="/admin/categories/:categoryId" element={<CategoryProducts />} />
+            <Route path="/admin/notifications" element={<AdminNotification />} /> {/* New Notifications route */}
             
             {/* Staff Routes */}
             <Route path="/staff/dashboard" element={<StaffDashboard />} />

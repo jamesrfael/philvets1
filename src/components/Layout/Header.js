@@ -1,3 +1,5 @@
+// Header.js
+
 import React, { useState } from "react";
 import { TbUserCircle } from "react-icons/tb";
 import { FaRegBell, FaBars } from "react-icons/fa";
@@ -20,7 +22,7 @@ const pageTitles = {
   "/admin/reports": "Report",
   "/admin/categories": "Product / Category",
   "/admin/profile": "Profile",
-
+  "/admin/notifications": "Notifications", // Add this line
   "/staff/dashboard": "Staff Dashboard",
   "/staff/profile": "Staff Profile",
   "/staff/orders": "Order",
@@ -46,10 +48,14 @@ const Header = ({ toggleSidebar }) => {
 
   const goToProfile = () => {
     if (location.pathname.startsWith("/admin")) {
-        navigate("/admin/profile");
+      navigate("/admin/profile");
     } else if (location.pathname.startsWith("/staff")) {
-        navigate("/staff/profile");
+      navigate("/staff/profile");
     }
+  };
+
+  const goToNotifications = () => {
+    navigate("/admin/notifications");
   };
 
   return (
@@ -57,12 +63,18 @@ const Header = ({ toggleSidebar }) => {
       <HamburgerMenu onClick={toggleSidebar} />
       <PageTitle>{pageTitle}</PageTitle>
       <RightSection>
-        <FaRegBell className="mr-1" />
+        <BellIcon
+          className={location.pathname === "/admin/notifications" ? "active" : ""}
+          onClick={goToNotifications}
+        />
         <ProfileContainer
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <ProfileButton>
+          <ProfileButton
+            className={location.pathname === "/admin/profile" ? "active" : ""}
+            onClick={goToProfile}
+          >
             <span>Admin</span>
             <TbUserCircle className="h-5 w-5 ml-1" />
           </ProfileButton>
@@ -140,6 +152,11 @@ const ProfileButton = styled.button`
     height: 20px;
     margin-left: 8px;
   }
+
+  &.active {
+    background-color: ${colors.primary}; /* Highlight color */
+    color: white; /* Ensure contrast with background */
+  }
 `;
 
 const DropdownContent = styled.div`
@@ -164,6 +181,23 @@ const DropdownItem = styled.div`
   &:hover {
     background-color: ${colors.primary};
     color: white;
+  }
+`;
+
+const BellIcon = styled(FaRegBell)`
+  font-size: 30px;
+  margin-right: 16px;
+  cursor: pointer;
+  background-color: white;
+    border-radius: 50%;
+    padding: 4px;
+    color: black; 
+
+  &.active {
+    background-color: ${colors.primary}; 
+    border-radius: 50%;
+    padding: 4px;
+    color: white; 
   }
 `;
 

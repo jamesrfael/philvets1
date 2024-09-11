@@ -9,29 +9,29 @@
     - View Details  ✔
 
 
-    Inventory Admin/Staff
-    - Edit Inventory Details ✔
-    - Close Button           ✔
+Inventory Admin/Staff
+    - Edit Inventory Details   ✔
+    - Close Button             ✔
     - Total Products Filter (Searchbar)
-    - Low Stocks Filter  (Searchbar)
+    - Low Stocks Filter     (Searchbar)
 
 
-    Supplier Admin/Staff
+Supplier Admin/Staff
     - Add Supplier  ✔
     - Edit Supplier ✔
 
 
-    Customer Admin/Staff
+Customer Admin/Staff
     - Add Customer  ✔
     - Edit Customer ✔
 
 
-    Return Admin/Staff
+Return Admin/Staff
     - Add Return   --
     - Edit Return  --
 
 
-    - Reports
-    - Notification
-    - Profile ✔
+    - Notification    ✔
+    - Profile         ✔
     - Forgot Password ✔
+    - Reports        --

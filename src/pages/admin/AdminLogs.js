@@ -14,7 +14,6 @@ const AdminLogs = () => {
       log.timestamp.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      log.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.notes.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -23,7 +22,6 @@ const AdminLogs = () => {
     "Date",
     "Action",
     "Product Name",
-    "SKU",
     "Quantity Change",
     "Previous Value",
     "New Value",
@@ -35,7 +33,6 @@ const AdminLogs = () => {
     log.timestamp,
     log.action,
     log.productName,
-    log.sku,
     log.quantityChange,
     log.previousValue,
     log.newValue,

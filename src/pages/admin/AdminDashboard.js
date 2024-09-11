@@ -11,6 +11,7 @@ import LowestStocks from "../../components/Dashboard/LowestStocks";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
+import CardTotalNotification from "../../components/CardsData/CardTotalNotification";
 
 const AdminDashboard = () => {
   return (
@@ -19,6 +20,7 @@ const AdminDashboard = () => {
         <CardTotalProducts />
         <CardTotalSales />
         <CardLowStocks />
+        <CardTotalNotification />
       </CardContainer>
       <TablesContainer>
         <Row>
