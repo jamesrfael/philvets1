@@ -150,12 +150,12 @@ const ProfileButton = styled.button`
   svg {
     width: 20px;
     height: 20px;
-    margin-left: 8px;
+    margin-left: 5px;
   }
 
   &.active {
-    background-color: ${colors.primary}; /* Highlight color */
-    color: white; /* Ensure contrast with background */
+    background-color: ${colors.primary};
+    color: white;
   }
 `;
 
@@ -186,7 +186,7 @@ const DropdownItem = styled.div`
 
 const BellIcon = styled(FaRegBell)`
   font-size: 30px;
-  margin-right: 16px;
+  margin-right: -5px;
   cursor: pointer;
   background-color: white;
     border-radius: 50%;
