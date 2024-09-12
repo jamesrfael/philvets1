@@ -6,14 +6,13 @@ import { deliveries } from "../../pages/data/DeliveryData"; // Import the delive
 import styled from "styled-components";
 import { FaTruck } from "react-icons/fa"; // Import an icon from react-icons
 
-const CardTotalDelivery = ({ totalDeliveries, isAdmin = false }) => {
+const CardTotalDelivery = () => {
   const navigate = useNavigate();
 
-   // If it's for admin, calculate the total deliveries using all deliveries, otherwise use the passed prop
-  const deliveryCount = isAdmin ? deliveries.length : totalDeliveries;
+ const deliveryCount =  deliveries.length;
 
   return (
-    <CardContainer onClick={() => navigate(isAdmin ? '/admin/delivery' : '/staff/delivery')}>
+    <CardContainer onClick={() => navigate('/admin/delivery')}>
       <Card
         label="Total Deliveries"
         value={deliveryCount} // Display the total number of deliveries
