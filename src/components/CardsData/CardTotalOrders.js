@@ -7,7 +7,7 @@ import { orders } from "../../pages/data/OrderData"; // Import the orders data
 import styled from "styled-components";
 import { FaClipboardCheck } from "react-icons/fa"; // Import an icon from react-icons
 
-const CardTotalOrders = ({ totalOrders, isAdmin = false }) => {
+const CardTotalOrders = () => {
   const navigate = useNavigate();
 
   //Calculation for total number of orders 
