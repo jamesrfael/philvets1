@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import styled from "styled-components";
 import LayoutHS from "../../components/Layout/LayoutHS";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
@@ -16,22 +17,46 @@ import RevenueGraph from "../../components/Reports/RevenueGraph";
 import CostBreakdownPieChart from "../../components/Reports/CostBreakdownPieChart";
 
 const AdminReports = () => {
+  const navigate = useNavigate(); // Declare useNavigate here
+
   return (
     <LayoutHS>
       <StatsContainer>
-        <CardLowStocks />
-        <CardTotalCustomers />
-        <CardTotalDelivery />
-        <CardTotalLogs />
-        <CardTotalOrders />
-        <CardTotalProducts />
-        <CardTotalReturns />
-        <CardTotalSales />
-        <CardTotalStaffs />
-        <CardTotalSuppliers />
-        <CardTotalNotification />
-
+        <div onClick={() => navigate('/admin/low-stocks')}>
+          <CardLowStocks />
+        </div>
+        <div onClick={() => navigate('/admin/customers')}>
+          <CardTotalCustomers />
+        </div>
+        <div onClick={() => navigate('/admin/delivery')}>
+          <CardTotalDelivery />
+        </div>
+        <div onClick={() => navigate('/admin/logs')}>
+          <CardTotalLogs />
+        </div>
+        <div onClick={() => navigate('/admin/orders')}>
+          <CardTotalOrders />
+        </div>
+        <div onClick={() => navigate('/admin/products')}>
+          <CardTotalProducts />
+        </div>
+        <div onClick={() => navigate('/admin/returns')}>
+          <CardTotalReturns />
+        </div>
+        <div onClick={() => navigate('/admin/sales')}>
+          <CardTotalSales />
+        </div>
+        <div onClick={() => navigate('/admin/staffs')}>
+          <CardTotalStaffs />
+        </div>
+        <div onClick={() => navigate('/admin/suppliers')}>
+          <CardTotalSuppliers />
+        </div>
+        <div onClick={() => navigate('/admin/notifications')}>
+          <CardTotalNotification />
+        </div>
       </StatsContainer>
+
       <StatsContainer>
         <StatsCard>
           <StatTitle>Transactions</StatTitle>
@@ -50,6 +75,7 @@ const AdminReports = () => {
           <StatNumber color="#ff3d3d">₱ 50,000</StatNumber>
         </StatsCard>
       </StatsContainer>
+
       <GraphContainer>
         <RevenueGraph />
         <CostBreakdownPieChart />
@@ -57,6 +83,8 @@ const AdminReports = () => {
     </LayoutHS>
   );
 };
+
+// Styled components
 
 const StatsContainer = styled.div`
   display: flex;

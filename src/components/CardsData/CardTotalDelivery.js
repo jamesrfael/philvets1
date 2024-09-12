@@ -1,18 +1,15 @@
 // src/components/CardsData/CardTotalDelivery.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Card from "../Layout/Card"; // Import the reusable Card component
 import { deliveries } from "../../pages/data/DeliveryData"; // Import the delivery data
 import styled from "styled-components";
 import { FaTruck } from "react-icons/fa"; // Import an icon from react-icons
 
 const CardTotalDelivery = () => {
-  const navigate = useNavigate();
-
- const deliveryCount =  deliveries.length;
+  const deliveryCount = deliveries.length;
 
   return (
-    <CardContainer onClick={() => navigate('/admin/delivery')}>
+    <CardContainer>
       <Card
         label="Total Deliveries"
         value={deliveryCount} // Display the total number of deliveries

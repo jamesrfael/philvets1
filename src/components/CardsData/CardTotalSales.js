@@ -1,6 +1,5 @@
 // src/components/CardsData/CardTotalSales.js
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { FaDollarSign } from "react-icons/fa"; // Import an icon for sales
 import Card from "../Layout/Card";
 import { sales as initialSales } from "../../pages/data/SalesData";
@@ -11,11 +10,10 @@ const calculateTotalSales = (sales) => {
 };
 
 const CardTotalSales = () => {
-  const navigate = useNavigate();
   const totalSales = calculateTotalSales(initialSales);
 
   return (
-    <CardContainer onClick={() => navigate('/admin/sales')}>
+    <CardContainer>
       <Card
         label="Total Sales"
         value={`₱${totalSales.toFixed(2)}`} // Display the total sales amount

@@ -1,4 +1,6 @@
+// src/pages/AdminDelivery.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/Delivery/DeliveryDetailsModal";
@@ -12,6 +14,7 @@ import Button from "../../components/Layout/Button"; // Import the Button compon
 const AdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState(null);
+  const navigate = useNavigate(); // Declare useNavigate here
 
   const filteredDeliveries = deliveries.filter((delivery) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -53,7 +56,9 @@ const AdminDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <CardTotalDelivery isAdmin={true} /> {/* Use the CardTotalDelivery component */}
+        <div onClick={() => navigate('/admin/delivery')}> {/* Handle click event here */}
+          <CardTotalDelivery /> {/* Use the CardTotalDelivery component */}
+        </div>
       </SummarySection>
       <Table headers={headers} rows={rows} />
       {selectedDelivery && (

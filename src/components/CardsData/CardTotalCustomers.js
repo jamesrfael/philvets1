@@ -1,20 +1,17 @@
 // src/components/CardsData/CardTotalCustomers.js
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Card from "../Layout/Card"; // Import the reusable Card component
 import customersData from "../../pages/data/CustomersData"; // Import customer data
 import styled from "styled-components";
 import { FaUsers } from "react-icons/fa"; // Import an icon from react-icons
 
 const CardTotalCustomers = () => {
-  const navigate = useNavigate();
-
   // Calculate the total number of customers
   const totalCustomers = customersData.length;
 
   return (
-    <CardContainer onClick={() => navigate('/admin/customers')}>
+    <CardContainer>
       <Card
         label="Total Customers"
         value={totalCustomers} // Display the total number of customers
