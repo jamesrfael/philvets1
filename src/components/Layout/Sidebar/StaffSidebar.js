@@ -77,7 +77,8 @@ const StaffSidebar = ({ isOpen, onClose }) => {
         <SidebarItem 
           icon={GrGroup} 
           label="Staff" 
-          link="/staff/staffs" />
+          link="/staff/staffs" 
+        />
         <SidebarItem
           icon={TbTruckReturn}
           label="Returns"
