@@ -1,8 +1,8 @@
 // colors.js
 
 export const colors = {
-  primary: "#f08400",
-  primaryHover: "#975300",
+  primary: "#00C4FF",
+  primaryHover: "#0082AA~",
 
   secondary: "#f08400",
   secondaryHover: "#975300",
