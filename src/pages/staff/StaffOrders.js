@@ -56,7 +56,7 @@ const StaffOrders = () => {
   ]);
 
   return (
-    <staffLayoutHS>
+    <StaffLayoutHS>
       <Controls>
         <SearchBar
           placeholder="Search / Filter order..."
@@ -87,7 +87,7 @@ const StaffOrders = () => {
           onSave={handleSaveNewOrder}
         />
       )}
-    </staffLayoutHS>
+    </StaffLayoutHS>
   );
 };
 
