@@ -14,6 +14,7 @@ import {
 } from "react-icons/tb";
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
 import { LuBox } from "react-icons/lu";
+import { GrGroup } from "react-icons/gr";
 
 const StaffSidebar = ({ isOpen, onClose }) => {
   const sidebarRef = useRef(null);
@@ -73,6 +74,10 @@ const StaffSidebar = ({ isOpen, onClose }) => {
           label="Customer"
           link="/staff/customers"
         />
+        <SidebarItem 
+          icon={GrGroup} 
+          label="Staff" 
+          link="/staff/staffs" />
         <SidebarItem
           icon={TbTruckReturn}
           label="Returns"
