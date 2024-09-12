@@ -11,10 +11,10 @@ const CardTotalOrders = ({ totalOrders, isAdmin = false }) => {
   const navigate = useNavigate();
 
   //Calculation for total number of orders 
-  const orderCount = isAdmin ? allOrders.length : totalOrders; 
+  const orderCount = allOrders.lengths; 
 
   return (
-    <CardContainer onClick={() => navigate(isAdmin ? '/admin/orders' : '/staff/orders')}>
+    <CardContainer onClick= {() => navigate('/admin/orders')}>
       <Card
         label="Total Orders"
         value={orderCount} // Display the total number of orders
