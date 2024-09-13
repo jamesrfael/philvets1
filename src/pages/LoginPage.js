@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../assets/roundlogo.png";
 import loginbg from "../assets/loginbg.jpg";
 
 const LoginPage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State for error message
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    // Simulate a login attempt
+    if (username === 'admin' && password === 'adminpassword') {
+      // Redirect to dashboard on successful login (you can use your logic here)
+      window.location.href = '/admin/dashboard';
+    } else {
+      // Set error message on failed login
+      setError('Invalid username or password');
+    }
+  };
+
   return (
     <BackgroundContainer>
       <FormContainer>
@@ -12,15 +29,25 @@ const LoginPage = () => {
           <Logo src={logo} alt="Logo" />
         </LogoContainer>
         <Title>Login to your account</Title>
-        <Input type="text" placeholder="Username" />
-        <Input type="password" placeholder="Password" />
-        {/* Link ForgotPassword to the ForgotPasswordPage */}
-        <Link to="/forgot-password">
-          <ForgotPassword>Forgot password?</ForgotPassword>
-        </Link>
-        <Link to="/admin/dashboard">
-          <LoginButton>Login</LoginButton>
-        </Link>
+        {error && <ErrorMessage>{error}</ErrorMessage>} {/* Display error message */}
+        <form onSubmit={handleLogin}>
+          <Input 
+            type="text" 
+            placeholder="Username" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
+          />
+          <Input 
+            type="password" 
+            placeholder="Password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+          />
+          <Link to="/forgot-password">
+            <ForgotPassword>Forgot password?</ForgotPassword>
+          </Link>
+          <LoginButton type="submit">Login</LoginButton>
+        </form>
       </FormContainer>
     </BackgroundContainer>
   );
@@ -57,24 +84,24 @@ const FormContainer = styled.div`
 
 const LogoContainer = styled.div`
   position: absolute;
-  top: -60px; /* Adjusted to accommodate the larger logo */
+  top: -60px;
   display: flex;
   justify-content: center;
   width: 100%;
 `;
 
 const Logo = styled.img`
-  width: 140px; /* Increased size */
+  width: 140px;
 
   @media (min-width: 768px) {
-    width: 150px; /* Larger size on bigger screens */
+    width: 150px;
   }
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
-  margin: 70px 0 20px 0; /* Adjusted top margin to account for the larger logo */
+  margin: 70px 0 20px 0;
   text-align: center;
 
   @media (min-width: 768px) {
@@ -127,6 +154,11 @@ const LoginButton = styled.button`
   &:hover {
     background-color: #d77834;
   }
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  margin-bottom: 15px;
 `;
 
 export default LoginPage;

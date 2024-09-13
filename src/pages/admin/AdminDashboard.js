@@ -1,6 +1,7 @@
 // src/pages/AdminDashboard.js
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LayoutHS from "../../components/Layout/LayoutHS";
@@ -13,14 +14,24 @@ import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification";
 
+
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   return (
     <LayoutHS>
       <CardContainer>
-        <CardTotalProducts />
-        <CardTotalSales />
-        <CardLowStocks />
-        <CardTotalNotification />
+        <div data-cy="card-total-products" onClick={() => navigate("/admin/products")}>
+          <CardTotalProducts />
+        </div>
+        <div data-cy="card-total-sales" onClick={() => navigate("/admin/sales")}>
+          <CardTotalSales />
+        </div>
+        <div data-cy="card-low-stocks" onClick={() => navigate("/admin/inventory")}>
+          <CardLowStocks />
+        </div>
+        <div data-cy="card-total-notification" onClick={() => navigate("/admin/notifications")}>
+          <CardTotalNotification />
+        </div>
       </CardContainer>
       <TablesContainer>
         <Row>

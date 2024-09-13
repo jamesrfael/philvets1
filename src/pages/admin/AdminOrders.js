@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import LayoutHS from "../../components/Layout/LayoutHS";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
@@ -11,6 +12,7 @@ import Button from "../../components/Layout/Button"; // Import the Button compon
 import { orders as initialOrders } from "../../pages/data/OrderData";
 
 const AdminOrders = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -69,7 +71,9 @@ const AdminOrders = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalOrders isAdmin={true} />
+        <div onClick={() => navigate("/admin/orders")}>
+          <CardTotalOrders />
+        </div>
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (

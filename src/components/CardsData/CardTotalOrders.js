@@ -8,7 +8,7 @@ import { FaClipboardCheck } from "react-icons/fa"; // Import an icon from react-
 
 const CardTotalOrders = () => {
   //Calculation for total number of orders
-  const orderCount = orders.lengths;
+  const orderCount = orders.length;
 
   return (
     <CardContainer>
