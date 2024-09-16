@@ -38,6 +38,7 @@ const DeliveryDetailsModal = ({ delivery = {}, onClose }) => {
 
   return (
     <Modal
+      data-cy="delivery-details-modal"
       title="Delivery Details"
       status={delivery.status}
       completedDate={delivery.completedDate}
@@ -108,7 +109,6 @@ const DeliveryDetailsModal = ({ delivery = {}, onClose }) => {
 };
 
 // Styled components
-
 const DetailsContainer = styled.div`
   display: flex;
   justify-content: space-between;

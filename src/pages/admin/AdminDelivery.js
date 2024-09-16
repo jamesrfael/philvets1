@@ -1,4 +1,3 @@
-// src/pages/AdminDelivery.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import LayoutHS from "../../components/Layout/LayoutHS";
@@ -38,6 +37,7 @@ const AdminDelivery = () => {
     delivery.type,
     <Status status={delivery.status}>{delivery.status}</Status>,
     <Button
+      data-cy="details-button"
       backgroundColor={colors.primary}
       hoverColor={colors.primaryHover}
       onClick={() => openDetailsModal(delivery)}
@@ -50,6 +50,7 @@ const AdminDelivery = () => {
     <LayoutHS>
       <Controls>
         <SearchBar
+          data-cy="search-bar"
           placeholder="Search / Filter delivery..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

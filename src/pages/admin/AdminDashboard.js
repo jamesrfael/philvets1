@@ -20,16 +20,16 @@ const AdminDashboard = () => {
   return (
     <LayoutHS>
       <CardContainer>
-        <div data-cy="card-total-products" onClick={() => navigate("/admin/products")}>
+        <div onClick={() => navigate("/admin/products")}>
           <CardTotalProducts />
         </div>
-        <div data-cy="card-total-sales" onClick={() => navigate("/admin/sales")}>
+        <div onClick={() => navigate("/admin/sales")}>
           <CardTotalSales />
         </div>
-        <div data-cy="card-low-stocks" onClick={() => navigate("/admin/inventory")}>
+        <div onClick={() => navigate("/admin/inventory")}>
           <CardLowStocks />
         </div>
-        <div data-cy="card-total-notification" onClick={() => navigate("/admin/notifications")}>
+        <div onClick={() => navigate("/admin/notifications")}>
           <CardTotalNotification />
         </div>
       </CardContainer>
