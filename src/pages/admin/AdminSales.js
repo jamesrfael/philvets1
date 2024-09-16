@@ -1,6 +1,6 @@
 // src/pages/AdminSales.js
 import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
@@ -76,7 +76,7 @@ const AdminSales = () => {
   };
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter sales..."
@@ -92,7 +92,7 @@ const AdminSales = () => {
       {selectedSale && (
         <SalesDetailsModal sale={selectedSale} onClose={handleCloseModal} />
       )}
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

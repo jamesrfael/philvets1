@@ -34,28 +34,28 @@ Return
 
 STAFF
 Products 
-    - Add Category  
-    - View Category 
-    - Add Product   
-    - View Details  
+- Add Category  
+- View Category 
+- Add Product   
+- View Details  
 
 Inventory
-    - Edit Inventory Details    
-    - Close Button               
-    - Total Products Filter
-    - Low Stocks Filter    
+- Edit Inventory Details    
+- Close Button               
+- Total Products Filter
+- Low Stocks Filter    
 
 Supplier 
-    - Add Supplier    
-    - Edit Supplier    
+- Add Supplier    
+- Edit Supplier    
 
 Customer
-    - Add Customer   
-    - Edit Customer  
+- Add Customer   
+- Edit Customer  
 
 Return 
-    - Add Return
-    - Edit Return    
+- Add Return
+- Edit Return    
 
 
 

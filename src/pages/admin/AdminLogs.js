@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
@@ -41,7 +41,7 @@ const AdminLogs = () => {
   ]);
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter logs..."
@@ -53,7 +53,7 @@ const AdminLogs = () => {
         <CardTotalLogs />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

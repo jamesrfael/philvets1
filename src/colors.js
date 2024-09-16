@@ -2,7 +2,7 @@
 
 export const colors = {
   primary: "#00C4FF",
-  primaryHover: "#0082AA~",
+  primaryHover: "#0082AA",
 
   secondary: "#f08400",
   secondaryHover: "#975300",

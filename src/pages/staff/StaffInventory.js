@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StaffLayoutHS from "../../components/Layout/StaffLayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import SampleInventoryData from "../data/InventoryData";
 import Table from "../../components/Layout/Table";
@@ -47,7 +47,7 @@ const StaffInventory = () => {
   ]);
 
   return (
-    <StaffLayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter inventory..."
@@ -63,7 +63,7 @@ const StaffInventory = () => {
       {showDetailModal && selectedItem && (
         <InventoryDetailsModal item={selectedItem} onClose={closeModal} />
       )}
-    </StaffLayoutHS>
+    </MainLayout>
   );
 };
 

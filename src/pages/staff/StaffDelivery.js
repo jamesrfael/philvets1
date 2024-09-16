@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StaffLayoutHS from "../../components/Layout/StaffLayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/Delivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
@@ -44,7 +44,7 @@ const StaffDelivery = () => {
   ]);
 
   return (
-    <StaffLayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter delivery..."
@@ -53,7 +53,8 @@ const StaffDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <CardTotalDelivery isAdmin={true} /> {/* Use the CardTotalDelivery component */}
+        <CardTotalDelivery isAdmin={true} />{" "}
+        {/* Use the CardTotalDelivery component */}
       </SummarySection>
       <Table headers={headers} rows={rows} />
       {selectedDelivery && (
@@ -62,7 +63,7 @@ const StaffDelivery = () => {
           onClose={closeDetailsModal}
         />
       )}
-    </StaffLayoutHS>
+    </MainLayout>
   );
 };
 

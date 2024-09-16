@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
-import LayoutHS from "../../components/Layout/LayoutHS";
+import { useNavigate } from "react-router-dom";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
 import AddPurchaseModal from "../../components/Orders/AddPurchaseModal";
@@ -58,7 +58,7 @@ const AdminOrders = () => {
   ]);
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter order..."
@@ -91,7 +91,7 @@ const AdminOrders = () => {
           onSave={handleSaveNewOrder}
         />
       )}
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

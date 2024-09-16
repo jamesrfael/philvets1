@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StaffLayoutHS from "../../components/Layout/StaffLayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
 import AddPurchaseModal from "../../components/Orders/AddPurchaseModal";
@@ -56,7 +56,7 @@ const StaffOrders = () => {
   ]);
 
   return (
-    <StaffLayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter order..."
@@ -69,7 +69,7 @@ const StaffOrders = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalOrders isAdmin={true}/>
+        <CardTotalOrders isAdmin={true} />
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (
@@ -87,7 +87,7 @@ const StaffOrders = () => {
           onSave={handleSaveNewOrder}
         />
       )}
-    </StaffLayoutHS>
+    </MainLayout>
   );
 };
 

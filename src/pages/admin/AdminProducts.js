@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import productData from "../data/ProductData";
 import SearchBar from "../../components/Layout/SearchBar";
@@ -43,7 +43,15 @@ const AdminProducts = () => {
     );
   });
 
-  const headers = ["Image", "Product", "Category", "Unit", "Brand", "Price", "Action"];
+  const headers = [
+    "Image",
+    "Product",
+    "Category",
+    "Unit",
+    "Brand",
+    "Price",
+    "Action",
+  ];
   const rows = filteredProducts.map((product) => {
     const productDetail = productData.productDetails.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
@@ -56,7 +64,7 @@ const AdminProducts = () => {
       <img
         src={product.PROD_IMAGE} // Use PROD_IMAGE here
         alt={product.PROD_NAME}
-        style={{ width: '50px', height: 'auto' }}
+        style={{ width: "50px", height: "auto" }}
       />,
       product.PROD_NAME,
       category,
@@ -102,7 +110,7 @@ const AdminProducts = () => {
   };
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter product..."
@@ -137,7 +145,7 @@ const AdminProducts = () => {
           onClose={closeProductDetailsModal}
         />
       )}
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

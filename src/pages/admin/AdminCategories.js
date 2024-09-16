@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import productData from "../data/ProductData";
 import Card from "../../components/Layout/Card";
@@ -39,7 +39,7 @@ const AdminCategories = () => {
   );
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <LeftControls>
           <BackButton onClick={() => window.history.back()}>
@@ -68,7 +68,7 @@ const AdminCategories = () => {
       {isModalOpen && (
         <AddCategoryModal onClose={() => setIsModalOpen(false)} />
       )}
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

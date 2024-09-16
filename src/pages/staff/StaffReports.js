@@ -1,23 +1,17 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import MainLayout from "../../components/Layout/MainLayout";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
-import CardTotalLogs from "../../components/CardsData/CardTotalLogs";
 import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
-import CardTotalSales from "../../components/CardsData/CardTotalSales";
-import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification";
-import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
-import RevenueGraph from "../../components/Reports/RevenueGraph";
-import CostBreakdownPieChart from "../../components/Reports/CostBreakdownPieChart";
 
-const AdminReports = () => {
-  const navigate = useNavigate(); // Declare useNavigate here
+const StaffReports = () => {
+  const navigate = useNavigate();
 
   return (
     <MainLayout>
@@ -31,9 +25,6 @@ const AdminReports = () => {
         <div onClick={() => navigate("/admin/delivery")}>
           <CardTotalDelivery />
         </div>
-        <div onClick={() => navigate("/admin/logs")}>
-          <CardTotalLogs />
-        </div>
         <div onClick={() => navigate("/admin/orders")}>
           <CardTotalOrders />
         </div>
@@ -43,15 +34,6 @@ const AdminReports = () => {
         <div onClick={() => navigate("/admin/returns")}>
           <CardTotalReturns />
         </div>
-        <div onClick={() => navigate("/admin/sales")}>
-          <CardTotalSales />
-        </div>
-        <div onClick={() => navigate("/admin/staffs")}>
-          <CardTotalStaffs />
-        </div>
-        <div onClick={() => navigate("/admin/suppliers")}>
-          <CardTotalSuppliers />
-        </div>
         <div onClick={() => navigate("/admin/notifications")}>
           <CardTotalNotification />
         </div>
@@ -59,33 +41,38 @@ const AdminReports = () => {
 
       <StatsContainer>
         <StatsCard>
-          <StatTitle>Transactions</StatTitle>
-          <StatNumber color="black">500</StatNumber>
+          <StatTitle>Pending Orders</StatTitle>
+          <StatNumber color="black">15</StatNumber>
         </StatsCard>
         <StatsCard>
-          <StatTitle>Profit</StatTitle>
-          <StatNumber color="#1DBA0B">₱ 107,000</StatNumber>
+          <StatTitle>Customer Satisfaction</StatTitle>
+          <StatNumber color="#1DBA0B">4.8/5</StatNumber>
         </StatsCard>
         <StatsCard>
-          <StatTitle>Revenue</StatTitle>
-          <StatNumber color="#00C4FF">₱ 620,000</StatNumber>
+          <StatTitle>Work Hours</StatTitle>
+          <StatNumber color="#00C4FF">35 hrs</StatNumber>
         </StatsCard>
         <StatsCard>
-          <StatTitle>Expense</StatTitle>
-          <StatNumber color="#ff3d3d">₱ 50,000</StatNumber>
+          <StatTitle>Recent Activities</StatTitle>
+          <StatNumber color="#ff3d3d">5 Activities</StatNumber>
         </StatsCard>
       </StatsContainer>
 
-      <GraphContainer>
-        <RevenueGraph />
-        <CostBreakdownPieChart />
-      </GraphContainer>
+      <AlertsContainer>
+        <AlertCard>
+          <AlertTitle>Urgent Alerts</AlertTitle>
+          <AlertContent>No new urgent alerts</AlertContent>
+        </AlertCard>
+        <AlertCard>
+          <AlertTitle>System Updates</AlertTitle>
+          <AlertContent>New update available. Check the system for details.</AlertContent>
+        </AlertCard>
+      </AlertsContainer>
     </MainLayout>
   );
 };
 
 // Styled components
-
 const StatsContainer = styled.div`
   display: flex;
   align-items: flex-start;
@@ -118,18 +105,29 @@ const StatNumber = styled.p`
   color: ${(props) => props.color};
 `;
 
-const GraphContainer = styled.div`
+const AlertsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin: 2rem auto;
   max-width: 1000px;
   gap: 1rem;
-  width: 100%;
-
-  @media (max-width: 1000px) {
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
-export default AdminReports;
+const AlertCard = styled.div`
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+`;
+
+const AlertTitle = styled.h3`
+  font-size: 1rem;
+  font-weight: 400;
+`;
+
+const AlertContent = styled.p`
+  font-size: 1rem;
+  color: #333;
+`;
+
+export default StaffReports;

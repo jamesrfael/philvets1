@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import SampleInventoryData from "../data/InventoryData";
 import Table from "../../components/Layout/Table";
@@ -47,7 +47,7 @@ const AdminInventory = () => {
   ]);
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter inventory..."
@@ -63,7 +63,7 @@ const AdminInventory = () => {
       {showDetailModal && selectedItem && (
         <InventoryDetailsModal item={selectedItem} onClose={closeModal} />
       )}
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

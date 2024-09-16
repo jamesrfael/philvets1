@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import { colors } from "../../colors";
 import { FaPencilAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import profilePic from "../../assets/profile.png";
@@ -56,7 +56,7 @@ const AdminProfile = () => {
   };
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <ProfileContainer>
         <LeftPanel>
           <ProfileImageWrapper>
@@ -132,7 +132,9 @@ const AdminProfile = () => {
               ) : (
                 <FieldText>{contact}</FieldText>
               )}
-              <EditButton onClick={() => setIsEditingContact(!isEditingContact)}>
+              <EditButton
+                onClick={() => setIsEditingContact(!isEditingContact)}
+              >
                 <FaPencilAlt />
               </EditButton>
             </FieldContainer>
@@ -162,18 +164,24 @@ const AdminProfile = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     showBorder={isEditingPassword}
                   />
-                  <EyeIcon onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  <EyeIcon
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
                     {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                   </EyeIcon>
                 </FieldContainer>
-                <EditButton onClick={() => setIsEditingPassword(!isEditingPassword)}>
+                <EditButton
+                  onClick={() => setIsEditingPassword(!isEditingPassword)}
+                >
                   <FaPencilAlt />
                 </EditButton>
               </InputContainer>
             ) : (
               <FieldContainer>
                 <FieldText>********</FieldText>
-                <EditButton onClick={() => setIsEditingPassword(!isEditingPassword)}>
+                <EditButton
+                  onClick={() => setIsEditingPassword(!isEditingPassword)}
+                >
                   <FaPencilAlt />
                 </EditButton>
               </FieldContainer>
@@ -187,7 +195,7 @@ const AdminProfile = () => {
           )}
         </RightPanel>
       </ProfileContainer>
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

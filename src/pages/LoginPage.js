@@ -13,9 +13,12 @@ const LoginPage = () => {
     e.preventDefault();
 
     // Simulate a login attempt
-    if (username === 'admin' && password === 'adminpassword') {
-      // Redirect to dashboard on successful login (you can use your logic here)
+    if (username === 'admin' && password === '123') {
+      // Redirect to admin dashboard on successful login
       window.location.href = '/admin/dashboard';
+    } else if (username === 'staff' && password === '123') {
+      // Redirect to staff dashboard on successful login
+      window.location.href = '/staff/dashboard';
     } else {
       // Set error message on failed login
       setError('Invalid username or password');

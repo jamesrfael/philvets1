@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import SupplierDetailsModal from "../../components/Suppliers/SupplierDetailsModal";
 import AddSupplierModal from "../../components/Suppliers/AddSupplierModal"; // Import the Add Supplier Modal
 import SearchBar from "../../components/Layout/SearchBar";
@@ -71,7 +71,7 @@ const AdminSuppliers = () => {
   ]);
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter supplier..."
@@ -100,7 +100,7 @@ const AdminSuppliers = () => {
           onAdd={handleAddSupplier} // Pass the add handler
         />
       )}
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

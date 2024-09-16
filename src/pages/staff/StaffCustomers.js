@@ -1,4 +1,4 @@
-// src/pages/AdminCustomers.js
+// src/pages/StaffCustomers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import MainLayout from "../../components/Layout/MainLayout";
@@ -11,7 +11,7 @@ import AddCustomerModal from "../../components/Customers/AddCustomerModal";
 import CustomerDetailsModal from "../../components/Customers/CustomerDetailsModal"; // Import CustomerDetailsModal
 import customersData from "../data/CustomersData";
 
-const AdminCustomers = () => {
+const StaffCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCustomers, setFilteredCustomers] = useState(customersData);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -128,4 +128,4 @@ const SummarySection = styled.div`
   margin-bottom: 20px;
 `;
 
-export default AdminCustomers;
+export default StaffCustomers;

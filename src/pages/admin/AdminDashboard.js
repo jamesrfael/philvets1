@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import HighestSellingProducts from "../../components/Dashboard/HighestSellingProducts";
 import LatestSales from "../../components/Dashboard/LatestSales";
 import RecentlyAddedProducts from "../../components/Dashboard/RecentlyAddedProducts";
@@ -14,11 +14,10 @@ import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification";
 
-
 const AdminDashboard = () => {
   const navigate = useNavigate();
   return (
-    <LayoutHS>
+    <MainLayout>
       <CardContainer>
         <div onClick={() => navigate("/admin/products")}>
           <CardTotalProducts />
@@ -51,7 +50,7 @@ const AdminDashboard = () => {
           </StyledLink>
         </Row>
       </TablesContainer>
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

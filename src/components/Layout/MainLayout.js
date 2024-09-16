@@ -1,12 +1,14 @@
-// LayoutHS.js
 import React, { useState } from "react";
-import AdminSidebar from "./Sidebar/AdminSidebar";
+import { useLocation } from "react-router-dom";
+import Sidebar from "./Sidebar/Sidebar"; // Import the shared Sidebar component
 import Header from "./Header";
 import styled from "styled-components";
 import { colors } from "../../colors";
 
-const LayoutHS = ({ children }) => {
+const MainLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation(); // Hook to get the current location
+  const isAdmin = location.pathname.startsWith('/admin');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -19,7 +21,7 @@ const LayoutHS = ({ children }) => {
   return (
     <LayoutContainer>
       <MainContent>
-        <AdminSidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} isAdmin={isAdmin} />
         <Content>
           <Header toggleSidebar={toggleSidebar} />
           <MainContentLayout>{children}</MainContentLayout>
@@ -44,7 +46,7 @@ const MainContent = styled.div`
 const Content = styled.div`
   flex-grow: 1;
   background-color: ${colors.primary};
-  overflow-x: auto; /* Enable horizontal scrolling */
+  overflow-x: auto;
 `;
 
 const MainContentLayout = styled.div`
@@ -52,13 +54,13 @@ const MainContentLayout = styled.div`
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 10px; /*Adjust The White bg of the mainlayout */
+  margin: 10px;
   flex-grow: 1;
   min-height: calc(100vh - 100px);
   max-height: calc(100vh - 100px);
-  overflow-y: auto; /* Vertical scrolling */
-  overflow-x: auto; /* Horizontal scrolling */
+  overflow-y: auto;
+  overflow-x: auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 `;
 
-export default LayoutHS;
+export default MainLayout;

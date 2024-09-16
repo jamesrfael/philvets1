@@ -3,7 +3,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import StaffLayoutHS from "../../components/Layout/StaffLayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import RecentlyAddedProducts from "../../components/Dashboard/RecentlyAddedProducts";
 import LowestStocks from "../../components/Dashboard/LowestStocks";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
@@ -11,7 +11,7 @@ import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 
 const StaffDashboard = () => {
   return (
-    <StaffLayoutHS>
+    <MainLayout>
       <CardContainer>
         <CardTotalProducts />
         <CardLowStocks />
@@ -26,7 +26,7 @@ const StaffDashboard = () => {
           </StyledLink>
         </Row>
       </TablesContainer>
-    </StaffLayoutHS>
+    </MainLayout>
   );
 };
 

@@ -1,6 +1,6 @@
 // src/pages/AdminStaffs.js
 import React, { useState } from "react";
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { staff as initialStaff } from "../data/StaffData";
@@ -86,7 +86,7 @@ const AdminStaffs = () => {
   ]);
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           placeholder="Search / Filter staff..."
@@ -127,7 +127,7 @@ const AdminStaffs = () => {
           onSave={handleEditStaff}
         />
       )}
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

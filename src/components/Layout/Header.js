@@ -1,5 +1,3 @@
-// Header.js
-
 import React, { useState } from "react";
 import { TbUserCircle } from "react-icons/tb";
 import { FaRegBell, FaBars } from "react-icons/fa";
@@ -7,6 +5,7 @@ import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { colors } from "../../colors";
 
+// Updated pageTitles with additional staff titles
 const pageTitles = {
   "/admin/dashboard": "Dashboard",
   "/admin/orders": "Order",
@@ -22,13 +21,17 @@ const pageTitles = {
   "/admin/reports": "Report",
   "/admin/categories": "Product / Category",
   "/admin/profile": "Profile",
-  "/admin/notifications": "Notifications", // Add this line
+  "/admin/notifications": "Notifications",
   "/staff/dashboard": "Staff Dashboard",
   "/staff/profile": "Staff Profile",
   "/staff/orders": "Order",
   "/staff/delivery": "Delivery",
   "/staff/products": "Product",
   "/staff/inventory": "Inventory",
+  "/staff/customers": "Customers",
+  "/staff/reports": "Reports",
+  "/staff/returns": "Returns",
+  "/staff/notifications": "Notifications",
 };
 
 const Header = ({ toggleSidebar }) => {
@@ -55,7 +58,16 @@ const Header = ({ toggleSidebar }) => {
   };
 
   const goToNotifications = () => {
-    navigate("/admin/notifications");
+    if (location.pathname.startsWith("/admin")) {
+      navigate("/admin/notifications");
+    } else if (location.pathname.startsWith("/staff")) {
+      navigate("/staff/notifications");
+    }
+  };
+
+  const handleSignOut = () => {
+    // Add any sign out logic here (e.g., clearing tokens, etc.)
+    navigate("/login");
   };
 
   return (
@@ -64,7 +76,7 @@ const Header = ({ toggleSidebar }) => {
       <PageTitle>{pageTitle}</PageTitle>
       <RightSection>
         <BellIcon
-          className={location.pathname === "/admin/notifications" ? "active" : ""}
+          className={location.pathname.includes("/notifications") ? "active" : ""}
           onClick={goToNotifications}
         />
         <ProfileContainer
@@ -72,10 +84,10 @@ const Header = ({ toggleSidebar }) => {
           onMouseLeave={handleMouseLeave}
         >
           <ProfileButton
-            className={location.pathname === "/admin/profile" ? "active" : ""}
+            className={location.pathname.includes("/profile") ? "active" : ""}
             onClick={goToProfile}
           >
-            <span>Admin</span>
+            <span>{location.pathname.startsWith("/admin") ? "Admin" : "Staff"}</span>
             <TbUserCircle className="h-5 w-5 ml-1" />
           </ProfileButton>
           {isDropdownOpen && (
@@ -84,7 +96,7 @@ const Header = ({ toggleSidebar }) => {
               onMouseLeave={handleMouseLeave}
             >
               <DropdownItem onClick={goToProfile}>Profile</DropdownItem>
-              <DropdownItem href="#">Sign out</DropdownItem>
+              <DropdownItem onClick={handleSignOut}>Sign out</DropdownItem>
             </DropdownContent>
           )}
         </ProfileContainer>
@@ -93,6 +105,7 @@ const Header = ({ toggleSidebar }) => {
   );
 };
 
+// Styled components
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -190,15 +203,13 @@ const BellIcon = styled(FaRegBell)`
   margin-right: -5px;
   cursor: pointer;
   background-color: white;
-    border-radius: 50%;
-    padding: 4px;
-    color: black; 
+  border-radius: 50%;
+  padding: 4px;
+  color: black;
 
   &.active {
-    background-color: ${colors.primary}; 
-    border-radius: 50%;
-    padding: 4px;
-    color: white; 
+    background-color: ${colors.primary};
+    color: white;
   }
 `;
 

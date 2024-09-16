@@ -1,4 +1,4 @@
-// src/pages/AdminNotification.js
+// src/pages/StaffNotification.js
 
 import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
@@ -6,9 +6,9 @@ import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Import the CardTotalNotification component
-import { notificationData } from "../../pages/data/NotificationData"; // Import the notification data
+import { notificationData } from "../data/NotificationData"; // Import the notification data
 
-const AdminNotification = () => {
+const StaffNotification = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredNotifications = notificationData.filter((notification) => {
@@ -62,4 +62,4 @@ const SummarySection = styled.div`
   margin-bottom: 20px;
 `;
 
-export default AdminNotification;
+export default StaffNotification;

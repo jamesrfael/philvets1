@@ -8,7 +8,7 @@ import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import returnsData from "../data/ReturnsData";
 import Button from "../../components/Layout/Button";
 
-const AdminReturns = () => {
+const StaffReturns = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedReturn, setSelectedReturn] = useState(null);
 
@@ -106,4 +106,4 @@ const Status = styled.span`
   font-weight: bold;
 `;
 
-export default AdminReturns;
+export default StaffReturns;

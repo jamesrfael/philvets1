@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
-import LayoutHS from "../../components/Layout/LayoutHS";
+import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/Delivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
@@ -47,7 +47,7 @@ const AdminDelivery = () => {
   ]);
 
   return (
-    <LayoutHS>
+    <MainLayout>
       <Controls>
         <SearchBar
           data-cy="search-bar"
@@ -57,7 +57,9 @@ const AdminDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <div onClick={() => navigate('/admin/delivery')}> {/* Handle click event here */}
+        <div onClick={() => navigate("/admin/delivery")}>
+          {" "}
+          {/* Handle click event here */}
           <CardTotalDelivery /> {/* Use the CardTotalDelivery component */}
         </div>
       </SummarySection>
@@ -68,7 +70,7 @@ const AdminDelivery = () => {
           onClose={closeDetailsModal}
         />
       )}
-    </LayoutHS>
+    </MainLayout>
   );
 };
 

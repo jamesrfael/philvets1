@@ -1,0 +1,8 @@
+- Display the Directory Tree:
+tree src
+
+- Display the Directory Tree (without depth limit):
+Get-ChildItem src/pages -Recurse
+
+- Display Only Directories:
+Get-ChildItem src/pages -Directory
