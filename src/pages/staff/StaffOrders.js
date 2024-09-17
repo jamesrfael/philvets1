@@ -30,8 +30,6 @@ const StaffOrders = () => {
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
 
-  const closeAddPurchaseModal = () => setIsAddingPurchase(false);
-
   const openAddSalesModal = () => setIsAddingSales(true);
   const closeAddSalesModal = () => setIsAddingSales(false);
 
