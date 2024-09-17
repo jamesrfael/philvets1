@@ -32,7 +32,6 @@ const StaffOrders = () => {
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
 
-  const openAddPurchaseModal = () => setIsAddingPurchase(true);
   const closeAddPurchaseModal = () => setIsAddingPurchase(false);
 
   const openAddSalesModal = () => setIsAddingSales(true);
@@ -64,7 +63,6 @@ const StaffOrders = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <Button onClick={openAddPurchaseModal}>Add Purchase</Button>
           <Button onClick={openAddSalesModal}>Add Sales</Button>
         </ButtonGroup>
       </Controls>
