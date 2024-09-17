@@ -16,25 +16,25 @@ const StaffReports = () => {
   return (
     <MainLayout>
       <StatsContainer>
-        <div onClick={() => navigate("/admin/low-stocks")}>
+        <div onClick={() => navigate("/staff/inventory")}>
           <CardLowStocks />
         </div>
-        <div onClick={() => navigate("/admin/customers")}>
+        <div onClick={() => navigate("/staff/customers")}>
           <CardTotalCustomers />
         </div>
-        <div onClick={() => navigate("/admin/delivery")}>
+        <div onClick={() => navigate("/staff/delivery")}>
           <CardTotalDelivery />
         </div>
-        <div onClick={() => navigate("/admin/orders")}>
+        <div onClick={() => navigate("/staff/orders")}>
           <CardTotalOrders />
         </div>
-        <div onClick={() => navigate("/admin/products")}>
+        <div onClick={() => navigate("/staff/products")}>
           <CardTotalProducts />
         </div>
-        <div onClick={() => navigate("/admin/returns")}>
+        <div onClick={() => navigate("/staff/returns")}>
           <CardTotalReturns />
         </div>
-        <div onClick={() => navigate("/admin/notifications")}>
+        <div onClick={() => navigate("/staff/notifications")}>
           <CardTotalNotification />
         </div>
       </StatsContainer>

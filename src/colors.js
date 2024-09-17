@@ -20,5 +20,5 @@ export const colors = {
   1. IMPORT
  import { colors } from "../../colors";
  2. PUT TO COLOR
- ${ colors.primary } 
+ color: ${ colors.primary };
  */

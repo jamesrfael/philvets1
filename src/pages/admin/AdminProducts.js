@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import productData from "../data/ProductData";
@@ -11,7 +12,13 @@ import AddProductModal from "../../components/Products/AddProductModal";
 import AddCategoryModal from "../../components/Products/AddCategoryModal";
 import ProductDetailsModal from "../../components/Products/ProductDetailsModal"; // Import the ProductDetailsModal component
 
+
+
+
 const AdminProducts = () => {
+  
+  const navigate = useNavigate();
+
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
@@ -124,7 +131,11 @@ const AdminProducts = () => {
       </Controls>
       <AnalyticsContainer>
         <CardTotalProducts />
+
+        <div onClick={() => navigate ("/admin/categories")}>
         <CardTotalCategories />
+        </div>
+
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddProductModalOpen && (

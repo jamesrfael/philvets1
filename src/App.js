@@ -29,7 +29,7 @@ import StaffCustomers from "./pages/staff/StaffCustomers";
 import StaffReturns from "./pages/staff/StaffReturns";
 import StaffReports from "./pages/staff/StaffReports";
 import StaffNotification from "./pages/staff/StaffNotification";
-
+import StaffCategories from "./pages/staff/StaffCategories";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -74,6 +74,7 @@ function App() {
         <Route path="/staff/customers" element={<StaffCustomers />} />
         <Route path="/staff/returns" element={<StaffReturns />} />
         <Route path="/staff/reports" element={<StaffReports />} />
+        <Route path="/staff/categories" element={<StaffCategories />} />
         <Route path="/staff/notifications" element={<StaffNotification />} />
 
         {/* Fallback Route */}

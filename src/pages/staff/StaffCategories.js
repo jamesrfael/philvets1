@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa"; // Import your icons
 import AddCategoryModal from "../../components/Products/AddCategoryModal"; // Adjust the path if needed
 
-const StaffCategories = () => {
+const AdminCategories = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
@@ -107,4 +107,4 @@ const CategoryContainer = styled.div`
   gap: 16px;
 `;
 
-export default StaffCategories;
+export default AdminCategories;

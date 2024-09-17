@@ -1,6 +1,7 @@
 // src/pages/AdminDashboard.js
 
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import MainLayout from "../../components/Layout/MainLayout";
@@ -10,11 +11,16 @@ import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 
 const StaffDashboard = () => {
+  const navigate = useNavigate();
   return (
     <MainLayout>
       <CardContainer>
-        <CardTotalProducts />
-        <CardLowStocks />
+        <div onClick={() => navigate("/staff/products")}>
+          <CardTotalProducts />
+        </div>
+        <div onClick={() => navigate("/staff/inventory")}>
+          <CardLowStocks />
+        </div>
       </CardContainer>
       <TablesContainer>
         <Row>
