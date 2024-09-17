@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
-import AddPurchaseModal from "../../components/Orders/AddPurchaseModal";
 import AddSalesModal from "../../components/Orders/AddSalesModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
@@ -14,7 +13,6 @@ const StaffOrders = () => {
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isAddingPurchase, setIsAddingPurchase] = useState(false);
   const [isAddingSales, setIsAddingSales] = useState(false);
 
   const filteredOrders = orders.filter((order) => {
@@ -72,12 +70,6 @@ const StaffOrders = () => {
       <Table headers={headers} rows={rows} />
       {selectedOrder && (
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
-      )}
-      {isAddingPurchase && (
-        <AddPurchaseModal
-          onClose={closeAddPurchaseModal}
-          onSave={handleSaveNewOrder}
-        />
       )}
       {isAddingSales && (
         <AddSalesModal
