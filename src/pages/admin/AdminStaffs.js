@@ -33,20 +33,20 @@ const AdminStaffs = () => {
   });
 
   const handleAddStaff = (newStaff) => {
-    setStaff([...staff, newStaff]);
+    setStaff((prevStaff) => [...prevStaff, newStaff]);
   };
 
   const handleEditStaff = (updatedStaff) => {
-    setStaff(
-      staff.map((member) =>
+    setStaff((prevStaff) =>
+      prevStaff.map((member) =>
         member.email === updatedStaff.email ? updatedStaff : member
       )
     );
   };
 
   const handleActivateDeactivateStaff = (email) => {
-    setStaff(
-      staff.map((member) =>
+    setStaff((prevStaff) =>
+      prevStaff.map((member) =>
         member.email === email
           ? {
               ...member,

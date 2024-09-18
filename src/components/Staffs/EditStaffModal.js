@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const EditStaffModal = ({ staff, onClose, onSave }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [status, setStatus] = useState("Active");
   const [image, setImage] = useState(null);
 
@@ -62,6 +64,10 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <ModalOverlay>
       <ModalContent ref={modalRef}>
@@ -103,17 +109,22 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
           </Field>
           <Field>
             <Label>Password</Label>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <PasswordWrapper>
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <TogglePasswordButton onClick={togglePasswordVisibility}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </TogglePasswordButton>
+            </PasswordWrapper>
           </Field>
           <Field>
             <Label>Status</Label>
             <Select value={status} onChange={(e) => setStatus(e.target.value)}>
               <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
+              <option value="Deactivate">Deactive</option>
             </Select>
           </Field>
         </ModalBody>
@@ -220,6 +231,23 @@ const ImageContainer = styled.div`
     border-radius: 4px;
     margin-top: 10px;
   }
+`;
+
+const PasswordWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const TogglePasswordButton = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 1.2rem;
 `;
 
 const ModalFooter = styled.div`

@@ -1,3 +1,4 @@
+// src/components/Staffs/AddStaffModal.js
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
@@ -7,6 +8,7 @@ const AddStaffModal = ({ onClose, onSave }) => {
   const [firstname, setFirstname] = useState("");
   const [midinitial, setMidinitial] = useState("");
   const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -32,6 +34,7 @@ const AddStaffModal = ({ onClose, onSave }) => {
 
   const handleSave = async () => {
     const formData = new FormData();
+    formData.append('user_username', username);
     formData.append('user_firstname', firstname);
     formData.append('user_midinitial', midinitial);
     formData.append('user_lastname', lastname);
@@ -43,16 +46,16 @@ const AddStaffModal = ({ onClose, onSave }) => {
     if (image) {
       formData.append('user_image', image);
     }
-  
+
     try {
       const response = await fetch('http://127.0.0.1:8000/api/staff/create/', {
         method: 'POST',
         body: formData,
       });
-  
+
       if (response.ok) {
-        alert('Staff created successfully');
-        onSave();
+        const result = await response.json();
+        onSave(result); // Pass newly added staff data
         onClose();
       } else {
         const result = await response.json();
@@ -63,7 +66,6 @@ const AddStaffModal = ({ onClose, onSave }) => {
       alert('An error occurred. Please try again.');
     }
   };
-  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -92,6 +94,13 @@ const AddStaffModal = ({ onClose, onSave }) => {
               {image && <img src={image} alt="Staff" />}
               <Input type="file" onChange={handleImageChange} />
             </ImageContainer>
+          </Field>
+          <Field>
+            <Label>Username</Label>
+            <Input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </Field>
           <Field>
             <Label>First Name</Label>
@@ -150,7 +159,7 @@ const AddStaffModal = ({ onClose, onSave }) => {
               value={acctype}
               onChange={(e) => setAcctype(e.target.value)}
             >
-              <option value="User">User</option>
+              <option value="Staff">Staff</option>
               <option value="Admin">Admin</option>
             </select>
           </Field>
@@ -164,7 +173,6 @@ const AddStaffModal = ({ onClose, onSave }) => {
 };
 
 // Styled Components
-
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -234,7 +242,7 @@ const ImageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 15px;
-  
+
   img {
     width: 100px;
     height: 100px;
