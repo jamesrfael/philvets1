@@ -14,18 +14,19 @@ const AdminNotification = () => {
   const filteredNotifications = notificationData.filter((notification) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
+      notification.title.toLowerCase().includes(lowerCaseSearchTerm) ||
       notification.message.toLowerCase().includes(lowerCaseSearchTerm) ||
-      notification.type.toLowerCase().includes(lowerCaseSearchTerm) ||
       notification.timestamp.toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
 
-  const headers = ["Type", "Message", "Timestamp"];
+  const headers = ["Title", "Message", "Timestamp", "Priority"];
 
   const rows = filteredNotifications.map((notification) => [
-    notification.type,
+    notification.title,
     notification.message,
     notification.timestamp,
+    notification.priority,
   ]);
 
   return (

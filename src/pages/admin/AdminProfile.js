@@ -353,9 +353,10 @@ const FieldContainer = styled.div`
 
 const EyeIcon = styled.div`
   position: absolute;
+  font-size: 1.2rem;
   right: 20px;
   cursor: pointer;
-  color: ${colors.primary};
+  color: #666;
 `;
 
 const SaveChangesButton = styled.button`

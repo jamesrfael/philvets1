@@ -11,33 +11,24 @@ const AdminLogs = () => {
 
   const filteredLogs = logData.filter(
     (log) =>
-      log.timestamp.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      log.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      log.notes.toLowerCase().includes(searchTerm.toLowerCase())
+      log.LOG_TITLE.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      log.LOG_DESCRIPTION.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      log.LOG_DATETIME.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (log.USER_ID ? log.USER_ID.toString().includes(searchTerm) : false)
   );
 
   const headers = [
-    "Date",
-    "Action",
-    "Product Name",
-    "Quantity Change",
-    "Previous Value",
-    "New Value",
-    "User",
-    "Notes",
+    "Date & Time",
+    "Title",
+    "Description",
+    "User ID",
   ];
 
   const rows = filteredLogs.map((log) => [
-    log.timestamp,
-    log.action,
-    log.productName,
-    log.quantityChange,
-    log.previousValue,
-    log.newValue,
-    log.user,
-    log.notes,
+    log.LOG_DATETIME,
+    log.LOG_TITLE,
+    log.LOG_DESCRIPTION,
+    log.USER_ID,
   ]);
 
   return (

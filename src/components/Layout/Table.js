@@ -10,7 +10,9 @@ const Table = ({ headers, rows }) => {
         <thead>
           <TableRow>
             {headers.map((header, index) => (
-              <TableHeader key={index}>{header}</TableHeader>
+              <TableHeader key={index} data-column={header}>
+                {header}
+              </TableHeader>
             ))}
           </TableRow>
         </thead>
@@ -18,7 +20,9 @@ const Table = ({ headers, rows }) => {
           {rows.map((row, rowIndex) => (
             <TableRow key={rowIndex}>
               {row.map((cell, cellIndex) => (
-                <TableCell key={cellIndex}>{cell}</TableCell>
+                <TableCell key={cellIndex} data-column={headers[cellIndex]}>
+                  {cell}
+                </TableCell>
               ))}
             </TableRow>
           ))}
@@ -64,6 +68,17 @@ const TableCell = styled.td`
   border-top: 1px solid #ddd; /* Top border */
   border-bottom: 1px solid #ddd; /* Bottom border */
   font-size: 13px;
+  
+  &[data-column="Image"] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  img {
+    max-width: 100%; /* Ensure image doesn't overflow */
+    max-height: 100px; /* Limit image height */
+  }
 `;
 
 export default Table;

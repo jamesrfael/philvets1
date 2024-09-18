@@ -1,8 +1,8 @@
-// src/components/Staffs/AddStaffModal.js
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const AddStaffModal = ({ onClose, onSave }) => {
   const [firstname, setFirstname] = useState("");
@@ -11,6 +11,7 @@ const AddStaffModal = ({ onClose, onSave }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const [acctype, setAcctype] = useState("Staff"); // Default to 'Staff'
@@ -78,6 +79,10 @@ const AddStaffModal = ({ onClose, onSave }) => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <ModalOverlay>
       <ModalContent ref={modalRef}>
@@ -133,11 +138,16 @@ const AddStaffModal = ({ onClose, onSave }) => {
           </Field>
           <Field>
             <Label>Password</Label>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <PasswordWrapper>
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <TogglePasswordButton onClick={togglePasswordVisibility}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </TogglePasswordButton>
+            </PasswordWrapper>
           </Field>
           <Field>
             <Label>Phone Number</Label>
@@ -155,13 +165,10 @@ const AddStaffModal = ({ onClose, onSave }) => {
           </Field>
           <Field>
             <Label>Account Type</Label>
-            <select
-              value={acctype}
-              onChange={(e) => setAcctype(e.target.value)}
-            >
+            <Select value={acctype} onChange={(e) => setAcctype(e.target.value)}>
               <option value="Staff">Staff</option>
               <option value="Admin">Admin</option>
-            </select>
+            </Select>
           </Field>
         </ModalBody>
         <ModalFooter>
@@ -237,6 +244,13 @@ const Input = styled.input`
   border-radius: 4px;
 `;
 
+const Select = styled.select`
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+`;
+
 const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -261,22 +275,40 @@ const ImageContainer = styled.div`
   }
 `;
 
+const PasswordWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const TogglePasswordButton = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 1.2rem;
+`;
+
 const ModalFooter = styled.div`
+  margin-top: 20px;
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
 `;
 
 const SaveButton = styled.button`
-  background-color: ${colors.primary};
+  background: ${colors.primary};
   color: white;
-  padding: 8px 16px;
   border: none;
+  padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
+
   &:hover {
-    background-color: ${colors.primaryHover};
+    background: ${colors.primaryDark};
   }
 `;
 

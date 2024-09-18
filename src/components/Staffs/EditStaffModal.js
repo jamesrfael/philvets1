@@ -5,24 +5,34 @@ import { IoCloseCircle } from "react-icons/io5";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const EditStaffModal = ({ staff, onClose, onSave }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [midinitial, setMidinitial] = useState("");
+  const [lastname, setLastname] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [status, setStatus] = useState("Active");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [acctype, setAcctype] = useState("Staff"); // Default value
   const [image, setImage] = useState(null);
+  const [status, setStatus] = useState("Active");
 
   const modalRef = useRef();
 
   useEffect(() => {
     if (staff) {
-      setName(staff.name);
-      setEmail(staff.email);
-      setUsername(staff.username);
-      setPassword(staff.password); // Assuming the password can be pre-filled, otherwise leave it empty.
-      setStatus(staff.status);
-      setImage(staff.image);
+      setFirstname(staff.USER_FIRSTNAME);
+      setMidinitial(staff.USER_MIDINITIAL);
+      setLastname(staff.USER_LASTNAME);
+      setUsername(staff.USER_USERNAME);
+      setEmail(staff.USER_EMAIL);
+      setPassword(staff.USER_PASSWORD); // Assuming the password can be pre-filled
+      setPhoneNumber(staff.USER_PHONENUMBER);
+      setAddress(staff.USER_ADDRESS);
+      setAcctype(staff.USER_ACCTYPE);
+      setImage(staff.USER_IMAGE);
+      setStatus(staff.USER_ISACTIVE ? "Active" : "Inactive");
     }
   }, [staff]);
 
@@ -41,13 +51,18 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
 
   const handleSave = () => {
     const updatedStaff = {
-      ...staff,
-      name,
-      email,
-      username,
-      password,
-      status,
-      image
+      USER_ID: staff.USER_ID,
+      USER_USERNAME: username,
+      USER_PASSWORD: password,
+      USER_FIRSTNAME: firstname,
+      USER_MIDINITIAL: midinitial,
+      USER_LASTNAME: lastname,
+      USER_EMAIL: email,
+      USER_PHONENUMBER: phoneNumber,
+      USER_ADDRESS: address,
+      USER_ACCTYPE: acctype,
+      USER_IMAGE: image,
+      USER_ISACTIVE: status === "Active"
     };
     onSave(updatedStaff);
     onClose();
@@ -86,10 +101,31 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
             </ImageContainer>
           </Field>
           <Field>
-            <Label>Name</Label>
+            <Label>First Name</Label>
             <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Middle Initial</Label>
+            <Input
+              value={midinitial}
+              onChange={(e) => setMidinitial(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Last Name</Label>
+            <Input
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Username</Label>
+            <Input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </Field>
           <Field>
@@ -98,13 +134,6 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <Label>Username</Label>
-            <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </Field>
           <Field>
@@ -121,10 +150,31 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
             </PasswordWrapper>
           </Field>
           <Field>
+            <Label>Phone Number</Label>
+            <Input
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Address</Label>
+            <Input
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Account Type</Label>
+            <Select value={acctype} onChange={(e) => setAcctype(e.target.value)}>
+              <option value="Staff">Staff</option>
+              <option value="Admin">Admin</option>
+            </Select>
+          </Field>
+          <Field>
             <Label>Status</Label>
             <Select value={status} onChange={(e) => setStatus(e.target.value)}>
               <option value="Active">Active</option>
-              <option value="Deactivate">Deactive</option>
+              <option value="Inactive">Inactive</option>
             </Select>
           </Field>
         </ModalBody>
@@ -137,7 +187,6 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
 };
 
 // Styled Components
-
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -214,7 +263,7 @@ const ImageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 15px;
-  
+
   img {
     width: 100px;
     height: 100px;
@@ -262,6 +311,8 @@ const SaveButton = styled.button`
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
+ 
+
   cursor: pointer;
   font-size: 14px;
   &:hover {
