@@ -22,7 +22,7 @@ const AdminReports = () => {
   return (
     <MainLayout>
       <StatsContainer>
-        <div onClick={() => navigate("/admin/low-stocks")}>
+        <div onClick={() => navigate("/admin/inventory")}>
           <CardLowStocks />
         </div>
         <div onClick={() => navigate("/admin/customers")}>

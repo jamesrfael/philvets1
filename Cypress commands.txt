@@ -1,5 +1,8 @@
 CYPRESS How to..
 
+- Open Cypress.
+npx cypress open
+
 - Run all test files:
 npx cypress run
 

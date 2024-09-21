@@ -6,7 +6,7 @@ import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Import the CardTotalNotification component
-import { notificationData } from "../data/NotificationData"; // Import the notification data
+import { notificationData } from "../../pages/data/NotificationData"; // Import the notification data
 
 const StaffNotification = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,18 +14,19 @@ const StaffNotification = () => {
   const filteredNotifications = notificationData.filter((notification) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
+      notification.title.toLowerCase().includes(lowerCaseSearchTerm) ||
       notification.message.toLowerCase().includes(lowerCaseSearchTerm) ||
-      notification.type.toLowerCase().includes(lowerCaseSearchTerm) ||
       notification.timestamp.toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
 
-  const headers = ["Type", "Message", "Timestamp"];
+  const headers = ["Title", "Message", "Timestamp", "Priority"];
 
   const rows = filteredNotifications.map((notification) => [
-    notification.type,
+    notification.title,
     notification.message,
     notification.timestamp,
+    notification.priority,
   ]);
 
   return (

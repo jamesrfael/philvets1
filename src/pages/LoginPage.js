@@ -13,10 +13,10 @@ const LoginPage = () => {
     e.preventDefault();
 
     // Simulate a login attempt
-    if (username === 'admin' && password === '123') {
+    if (username === 'admin@gmail.com' && password === 'Password123') {
       // Redirect to admin dashboard on successful login
       window.location.href = '/admin/dashboard';
-    } else if (username === 'staff' && password === '123') {
+    } else if (username === 'staff@gmail.com' && password === 'Password123') {
       // Redirect to staff dashboard on successful login
       window.location.href = '/staff/dashboard';
     } else {

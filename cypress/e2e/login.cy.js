@@ -1,7 +1,7 @@
 describe('Login Page Tests', () => {
   beforeEach(() => {
     // Visit the login page before each test
-    cy.visit('http://localhost:3000/')
+    cy.visit('http://localhost:3000/login')
   })
 
   it('Should render the login page correctly', () => {
@@ -41,16 +41,26 @@ describe('Login Page Tests', () => {
   })
 
   it('Should navigate to the admin dashboard after successful login', () => {
-    // Simulate login by clicking the login button
-    cy.get('input[placeholder="Username"]').type('admin')
-    cy.get('input[placeholder="Password"]').type('adminpassword')
+    // Simulate login with correct credentials for admin
+    cy.get('input[placeholder="Username"]').type('admin@gmail.com')
+    cy.get('input[placeholder="Password"]').type('Password123')
     cy.get('button').contains('Login').click()
 
     // Check if the URL contains '/admin/dashboard' after login
     cy.url().should('include', '/admin/dashboard')
   })
 
-  it('Should display an error for incorrect credentials (optional)', () => {
+  it('Should navigate to the staff dashboard after successful login', () => {
+    // Simulate login with correct credentials for staff
+    cy.get('input[placeholder="Username"]').type('staff@gmail.com')
+    cy.get('input[placeholder="Password"]').type('Password123')
+    cy.get('button').contains('Login').click()
+
+    // Check if the URL contains '/staff/dashboard' after login
+    cy.url().should('include', '/staff/dashboard')
+  })
+
+  it('Should display an error for incorrect credentials', () => {
     // Type incorrect credentials
     cy.get('input[placeholder="Username"]').type('wronguser')
     cy.get('input[placeholder="Password"]').type('wrongpassword')
@@ -58,8 +68,7 @@ describe('Login Page Tests', () => {
     // Simulate login attempt
     cy.get('button').contains('Login').click()
 
-    // Check for an error message (you need to handle this in the actual component)
-    // This assumes you have some logic to display an error for failed login
+    // Check for an error message (assuming it's shown for failed login)
     cy.contains('Invalid username or password').should('be.visible')
   })
 })
