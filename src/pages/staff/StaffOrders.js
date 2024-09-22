@@ -59,7 +59,7 @@ const StaffOrders = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <Button onClick={openAddSalesModal}>Add Sales</Button>
+          <Button onClick={openAddSalesModal}>Add Sales Order</Button>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>

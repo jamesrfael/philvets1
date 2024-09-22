@@ -20,7 +20,7 @@ const Button = ({ backgroundColor, hoverColor, color, onClick, children, ...prop
 const StyledButton = styled.button`
   background-color: ${(props) => props.backgroundColor || colors.primary};
   color: ${(props) => props.color || 'white'};
-  padding: 7px 9px;
+  padding: 7px 8px;
   border: none;
   border-radius: 4px;
   cursor: pointer;

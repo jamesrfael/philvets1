@@ -66,8 +66,8 @@ const AdminOrders = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <Button onClick={openAddPurchaseModal}>Add Purchase</Button>
-          <Button onClick={openAddSalesModal}>Add Sales</Button>
+          <Button onClick={openAddPurchaseModal}>Add Purchase Order</Button>
+          <Button onClick={openAddSalesModal}>Add Sales Order</Button>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
