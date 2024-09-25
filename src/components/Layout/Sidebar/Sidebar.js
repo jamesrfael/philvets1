@@ -59,7 +59,9 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
               <item.icon size={20} className="icon" />
               <span className="label">{item.label}</span>
               {item.dropdown && (
-                <TbChevronDown size={16} className="arrow-icon" /> // Add the arrow icon here
+                <ChevronIconContainer isOpen={openDropdown === index}>
+                  <TbChevronDown size={16} className="arrow-icon" />
+                </ChevronIconContainer>
               )}
             </SidebarLink>
 
@@ -76,7 +78,7 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
                       <subItem.icon size={15} className="icon" />
                     )}{" "}
                     {/* Add icon for dropdown items */}
-                    {subItem.label}
+                    <span className="dropdown-label">{subItem.label}</span>
                   </SidebarLink>
                 ))}
               </DropdownContainer>
@@ -189,20 +191,38 @@ const SidebarLink = styled(NavLink)`
   }
 `;
 
-const DropdownContainer = styled.div`
-  padding-left: 16px; // Indent dropdown items
+const ChevronIconContainer = styled.div`
+  margin-left: auto;
+  transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "rotate(0deg)")};
+  transition: transform 0.3s ease-in-out;
+`;
 
+const DropdownContainer = styled.div`
+  padding-left: 20px; /* Indent dropdown items */
+  margin-top: 4px;
   .dropdown-item {
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 6px;
     margin-bottom: 4px;
     border-radius: 4px;
     color: ${theme.text};
     text-decoration: none;
+    transition: background-color 0.1s ease-in-out;
 
     &:hover {
       background-color: ${theme.primary};
       color: ${theme.background};
+    }
+
+    .icon {
+      width: 15px;
+      height: 15px;
+      margin-right: 8px;
+    }
+
+    .dropdown-label {
+      font-size: 13px; /* Smaller font size for dropdown items */
     }
   }
 `;

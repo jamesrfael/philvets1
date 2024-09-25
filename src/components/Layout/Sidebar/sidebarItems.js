@@ -12,9 +12,9 @@ export const adminSidebarItems = [
     label: "Order", 
     link: "/admin/orders", 
     dropdown: [
-      { icon: TbFileReport, label: "Pending Requests", link: "/admin/orders/pending" },
-      { icon: TbBasketDollar, label: "Sales Order", link: "/admin/orders/sales" },
-      { icon: TbTruckReturn, label: "Purchase Order", link: "/admin/orders/purchase" },
+      { icon: TbFileReport, label: "Pending Requests", link: "/admin/orders/pending-request" },
+      { icon: TbBasketDollar, label: "Sales", link: "/admin/orders/sales" },
+      { icon: TbTruckReturn, label: "Purchase", link: "/admin/orders/purchase" },
     ]
   },
   { icon: TbTruckDelivery, label: "Delivery", link: "/admin/delivery" },
@@ -33,8 +33,8 @@ export const staffSidebarItems = [
   { icon: TbLayoutDashboard, label: "Dashboard", link: "/staff/dashboard" },
   { icon: MdOutlineShoppingCart, label: "Order", link: "/staff/orders",
     dropdown: [
-      { icon: TbFileReport, label: "Pending Request", link: "/staff/orders/pending" },
-      { icon: TbBasketDollar, label: "Sales Order", link: "/staff/orders/sales" },
+      { icon: TbFileReport, label: "Pending Request", link: "/staff/orders/pending-request" },
+      { icon: TbBasketDollar, label: "Sales", link: "/staff/orders/sales" },
     ],
    },
   { icon: TbTruckDelivery, label: "Delivery", link: "/staff/delivery" },
