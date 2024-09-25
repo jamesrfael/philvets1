@@ -1,5 +1,5 @@
 // src/constants/sidebarItems.js
-import { TbLayoutDashboard, TbTruckDelivery, TbUserDollar, TbBasketDollar, TbTruckReturn, TbHistory, TbFileReport } from "react-icons/tb";
+import { TbLayoutDashboard, TbTruckDelivery, TbUserDollar, TbBasketDollar, TbTruckReturn, TbHistory, TbFileReport, } from "react-icons/tb"; // Import the arrow icon
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
 import { LuWarehouse, LuBox } from "react-icons/lu";
 import { GrGroup } from "react-icons/gr";
@@ -7,7 +7,16 @@ import { GrGroup } from "react-icons/gr";
 // Example Sidebar Items
 export const adminSidebarItems = [
   { icon: TbLayoutDashboard, label: "Dashboard", link: "/admin/dashboard" },
-  { icon: MdOutlineShoppingCart, label: "Order", link: "/admin/orders" },
+  { 
+    icon: MdOutlineShoppingCart, 
+    label: "Order", 
+    link: "/admin/orders", 
+    dropdown: [
+      { icon: TbFileReport, label: "Pending Requests", link: "/admin/orders/pending" },
+      { icon: TbBasketDollar, label: "Sales Order", link: "/admin/orders/sales" },
+      { icon: TbTruckReturn, label: "Purchase Order", link: "/admin/orders/purchase" },
+    ]
+  },
   { icon: TbTruckDelivery, label: "Delivery", link: "/admin/delivery" },
   { icon: LuBox, label: "Product", link: "/admin/products" },
   { icon: MdOutlineInventory2, label: "Inventory", link: "/admin/inventory" },
@@ -22,7 +31,12 @@ export const adminSidebarItems = [
 
 export const staffSidebarItems = [
   { icon: TbLayoutDashboard, label: "Dashboard", link: "/staff/dashboard" },
-  { icon: MdOutlineShoppingCart, label: "Order", link: "/staff/orders" },
+  { icon: MdOutlineShoppingCart, label: "Order", link: "/staff/orders",
+    dropdown: [
+      { icon: TbFileReport, label: "Pending Request", link: "/staff/orders/pending" },
+      { icon: TbBasketDollar, label: "Sales Order", link: "/staff/orders/sales" },
+    ],
+   },
   { icon: TbTruckDelivery, label: "Delivery", link: "/staff/delivery" },
   { icon: LuBox, label: "Product", link: "/staff/products" },
   { icon: MdOutlineInventory2, label: "Inventory", link: "/staff/inventory" },

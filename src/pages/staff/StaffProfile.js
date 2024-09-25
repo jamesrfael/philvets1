@@ -34,25 +34,43 @@ const StaffProfile = () => {
   };
 
   useEffect(() => {
-    if (
+    const initialValues = {
+      name: "John Doe",
+      email: "john.doe@example.com",
+      password: "StaffPassword",
+      contact: "09123456789",
+    };
+
+    setHasChanges(
+      name !== initialValues.name ||
+      email !== initialValues.email ||
+      password !== initialValues.password ||
+      contact !== initialValues.contact ||
       isEditingName ||
       isEditingEmail ||
       isEditingPassword ||
       isEditingContact
-    ) {
-      setHasChanges(true);
-    } else {
-      setHasChanges(false);
-    }
-  }, [name, email, password, confirmPassword, contact]);
+    );
+  }, [name, email, password, contact, isEditingName, isEditingEmail, isEditingPassword, isEditingContact]);
 
   const handleSaveChanges = () => {
+    const isPasswordValid = password && confirmPassword && password === confirmPassword;
+    if (!isPasswordValid) {
+      alert("Passwords do not match!");
+      return;
+    }
+
     console.log("Changes saved!");
     setIsEditingName(false);
     setIsEditingEmail(false);
     setIsEditingPassword(false);
     setIsEditingContact(false);
     setSaveClicked(true);
+
+    // Optionally reset the form after saving
+    setTimeout(() => {
+      setSaveClicked(false);
+    }, 3000);
   };
 
   return (
@@ -180,7 +198,8 @@ const StaffProfile = () => {
             )}
           </ProfileField>
 
-          {hasChanges && !saveClicked && (
+          {saveClicked && <p style={{ color: 'green' }}>Changes saved successfully!</p>}
+          {hasChanges && (
             <SaveChangesButton onClick={handleSaveChanges}>
               Save Changes
             </SaveChangesButton>

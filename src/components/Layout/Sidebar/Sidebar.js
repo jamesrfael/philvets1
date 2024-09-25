@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useLocation, NavLink } from "react-router-dom";
+import { TbChevronDown } from "react-icons/tb";
 import philvetsLogo from "../../../assets/philvets.png";
 import { adminSidebarItems, staffSidebarItems } from "./sidebarItems";
 import { TbLogout2 } from "react-icons/tb";
@@ -18,6 +19,7 @@ const theme = {
 const Sidebar = ({ isOpen, onClose, isAdmin }) => {
   const sidebarRef = useRef(null);
   const location = useLocation(); // Get the current location
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -34,6 +36,10 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
 
   const sidebarItems = isAdmin ? adminSidebarItems : staffSidebarItems;
 
+  const handleDropdownToggle = (index) => {
+    setOpenDropdown(openDropdown === index ? null : index); // Toggle dropdown
+  };
+
   return (
     <SidebarContainer ref={sidebarRef} isOpen={isOpen}>
       <SidebarHeader>
@@ -44,14 +50,38 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
 
       <SidebarContent>
         {sidebarItems.map((item, index) => (
-          <SidebarLink
-            key={index}
-            to={item.link} // Changed href to to for NavLink
-            active={location.pathname === item.link} // Highlight active item
-          >
-            <item.icon size={20} className="icon" />
-            <span className="label">{item.label}</span>
-          </SidebarLink>
+          <React.Fragment key={index}>
+            <SidebarLink
+              to={item.link}
+              active={location.pathname === item.link}
+              onClick={() => item.dropdown && handleDropdownToggle(index)}
+            >
+              <item.icon size={20} className="icon" />
+              <span className="label">{item.label}</span>
+              {item.dropdown && (
+                <TbChevronDown size={16} className="arrow-icon" /> // Add the arrow icon here
+              )}
+            </SidebarLink>
+
+            {item.dropdown && openDropdown === index && (
+              <DropdownContainer>
+                {item.dropdown.map((subItem, subIndex) => (
+                  <SidebarLink
+                    key={subIndex}
+                    to={subItem.link}
+                    active={location.pathname === subItem.link}
+                    className="dropdown-item"
+                  >
+                    {subItem.icon && (
+                      <subItem.icon size={15} className="icon" />
+                    )}{" "}
+                    {/* Add icon for dropdown items */}
+                    {subItem.label}
+                  </SidebarLink>
+                ))}
+              </DropdownContainer>
+            )}
+          </React.Fragment>
         ))}
       </SidebarContent>
 
@@ -156,6 +186,24 @@ const SidebarLink = styled(NavLink)`
     margin-left: 8px;
     font-size: 15px;
     transition: color 0.1s ease-in-out;
+  }
+`;
+
+const DropdownContainer = styled.div`
+  padding-left: 16px; // Indent dropdown items
+
+  .dropdown-item {
+    display: block;
+    padding: 6px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    color: ${theme.text};
+    text-decoration: none;
+
+    &:hover {
+      background-color: ${theme.primary};
+      color: ${theme.background};
+    }
   }
 `;
 
