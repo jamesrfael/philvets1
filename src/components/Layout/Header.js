@@ -9,6 +9,7 @@ import { colors } from "../../colors";
 const pageTitles = {
   "/admin/dashboard": "Dashboard",
   "/admin/orders": "Order",
+  "/admin/orders/pending-request": "Order / Pending Request",
   "/admin/delivery": "Delivery",
   "/admin/products": "Product",
   "/admin/inventory": "Inventory",

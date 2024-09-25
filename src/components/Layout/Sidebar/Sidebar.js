@@ -11,7 +11,7 @@ const theme = {
   text: "#000000", // Default text color
   textActive: "#FFFFFF", // Text color when active
   backgroundActive: "#00C4FF", // Background color when active
-  backgroundHover: "#0082AA", // Background color on hover
+  backgroundHover: "#00C4FF", // Background color on hover
   primary: "#00C4FF", // Primary background color (for active state)
   background: "#FFFFFF", // Background color (for active state)
 };
@@ -36,8 +36,9 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
 
   const sidebarItems = isAdmin ? adminSidebarItems : staffSidebarItems;
 
+  // Only toggle the dropdown when the button is clicked
   const handleDropdownToggle = (index) => {
-    setOpenDropdown(openDropdown === index ? null : index); // Toggle dropdown
+    setOpenDropdown(openDropdown === index ? null : index); // Toggle only on click
   };
 
   return (
@@ -52,9 +53,13 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
         {sidebarItems.map((item, index) => (
           <React.Fragment key={index}>
             <SidebarLink
-              to={item.link}
+              to={item.dropdown ? "#" : item.link} // Prevent navigation if dropdown exists
               active={location.pathname === item.link}
-              onClick={() => item.dropdown && handleDropdownToggle(index)}
+              onClick={() => {
+                if (item.dropdown) {
+                  handleDropdownToggle(index); // Toggle dropdown
+                }
+              }}
             >
               <item.icon size={20} className="icon" />
               <span className="label">{item.label}</span>
@@ -68,18 +73,18 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
             {item.dropdown && openDropdown === index && (
               <DropdownContainer>
                 {item.dropdown.map((subItem, subIndex) => (
-                  <SidebarLink
+                  <NavLink
                     key={subIndex}
                     to={subItem.link}
-                    active={location.pathname === subItem.link}
-                    className="dropdown-item"
+                    className={({ isActive }) =>
+                      `dropdown-item ${isActive ? "active" : ""}`
+                    }
                   >
                     {subItem.icon && (
                       <subItem.icon size={15} className="icon" />
-                    )}{" "}
-                    {/* Add icon for dropdown items */}
+                    )}
                     <span className="dropdown-label">{subItem.label}</span>
-                  </SidebarLink>
+                  </NavLink>
                 ))}
               </DropdownContainer>
             )}
@@ -100,7 +105,7 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
 // Styled Components
 const SidebarContainer = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  background-color: white;
+  background-color: white; // Set a background color for the sidebar
   color: black;
   max-width: 190px;
   display: flex;
@@ -164,16 +169,24 @@ const SidebarLink = styled(NavLink)`
   border-radius: 4px;
   color: ${({ active }) => (active ? theme.textActive : theme.text)};
   text-decoration: none;
-  transition: background-color 0.1s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
-  &:hover,
-  &.active {
-    background-color: ${theme.primary};
-    color: ${theme.background};
+  &:hover {
+    background-color: ${theme.backgroundHover}; // Change background color on hover
+    color: ${theme.background}; // Change text color on hover
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
     .icon {
-      color: ${theme.background};
+      color: ${theme.background}; // Change icon color on hover
+    }
+  }
+
+  &.active {
+    background-color: ${theme.primary}; // Change background color when active
+    color: ${theme.background}; // Change text color when active
+
+    .icon {
+      color: ${theme.background}; // Change icon color when active
     }
   }
 
@@ -210,9 +223,14 @@ const DropdownContainer = styled.div`
     text-decoration: none;
     transition: background-color 0.1s ease-in-out;
 
+    &.active {
+      background-color: ${theme.primary}; // Change background color when active
+      color: ${theme.background}; // Change text color when active
+    }
+
     &:hover {
-      background-color: ${theme.primary};
-      color: ${theme.background};
+      background-color: ${theme.primary}; // Change background color on hover
+      color: ${theme.background}; // Change text color on hover
     }
 
     .icon {
