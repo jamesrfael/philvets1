@@ -1,9 +1,9 @@
 CYPRESS How to..
 
-- Open Cypress.
+- Open Cypress kato mo open ug Cypress.
 npx cypress open
 
-- Run all test files:
+- Run all test files, Katong sa Commandline ra magcheck:
 npx cypress run
 
 - Run specific file (e.g AdminDashboard.cy.js file)
