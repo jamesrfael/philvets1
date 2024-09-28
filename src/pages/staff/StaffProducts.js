@@ -11,6 +11,7 @@ import Button from "../../components/Layout/Button";
 import AddProductModal from "../../components/Products/AddProductModal";
 import AddCategoryModal from "../../components/Products/AddCategoryModal";
 import ProductDetailsModal from "../../components/Products/ProductDetailsModal"; // Import the ProductDetailsModal component
+import { FaPlus } from "react-icons/fa";
 
 const StaffProducts = () => {
   const navigate = useNavigate();
@@ -122,8 +123,12 @@ const StaffProducts = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <Button onClick={openAddProductModal}>Add Product</Button>
-          <Button onClick={openAddCategoryModal}>Add Category</Button>
+          <StyledButton onClick={openAddProductModal}>
+            <FaPlus className="icon" /> Product
+          </StyledButton>
+          <StyledButton onClick={openAddCategoryModal}>
+            <FaPlus className="icon" /> Category
+          </StyledButton>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
@@ -169,6 +174,15 @@ const ButtonGroup = styled.div`
   display: flex;
 `;
 
+const StyledButton = styled(Button)`
+  display: flex;
+  align-items: center;
+
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+`;
 const AnalyticsContainer = styled.div`
   display: flex;
   gap: 16px;

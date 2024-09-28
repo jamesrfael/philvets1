@@ -44,7 +44,7 @@ const AdminProfile = () => {
     } else {
       setHasChanges(false);
     }
-  }, [isEditingName, isEditingEmail, isEditingPassword, isEditingContact, name, email, password, confirmPassword, contact]);
+  }, [name, email, password, confirmPassword, contact]);
 
   const handleSaveChanges = () => {
     console.log("Changes saved!");

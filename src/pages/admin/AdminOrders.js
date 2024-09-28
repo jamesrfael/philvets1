@@ -9,6 +9,7 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import Button from "../../components/Layout/Button"; // Import the Button component
+import { FaPlus } from "react-icons/fa"; // Import the Plus icon from react-icons
 import { orders as initialOrders } from "../../pages/data/OrderData";
 
 const AdminOrders = () => {
@@ -66,8 +67,12 @@ const AdminOrders = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <Button onClick={openAddPurchaseModal}>Add Purchase Order</Button>
-          <Button onClick={openAddSalesModal}>Add Sales Order</Button>
+          <StyledButton onClick={openAddPurchaseModal}>
+            <FaPlus className="icon" /> Purchase Order
+          </StyledButton>
+          <StyledButton onClick={openAddSalesModal}>
+            <FaPlus className="icon" /> Sales Order
+          </StyledButton>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
@@ -107,6 +112,17 @@ const Controls = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
+  gap: 16px;
+`;
+
+const StyledButton = styled(Button)`
+  display: flex;
+  align-items: center;
+
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
 `;
 
 const AnalyticsContainer = styled.div`

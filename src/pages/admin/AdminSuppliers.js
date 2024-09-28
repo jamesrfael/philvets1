@@ -9,6 +9,7 @@ import Table from "../../components/Layout/Table";
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
 import { suppliers as initialSuppliers } from "../../pages/data/SupplierData";
 import Button from "../../components/Layout/Button";
+import { FaPlus } from "react-icons/fa"; // Import the FaPlus icon
 
 const AdminSuppliers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -79,9 +80,9 @@ const AdminSuppliers = () => {
           onChange={handleSearch}
         />
         <ButtonGroup>
-          <Button bgColor={colors.primary} onClick={openAddModal}>
-            Add Supplier
-          </Button>
+          <StyledButton bgColor={colors.primary} onClick={openAddModal}>
+            <FaPlus className="icon"/> Supplier
+          </StyledButton>
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
@@ -123,6 +124,16 @@ const AnalyticsContainer = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
+`;
+
+const StyledButton = styled(Button)`
+  display: flex;
+  align-items: center;
+
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
 `;
 
 const ActionButton = styled(Button)`

@@ -10,6 +10,7 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
 import Button from "../../components/Layout/Button";
+import { FaPlus } from "react-icons/fa";
 
 const AdminStaffs = () => {
   const [staff, setStaff] = useState(initialStaff);
@@ -94,13 +95,13 @@ const AdminStaffs = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <ButtonGroup>
-          <Button
+          <StyledButton
             backgroundColor={colors.primary}
             hoverColor={colors.primaryHover}
             onClick={() => setIsAddModalOpen(true)}
           >
-            Add Staff
-          </Button>
+           <FaPlus className="icon" /> Staff
+          </StyledButton>
           <Button
             backgroundColor={colors.secondary}
             hoverColor={colors.secondaryHover}
@@ -143,6 +144,16 @@ const Controls = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
+`;
+
+const StyledButton = styled(Button)`
+  display: flex;
+  align-items: center;
+
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
 `;
 
 const AnalyticsContainer = styled.div`

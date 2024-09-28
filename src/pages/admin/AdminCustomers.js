@@ -10,6 +10,7 @@ import Button from "../../components/Layout/Button";
 import AddCustomerModal from "../../components/Customers/AddCustomerModal";
 import CustomerDetailsModal from "../../components/Customers/CustomerDetailsModal"; // Import CustomerDetailsModal
 import customersData from "../data/CustomersData";
+import { FaPlus } from "react-icons/fa"; // Import the FaPlus icon
 
 const AdminCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,8 +24,7 @@ const AdminCustomers = () => {
     setSearchTerm(value);
     const filtered = customersData.filter((customer) => {
       if (!value) return true;
-      const fullName =
-        `${customer.firstName} ${customer.lastName}`.toLowerCase();
+      const fullName = `${customer.firstName} ${customer.lastName}`.toLowerCase();
       return (
         fullName.includes(value) ||
         customer.email.toLowerCase().includes(value) ||
@@ -67,14 +67,9 @@ const AdminCustomers = () => {
     customer.email,
     customer.phone,
     customer.registrationDate,
-    <Button
-      backgroundColor={colors.primary}
-      hoverColor={colors.primaryHover}
-      onClick={() => openDetailsModal(customer)}
-      key="action"
-    >
+    <ActionButton key="action" onClick={() => openDetailsModal(customer)}>
       Details
-    </Button>,
+    </ActionButton>,
   ]);
 
   return (
@@ -85,13 +80,9 @@ const AdminCustomers = () => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        <Button
-          backgroundColor={colors.primary}
-          hoverColor={colors.primaryHover}
-          onClick={openAddCustomerModal}
-        >
-          Add Customer
-        </Button>
+        <StyledButton onClick={openAddCustomerModal}>
+          <FaPlus className="icon" /> Customer
+        </StyledButton>
       </Controls>
       <SummarySection>
         <CardTotalCustomers />
@@ -113,7 +104,6 @@ const AdminCustomers = () => {
 };
 
 // Styled components
-
 const Controls = styled.div`
   display: flex;
   justify-content: space-between;
@@ -126,6 +116,28 @@ const SummarySection = styled.div`
   display: flex;
   justify-content: left;
   margin-bottom: 20px;
+`;
+
+const StyledButton = styled(Button)`
+  display: flex;
+  align-items: center;
+
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+`;
+
+const ActionButton = styled(Button)`
+  background-color: ${colors.primary};
+  &:hover {
+    background-color: ${colors.primaryHover};
+  }
+
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
 `;
 
 export default AdminCustomers;

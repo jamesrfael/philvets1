@@ -10,6 +10,7 @@ import Button from "../../components/Layout/Button";
 import AddCustomerModal from "../../components/Customers/AddCustomerModal";
 import CustomerDetailsModal from "../../components/Customers/CustomerDetailsModal"; // Import CustomerDetailsModal
 import customersData from "../data/CustomersData";
+import { FaPlus } from "react-icons/fa";
 
 const StaffCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -85,13 +86,9 @@ const StaffCustomers = () => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        <Button
-          backgroundColor={colors.primary}
-          hoverColor={colors.primaryHover}
-          onClick={openAddCustomerModal}
-        >
-          Add Customer
-        </Button>
+        <StyledButton onClick={openAddCustomerModal}>
+          <FaPlus className="icon" /> Customer
+        </StyledButton>
       </Controls>
       <SummarySection>
         <CardTotalCustomers />
@@ -120,6 +117,16 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 1px;
+`;
+
+const StyledButton = styled(Button)`
+  display: flex;
+  align-items: center;
+
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
 `;
 
 const SummarySection = styled.div`
