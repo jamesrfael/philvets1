@@ -1,33 +1,9 @@
 import React, { useState } from "react";
 import Modal from "../Layout/Modal";
 import { IoCloseCircle } from "react-icons/io5";
-import {
-  calculateLineTotal,
-  calculateTotalQuantity,
-  calculateTotalValue,
-} from "../../utils/CalculationUtils";
-import {
-  Field,
-  Label,
-  Input,
-  Select,
-  DescriptionBox,
-  OrderDetailsSection,
-  Table,
-  AddProductButton,
-  DeleteButton,
-  TotalSection,
-  TotalRow,
-  TotalLabel,
-  TotalValue,
-  SaveButton,
-  DiscountContainer,
-  DiscountInput,
-  DiscountSelect,
-  QuantityInput,
-  SuggestionsList,
-  SuggestionItem,
-} from "./OrderStyles";
+import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue, } from "../../utils/CalculationUtils";
+import { Field, Label, Input, Select, DescriptionBox, OrderDetailsSection, Table,
+  AddProductButton, DeleteButton, TotalSection, TotalRow, TotalLabel, TotalValue, SaveButton, DiscountContainer, DiscountInput, DiscountSelect, QuantityInput, SuggestionsList, SuggestionItem, } from "./OrderStyles";
 
 const products = [
   { id: 1, name: "Canine Dewormer", price: 20.0 },

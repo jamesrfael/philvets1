@@ -1,33 +1,9 @@
 import React, { useState } from "react";
 import Modal from "../Layout/Modal";
 import { IoCloseCircle } from "react-icons/io5";
-import {
-  calculateLineTotal,
-  calculateTotalQuantity,
-  calculateTotalValue,
-} from "../../utils/CalculationUtils";
-import {
-  Field,
-  Label,
-  Input,
-  Select,
-  DescriptionBox,
-  OrderDetailsSection,
-  Table,
-  AddProductButton,
-  DeleteButton,
-  TotalSection,
-  TotalRow,
-  TotalLabel,
-  TotalValue,
-  SaveButton,
-  DiscountContainer,
-  DiscountInput,
-  DiscountSelect,
-  QuantityInput,
-  SuggestionsList,
-  SuggestionItem,
-} from "./OrderStyles";
+import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue } from "../../utils/CalculationUtils";
+import { Field, Label, Input, DescriptionBox, OrderDetailsSection, Table,
+  AddProductButton, DeleteButton, TotalSection, TotalRow, TotalLabel, TotalValue, SaveButton, QuantityInput, SuggestionsList, SuggestionItem } from "./OrderStyles";
 
 const products = [
   { id: 1, name: "Canine Dewormer", price: 20.0 },
@@ -37,8 +13,7 @@ const products = [
 
 const AddRequestModal = ({ onClose, onSave }) => {
   const [clientName, setClientName] = useState("");
-  const [location, setLocation] = useState("");
-  const [deliveryOption, setDeliveryOption] = useState("Standard");
+  const [requestDate, setRequestDate] = useState(new Date().toISOString().split("T")[0]);  // Today's date as default
   const [description, setDescription] = useState("");
   const [orderDetails, setOrderDetails] = useState([
     {
@@ -46,8 +21,6 @@ const AddRequestModal = ({ onClose, onSave }) => {
       productName: "",
       price: 0,
       quantity: 1,
-      discountType: "amount",
-      discountValue: 0,
       lineTotal: 0,
     },
   ]);
@@ -63,8 +36,6 @@ const AddRequestModal = ({ onClose, onSave }) => {
         productName: "",
         price: 0,
         quantity: 1,
-        discountType: "amount",
-        discountValue: 0,
         lineTotal: 0,
       },
     ]);
@@ -108,39 +79,14 @@ const AddRequestModal = ({ onClose, onSave }) => {
     setOrderDetails(updatedOrderDetails);
   };
 
-  const handleDiscountChange = (index, field, value) => {
-    const updatedOrderDetails = [...orderDetails];
-
-    if (field === "discountValue") {
-      if (value !== "" && !isNaN(value)) {
-        value = String(value).replace(/^0+(?=\d)/, "");
-        if (value < 0) return;
-      }
-    }
-
-    updatedOrderDetails[index][field] = value;
-    updatedOrderDetails[index].lineTotal = calculateLineTotal(
-      updatedOrderDetails[index]
-    );
-    setOrderDetails(updatedOrderDetails);
-  };
-
   const handleSave = () => {
-    const today = new Date().toISOString().split("T")[0];
-
-    const newOrder = {
-      orderType: "Purchase Order",
-      clientName,
-      location,
-      purchaseOrderDlvryDate: today,
-      purchaseOrderStatus: "Pending",
-      purchaseOrderTotQty: calculateTotalQuantity(orderDetails),
-      purchaseOrderTotal: calculateTotalValue(orderDetails),
-      purchaseOrderDlvrOpt: deliveryOption,
-      clientId: "",
-      purchaseOrderDetails: orderDetails.map(({ lineTotal, ...rest }) => rest),
+    const newRequest = {
+      requestBy: clientName,
+      requestDate,
+      description,
+      requestDetails: orderDetails.map(({ lineTotal, ...rest }) => rest),
     };
-    onSave(newOrder);
+    onSave(newRequest);
     onClose();
   };
 
@@ -154,7 +100,7 @@ const AddRequestModal = ({ onClose, onSave }) => {
   const totalValue = calculateTotalValue(orderDetails);
 
   return (
-    <Modal title="Add Purchase Order" onClose={onClose}>
+    <Modal title="Add Request" onClose={onClose}>
       <Field>
         <Label>Client Name</Label>
         <Input
@@ -163,18 +109,12 @@ const AddRequestModal = ({ onClose, onSave }) => {
         />
       </Field>
       <Field>
-        <Label>Location</Label>
-        <Input value={location} onChange={(e) => setLocation(e.target.value)} />
-      </Field>
-      <Field>
-        <Label>Delivery Option</Label>
-        <Select
-          value={deliveryOption}
-          onChange={(e) => setDeliveryOption(e.target.value)}
-        >
-          <option value="Standard">Standard</option>
-          <option value="Express">Express</option>
-        </Select>
+        <Label>Request Date</Label>
+        <Input
+          type="date"
+          value={requestDate}
+          onChange={(e) => setRequestDate(e.target.value)}
+        />
       </Field>
       <Field>
         <Label>Description</Label>
@@ -191,7 +131,6 @@ const AddRequestModal = ({ onClose, onSave }) => {
               <th>Product</th>
               <th>Price</th>
               <th>Quantity</th>
-              <th>Discount</th>
               <th>Total</th>
               <th>Action</th>
             </tr>
@@ -233,35 +172,6 @@ const AddRequestModal = ({ onClose, onSave }) => {
                     }
                   />
                 </td>
-                <td>
-                  <DiscountContainer>
-                    <DiscountInput
-                      type="number"
-                      min="0"
-                      value={detail.discountValue}
-                      onChange={(e) =>
-                        handleDiscountChange(
-                          index,
-                          "discountValue",
-                          e.target.value
-                        )
-                      }
-                    />
-                    <DiscountSelect
-                      value={detail.discountType}
-                      onChange={(e) =>
-                        handleDiscountChange(
-                          index,
-                          "discountType",
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value="amount">Amount</option>
-                      <option value="percent">Percent</option>
-                    </DiscountSelect>
-                  </DiscountContainer>
-                </td>
                 <td>₱{detail.lineTotal.toFixed(2)}</td>
                 <td>
                   <DeleteButton onClick={() => handleRemoveProduct(index)}>
@@ -286,7 +196,7 @@ const AddRequestModal = ({ onClose, onSave }) => {
           </TotalRow>
         </TotalSection>
       </OrderDetailsSection>
-      <SaveButton onClick={handleSave}>Save Order</SaveButton>
+      <SaveButton onClick={handleSave}>Save Request</SaveButton>
     </Modal>
   );
 };
