@@ -57,7 +57,7 @@ const AdminSalesOrder = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <StyledButton onClick={openAddSalesModal}>
-          <FaPlus className="icon" /> Add Sales Order
+          <FaPlus className="icon" /> Sales Order
         </StyledButton>
       </Controls>
       <AnalyticsContainer>
