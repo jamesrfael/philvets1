@@ -10,6 +10,7 @@ const pageTitles = {
   "/admin/dashboard": "Dashboard",
   "/admin/orders": "Order",
   "/admin/orders/pending-request": "Order / Pending Request",
+  "/admin/orders/sales-order": "Order / Sales",
   "/admin/delivery": "Delivery",
   "/admin/products": "Product",
   "/admin/inventory": "Inventory",

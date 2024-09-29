@@ -10,6 +10,7 @@ import AdminReports from "./pages/admin/AdminReports";
 import AdminSuppliers from "./pages/admin/AdminSuppliers";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminPendingRequest from "./pages/admin/AdminPendingRequest";
+import AdminSalesOrder from "./pages/admin/AdminSalesOrder";
 import AdminDelivery from "./pages/admin/AdminDelivery";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminSales from "./pages/admin/AdminSales";
@@ -58,6 +59,7 @@ function App() {
         <Route path="/admin/suppliers" element={<AdminSuppliers />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/orders/pending-request" element={<AdminPendingRequest />} />
+        <Route path="/admin/orders/sales-order" element={<AdminSalesOrder />} />
         <Route path="/admin/delivery" element={<AdminDelivery />} />
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/sales" element={<AdminSales />} />
