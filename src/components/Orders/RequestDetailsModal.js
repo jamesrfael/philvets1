@@ -1,49 +1,60 @@
 import React from 'react';
-import Modal from "../Layout/Modal";
 import styled from 'styled-components';
+import Modal from "../Layout/Modal";
+import { colors } from '../../colors'; // Ensure the path to colors is correct
 
 const RequestDetailsModal = ({ request, onClose }) => {
   if (!request) return null;
 
   return (
-    <Modal title="Request Details" onClose={onClose}>
+    <Modal
+      title="Request Details"
+      status={request.status}
+      completedDate={request.deliveryDateExpected}
+      onClose={onClose}
+    >
       <Section>
-        <p><strong>Client Name:</strong> {request.requestBy}</p>
+        <p><strong>Request By:</strong> {request.requestBy}</p>
         <p><strong>Request Date:</strong> {request.requestDate}</p>
+        <p><strong>Status:</strong> {request.status}</p>
+        {request.deliveryDateExpected && (
+          <p><strong>Expected Delivery Date:</strong> {request.deliveryDateExpected}</p>
+        )}
         <p><strong>Description:</strong> {request.description}</p>
+        <p><strong>Client ID:</strong> {request.clientID}</p>
       </Section>
       <Section>
-        <h3>Products</h3>
-        <Table>
-          <thead>
-            <tr>
-              <TableHeader>Product Name</TableHeader>
-              <TableHeader>Price</TableHeader>
-              <TableHeader>Quantity</TableHeader>
-              <TableHeader>Total</TableHeader>
-            </tr>
-          </thead>
-          <tbody>
-            {request.requestDetails.map((detail, index) => (
-              <TableRow key={index}>
-                <TableCell>{detail.productName}</TableCell>
-                <TableCell>{formatCurrency(detail.price)}</TableCell>
-                <TableCell>{detail.quantity}</TableCell>
-                <TableCell>{formatCurrency(detail.price * detail.quantity)}</TableCell>
-              </TableRow>
-            ))}
-          </tbody>
-        </Table>
-        <TotalSection>
-          <TotalRow>
-            <TotalLabel>Total Quantity:</TotalLabel>
-            <TotalValue>{request.requestDetails.reduce((sum, detail) => sum + detail.quantity, 0)}</TotalValue>
-          </TotalRow>
-          <TotalRow>
-            <TotalLabel>Total Amount:</TotalLabel>
-            <TotalValue>{formatCurrency(request.requestDetails.reduce((sum, detail) => sum + (detail.price * detail.quantity), 0))}</TotalValue>
-          </TotalRow>
-        </TotalSection>
+        <TableWrapper>
+          <Table>
+            <thead>
+              <tr>
+                <TableHeader>Product Name</TableHeader>
+                <TableHeader>Price</TableHeader>
+                <TableHeader>Quantity</TableHeader>
+                <TableHeader>Total</TableHeader>
+              </tr>
+            </thead>
+            <tbody>
+              {request.orderDetails.map((detail, index) => {
+                // Safely handle cases where price might be undefined
+                const price = detail.price ? detail.price.toFixed(2) : 'N/A';
+                const total = detail.price ? (detail.price * detail.quantity).toFixed(2) : 'N/A';
+
+                return (
+                  <TableRow key={index}>
+                    <TableCell>{detail.productName}</TableCell>
+                    <TableCell>₱{price}</TableCell>
+                    <TableCell>{detail.quantity}</TableCell>
+                    <TableCell>₱{total}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </tbody>
+          </Table>
+        </TableWrapper>
+        <TotalSummary>
+          <p><strong>Total Products:</strong> {request.orderDetails.reduce((total, item) => total + item.quantity, 0)}</p>
+        </TotalSummary>
       </Section>
     </Modal>
   );
@@ -54,16 +65,21 @@ const Section = styled.div`
   margin-bottom: 20px;
 `;
 
+const TableWrapper = styled.div`
+  overflow-x: auto;
+`;
+
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
 `;
 
 const TableHeader = styled.th`
-  padding: 12px;
-  background-color: #007bff;
+  background-color: ${colors.primary};
   color: white;
+  padding: 12px;
   text-align: center;
+  font-size: 16px;
 `;
 
 const TableRow = styled.tr`
@@ -73,28 +89,15 @@ const TableRow = styled.tr`
 `;
 
 const TableCell = styled.td`
-  padding: 8px;
   text-align: center;
-  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
 `;
 
-const TotalSection = styled.div`
+const TotalSummary = styled.div`
   margin-top: 20px;
   text-align: right;
-`;
-
-const TotalRow = styled.div`
-  margin-bottom: 8px;
-`;
-
-const TotalLabel = styled.span`
-  font-weight: bold;
-`;
-
-const TotalValue = styled.span`
-  margin-left: 8px;
-  font-weight: bold;
-  color: green;
 `;
 
 export default RequestDetailsModal;
