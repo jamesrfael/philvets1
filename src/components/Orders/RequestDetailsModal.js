@@ -1,59 +1,49 @@
 import React from 'react';
-import styled from 'styled-components';
 import Modal from "../Layout/Modal";
+import styled from 'styled-components';
 
 const RequestDetailsModal = ({ request, onClose }) => {
   if (!request) return null;
 
-  const totalQuantity = request.orderDetails.reduce(
-    (total, detail) => total + detail.quantity,
-    0
-  );
-
-  // Assuming prices are handled in the future
-  const totalAmount = request.orderDetails.reduce((total, detail) => {
-    const price = 0; // Placeholder for the future price logic
-    return total + price * detail.quantity;
-  }, 0);
-
   return (
-    <Modal
-      title="Request Details"
-      status={request.status}
-      completedDate={request.requestDate}
-      onClose={onClose}
-    >
+    <Modal title="Request Details" onClose={onClose}>
       <Section>
         <p><strong>Client Name:</strong> {request.requestBy}</p>
         <p><strong>Request Date:</strong> {request.requestDate}</p>
-        <p><strong>Delivery Date Expected:</strong> {request.deliveryDateExpected || "N/A"}</p> {/* Added delivery date */}
-        <p><strong>Description:</strong> {request.description || "N/A"}</p>
+        <p><strong>Description:</strong> {request.description}</p>
       </Section>
-
       <Section>
-        <TableWrapper>
-          <Table>
-            <thead>
-              <tr>
-                <TableHeader>Product Name</TableHeader>
-                <TableHeader>Quantity</TableHeader>
-              </tr>
-            </thead>
-            <tbody>
-              {request.orderDetails.map((detail, index) => (
-                <TableRow key={index}>
-                  <TableCell>{detail.productName}</TableCell>
-                  <TableCell>{detail.quantity}</TableCell>
-                </TableRow>
-              ))}
-            </tbody>
-          </Table>
-        </TableWrapper>
-        <TotalSummary>
-          <p><strong>Total Quantity:</strong> {totalQuantity}</p>
-          {/* Uncomment when you implement price logic */}
-          {/* <p><strong>Total Amount:</strong> {formatCurrency(totalAmount)}</p> */}
-        </TotalSummary>
+        <h3>Products</h3>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>Product Name</TableHeader>
+              <TableHeader>Price</TableHeader>
+              <TableHeader>Quantity</TableHeader>
+              <TableHeader>Total</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {request.requestDetails.map((detail, index) => (
+              <TableRow key={index}>
+                <TableCell>{detail.productName}</TableCell>
+                <TableCell>{formatCurrency(detail.price)}</TableCell>
+                <TableCell>{detail.quantity}</TableCell>
+                <TableCell>{formatCurrency(detail.price * detail.quantity)}</TableCell>
+              </TableRow>
+            ))}
+          </tbody>
+        </Table>
+        <TotalSection>
+          <TotalRow>
+            <TotalLabel>Total Quantity:</TotalLabel>
+            <TotalValue>{request.requestDetails.reduce((sum, detail) => sum + detail.quantity, 0)}</TotalValue>
+          </TotalRow>
+          <TotalRow>
+            <TotalLabel>Total Amount:</TotalLabel>
+            <TotalValue>{formatCurrency(request.requestDetails.reduce((sum, detail) => sum + (detail.price * detail.quantity), 0))}</TotalValue>
+          </TotalRow>
+        </TotalSection>
       </Section>
     </Modal>
   );
@@ -64,21 +54,16 @@ const Section = styled.div`
   margin-bottom: 20px;
 `;
 
-const TableWrapper = styled.div`
-  overflow-x: auto;
-`;
-
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
 `;
 
 const TableHeader = styled.th`
-  background-color: #1DBA0B;
-  color: white;
   padding: 12px;
+  background-color: #007bff;
+  color: white;
   text-align: center;
-  font-size: 16px;
 `;
 
 const TableRow = styled.tr`
@@ -88,15 +73,28 @@ const TableRow = styled.tr`
 `;
 
 const TableCell = styled.td`
-  text-align: center;
   padding: 8px;
-  font-size: 14px;
-  border-bottom: 1px solid #ddd;
+  text-align: center;
+  border: 1px solid #ddd;
 `;
 
-const TotalSummary = styled.div`
+const TotalSection = styled.div`
   margin-top: 20px;
   text-align: right;
+`;
+
+const TotalRow = styled.div`
+  margin-bottom: 8px;
+`;
+
+const TotalLabel = styled.span`
+  font-weight: bold;
+`;
+
+const TotalValue = styled.span`
+  margin-left: 8px;
+  font-weight: bold;
+  color: green;
 `;
 
 export default RequestDetailsModal;
