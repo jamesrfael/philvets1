@@ -6,7 +6,7 @@ import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
 import AddSalesModal from "../../components/Orders/AddSalesModal"; // Import AddSalesModal
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import CardTotalSalesOrder from "../../components/CardsData/CardTotalSalesOrder";
+import CardTotalSalesOrder from "../../components/CardsData/CardTotalSalesOrder"; // Replaced Card
 import Button from "../../components/Layout/Button"; // Import the Button component
 import { orders as initialOrders } from "../../pages/data/OrderData";
 import { FaPlus } from "react-icons/fa";
@@ -16,14 +16,16 @@ const AdminSalesOrder = () => {
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isAddingSalesOrder, setIsAddingSalesOrder] = useState(false); // State for modal visibility
+  const [isAddingSalesOrder, setIsAddingSalesOrder] = useState(false);
 
+  // Filter Sales Orders and apply search term
   const filteredOrders = orders.filter((order) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
-      order.clientId?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-      (order.purchaseOrderStatus || order.salesOrderStatus)?.toLowerCase().includes(lowerCaseSearchTerm)
+      order.orderType === "Sales Order" && // Ensure only Sales Orders are shown
+      (order.clientName?.toLowerCase().includes(lowerCaseSearchTerm) || // Now using clientName
+        order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
+        order.salesOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm))
     );
   });
 
@@ -34,15 +36,12 @@ const AdminSalesOrder = () => {
   const closeAddSalesModal = () => setIsAddingSalesOrder(false); // Close modal function
 
   // Update headers to include "Client ID"
-  const headers = ["Client ID", "Order Date", "Status", "Action"];
+  const headers = ["Client", "Order Date", "Status", "Action"];
 
-  // Update rows to map the correct data
   const rows = filteredOrders.map((order) => [
-    order.clientId,
+    order.clientName, // Show clientName
     order.orderDate,
-    <Status status={order.purchaseOrderStatus || order.salesOrderStatus}>
-      {order.purchaseOrderStatus || order.salesOrderStatus}
-    </Status>,
+    <Status status={order.salesOrderStatus}>{order.salesOrderStatus}</Status>,
     <Button onClick={() => openDetailsModal(order)} fontSize="14px">
       Details
     </Button>,
@@ -62,14 +61,14 @@ const AdminSalesOrder = () => {
       </Controls>
       <AnalyticsContainer>
         <div onClick={() => navigate("/admin/orders/sales-order")}>
-          <CardTotalSalesOrder />
+          <CardTotalSalesOrder /> {/* Changed to PurchaseOrder Card */}
         </div>
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
       )}
-      {isAddingSalesOrder && ( // Render the AddSalesModal
+      {isAddingSalesOrder && (
         <AddSalesModal onClose={closeAddSalesModal} />
       )}
     </MainLayout>
@@ -95,9 +94,11 @@ const AnalyticsContainer = styled.div`
 
 const Status = styled.span`
   background-color: ${(props) =>
-    props.status === "Approved" || props.status === "Received"
+    props.status === "Approved" ||
+    props.status === "Received" ||
+    props.status === "Delivered"
       ? "#1DBA0B"
-      : props.status === "Pending"
+      : props.status === "Shipped"
       ? "#f08400"
       : props.status === "Cancelled"
       ? "#ff5757"

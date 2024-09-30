@@ -8,7 +8,7 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalPendingRequest from "../../components/CardsData/CardTotalPendingRequest";
 import Button from "../../components/Layout/Button";
-import { requests as initialRequests } from "../../pages/data/RequestData";
+import { requests as initialRequests } from "../../pages/data/RequestData"; // Make sure this path is correct
 import { FaPlus } from "react-icons/fa";
 
 const AdminPendingRequest = () => {
@@ -18,13 +18,24 @@ const AdminPendingRequest = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isAddingRequest, setIsAddingRequest] = useState(false);
 
+  // Filter to include all requests, then filter by search term
   const filteredRequests = requests.filter((request) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
       request.requestBy.toLowerCase().includes(lowerCaseSearchTerm) ||
-      request.requestDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-      request.status.toLowerCase().includes(lowerCaseSearchTerm)
+      request.requestDate.toLowerCase().includes(lowerCaseSearchTerm)
     );
+  });
+
+  // Sort requests to prioritize Pending status first
+  const sortedRequests = filteredRequests.sort((a, b) => {
+    if (a.status === "Pending" && b.status !== "Pending") {
+      return -1; // a comes first
+    }
+    if (a.status !== "Pending" && b.status === "Pending") {
+      return 1; // b comes first
+    }
+    return 0; // keep original order for other statuses
   });
 
   const openDetailsModal = (request) => setSelectedRequest(request);
@@ -40,7 +51,7 @@ const AdminPendingRequest = () => {
 
   const headers = ["Request By", "Request Date", "Status", "Action"];
 
-  const rows = filteredRequests.map((request) => [
+  const rows = sortedRequests.map((request) => [
     request.requestBy,
     request.requestDate,
     <Status status={request.status}>{request.status}</Status>,
@@ -66,9 +77,14 @@ const AdminPendingRequest = () => {
           <CardTotalPendingRequest />
         </div>
       </AnalyticsContainer>
+
+      {/* Render the table with all requests, sorted with Pending first */}
       <Table headers={headers} rows={rows} />
       {selectedRequest && (
-        <RequestDetailsModal request={selectedRequest} onClose={closeDetailsModal} />
+        <RequestDetailsModal
+          request={selectedRequest}
+          onClose={closeDetailsModal}
+        />
       )}
       {isAddingRequest && (
         <AddRequestModal
@@ -99,7 +115,7 @@ const AnalyticsContainer = styled.div`
 
 const Status = styled.span`
   background-color: ${(props) =>
-    props.status === "Approved"
+    props.status === "Completed"
       ? "#1DBA0B"
       : props.status === "Pending"
       ? "#f08400"

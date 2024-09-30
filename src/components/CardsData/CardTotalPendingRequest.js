@@ -1,20 +1,18 @@
-// src/components/CardsData/CardTotalOrders.js
-
 import React from "react";
 import Card from "../Layout/Card"; // Import the reusable Card component
-import { orders } from "../../pages/data/OrderData"; // Import the orders data
+import { requests } from "../../pages/data/RequestData"; // Import the requests data
 import styled from "styled-components";
 import { FaClipboardCheck } from "react-icons/fa"; // Import an icon from react-icons
 
 const CardTotalPendingRequest = () => {
-  //Calculation for total number of orders
-  const requestCount = orders.length;
+  // Count the total number of requests
+  const totalRequestsCount = requests.length; // Get the total count of all requests
 
   return (
     <CardContainer>
       <Card
-        label="Total Pending"
-        value={requestCount} // Display the total number of orders
+        label="Total Requests" // Updated label to reflect total requests
+        value={totalRequestsCount} // Display the total number of requests
         icon={<FaClipboardCheck />} // Add the icon here
       />
     </CardContainer>

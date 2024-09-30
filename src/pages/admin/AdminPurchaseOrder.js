@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
-import AddPurchaseModal from "../../components/Orders/AddPurchaseModal"; 
+import AddPurchaseModal from "../../components/Orders/AddPurchaseModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder";
-import Button from "../../components/Layout/Button"; 
+import Button from "../../components/Layout/Button";
 import { orders as initialOrders } from "../../pages/data/OrderData";
 import { FaPlus } from "react-icons/fa";
 
@@ -16,17 +16,18 @@ const AdminPurchaseOrder = () => {
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isAddingPurchaseOrder, setIsAddingPurchaseOrder] = useState(false); // State for modal visibility
+  const [isAddingPurchaseOrder, setIsAddingPurchaseOrder] = useState(false);
 
+  // Filter Purchase Orders and apply search term
   const filteredOrders = orders.filter((order) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
-      order.clientId?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-      (order.purchaseOrderStatus || order.salesOrderStatus)?.toLowerCase().includes(lowerCaseSearchTerm)
+      order.orderType === "Purchase Order" && // Ensure only Purchase Orders are shown
+      (order.supplierName?.toLowerCase().includes(lowerCaseSearchTerm) || // Now using supplierName
+        order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
+        order.purchaseOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm))
     );
   });
-
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
 
@@ -34,14 +35,13 @@ const AdminPurchaseOrder = () => {
   const closeAddPurchaseModal = () => setIsAddingPurchaseOrder(false); // Close modal function
 
   // Update headers to include "Client ID"
-  const headers = ["Client ID", "Order Date", "Status", "Action"];
+  const headers = ["Supplier", "Order Date", "Status", "Action"];
 
-  // Update rows to map the correct data
   const rows = filteredOrders.map((order) => [
-    order.clientId,
+    order.supplierName, // Show supplierName
     order.orderDate,
-    <Status status={order.purchaseOrderStatus || order.salesOrderStatus}>
-      {order.purchaseOrderStatus || order.salesOrderStatus}
+    <Status status={order.purchaseOrderStatus}>
+      {order.purchaseOrderStatus}
     </Status>,
     <Button onClick={() => openDetailsModal(order)} fontSize="14px">
       Details
@@ -95,12 +95,16 @@ const AnalyticsContainer = styled.div`
 
 const Status = styled.span`
   background-color: ${(props) =>
-    props.status === "Approved" || props.status === "Received"
-      ? "#1DBA0B"
-      : props.status === "Pending"
-      ? "#f08400"
+    props.status === "Received"
+      ? "#1DBA0B"  // Green
+      : props.status === "Approved"
+      ? "#00bbff"  // Blue
+      : props.status === "Shipped"
+      ? "#f08400"  // Amber/Orange
       : props.status === "Cancelled"
-      ? "#ff5757"
+      ? "#F44336"  // Red
+      : props.status === "Completed"
+      ? "#1DBA0B"  // Purple
       : "gray"};
   color: white;
   padding: 4px 8px;
