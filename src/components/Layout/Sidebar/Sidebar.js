@@ -36,6 +36,16 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
 
   const sidebarItems = isAdmin ? adminSidebarItems : staffSidebarItems;
 
+  // Ensure dropdown remains open if any of its subItems matches the current route
+  useEffect(() => {
+    const matchingDropdown = sidebarItems.findIndex((item) =>
+      item.dropdown?.some((subItem) => subItem.link === location.pathname)
+    );
+    if (matchingDropdown !== -1) {
+      setOpenDropdown(matchingDropdown);
+    }
+  }, [location, sidebarItems]);
+
   // Only toggle the dropdown when the button is clicked
   const handleDropdownToggle = (index) => {
     setOpenDropdown(openDropdown === index ? null : index); // Toggle only on click
@@ -50,46 +60,50 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
       </SidebarHeader>
 
       <SidebarContent>
-        {sidebarItems.map((item, index) => (
-          <React.Fragment key={index}>
-            <SidebarLink
-              to={item.dropdown ? "#" : item.link} // Prevent navigation if dropdown exists
-              active={location.pathname === item.link}
-              onClick={() => {
-                if (item.dropdown) {
-                  handleDropdownToggle(index); // Toggle dropdown
-                }
-              }}
-            >
-              <item.icon size={20} className="icon" />
-              <span className="label">{item.label}</span>
-              {item.dropdown && (
-                <ChevronIconContainer isOpen={openDropdown === index}>
-                  <TbChevronDown size={16} className="arrow-icon" />
-                </ChevronIconContainer>
-              )}
-            </SidebarLink>
+        {sidebarItems.map((item, index) => {
+          const isParentActive = item.dropdown && openDropdown === index; // Dropdown open state
 
-            {item.dropdown && openDropdown === index && (
-              <DropdownContainer>
-                {item.dropdown.map((subItem, subIndex) => (
-                  <NavLink
-                    key={subIndex}
-                    to={subItem.link}
-                    className={({ isActive }) =>
-                      `dropdown-item ${isActive ? "active" : ""}`
-                    }
-                  >
-                    {subItem.icon && (
-                      <subItem.icon size={15} className="icon" />
-                    )}
-                    <span className="dropdown-label">{subItem.label}</span>
-                  </NavLink>
-                ))}
-              </DropdownContainer>
-            )}
-          </React.Fragment>
-        ))}
+          return (
+            <React.Fragment key={index}>
+              <SidebarLink
+                as={item.dropdown ? "div" : NavLink} // Use div for parent dropdown items
+                to={item.dropdown ? "#" : item.link}
+                className={!item.dropdown && location.pathname === item.link ? "active" : ""}
+                onClick={() => {
+                  if (item.dropdown) {
+                    handleDropdownToggle(index); // Toggle dropdown
+                  }
+                }}
+                active={isParentActive} // Parent item active state is based on dropdown open
+              >
+                <item.icon size={20} className="icon" />
+                <span className="label">{item.label}</span>
+                {item.dropdown && (
+                  <ChevronIconContainer isOpen={isParentActive}>
+                    <TbChevronDown size={16} className="arrow-icon" />
+                  </ChevronIconContainer>
+                )}
+              </SidebarLink>
+
+              {item.dropdown && isParentActive && (
+                <DropdownContainer>
+                  {item.dropdown.map((subItem, subIndex) => (
+                    <NavLink
+                      key={subIndex}
+                      to={subItem.link}
+                      className={({ isActive }) =>
+                        `dropdown-item ${isActive ? "active" : ""}`
+                      }
+                    >
+                      {subItem.icon && <subItem.icon size={15} className="icon" />}
+                      <span className="dropdown-label">{subItem.label}</span>
+                    </NavLink>
+                  ))}
+                </DropdownContainer>
+              )}
+            </React.Fragment>
+          );
+        })}
       </SidebarContent>
 
       <SidebarFooter>
@@ -105,26 +119,24 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
 // Styled Components
 const SidebarContainer = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  background-color: white; // Set a background color for the sidebar
+  background-color: white;
   color: black;
   max-width: 190px;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
 
-  /* Styles for smaller screens */
   @media (max-width: 768px) {
     position: fixed;
     transform: ${({ isOpen }) =>
       isOpen ? "translateX(0)" : "translateX(-100%)"};
-    z-index: 1000; /* Ensure the sidebar appears on top */
+    z-index: 1000;
     box-shadow: ${({ isOpen }) =>
       isOpen ? "2px 0 5px rgba(0, 0, 0, 0.5)" : "none"};
   }
 
-  /* Styles for larger screens */
   @media (min-width: 769px) {
-    position: static; /* or relative, based on your layout */
+    position: static;
     transform: translateX(0);
   }
 
@@ -160,7 +172,6 @@ const SidebarContent = styled.div`
 const SidebarFooter = styled.div`
   padding: 16px;
 `;
-
 const SidebarLink = styled(NavLink)`
   display: flex;
   align-items: center;
@@ -171,22 +182,34 @@ const SidebarLink = styled(NavLink)`
   text-decoration: none;
   transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
+  /* Ensure the background and text color of active dropdown parent item */
+  ${({ active }) =>
+    active &&
+    `
+      background-color: ${theme.primary};
+      color: ${theme.background};
+      
+      .icon {
+        color: ${theme.background};
+      }
+  `}
+
   &:hover {
-    background-color: ${theme.backgroundHover}; // Change background color on hover
-    color: ${theme.background}; // Change text color on hover
+    background-color: ${theme.backgroundHover};
+    color: ${theme.background};
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
     .icon {
-      color: ${theme.background}; // Change icon color on hover
+      color: ${theme.background};
     }
   }
 
   &.active {
-    background-color: ${theme.primary}; // Change background color when active
-    color: ${theme.background}; // Change text color when active
+    background-color: ${theme.primary};
+    color: ${theme.background};
 
     .icon {
-      color: ${theme.background}; // Change icon color when active
+      color: ${theme.background};
     }
   }
 
@@ -209,28 +232,28 @@ const ChevronIconContainer = styled.div`
   transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "rotate(0deg)")};
   transition: transform 0.3s ease-in-out;
 `;
-
 const DropdownContainer = styled.div`
   padding-left: 20px; /* Indent dropdown items */
   margin-top: 4px;
+  
   .dropdown-item {
     display: flex;
     align-items: center;
     padding: 6px;
     margin-bottom: 4px;
     border-radius: 4px;
-    color: ${theme.text};
+    color: ${theme.text}; /* Keep text color black for dropdown items */
     text-decoration: none;
     transition: background-color 0.1s ease-in-out;
 
     &.active {
-      background-color: ${theme.primary}; // Change background color when active
-      color: ${theme.background}; // Change text color when active
+      background-color: ${theme.primary}; /* Change background when active */
+      color: ${theme.background}; /* Keep text white */
     }
 
     &:hover {
-      background-color: ${theme.primary}; // Change background color on hover
-      color: ${theme.background}; // Change text color on hover
+      background-color: ${theme.primary}; /* Change background on hover */
+      color: ${theme.background}; /* Keep text white */
     }
 
     .icon {
@@ -240,9 +263,8 @@ const DropdownContainer = styled.div`
     }
 
     .dropdown-label {
-      font-size: 13px; /* Smaller font size for dropdown items */
+      font-size: 13px;
     }
   }
 `;
-
 export default Sidebar;

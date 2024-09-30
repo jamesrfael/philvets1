@@ -1,5 +1,5 @@
 // src/constants/sidebarItems.js
-import { TbLayoutDashboard, TbTruckDelivery, TbUserDollar, TbBasketDollar, TbTruckReturn, TbHistory, TbFileReport, } from "react-icons/tb"; // Import the arrow icon
+import { TbLayoutDashboard, TbTruckDelivery, TbChevronRight, TbUserDollar, TbBasketDollar, TbTruckReturn, TbHistory, TbFileReport, } from "react-icons/tb"; // Import the arrow icon
 import { MdOutlineInventory2, MdOutlineShoppingCart } from "react-icons/md";
 import { LuWarehouse, LuBox } from "react-icons/lu";
 import { GrGroup } from "react-icons/gr";
@@ -12,9 +12,9 @@ export const adminSidebarItems = [
     label: "Order", 
     link: "/admin/orders", 
     dropdown: [
-      { icon: TbFileReport, label: "Pending Requests", link: "/admin/orders/pending-request" },
-      { icon: TbBasketDollar, label: "Sales", link: "/admin/orders/sales-order" },
-      { icon: TbTruckReturn, label: "Purchase", link: "/admin/orders/purchase-order" },
+      { icon: TbChevronRight, label: "Pending Requests", link: "/admin/orders/pending-request" },
+      { icon: TbChevronRight, label: "Sales", link: "/admin/orders/sales-order" },
+      { icon: TbChevronRight, label: "Purchase", link: "/admin/orders/purchase-order" },
     ]
   },
   { icon: TbTruckDelivery, label: "Delivery", link: "/admin/delivery" },
