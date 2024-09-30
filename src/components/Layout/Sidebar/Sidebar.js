@@ -233,7 +233,7 @@ const ChevronIconContainer = styled.div`
   transition: transform 0.3s ease-in-out;
 `;
 const DropdownContainer = styled.div`
-  padding-left: 20px; /* Indent dropdown items */
+  padding-left: 10px; /* Indent dropdown items */
   margin-top: 4px;
   
   .dropdown-item {

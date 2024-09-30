@@ -6,12 +6,12 @@ import RequestDetailsModal from "../../components/Orders/RequestDetailsModal";
 import AddRequestModal from "../../components/Orders/AddRequestModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import CardTotalPendingRequest from "../../components/CardsData/CardTotalPendingRequest";
+import CardTotalPendingRequest from "../../components/CardsData/CardTotalRequest";
 import Button from "../../components/Layout/Button";
-import { requests as initialRequests } from "../../pages/data/RequestData"; // Make sure this path is correct
+import { requests as initialRequests } from "../data/RequestData"; // Make sure this path is correct
 import { FaPlus } from "react-icons/fa";
 
-const AdminPendingRequest = () => {
+const AdminRequest = () => {
   const navigate = useNavigate();
   const [requests, setRequests] = useState(initialRequests);
   const [searchTerm, setSearchTerm] = useState("");
@@ -139,4 +139,4 @@ const StyledButton = styled(Button)`
   }
 `;
 
-export default AdminPendingRequest;
+export default AdminRequest;

@@ -4,7 +4,7 @@ import { requests } from "../../pages/data/RequestData"; // Import the requests 
 import styled from "styled-components";
 import { FaClipboardCheck } from "react-icons/fa"; // Import an icon from react-icons
 
-const CardTotalPendingRequest = () => {
+const CardTotalRequest = () => {
   // Count the total number of requests
   const totalRequestsCount = requests.length; // Get the total count of all requests
 
@@ -23,4 +23,4 @@ const CardContainer = styled.div`
   cursor: pointer;
 `;
 
-export default CardTotalPendingRequest;
+export default CardTotalRequest;

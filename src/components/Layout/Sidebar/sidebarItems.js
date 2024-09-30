@@ -12,7 +12,7 @@ export const adminSidebarItems = [
     label: "Order", 
     link: "/admin/orders", 
     dropdown: [
-      { icon: TbChevronRight, label: "Pending Requests", link: "/admin/orders/pending-request" },
+      { icon: TbChevronRight, label: "Requests", link: "/admin/orders/request" },
       { icon: TbChevronRight, label: "Sales", link: "/admin/orders/sales-order" },
       { icon: TbChevronRight, label: "Purchase", link: "/admin/orders/purchase-order" },
     ]
@@ -33,7 +33,7 @@ export const staffSidebarItems = [
   { icon: TbLayoutDashboard, label: "Dashboard", link: "/staff/dashboard" },
   { icon: MdOutlineShoppingCart, label: "Order", link: "/staff/orders",
     dropdown: [
-      { icon: TbFileReport, label: "Pending Request", link: "/staff/orders/pending-request" },
+      { icon: TbFileReport, label: "Request", link: "/staff/orders/request" },
       { icon: TbBasketDollar, label: "Sales", link: "/staff/orders/sales" },
     ],
    },
