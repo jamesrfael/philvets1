@@ -10,8 +10,6 @@ import {
   Field,
   Label,
   Input,
-  Select,
-  DescriptionBox,
   OrderDetailsSection,
   Table,
   AddProductButton,
@@ -21,9 +19,6 @@ import {
   TotalLabel,
   TotalValue,
   SaveButton,
-  DiscountContainer,
-  DiscountInput,
-  DiscountSelect,
   QuantityInput,
   SuggestionsList,
   SuggestionItem,
@@ -37,16 +32,12 @@ const products = [
 
 const AddPurchaseModal = ({ onClose, onSave }) => {
   const [clientName, setClientName] = useState("");
-  const [location, setLocation] = useState("");
-  const [deliveryOption, setDeliveryOption] = useState("Standard");
-  const [description, setDescription] = useState("");
   const [orderDetails, setOrderDetails] = useState([
     {
       productId: "",
       productName: "",
       price: 0,
       quantity: 1,
-      discountType: "amount",
       discountValue: 0,
       lineTotal: 0,
     },
@@ -63,7 +54,6 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
         productName: "",
         price: 0,
         quantity: 1,
-        discountType: "amount",
         discountValue: 0,
         lineTotal: 0,
       },
@@ -108,17 +98,30 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
     setOrderDetails(updatedOrderDetails);
   };
 
-  const handleDiscountChange = (index, field, value) => {
+  const handleDiscountChange = (index, value) => {
     const updatedOrderDetails = [...orderDetails];
 
-    if (field === "discountValue") {
-      if (value !== "" && !isNaN(value)) {
-        value = String(value).replace(/^0+(?=\d)/, "");
-        if (value < 0) return;
-      }
+    if (value !== "" && !isNaN(value)) {
+      value = String(value).replace(/^0+(?=\d)/, ""); // Remove leading zeros
+      if (value < 0) return;
     }
 
-    updatedOrderDetails[index][field] = value;
+    updatedOrderDetails[index].discountValue = value === "" ? 0 : value;
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(
+      updatedOrderDetails[index]
+    );
+    setOrderDetails(updatedOrderDetails);
+  };
+
+  const handlePriceChange = (index, value) => {
+    const updatedOrderDetails = [...orderDetails];
+
+    if (value !== "" && !isNaN(value)) {
+      value = String(value).replace(/^0+(?=\d)/, ""); // Remove leading zeros
+      if (value < 0) return; // Prevent negative values
+    }
+
+    updatedOrderDetails[index].price = value === "" ? 0 : Math.max(0, value);
     updatedOrderDetails[index].lineTotal = calculateLineTotal(
       updatedOrderDetails[index]
     );
@@ -131,12 +134,10 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
     const newOrder = {
       orderType: "Purchase Order",
       clientName,
-      location,
       purchaseOrderDlvryDate: today,
       purchaseOrderStatus: "Pending",
       purchaseOrderTotQty: calculateTotalQuantity(orderDetails),
       purchaseOrderTotal: calculateTotalValue(orderDetails),
-      purchaseOrderDlvrOpt: deliveryOption,
       clientId: "",
       purchaseOrderDetails: orderDetails.map(({ lineTotal, ...rest }) => rest),
     };
@@ -160,27 +161,6 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
         <Input
           value={clientName}
           onChange={(e) => setClientName(e.target.value)}
-        />
-      </Field>
-      <Field>
-        <Label>Location</Label>
-        <Input value={location} onChange={(e) => setLocation(e.target.value)} />
-      </Field>
-      <Field>
-        <Label>Delivery Option</Label>
-        <Select
-          value={deliveryOption}
-          onChange={(e) => setDeliveryOption(e.target.value)}
-        >
-          <option value="Standard">Standard</option>
-          <option value="Express">Express</option>
-        </Select>
-      </Field>
-      <Field>
-        <Label>Description</Label>
-        <DescriptionBox
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
         />
       </Field>
       <OrderDetailsSection>
@@ -222,7 +202,20 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
                     )}
                   </div>
                 </td>
-                <td>₱{detail.price.toFixed(2)}</td>
+                <td>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={detail.price}
+                    onFocus={(e) => {
+                      if (e.target.value === "0") e.target.value = ""; // Clear 0 on focus
+                    }}
+                    onBlur={(e) => {
+                      if (e.target.value === "") e.target.value = 0; // Reset to 0 if empty on blur
+                    }}
+                    onChange={(e) => handlePriceChange(index, e.target.value)}
+                  />
+                </td>
                 <td>
                   <QuantityInput
                     type="number"
@@ -234,33 +227,20 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
                   />
                 </td>
                 <td>
-                  <DiscountContainer>
-                    <DiscountInput
-                      type="number"
-                      min="0"
-                      value={detail.discountValue}
-                      onChange={(e) =>
-                        handleDiscountChange(
-                          index,
-                          "discountValue",
-                          e.target.value
-                        )
-                      }
-                    />
-                    <DiscountSelect
-                      value={detail.discountType}
-                      onChange={(e) =>
-                        handleDiscountChange(
-                          index,
-                          "discountType",
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value="amount">Amount</option>
-                      <option value="percent">Percent</option>
-                    </DiscountSelect>
-                  </DiscountContainer>
+                  <Input
+                    type="number"
+                    min="0"
+                    value={detail.discountValue}
+                    onFocus={(e) => {
+                      if (e.target.value === "0") e.target.value = ""; // Clear 0 on focus
+                    }}
+                    onBlur={(e) => {
+                      if (e.target.value === "") e.target.value = 0; // Reset to 0 if empty on blur
+                    }}
+                    onChange={(e) =>
+                      handleDiscountChange(index, e.target.value)
+                    }
+                  />
                 </td>
                 <td>₱{detail.lineTotal.toFixed(2)}</td>
                 <td>

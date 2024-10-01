@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Modal from "../Layout/Modal";
 import { IoCloseCircle } from "react-icons/io5";
-import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue, } from "../../utils/CalculationUtils";
-import { Field, Label, Input, Select, DescriptionBox, OrderDetailsSection, Table,
-  AddProductButton, DeleteButton, TotalSection, TotalRow, TotalLabel, TotalValue, SaveButton, DiscountContainer, DiscountInput, DiscountSelect, QuantityInput, SuggestionsList, SuggestionItem, } from "./OrderStyles";
+import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue } from "../../utils/CalculationUtils";
+import { Field, Label, Input, Select, OrderDetailsSection, Table, AddProductButton, DeleteButton, TotalSection, TotalRow, TotalLabel, TotalValue, SaveButton, DiscountContainer, DiscountInput, QuantityInput, SuggestionsList, SuggestionItem } from "./OrderStyles";
 
 const products = [
   { id: 1, name: "Canine Dewormer", price: 20.0 },
@@ -11,18 +10,32 @@ const products = [
   { id: 3, name: "Canine Nutritional Supplement", price: 30.0 },
 ];
 
+const deliveryOptions = [
+  { value: "standard", label: "Standard Delivery" },
+  { value: "express", label: "Express Delivery" },
+  { value: "same-day", label: "Same Day Delivery" },
+  { value: "pickup", label: "Pickup" },
+];
+
+const paymentTermsOptions = [
+  { value: "cod", label: "Cash on Delivery" },
+  { value: "credit", label: "Credit" },
+  { value: "installment", label: "Installment" },
+];
+
 const AddSalesModal = ({ onClose, onSave }) => {
   const [clientName, setClientName] = useState("");
-  const [location, setLocation] = useState("");
-  const [deliveryOption, setDeliveryOption] = useState("Standard");
-  const [description, setDescription] = useState("");
+  const [province, setProvince] = useState("");
+  const [city, setCity] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [deliveryOption, setDeliveryOption] = useState("standard");
+  const [paymentTerms, setPaymentTerms] = useState("cod");
   const [orderDetails, setOrderDetails] = useState([
     {
       productId: "",
       productName: "",
       price: 0,
       quantity: 1,
-      discountType: "amount",
       discountValue: 0,
       lineTotal: 0,
     },
@@ -39,7 +52,6 @@ const AddSalesModal = ({ onClose, onSave }) => {
         productName: "",
         price: 0,
         quantity: 1,
-        discountType: "amount",
         discountValue: 0,
         lineTotal: 0,
       },
@@ -65,9 +77,7 @@ const AddSalesModal = ({ onClose, onSave }) => {
     updatedOrderDetails[index].productId = product.id;
     updatedOrderDetails[index].productName = product.name;
     updatedOrderDetails[index].price = product.price;
-    updatedOrderDetails[index].lineTotal = calculateLineTotal(
-      updatedOrderDetails[index]
-    );
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(updatedOrderDetails[index]);
 
     setOrderDetails(updatedOrderDetails);
     setProductSearch("");
@@ -78,26 +88,20 @@ const AddSalesModal = ({ onClose, onSave }) => {
   const handleQuantityChange = (index, value) => {
     const updatedOrderDetails = [...orderDetails];
     updatedOrderDetails[index].quantity = Math.max(1, value);
-    updatedOrderDetails[index].lineTotal = calculateLineTotal(
-      updatedOrderDetails[index]
-    );
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(updatedOrderDetails[index]);
     setOrderDetails(updatedOrderDetails);
   };
 
-  const handleDiscountChange = (index, field, value) => {
+  const handleDiscountChange = (index, value) => {
     const updatedOrderDetails = [...orderDetails];
 
-    if (field === "discountValue") {
-      if (value !== "" && !isNaN(value)) {
-        value = String(value).replace(/^0+(?=\d)/, "");
-        if (value < 0) return;
-      }
+    if (value !== "" && !isNaN(value)) {
+      value = String(value).replace(/^0+(?=\d)/, "");
+      if (value < 0) return;
     }
 
-    updatedOrderDetails[index][field] = value;
-    updatedOrderDetails[index].lineTotal = calculateLineTotal(
-      updatedOrderDetails[index]
-    );
+    updatedOrderDetails[index].discountValue = value;
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(updatedOrderDetails[index]);
     setOrderDetails(updatedOrderDetails);
   };
 
@@ -107,12 +111,15 @@ const AddSalesModal = ({ onClose, onSave }) => {
     const newOrder = {
       orderType: "Purchase Order",
       clientName,
-      location,
+      province,
+      city,
+      mobileNumber,
+      deliveryOption,
+      paymentTerms,
       purchaseOrderDlvryDate: today,
       purchaseOrderStatus: "Pending",
       purchaseOrderTotQty: calculateTotalQuantity(orderDetails),
       purchaseOrderTotal: calculateTotalValue(orderDetails),
-      purchaseOrderDlvrOpt: deliveryOption,
       clientId: "",
       purchaseOrderDetails: orderDetails.map(({ lineTotal, ...rest }) => rest),
     };
@@ -133,14 +140,31 @@ const AddSalesModal = ({ onClose, onSave }) => {
     <Modal title="Add Sales Order" onClose={onClose}>
       <Field>
         <Label>Client Name</Label>
-        <Input
-          value={clientName}
-          onChange={(e) => setClientName(e.target.value)}
-        />
+        <Input value={clientName} onChange={(e) => setClientName(e.target.value)} />
       </Field>
       <Field>
         <Label>Location</Label>
-        <Input value={location} onChange={(e) => setLocation(e.target.value)} />
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Input
+            value={province}
+            onChange={(e) => setProvince(e.target.value)}
+            placeholder="Province"
+          />
+          <Input
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder="City"
+          />
+        </div>
+      </Field>
+      <Field>
+        <Label>Mobile Number</Label>
+        <Input
+          value={mobileNumber}
+          onChange={(e) => setMobileNumber(e.target.value)}
+          maxLength="11"
+          placeholder="09123456789"
+        />
       </Field>
       <Field>
         <Label>Delivery Option</Label>
@@ -148,16 +172,25 @@ const AddSalesModal = ({ onClose, onSave }) => {
           value={deliveryOption}
           onChange={(e) => setDeliveryOption(e.target.value)}
         >
-          <option value="Standard">Standard</option>
-          <option value="Express">Express</option>
+          {deliveryOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </Select>
       </Field>
       <Field>
-        <Label>Description</Label>
-        <DescriptionBox
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        <Label>Payment Terms</Label>
+        <Select
+          value={paymentTerms}
+          onChange={(e) => setPaymentTerms(e.target.value)}
+        >
+          {paymentTermsOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
       </Field>
       <OrderDetailsSection>
         <h3>Products</h3>
@@ -179,9 +212,7 @@ const AddSalesModal = ({ onClose, onSave }) => {
                   <div style={{ position: "relative" }}>
                     <Input
                       value={detail.productName}
-                      onChange={(e) =>
-                        handleProductInputChange(index, e.target.value)
-                      }
+                      onChange={(e) => handleProductInputChange(index, e.target.value)}
                       placeholder="Search / Filter product"
                     />
                     {currentEditingIndex === index && productSearch && (
@@ -204,38 +235,17 @@ const AddSalesModal = ({ onClose, onSave }) => {
                     type="number"
                     min="1"
                     value={detail.quantity}
-                    onChange={(e) =>
-                      handleQuantityChange(index, Number(e.target.value))
-                    }
+                    onChange={(e) => handleQuantityChange(index, Number(e.target.value))}
                   />
                 </td>
                 <td>
-                  <DiscountContainer>
+                  <DiscountContainer style={{ display: "flex", justifyContent: "center" }}>
                     <DiscountInput
                       type="number"
                       min="0"
                       value={detail.discountValue}
-                      onChange={(e) =>
-                        handleDiscountChange(
-                          index,
-                          "discountValue",
-                          e.target.value
-                        )
-                      }
+                      onChange={(e) => handleDiscountChange(index, e.target.value)}
                     />
-                    <DiscountSelect
-                      value={detail.discountType}
-                      onChange={(e) =>
-                        handleDiscountChange(
-                          index,
-                          "discountType",
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value="amount">Amount</option>
-                      <option value="percent">Percent</option>
-                    </DiscountSelect>
                   </DiscountContainer>
                 </td>
                 <td>₱{detail.lineTotal.toFixed(2)}</td>
@@ -248,9 +258,7 @@ const AddSalesModal = ({ onClose, onSave }) => {
             ))}
           </tbody>
         </Table>
-        <AddProductButton onClick={handleAddProduct}>
-          Add Another Product
-        </AddProductButton>
+        <AddProductButton onClick={handleAddProduct}>Add Another Product</AddProductButton>
         <TotalSection>
           <TotalRow>
             <TotalLabel>Total Quantity:</TotalLabel>
