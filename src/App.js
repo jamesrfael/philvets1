@@ -25,6 +25,8 @@ import AdminNotification from "./pages/admin/AdminNotification";
 import StaffDashboard from "./pages/staff/StaffDashboard";
 import StaffProfile from "./pages/staff/StaffProfile";
 import StaffOrders from "./pages/staff/StaffOrders";
+import StaffRequest from "./pages/staff/StaffRequest";
+import StaffSalesOrder from "./pages/staff/StaffSalesOrder";
 import StaffDelivery from "./pages/staff/StaffDelivery";
 import StaffProducts from "./pages/staff/StaffProducts";
 import StaffInventory from "./pages/staff/StaffInventory";
@@ -75,6 +77,8 @@ function App() {
         <Route path="/staff/dashboard" element={<StaffDashboard />} />
         <Route path="/staff/profile" element={<StaffProfile />} />
         <Route path="/staff/orders" element={<StaffOrders />} />
+        <Route path="/staff/orders/request" element={<AdminRequest />} />
+        <Route path="/staff/orders/sales-order" element={<AdminSalesOrder />} />
         <Route path="/staff/delivery" element={<StaffDelivery />} />
         <Route path="/staff/products" element={<StaffProducts />} />
         <Route path="/staff/inventory" element={<StaffInventory />} />

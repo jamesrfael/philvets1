@@ -33,8 +33,8 @@ export const staffSidebarItems = [
   { icon: TbLayoutDashboard, label: "Dashboard", link: "/staff/dashboard" },
   { icon: MdOutlineShoppingCart, label: "Order", link: "/staff/orders",
     dropdown: [
-      { icon: TbFileReport, label: "Request", link: "/staff/orders/request" },
-      { icon: TbBasketDollar, label: "Sales", link: "/staff/orders/sales" },
+      { icon: TbChevronRight, label: "Request", link: "/staff/orders/request" },
+      { icon: TbChevronRight, label: "Sales", link: "/staff/orders/sales" },
     ],
    },
   { icon: TbTruckDelivery, label: "Delivery", link: "/staff/delivery" },
