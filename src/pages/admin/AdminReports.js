@@ -10,7 +10,7 @@ import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
-import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
+import CardTotalUsers from "../../components/CardsData/CardTotalUsers";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification";
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
 import RevenueGraph from "../../components/Reports/RevenueGraph";
@@ -46,8 +46,8 @@ const AdminReports = () => {
         <div onClick={() => navigate("/admin/sales")}>
           <CardTotalSales />
         </div>
-        <div onClick={() => navigate("/admin/staffs")}>
-          <CardTotalStaffs />
+        <div onClick={() => navigate("/admin/users")}>
+          <CardTotalUsers />
         </div>
         <div onClick={() => navigate("/admin/suppliers")}>
           <CardTotalSuppliers />

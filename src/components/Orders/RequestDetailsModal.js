@@ -2,9 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import Modal from "../Layout/Modal";
 import { colors } from '../../colors'; // Ensure the path to colors is correct
+import Button from "../Layout/Button"; // Import the Button component
 
-const RequestDetailsModal = ({ request, onClose }) => {
+const RequestDetailsModal = ({ request, onClose, onCancel }) => {
   if (!request) return null;
+
+  const handleCancelOrder = () => {
+    // Implement the logic for canceling the order
+    if (onCancel) {
+      onCancel(request.id); // Assuming request has an id property
+    }
+  };
 
   return (
     <Modal
@@ -36,7 +44,6 @@ const RequestDetailsModal = ({ request, onClose }) => {
             </thead>
             <tbody>
               {request.orderDetails.map((detail, index) => {
-                // Safely handle cases where price might be undefined
                 const price = detail.price ? detail.price.toFixed(2) : 'N/A';
                 const total = detail.price ? (detail.price * detail.quantity).toFixed(2) : 'N/A';
 
@@ -56,6 +63,14 @@ const RequestDetailsModal = ({ request, onClose }) => {
           <p><strong>Total Products:</strong> {request.orderDetails.reduce((total, item) => total + item.quantity, 0)}</p>
         </TotalSummary>
       </Section>
+      {/* Conditionally render the Cancel Order button */}
+      {request.status === "Pending" && (
+        <ButtonGroup>
+          <Button variant="fail" onClick={handleCancelOrder}>
+            Cancel Order
+          </Button>
+        </ButtonGroup>
+      )}
     </Modal>
   );
 };
@@ -98,6 +113,12 @@ const TableCell = styled.td`
 const TotalSummary = styled.div`
   margin-top: 20px;
   text-align: right;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
 `;
 
 export default RequestDetailsModal;

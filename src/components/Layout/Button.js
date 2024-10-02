@@ -3,12 +3,28 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../colors'; // Adjust path as necessary
 
-const Button = ({ backgroundColor, hoverColor, color, onClick, children, ...props }) => {
+const Button = ({ variant = 'primary', onClick, children, ...props }) => {
+  const variantColors = {
+    primary: {
+      backgroundColor: colors.primary,
+      hoverColor: colors.primaryHover,
+      textColor: 'white',
+    },
+    fail: {
+      backgroundColor: colors.fail,
+      hoverColor: colors.failHover,
+      textColor: 'white',
+    },
+    // You can add more variants if needed, such as 'success', 'warning', etc.
+  };
+
+  const selectedVariant = variantColors[variant] || variantColors.primary;
+
   return (
     <StyledButton
-      backgroundColor={backgroundColor}
-      hoverColor={hoverColor}
-      color={color}
+      backgroundColor={selectedVariant.backgroundColor}
+      hoverColor={selectedVariant.hoverColor}
+      color={selectedVariant.textColor}
       onClick={onClick}
       {...props}
     >
@@ -18,8 +34,8 @@ const Button = ({ backgroundColor, hoverColor, color, onClick, children, ...prop
 };
 
 const StyledButton = styled.button`
-  background-color: ${(props) => props.backgroundColor || colors.primary};
-  color: ${(props) => props.color || 'white'};
+  background-color: ${(props) => props.backgroundColor};
+  color: ${(props) => props.color};
   padding: 7px 8px;
   border: none;
   border-radius: 4px;
@@ -30,7 +46,7 @@ const StyledButton = styled.button`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: ${(props) => props.hoverColor || colors.primaryHover};
+    background-color: ${(props) => props.hoverColor};
   }
 `;
 

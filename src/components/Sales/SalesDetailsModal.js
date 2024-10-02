@@ -203,9 +203,11 @@ const Total = styled.div`
 
 const Status = styled.span`
   background-color: ${(props) =>
-    props.status === "Completed"
+    props.status === "Approved" ||
+    props.status === "Received" ||
+    props.status === "Delivered"
       ? "#1DBA0B"
-      : props.status === "Pending"
+      : props.status === "Shipped"
       ? "#f08400"
       : props.status === "Cancelled"
       ? "#ff5757"

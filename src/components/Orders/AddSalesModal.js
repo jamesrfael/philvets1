@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Modal from "../Layout/Modal";
 import { IoCloseCircle } from "react-icons/io5";
 import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue } from "../../utils/CalculationUtils";
-import { Field, Label, Input, Select, OrderDetailsSection, Table, AddProductButton, DeleteButton, TotalSection, TotalRow, TotalLabel, TotalValue, SaveButton, DiscountContainer, DiscountInput, QuantityInput, SuggestionsList, SuggestionItem } from "./OrderStyles";
+import { Field, Label, Input, Select, OrderDetailsSection, Table, DeleteButton, TotalSection, TotalRow, TotalLabel, TotalValue, DiscountContainer, DiscountInput, QuantityInput, SuggestionsList, SuggestionItem } from "./OrderStyles";
+import Button from "../Layout/Button";
+import styled from "styled-components"; 
 
 const products = [
   { id: 1, name: "Canine Dewormer", price: 20.0 },
@@ -258,7 +260,9 @@ const AddSalesModal = ({ onClose, onSave }) => {
             ))}
           </tbody>
         </Table>
-        <AddProductButton onClick={handleAddProduct}>Add Another Product</AddProductButton>
+        <Button variant="primary" onClick={handleAddProduct}>
+          Add Another Product
+        </Button>
         <TotalSection>
           <TotalRow>
             <TotalLabel>Total Quantity:</TotalLabel>
@@ -270,9 +274,22 @@ const AddSalesModal = ({ onClose, onSave }) => {
           </TotalRow>
         </TotalSection>
       </OrderDetailsSection>
-      <SaveButton onClick={handleSave}>Save Order</SaveButton>
+      <ButtonGroup>
+        <Button variant="fail" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button variant="primary" onClick={handleSave}>
+          Add Sales Order
+        </Button>
+      </ButtonGroup>
     </Modal>
   );
 };
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+`;
 
 export default AddSalesModal;

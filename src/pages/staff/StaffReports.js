@@ -65,7 +65,9 @@ const StaffReports = () => {
         </AlertCard>
         <AlertCard>
           <AlertTitle>System Updates</AlertTitle>
-          <AlertContent>New update available. Check the system for details.</AlertContent>
+          <AlertContent>
+            New update available. Check the system for details.
+          </AlertContent>
         </AlertCard>
       </AlertsContainer>
     </MainLayout>

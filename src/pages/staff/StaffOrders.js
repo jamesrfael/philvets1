@@ -8,7 +8,7 @@ import Table from "../../components/Layout/Table";
 import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import Button from "../../components/Layout/Button"; // Import the Button component
 import { orders as initialOrders } from "../../pages/data/OrderData";
-import { FaPlus } from "react-icons/fa"; 
+import { FaPlus } from "react-icons/fa";
 
 const StaffOrders = () => {
   const [orders, setOrders] = useState(initialOrders);
@@ -59,9 +59,9 @@ const StaffOrders = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-          <StyledButton onClick={openAddSalesModal}>
-            <FaPlus className="icon" /> Sales Order
-          </StyledButton>
+        <StyledButton onClick={openAddSalesModal}>
+          <FaPlus className="icon" /> Sales Order
+        </StyledButton>
       </Controls>
       <AnalyticsContainer>
         <CardTotalOrders isAdmin={true} />
@@ -88,10 +88,6 @@ const Controls = styled.div`
   align-items: center;
   margin-bottom: 16px;
   padding: 0 1px;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
 `;
 
 const StyledButton = styled(Button)`

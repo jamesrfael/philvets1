@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
+import Button from "../Layout/Button";
 
 const AddProductModal = ({ onClose, onSave }) => {
   const [productName, setProductName] = useState("");
@@ -163,7 +164,14 @@ const AddProductModal = ({ onClose, onSave }) => {
           </Field>
         </ModalBody>
         <ModalFooter>
-          <SaveButton onClick={handleSave}>Save Product</SaveButton>
+        <ButtonGroup>
+            <Button variant="fail" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSave}>
+              Add Category
+            </Button>
+          </ButtonGroup>
         </ModalFooter>
       </ModalContent>
     </ModalOverlay>
@@ -242,17 +250,11 @@ const ModalFooter = styled.div`
   margin-top: 20px;
 `;
 
-const SaveButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
+const ButtonGroup = styled.div`
+display: flex;
+gap: 10px;
+justify-content: flex-end;
 `;
+
 
 export default AddProductModal;

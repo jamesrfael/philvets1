@@ -6,7 +6,7 @@ import productData from "../data/ProductData";
 import Table from "../../components/Layout/Table";
 import Button from "../../components/Layout/Button";
 
-const CategoryProducts = () => {
+const StaffCategoryView = () => {
   const { categoryId } = useParams();
 
   const filteredProducts = productData.products.filter(
@@ -47,5 +47,4 @@ const Controls = styled.div`
   margin-bottom: 16px;
 `;
 
-
-export default CategoryProducts;
+export default StaffCategoryView;

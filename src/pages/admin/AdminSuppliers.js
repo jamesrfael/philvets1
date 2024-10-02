@@ -10,6 +10,7 @@ import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
 import { suppliers as initialSuppliers } from "../../pages/data/SupplierData";
 import Button from "../../components/Layout/Button";
 import { FaPlus } from "react-icons/fa"; // Import the FaPlus icon
+import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
 const AdminSuppliers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,6 +18,7 @@ const AdminSuppliers = () => {
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false); // Track the Add modal visibility
+  const [sortConfig, setSortConfig] = useState({ key: "supplierName", direction: "asc" }); // Default sorting
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
@@ -53,6 +55,22 @@ const AdminSuppliers = () => {
     setFilteredSuppliers((prevSuppliers) => [...prevSuppliers, newSupplier]);
   };
 
+  // Sort suppliers based on the current sort configuration
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedSuppliers = [...filteredSuppliers].sort((a, b) => {
+    if (sortConfig.key === "supplierName") {
+      return a.supplierName.localeCompare(b.supplierName) * (sortConfig.direction === "asc" ? 1 : -1);
+    }
+    return 0;
+  });
+
   const headers = [
     "Supplier Name",
     "Supplier Number",
@@ -61,7 +79,7 @@ const AdminSuppliers = () => {
     "Action",
   ];
 
-  const rows = filteredSuppliers.map((supplier) => [
+  const rows = sortedSuppliers.map((supplier) => [
     supplier.supplierName,
     supplier.supplierNumber,
     supplier.contactPersonName,
@@ -88,7 +106,34 @@ const AdminSuppliers = () => {
       <AnalyticsContainer>
         <CardTotalSuppliers />
       </AnalyticsContainer>
-      <Table headers={headers} rows={rows} />
+      <Table
+        headers={headers.map((header, index) => (
+          <TableHeader
+            key={index}
+            onClick={() => header === "Supplier Name" && handleSort("supplierName")}
+          >
+            {header}
+            {/* Display chevrons for Supplier Name */}
+            {header === "Supplier Name" && (
+              <>
+                {sortConfig.key === "supplierName" ? (
+                  sortConfig.direction === "asc" ? (
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  ) : (
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  )
+                ) : (
+                  <span style={{ opacity: 0.5 }}>
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  </span>
+                )}
+              </>
+            )}
+          </TableHeader>
+        ))}
+        rows={rows}
+      />
       {showDetailsModal && selectedSupplier && (
         <SupplierDetailsModal
           supplier={selectedSupplier}
@@ -143,4 +188,11 @@ const ActionButton = styled(Button)`
   }
 `;
 
+const TableHeader = styled.th`
+  text-align: center; /* Center the header text */
+  cursor: pointer; /* Change cursor to pointer */
+  display: flex; /* Use flex to align items */
+  justify-content: center; /* Center content */
+  align-items: center; /* Center vertically */
+`;
 export default AdminSuppliers;

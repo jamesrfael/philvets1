@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Button from "../Layout/Button";
 
-const EditStaffModal = ({ staff, onClose, onSave }) => {
+const AddUserModal = ({ onClose, onSave }) => {
   const [firstname, setFirstname] = useState("");
   const [midinitial, setMidinitial] = useState("");
   const [lastname, setLastname] = useState("");
@@ -14,29 +15,13 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [acctype, setAcctype] = useState("Staff"); // Default value
+  const [acctype, setAcctype] = useState("User"); // Default to 'User'
   const [image, setImage] = useState(null);
-  const [status, setStatus] = useState("Active");
 
   const modalRef = useRef();
 
   useEffect(() => {
-    if (staff) {
-      setFirstname(staff.USER_FIRSTNAME);
-      setMidinitial(staff.USER_MIDINITIAL);
-      setLastname(staff.USER_LASTNAME);
-      setUsername(staff.USER_USERNAME);
-      setEmail(staff.USER_EMAIL);
-      setPassword(staff.USER_PASSWORD); // Assuming the password can be pre-filled
-      setPhoneNumber(staff.USER_PHONENUMBER);
-      setAddress(staff.USER_ADDRESS);
-      setAcctype(staff.USER_ACCTYPE);
-      setImage(staff.USER_IMAGE);
-      setStatus(staff.USER_ISACTIVE ? "Active" : "Inactive");
-    }
-  }, [staff]);
-
-  useEffect(() => {
+    // Close modal on clicking outside
     const handleOutsideClick = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         onClose();
@@ -49,23 +34,39 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
     };
   }, [onClose]);
 
-  const handleSave = () => {
-    const updatedStaff = {
-      USER_ID: staff.USER_ID,
-      USER_USERNAME: username,
-      USER_PASSWORD: password,
-      USER_FIRSTNAME: firstname,
-      USER_MIDINITIAL: midinitial,
-      USER_LASTNAME: lastname,
-      USER_EMAIL: email,
-      USER_PHONENUMBER: phoneNumber,
-      USER_ADDRESS: address,
-      USER_ACCTYPE: acctype,
-      USER_IMAGE: image,
-      USER_ISACTIVE: status === "Active"
-    };
-    onSave(updatedStaff);
-    onClose();
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append("user_username", username);
+    formData.append("user_firstname", firstname);
+    formData.append("user_midinitial", midinitial);
+    formData.append("user_lastname", lastname);
+    formData.append("user_email", email);
+    formData.append("user_password", password);
+    formData.append("user_phone_number", phoneNumber);
+    formData.append("user_address", address);
+    formData.append("user_acctype", acctype);
+    if (image) {
+      formData.append("user_image", image);
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/staff/create/", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        onSave(result); // Pass newly added staff data
+        onClose();
+      } else {
+        const result = await response.json();
+        alert(`Error: ${result.detail || "An error occurred"}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   const handleImageChange = (e) => {
@@ -87,7 +88,7 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
     <ModalOverlay>
       <ModalContent ref={modalRef}>
         <ModalHeader>
-          <h2>Edit Staff Member</h2>
+          <h2>Add User Member</h2>
           <CloseButton onClick={onClose}>
             <IoCloseCircle />
           </CloseButton>
@@ -96,9 +97,16 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
           <Field>
             <Label>Image</Label>
             <ImageContainer>
-              {image && <img src={image} alt="Staff" />}
+              {image && <img src={image} alt="User" />}
               <Input type="file" onChange={handleImageChange} />
             </ImageContainer>
+          </Field>
+          <Field>
+            <Label>Username</Label>
+            <Input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </Field>
           <Field>
             <Label>First Name</Label>
@@ -119,13 +127,6 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
             <Input
               value={lastname}
               onChange={(e) => setLastname(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <Label>Username</Label>
-            <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </Field>
           <Field>
@@ -165,21 +166,22 @@ const EditStaffModal = ({ staff, onClose, onSave }) => {
           </Field>
           <Field>
             <Label>Account Type</Label>
-            <Select value={acctype} onChange={(e) => setAcctype(e.target.value)}>
-              <option value="Staff">Staff</option>
+            <Select
+              value={acctype}
+              onChange={(e) => setAcctype(e.target.value)}
+            >
+              <option value="User">User</option>
               <option value="Admin">Admin</option>
-            </Select>
-          </Field>
-          <Field>
-            <Label>Status</Label>
-            <Select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
             </Select>
           </Field>
         </ModalBody>
         <ModalFooter>
-          <SaveButton onClick={handleSave}>Save Changes</SaveButton>
+          <Button variant="fail" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleSave}>
+            Add User
+          </Button>
         </ModalFooter>
       </ModalContent>
     </ModalOverlay>
@@ -300,24 +302,10 @@ const TogglePasswordButton = styled.button`
 `;
 
 const ModalFooter = styled.div`
+  margin-top: 20px;
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
 `;
 
-const SaveButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
- 
 
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
-`;
-
-export default EditStaffModal;
+export default AddUserModal;

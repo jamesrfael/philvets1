@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { TiTimes } from "react-icons/ti";
 import ProfilePic from "../../assets/profile.png"; // Import the profile picture
 
-const StaffDetailModal = ({ staff, onClose }) => {
+const UserDetailModal = ({ staff, onClose }) => {
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
@@ -128,4 +128,4 @@ const DeleteButton = styled.button`
   cursor: pointer;
 `;
 
-export default StaffDetailModal;
+export default UserDetailModal;

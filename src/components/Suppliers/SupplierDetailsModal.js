@@ -87,8 +87,8 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
             </DetailItem>
           </Details>
           <ButtonGroup>
-            <Button onClick={handleSave}>Save</Button>
-            <Button onClick={handleCancel} variant="secondary">Cancel</Button>
+            <Button variant="primary" onClick={handleSave}>Save</Button>
+            <Button variant="fail" onClick={handleCancel}>Cancel</Button>
           </ButtonGroup>
         </>
       ) : (
@@ -107,9 +107,9 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
               <DetailLabel>Contact Number:</DetailLabel> {supplier.contactPersonNumber}
             </Detail>
           </Section>
-          <ButtonGroup>
-            <Button onClick={handleEdit}>Edit</Button>
-            <Button onClick={handleRemove} variant="danger">Remove</Button>
+            <ButtonGroup>
+            <Button variant="fail" onClick={handleRemove}>Remove</Button>
+            <Button variant="primary" onClick={handleEdit}>Edit</Button>
           </ButtonGroup>
         </>
       )}
@@ -131,7 +131,6 @@ SupplierDetailsModal.propTypes = {
 };
 
 // Styled Components
-
 const Section = styled.div`
   display: flex;
   flex-direction: column;

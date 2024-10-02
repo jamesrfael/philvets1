@@ -9,10 +9,12 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
 import Button from "../../components/Layout/Button"; // Import the Button component
+import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
 const AdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: "name", direction: "asc" }); // Default sorting set to Name
   const navigate = useNavigate(); // Declare useNavigate here
 
   const filteredDeliveries = deliveries.filter((delivery) => {
@@ -25,13 +27,35 @@ const AdminDelivery = () => {
     );
   });
 
-  const openDetailsModal = (delivery) => setSelectedDelivery(delivery);
+  // Sort filtered deliveries based on sortConfig
+  const sortedDeliveries = filteredDeliveries.sort((a, b) => {
+    if (sortConfig.key === "date") {
+      return (new Date(b.date) - new Date(a.date)) * (sortConfig.direction === 'asc' ? 1 : -1);
+    }
+    return a.name.localeCompare(b.name) * (sortConfig.direction === 'asc' ? 1 : -1);
+  });
 
+  const openDetailsModal = (delivery) => setSelectedDelivery(delivery);
   const closeDetailsModal = () => setSelectedDelivery(null);
 
-  const headers = ["Name", "Order Date", "Type", "Status", "Action"];
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
 
-  const rows = filteredDeliveries.map((delivery) => [
+  // Only include the sortable headers in the handleSort logic
+  const headers = [
+    { title: "Name", key: "name" },
+    { title: "Order Date", key: "date" },
+    { title: "Type", key: "type" },
+    { title: "Status", key: "status" },
+    { title: "Action", key: "action" },
+  ];
+
+  const rows = sortedDeliveries.map((delivery) => [
     delivery.name,
     delivery.date,
     delivery.type,
@@ -58,12 +82,37 @@ const AdminDelivery = () => {
       </Controls>
       <SummarySection>
         <div onClick={() => navigate("/admin/delivery")}>
-          {" "}
-          {/* Handle click event here */}
-          <CardTotalDelivery /> {/* Use the CardTotalDelivery component */}
+          <CardTotalDelivery />
         </div>
       </SummarySection>
-      <Table headers={headers} rows={rows} />
+      <Table
+        headers={headers.map((header) => (
+          <TableHeader
+            key={header.key}
+            onClick={header.key === "name" || header.key === "date" ? () => handleSort(header.key) : undefined}
+          >
+            {header.title}
+            {/* Display chevrons for Name and Order Date */}
+            {(header.key === "date" || header.key === "name") && (
+              <>
+                {sortConfig.key === header.key ? (
+                  sortConfig.direction === 'asc' ? (
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  ) : (
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  )
+                ) : (
+                  <span style={{ opacity: 0.5 }}>
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  </span>
+                )}
+              </>
+            )}
+          </TableHeader>
+        ))}
+        rows={rows}
+      />
       {selectedDelivery && (
         <DeliveryDetailsModal
           delivery={selectedDelivery}
@@ -75,7 +124,6 @@ const AdminDelivery = () => {
 };
 
 // Styled components
-
 const Controls = styled.div`
   display: flex;
   justify-content: space-between;
@@ -104,6 +152,14 @@ const Status = styled.span`
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
+`;
+
+const TableHeader = styled.th`
+  text-align: center; /* Center the header text */
+  cursor: pointer; /* Change cursor to pointer */
+  display: flex; /* Use flex to align items */
+  justify-content: center; /* Center content */
+  align-items: center; /* Center vertically */
 `;
 
 export default AdminDelivery;

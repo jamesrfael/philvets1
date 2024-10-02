@@ -5,9 +5,13 @@ import productData from "../../pages/data/ProductData";
 import Button from "../Layout/Button";
 
 const ProductDetailsModal = ({ productId, onClose }) => {
-  const product = productData.products.find(p => p.PROD_ID === productId);
-  const productDetail = productData.productDetails.find(d => d.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE);
-  const category = productData.productCategories.find(c => c.PROD_CAT_CODE === product.PROD_CAT_CODE);
+  const product = productData.products.find((p) => p.PROD_ID === productId);
+  const productDetail = productData.productDetails.find(
+    (d) => d.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
+  );
+  const category = productData.productCategories.find(
+    (c) => c.PROD_CAT_CODE === product.PROD_CAT_CODE
+  );
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedProduct, setEditedProduct] = useState(product);
@@ -21,7 +25,9 @@ const ProductDetailsModal = ({ productId, onClose }) => {
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = () => {
-    const confirmSave = window.confirm("Are you sure you want to save the changes?");
+    const confirmSave = window.confirm(
+      "Are you sure you want to save the changes?"
+    );
     if (confirmSave) {
       // Implement save logic here
       alert("Product details saved");
@@ -30,7 +36,9 @@ const ProductDetailsModal = ({ productId, onClose }) => {
   };
 
   const handleCancel = () => {
-    const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
+    const confirmCancel = window.confirm(
+      "Are you sure you want to discard the changes?"
+    );
     if (confirmCancel) {
       setIsEditing(false);
       setEditedProduct(product);
@@ -40,7 +48,9 @@ const ProductDetailsModal = ({ productId, onClose }) => {
   };
 
   const handleRemove = () => {
-    const confirmRemoval = window.confirm("Are you sure you want to remove this product?");
+    const confirmRemoval = window.confirm(
+      "Are you sure you want to remove this product?"
+    );
     if (confirmRemoval) {
       // Implement remove logic here
       alert(`Product ${product.PROD_NAME} removed`);
@@ -60,21 +70,35 @@ const ProductDetailsModal = ({ productId, onClose }) => {
   };
 
   return (
-    <Modal title={isEditing ? `Edit ${product.PROD_NAME}` : `${product.PROD_NAME} Details`} onClose={onClose}>
+    <Modal
+      title={
+        isEditing ? `Edit ${product.PROD_NAME}` : `${product.PROD_NAME} Details`
+      }
+      onClose={onClose}
+    >
       {isEditing ? (
         <>
           <Details>
             <DetailItem>
               <strong>Image:</strong>
               <ImagePreview src={selectedImage} alt="Preview" />
-              <ImageInput type="file" accept="image/*" onChange={handleImageChange} />
+              <ImageInput
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
             </DetailItem>
             <DetailItem>
               <strong>Name:</strong>
               <Input
                 type="text"
                 value={editedProduct.PROD_NAME}
-                onChange={(e) => setEditedProduct({ ...editedProduct, PROD_NAME: e.target.value })}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    PROD_NAME: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -83,7 +107,12 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <Input
                 type="text"
                 value={category.PROD_CAT_NAME}
-                onChange={(e) => setEditedProduct({ ...editedProduct, category: e.target.value })}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    category: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -92,7 +121,12 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <Input
                 type="text"
                 value={editedProductDetail.PROD_DETAILS_SIZE}
-                onChange={(e) => setEditedProductDetail({ ...editedProductDetail, PROD_DETAILS_SIZE: e.target.value })}
+                onChange={(e) =>
+                  setEditedProductDetail({
+                    ...editedProductDetail,
+                    PROD_DETAILS_SIZE: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -101,7 +135,12 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <Input
                 type="text"
                 value={editedProductDetail.PROD_DETAILS_BRAND}
-                onChange={(e) => setEditedProductDetail({ ...editedProductDetail, PROD_DETAILS_BRAND: e.target.value })}
+                onChange={(e) =>
+                  setEditedProductDetail({
+                    ...editedProductDetail,
+                    PROD_DETAILS_BRAND: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -110,7 +149,12 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <Input
                 type="number"
                 value={editedProductDetail.PROD_DETALS_PRICE}
-                onChange={(e) => setEditedProductDetail({ ...editedProductDetail, PROD_DETALS_PRICE: e.target.value })}
+                onChange={(e) =>
+                  setEditedProductDetail({
+                    ...editedProductDetail,
+                    PROD_DETALS_PRICE: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -118,7 +162,12 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <strong>Description:</strong>
               <Textarea
                 value={editedProductDetail.PROD_DETAILS_DESCRIPTION}
-                onChange={(e) => setEditedProductDetail({ ...editedProductDetail, PROD_DETAILS_DESCRIPTION: e.target.value })}
+                onChange={(e) =>
+                  setEditedProductDetail({
+                    ...editedProductDetail,
+                    PROD_DETAILS_DESCRIPTION: e.target.value,
+                  })
+                }
                 rows="4"
                 border
               />
@@ -128,7 +177,12 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <Input
                 type="number"
                 value={editedProduct.PROD_RO_LEVEL}
-                onChange={(e) => setEditedProduct({ ...editedProduct, PROD_RO_LEVEL: e.target.value })}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    PROD_RO_LEVEL: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -137,7 +191,12 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <Input
                 type="number"
                 value={editedProduct.PROD_RO_QTY}
-                onChange={(e) => setEditedProduct({ ...editedProduct, PROD_RO_QTY: e.target.value })}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    PROD_RO_QTY: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -146,14 +205,21 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <Input
                 type="number"
                 value={editedProduct.PROD_QOH}
-                onChange={(e) => setEditedProduct({ ...editedProduct, PROD_QOH: e.target.value })}
+                onChange={(e) =>
+                  setEditedProduct({
+                    ...editedProduct,
+                    PROD_QOH: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
           </Details>
           <ButtonGroup>
             <Button onClick={handleSave}>Save</Button>
-            <Button onClick={handleCancel} variant="secondary">Cancel</Button>
+            <Button onClick={handleCancel} variant="secondary">
+              Cancel
+            </Button>
           </ButtonGroup>
         </>
       ) : (
@@ -170,13 +236,16 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <DetailLabel>Size:</DetailLabel> {productDetail.PROD_DETAILS_SIZE}
             </Detail>
             <Detail>
-              <DetailLabel>Brand:</DetailLabel> {productDetail.PROD_DETAILS_BRAND}
+              <DetailLabel>Brand:</DetailLabel>{" "}
+              {productDetail.PROD_DETAILS_BRAND}
             </Detail>
             <Detail>
-              <DetailLabel>Price:</DetailLabel> ₱{productDetail.PROD_DETALS_PRICE}
+              <DetailLabel>Price:</DetailLabel> ₱
+              {productDetail.PROD_DETALS_PRICE}
             </Detail>
             <Detail>
-              <DetailLabel>Description:</DetailLabel> {productDetail.PROD_DETAILS_DESCRIPTION}
+              <DetailLabel>Description:</DetailLabel>{" "}
+              {productDetail.PROD_DETAILS_DESCRIPTION}
             </Detail>
             <Detail>
               <DetailLabel>Reorder Level:</DetailLabel> {product.PROD_RO_LEVEL}
@@ -188,15 +257,22 @@ const ProductDetailsModal = ({ productId, onClose }) => {
               <DetailLabel>Quantity on Hand:</DetailLabel> {product.PROD_QOH}
             </Detail>
             <Detail>
-              <DetailLabel>Date Created:</DetailLabel> {product.PROD_DATECREATED}
+              <DetailLabel>Date Created:</DetailLabel>{" "}
+              {product.PROD_DATECREATED}
             </Detail>
             <Detail>
-              <DetailLabel>Date Updated:</DetailLabel> {product.PROD_DATEUPDATED}
+              <DetailLabel>Date Updated:</DetailLabel>{" "}
+              {product.PROD_DATEUPDATED}
             </Detail>
           </Section>
+
           <ButtonGroup>
-            <Button onClick={handleEdit}>Edit</Button>
-            <Button onClick={handleRemove} variant="danger">Remove</Button>
+            <Button variant="fail" onClick={handleRemove}>
+              Remove
+            </Button>
+            <Button variant="primary" onClick={handleEdit}>
+              Edit Details
+            </Button>
           </ButtonGroup>
         </>
       )}
@@ -253,12 +329,12 @@ const DetailLabel = styled.span`
 
 const ButtonGroup = styled.div`
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
+  justify-content: flex-end;
 `;
 
 const Input = styled.input`
-  border: ${(props) => (props.border ? '1px solid #ddd' : 'none')};
+  border: ${(props) => (props.border ? "1px solid #ddd" : "none")};
   border-radius: 4px;
   padding: 8px;
   width: 100%;

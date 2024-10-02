@@ -13,7 +13,7 @@ import { FaPlus } from "react-icons/fa";
 
 const StaffSalesOrder = () => {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingSalesOrder, setIsAddingSalesOrder] = useState(false);
@@ -68,9 +68,7 @@ const StaffSalesOrder = () => {
       {selectedOrder && (
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
       )}
-      {isAddingSalesOrder && (
-        <AddSalesModal onClose={closeAddSalesModal} />
-      )}
+      {isAddingSalesOrder && <AddSalesModal onClose={closeAddSalesModal} />}
     </MainLayout>
   );
 };

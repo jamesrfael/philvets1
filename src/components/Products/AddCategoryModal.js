@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
+import Button from "../Layout/Button";
 
 const AddCategoryModal = ({ onClose, onSave }) => {
   const [categoryName, setCategoryName] = useState("");
@@ -60,7 +61,14 @@ const AddCategoryModal = ({ onClose, onSave }) => {
           </Field>
         </ModalBody>
         <ModalFooter>
-          <SaveButton onClick={handleSave}>Save Category</SaveButton>
+        <ButtonGroup>
+            <Button variant="fail" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSave}>
+              Add Category
+            </Button>
+          </ButtonGroup>
         </ModalFooter>
       </ModalContent>
     </ModalOverlay>
@@ -68,6 +76,13 @@ const AddCategoryModal = ({ onClose, onSave }) => {
 };
 
 // Styled Components
+
+const ButtonGroup = styled.div`
+display: flex;
+gap: 10px;
+justify-content: flex-end;
+`;
+
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -139,17 +154,5 @@ const ModalFooter = styled.div`
   margin-top: 20px;
 `;
 
-const SaveButton = styled.button`
-  background-color: ${colors.primary};
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  &:hover {
-    background-color: ${colors.primaryHover};
-  }
-`;
 
 export default AddCategoryModal;

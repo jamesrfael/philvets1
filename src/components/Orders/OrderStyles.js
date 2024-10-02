@@ -45,6 +45,7 @@ export const ModalFooter = styled.div`
 
 export const Field = styled.div`
   margin-bottom: 15px;
+  position: relative; /* Required for absolute positioning of suggestions */
 `;
 
 export const Label = styled.label`
@@ -180,18 +181,23 @@ export const QuantityInput = styled(Input)`
   width: 66px;
 `;
 
-export const SuggestionsList = styled.ul`
-  position: absolute;
-  top: 100%;
+// New styled component for suggestions container
+export const SuggestionsContainer = styled.div`
+  position: absolute; /* Allows overlapping with other UI */
+  top: 100%; /* Places it right below the input */
   left: 0;
   right: 0;
+  z-index: 10; /* Ensures it appears above other elements */
+`;
+
+export const SuggestionsList = styled.ul`
+  position: relative; /* Set to relative to stack properly */
   background: white;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   max-height: 150px;
   overflow-y: auto;
-  z-index: 10;
   list-style: none;
   padding: 0;
   margin: 0;

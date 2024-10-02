@@ -1,8 +1,8 @@
 // src/components/CustomerDetailsModal.js
-import React, { useState } from 'react';
-import Modal from '../Layout/Modal'; // Ensure the path to Modal is correct
-import styled from 'styled-components';
-import Button from '../Layout/Button'; // Import the Button component
+import React, { useState } from "react";
+import Modal from "../Layout/Modal"; // Ensure the path to Modal is correct
+import styled from "styled-components";
+import Button from "../Layout/Button"; // Import the Button component
 
 const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -13,7 +13,9 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = () => {
-    const confirmSave = window.confirm("Are you sure you want to save the changes?");
+    const confirmSave = window.confirm(
+      "Are you sure you want to save the changes?"
+    );
     if (confirmSave) {
       // Implement save logic here
       alert("Customer details saved");
@@ -22,7 +24,9 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
   };
 
   const handleCancel = () => {
-    const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
+    const confirmCancel = window.confirm(
+      "Are you sure you want to discard the changes?"
+    );
     if (confirmCancel) {
       setIsEditing(false);
       setEditedCustomer(customer);
@@ -30,7 +34,9 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
   };
 
   const handleRemove = () => {
-    const confirmRemoval = window.confirm("Are you sure you want to remove this customer?");
+    const confirmRemoval = window.confirm(
+      "Are you sure you want to remove this customer?"
+    );
     if (confirmRemoval) {
       onRemove(customer.customerId); // Call the remove callback with the customer ID
       onClose(); // Close the modal after removal
@@ -39,7 +45,11 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
 
   return (
     <Modal
-      title={isEditing ? `Edit ${customer.firstName} ${customer.lastName}` : `Customer Details`}
+      title={
+        isEditing
+          ? `Edit ${customer.firstName} ${customer.lastName}`
+          : `Customer Details`
+      }
       onClose={onClose}
     >
       {isEditing ? (
@@ -50,7 +60,12 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
               <Input
                 type="text"
                 value={editedCustomer.firstName}
-                onChange={(e) => setEditedCustomer({ ...editedCustomer, firstName: e.target.value })}
+                onChange={(e) =>
+                  setEditedCustomer({
+                    ...editedCustomer,
+                    firstName: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -59,7 +74,12 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
               <Input
                 type="text"
                 value={editedCustomer.lastName}
-                onChange={(e) => setEditedCustomer({ ...editedCustomer, lastName: e.target.value })}
+                onChange={(e) =>
+                  setEditedCustomer({
+                    ...editedCustomer,
+                    lastName: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -68,7 +88,12 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
               <Input
                 type="email"
                 value={editedCustomer.email}
-                onChange={(e) => setEditedCustomer({ ...editedCustomer, email: e.target.value })}
+                onChange={(e) =>
+                  setEditedCustomer({
+                    ...editedCustomer,
+                    email: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -77,7 +102,12 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
               <Input
                 type="tel"
                 value={editedCustomer.phone}
-                onChange={(e) => setEditedCustomer({ ...editedCustomer, phone: e.target.value })}
+                onChange={(e) =>
+                  setEditedCustomer({
+                    ...editedCustomer,
+                    phone: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -86,14 +116,23 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
               <Input
                 type="text"
                 value={editedCustomer.registrationDate}
-                onChange={(e) => setEditedCustomer({ ...editedCustomer, registrationDate: e.target.value })}
+                onChange={(e) =>
+                  setEditedCustomer({
+                    ...editedCustomer,
+                    registrationDate: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
           </Details>
           <ButtonGroup>
-            <Button onClick={handleSave}>Save</Button>
-            <Button onClick={handleCancel} variant="secondary">Cancel</Button>
+            <Button variant="fail" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSave}>
+              Save Edit
+            </Button>
           </ButtonGroup>
         </>
       ) : (
@@ -112,12 +151,18 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
               <DetailLabel>Phone:</DetailLabel> {customer.phone}
             </Detail>
             <Detail>
-              <DetailLabel>Registration Date:</DetailLabel> {customer.registrationDate}
+              <DetailLabel>Registration Date:</DetailLabel>{" "}
+              {customer.registrationDate}
             </Detail>
           </Section>
+
           <ButtonGroup>
-            <Button onClick={handleEdit}>Edit</Button>
-            <Button onClick={handleRemove} variant="danger">Remove</Button>
+            <Button variant="fail" onClick={handleRemove}>
+              Remove
+            </Button>
+            <Button variant="primary" onClick={handleEdit}>
+              Edit
+            </Button>
           </ButtonGroup>
         </>
       )}
@@ -163,7 +208,7 @@ const ButtonGroup = styled.div`
 `;
 
 const Input = styled.input`
-  border: ${(props) => (props.border ? '1px solid #ddd' : 'none')};
+  border: ${(props) => (props.border ? "1px solid #ddd" : "none")};
   border-radius: 4px;
   padding: 8px;
   width: 100%;

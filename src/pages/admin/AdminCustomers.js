@@ -1,4 +1,3 @@
-// src/pages/AdminCustomers.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import MainLayout from "../../components/Layout/MainLayout";
@@ -11,6 +10,7 @@ import AddCustomerModal from "../../components/Customers/AddCustomerModal";
 import CustomerDetailsModal from "../../components/Customers/CustomerDetailsModal"; // Import CustomerDetailsModal
 import customersData from "../data/CustomersData";
 import { FaPlus } from "react-icons/fa"; // Import the FaPlus icon
+import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
 const AdminCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,6 +18,7 @@ const AdminCustomers = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false); // State for CustomerDetailsModal
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [sortConfig, setSortConfig] = useState({ key: "customerName", direction: "asc" }); // Default sorting
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
@@ -60,9 +61,29 @@ const AdminCustomers = () => {
     setFilteredCustomers(updatedCustomers);
   };
 
-  const headers = ["Name", "Email", "Phone", "Registration Date", "Action"];
+  const headers = ["Customer Name", "Email", "Phone", "Registration Date", "Action"];
 
-  const rows = filteredCustomers.map((customer) => [
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  // Sort filtered customers based on sortConfig
+  const sortedCustomers = [...filteredCustomers].sort((a, b) => {
+    if (sortConfig.key === "customerName") {
+      const nameA = `${a.firstName} ${a.lastName}`;
+      const nameB = `${b.firstName} ${b.lastName}`;
+      return nameA.localeCompare(nameB) * (sortConfig.direction === "asc" ? 1 : -1);
+    } else if (sortConfig.key === "registrationDate") {
+      return (new Date(b.registrationDate) - new Date(a.registrationDate)) * (sortConfig.direction === "asc" ? 1 : -1);
+    }
+    return 0; // Default return for non-sortable headers
+  });
+
+  const rows = sortedCustomers.map((customer) => [
     `${customer.firstName} ${customer.lastName}`,
     customer.email,
     customer.phone,
@@ -87,8 +108,53 @@ const AdminCustomers = () => {
       <SummarySection>
         <CardTotalCustomers />
       </SummarySection>
-      <Table headers={headers} rows={rows} />
-
+      <Table
+        headers={headers.map((header, index) => (
+          <TableHeader
+            key={index}
+            onClick={() => {
+              if (header === "Customer Name") handleSort("customerName");
+              if (header === "Registration Date") handleSort("registrationDate");
+            }}
+          >
+            {header}
+            {/* Display chevrons for Customer Name and Registration Date */}
+            {header === "Customer Name" && (
+              <>
+                {sortConfig.key === "customerName" ? (
+                  sortConfig.direction === "asc" ? (
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  ) : (
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  )
+                ) : (
+                  <span style={{ opacity: 0.5 }}>
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  </span>
+                )}
+              </>
+            )}
+            {header === "Registration Date" && (
+              <>
+                {sortConfig.key === "registrationDate" ? (
+                  sortConfig.direction === "asc" ? (
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  ) : (
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  )
+                ) : (
+                  <span style={{ opacity: 0.5 }}>
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  </span>
+                )}
+              </>
+            )}
+          </TableHeader>
+        ))}
+        rows={rows}
+      />
       {showAddModal && (
         <AddCustomerModal onClose={closeModals} onAdd={handleAddCustomer} />
       )}
@@ -138,6 +204,14 @@ const ActionButton = styled(Button)`
     font-size: 20px;
     margin-right: 8px;
   }
+`;
+
+const TableHeader = styled.th`
+  text-align: center; /* Center the header text */
+  cursor: pointer; /* Change cursor to pointer */
+  display: flex; /* Use flex to align items */
+  justify-content: center; /* Center content */
+  align-items: center; /* Center vertically */
 `;
 
 export default AdminCustomers;

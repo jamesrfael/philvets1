@@ -136,9 +136,14 @@ const InventoryDetailsModal = ({ item, onClose }) => {
             </Detail>
           </Section>
           <ButtonGroup>
-            <Button onClick={handleEdit}>Edit</Button>
-            <Button onClick={handleRemove} variant="danger">Remove</Button>
+            <Button variant="fail" onClick={handleRemove}>
+              Remove
+            </Button>
+            <Button variant="primary" onClick={handleEdit}>
+              Edit Details
+            </Button>
           </ButtonGroup>
+
         </>
       )}
     </Modal>

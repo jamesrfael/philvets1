@@ -1,20 +1,20 @@
-// src/components/CardsData/CardTotalStaffs.js
+// src/components/CardsData/CardTotalUsers.js
 
 import React from "react";
 import Card from "../Layout/Card";
-import { staff } from "../../pages/data/StaffData"; // Import the staff data
+import { staff } from "../../pages/data/UserData"; // Import the staff data
 import styled from "styled-components";
 import { FaUserTie } from "react-icons/fa"; // Import an icon from react-icons
 
-const CardTotalStaffs = () => {
+const CardTotalUsers = () => {
   // Calculate the total number of staff
-  const totalStaffs = staff.length;
+  const totalUsers = staff.length;
 
   return (
     <CardContainer>
       <Card
-        label="Total Staffs"
-        value={totalStaffs} // Display the total number of staff
+        label="Total Users"
+        value={totalUsers} // Display the total number of staff
         icon={<FaUserTie />} // Add the icon here
       />
     </CardContainer>
@@ -25,4 +25,4 @@ const CardContainer = styled.div`
   cursor: pointer;
 `;
 
-export default CardTotalStaffs;
+export default CardTotalUsers;

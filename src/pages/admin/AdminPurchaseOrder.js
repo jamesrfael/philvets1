@@ -10,6 +10,7 @@ import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchase
 import Button from "../../components/Layout/Button";
 import { orders as initialOrders } from "../../pages/data/OrderData";
 import { FaPlus } from "react-icons/fa";
+import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
 const AdminPurchaseOrder = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const AdminPurchaseOrder = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingPurchaseOrder, setIsAddingPurchaseOrder] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: 'orderDate', direction: 'desc' }); // Default sorting set to Order Date
 
   // Filter Purchase Orders and apply search term
   const filteredOrders = orders.filter((order) => {
@@ -28,6 +30,15 @@ const AdminPurchaseOrder = () => {
         order.purchaseOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm))
     );
   });
+
+  // Sort filtered orders based on sortConfig
+  const sortedOrders = filteredOrders.sort((a, b) => {
+    if (sortConfig.key === "orderDate") {
+      return (new Date(b.orderDate) - new Date(a.orderDate)) * (sortConfig.direction === 'asc' ? 1 : -1);
+    }
+    return a.supplierName.localeCompare(b.supplierName) * (sortConfig.direction === 'asc' ? 1 : -1);
+  });
+
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
 
@@ -37,7 +48,7 @@ const AdminPurchaseOrder = () => {
   // Update headers to include "Client ID"
   const headers = ["Supplier", "Order Date", "Status", "Action"];
 
-  const rows = filteredOrders.map((order) => [
+  const rows = sortedOrders.map((order) => [
     order.supplierName, // Show supplierName
     order.orderDate,
     <Status status={order.purchaseOrderStatus}>
@@ -47,6 +58,14 @@ const AdminPurchaseOrder = () => {
       Details
     </Button>,
   ]);
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
 
   return (
     <MainLayout>
@@ -65,7 +84,31 @@ const AdminPurchaseOrder = () => {
           <CardTotalPurchaseOrder />
         </div>
       </AnalyticsContainer>
-      <Table headers={headers} rows={rows} />
+      <Table headers={headers.map((header, index) => (
+        <TableHeader
+          key={index}
+          onClick={() => handleSort(header === "Order Date" ? 'orderDate' : 'supplierName')}
+        >
+          {header}
+          {/* Display chevrons for Supplier and Order Date */}
+          {(header === "Order Date" || header === "Supplier") && (
+            <>
+              {sortConfig.key === (header === "Order Date" ? 'orderDate' : 'supplierName') ? (
+                sortConfig.direction === 'asc' ? (
+                  <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                ) : (
+                  <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                )
+              ) : (
+                <span style={{ opacity: 0.5 }}>
+                  <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                </span>
+              )}
+            </>
+          )}
+        </TableHeader>
+      ))} rows={rows} />
       {selectedOrder && (
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
       )}
@@ -77,7 +120,6 @@ const AdminPurchaseOrder = () => {
 };
 
 // Styled Components
-
 const Controls = styled.div`
   display: flex;
   justify-content: space-between;
@@ -121,6 +163,14 @@ const StyledButton = styled(Button)`
     font-size: 20px;
     margin-right: 8px;
   }
+`;
+
+const TableHeader = styled.th`
+  text-align: center; /* Center the header text */
+  cursor: pointer; /* Change cursor to pointer */
+  display: flex; /* Use flex to align items */
+  justify-content: center; /* Center content */
+  align-items: center; /* Center vertically */
 `;
 
 export default AdminPurchaseOrder;

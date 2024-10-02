@@ -8,8 +8,9 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalPendingRequest from "../../components/CardsData/CardTotalRequest";
 import Button from "../../components/Layout/Button";
-import { requests as initialRequests } from "../data/RequestData"; // Make sure this path is correct
+import { requests as initialRequests } from "../data/RequestData"; // Ensure this path is correct
 import { FaPlus } from "react-icons/fa";
+import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
 const AdminRequest = () => {
   const navigate = useNavigate();
@@ -17,25 +18,33 @@ const AdminRequest = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isAddingRequest, setIsAddingRequest] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: 'requestDate', direction: 'desc' }); // Default sorting set to Request Date (latest first)
+  const [statusFilter, setStatusFilter] = useState('Pending'); // Initial filter set to Pending
 
-  // Filter to include all requests, then filter by search term
+  // Filter requests by search term and status
   const filteredRequests = requests.filter((request) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
       request.requestBy.toLowerCase().includes(lowerCaseSearchTerm) ||
-      request.requestDate.toLowerCase().includes(lowerCaseSearchTerm)
+      request.requestDate.toLowerCase().includes(lowerCaseSearchTerm) ||
+      request.status === statusFilter // Filter by status
     );
   });
 
-  // Sort requests to prioritize Pending status first
+  // Sort requests based on sortConfig
   const sortedRequests = filteredRequests.sort((a, b) => {
-    if (a.status === "Pending" && b.status !== "Pending") {
-      return -1; // a comes first
+    if (sortConfig.key === 'status') {
+      const statusOrder = { Completed: 1, Pending: 2, Cancelled: 3 };
+      return (statusOrder[a[sortConfig.key]] - statusOrder[b[sortConfig.key]]) * (sortConfig.direction === 'asc' ? 1 : -1);
     }
-    if (a.status !== "Pending" && b.status === "Pending") {
-      return 1; // b comes first
+
+    if (sortConfig.key === 'requestBy') {
+      const compare = a.requestBy.localeCompare(b.requestBy);
+      return compare * (sortConfig.direction === 'asc' ? 1 : -1);
     }
-    return 0; // keep original order for other statuses
+
+    // Default to sorting by date (latest first)
+    return (new Date(b.requestDate) - new Date(a.requestDate)) * (sortConfig.direction === 'asc' ? 1 : -1);
   });
 
   const openDetailsModal = (request) => setSelectedRequest(request);
@@ -49,7 +58,27 @@ const AdminRequest = () => {
     closeAddRequestModal();
   };
 
-  const headers = ["Request By", "Request Date", "Status", "Action"];
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const handleStatusToggle = () => {
+    const statuses = ['Pending', 'Completed', 'Cancelled'];
+    const currentIndex = statuses.indexOf(statusFilter);
+    const nextIndex = (currentIndex + 1) % statuses.length; // Cycle through statuses
+    setStatusFilter(statuses[nextIndex]);
+  };
+
+  const headers = [
+    { label: "Request By", key: "requestBy" },
+    { label: "Request Date", key: "requestDate" },
+    { label: "Status", key: "status" },
+    { label: "Action" }
+  ];
 
   const rows = sortedRequests.map((request) => [
     request.requestBy,
@@ -69,7 +98,7 @@ const AdminRequest = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <StyledButton onClick={openAddRequestModal}>
-          <FaPlus className="icon" /> Add Request
+          <FaPlus className="icon" /> Request
         </StyledButton>
       </Controls>
       <AnalyticsContainer>
@@ -78,8 +107,41 @@ const AdminRequest = () => {
         </div>
       </AnalyticsContainer>
 
-      {/* Render the table with all requests, sorted with Pending first */}
-      <Table headers={headers} rows={rows} />
+      {/* Render the table with all requests, sorted with latest date first */}
+      <Table 
+        headers={headers.map(header => (
+          <TableHeader 
+            onClick={() => {
+              if (header.key === "status") {
+                handleStatusToggle(); // Toggle status when clicking on Status header
+              } else if (header.key === "requestBy" || header.key === "requestDate") {
+                handleSort(header.key);
+              }
+            }} 
+            key={header.key}
+          >
+            {header.label} 
+            {/* Display chevrons only for Request By and Request Date */}
+            {(header.key === "requestBy" || header.key === "requestDate") && (
+              <>
+                {header.key === sortConfig.key ? (
+                  sortConfig.direction === 'asc' ? (
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  ) : (
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  )
+                ) : (
+                  <span style={{ opacity: 0.5 }}>
+                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  </span>
+                )}
+              </>
+            )}
+          </TableHeader>
+        ))} 
+        rows={rows}
+      />
       {selectedRequest && (
         <RequestDetailsModal
           request={selectedRequest}
@@ -137,6 +199,14 @@ const StyledButton = styled(Button)`
     font-size: 20px;
     margin-right: 8px;
   }
+`;
+
+const TableHeader = styled.th`
+  text-align: center; /* Center the header text */
+  cursor: pointer; /* Change cursor to pointer */
+  display: flex; /* Use flex to align items */
+  justify-content: center; /* Center content */
+  align-items: center; /* Center vertically */
 `;
 
 export default AdminRequest;

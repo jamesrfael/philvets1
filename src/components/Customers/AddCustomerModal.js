@@ -47,9 +47,11 @@ const AddCustomerModal = ({ onClose, onAdd }) => {
           onChange={(e) => setPhone(e.target.value)}
         />
         <ButtonGroup>
-          <Button onClick={handleAddCustomer}>Add Customer</Button>
-          <Button variant="secondary" onClick={onClose}>
+          <Button variant="fail" onClick={onClose}>
             Cancel
+          </Button>
+          <Button variant="primary" onClick={handleAddCustomer}>
+            Add Customer
           </Button>
         </ButtonGroup>
       </Form>

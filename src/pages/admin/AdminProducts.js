@@ -32,18 +32,13 @@ const AdminProducts = () => {
       (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
     )?.PROD_CAT_NAME;
 
+    // Filtering by Product Name, Category, and Brand
     return (
       product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
       category?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      productDetail?.PROD_DETAILS_SIZE?.toLowerCase().includes(
-        lowerCaseSearchTerm
-      ) ||
       productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(
         lowerCaseSearchTerm
-      ) ||
-      productDetail?.PROD_DETALS_PRICE?.toString()
-        .toLowerCase()
-        .includes(lowerCaseSearchTerm)
+      )
     );
   });
 
@@ -56,6 +51,7 @@ const AdminProducts = () => {
     "Price",
     "Action",
   ];
+  
   const rows = filteredProducts.map((product) => {
     const productDetail = productData.productDetails.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE

@@ -1,26 +1,26 @@
-// src/pages/AdminStaffs.js
+// src/pages/AdminUsers.js
 import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import { colors } from "../../colors";
-import { staff as initialStaff } from "../data/StaffData";
-import AddStaffModal from "../../components/Staffs/AddStaffModal";
-import EditStaffModal from "../../components/Staffs/EditStaffModal";
+import { staff as initialUser } from "../data/UserData";
+import AddUserModal from "../../components/Users/AddUserModal";
+import EditUserModal from "../../components/Users/EditUserModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs";
+import CardTotalUsers from "../../components/CardsData/CardTotalUsers";
 import Button from "../../components/Layout/Button";
 import { FaPlus } from "react-icons/fa";
 
-const AdminStaffs = () => {
-  const [staff, setStaff] = useState(initialStaff);
+const AdminUsers = () => {
+  const [staff, setUser] = useState(initialUser);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingStaff, setEditingStaff] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
   const [showInactive, setShowInactive] = useState(false);
 
-  const filteredStaff = staff.filter((member) => {
+  const filteredUser = staff.filter((member) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const isActiveFilter = showInactive
       ? member.status === "Inactive"
@@ -33,21 +33,21 @@ const AdminStaffs = () => {
     );
   });
 
-  const handleAddStaff = (newStaff) => {
-    setStaff((prevStaff) => [...prevStaff, newStaff]);
+  const handleAddUser = (newUser) => {
+    setUser((prevUser) => [...prevUser, newUser]);
   };
 
-  const handleEditStaff = (updatedStaff) => {
-    setStaff((prevStaff) =>
-      prevStaff.map((member) =>
-        member.email === updatedStaff.email ? updatedStaff : member
+  const handleEditUser = (updatedUser) => {
+    setUser((prevUser) =>
+      prevUser.map((member) =>
+        member.email === updatedUser.email ? updatedUser : member
       )
     );
   };
 
-  const handleActivateDeactivateStaff = (email) => {
-    setStaff((prevStaff) =>
-      prevStaff.map((member) =>
+  const handleActivateDeactivateUser = (email) => {
+    setUser((prevUser) =>
+      prevUser.map((member) =>
         member.email === email
           ? {
               ...member,
@@ -60,7 +60,7 @@ const AdminStaffs = () => {
 
   const headers = ["Image", "Name", "Email", "Username", "Actions"];
 
-  const rows = filteredStaff.map((member) => [
+  const rows = filteredUser.map((member) => [
     <img src={member.image} alt={member.name} width="50" />,
     member.name,
     member.email,
@@ -71,7 +71,7 @@ const AdminStaffs = () => {
         hoverColor={colors.primaryHover}
         onClick={() => {
           setIsEditModalOpen(true);
-          setEditingStaff(member);
+          setEditingUser(member);
         }}
       >
         Edit
@@ -79,7 +79,7 @@ const AdminStaffs = () => {
       <Button
         backgroundColor={colors.primary}
         hoverColor={colors.primaryHover}
-        onClick={() => handleActivateDeactivateStaff(member.email)}
+        onClick={() => handleActivateDeactivateUser(member.email)}
       >
         {member.status === "Active" ? "Deactivate" : "Activate"}
       </Button>
@@ -100,7 +100,7 @@ const AdminStaffs = () => {
             hoverColor={colors.primaryHover}
             onClick={() => setIsAddModalOpen(true)}
           >
-           <FaPlus className="icon" /> Staff
+            <FaPlus className="icon" /> User
           </StyledButton>
           <Button
             backgroundColor={colors.secondary}
@@ -112,20 +112,20 @@ const AdminStaffs = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalStaffs /> {/* Display Total Staffs */}
+        <CardTotalUsers /> {/* Display Total Users */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddModalOpen && (
-        <AddStaffModal
+        <AddUserModal
           onClose={() => setIsAddModalOpen(false)}
-          onSave={handleAddStaff}
+          onSave={handleAddUser}
         />
       )}
       {isEditModalOpen && (
-        <EditStaffModal
-          staff={editingStaff}
+        <EditUserModal
+          staff={editingUser}
           onClose={() => setIsEditModalOpen(false)}
-          onSave={handleEditStaff}
+          onSave={handleEditUser}
         />
       )}
     </MainLayout>
@@ -163,4 +163,4 @@ const AnalyticsContainer = styled.div`
   padding: 0 1px;
 `;
 
-export default AdminStaffs;
+export default AdminUsers;

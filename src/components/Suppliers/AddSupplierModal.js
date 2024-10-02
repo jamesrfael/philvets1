@@ -57,10 +57,10 @@ const AddSupplierModal = ({ onClose, onAdd }) => {
           placeholder="Enter contact person number"
         />
         <ButtonGroup>
-          <Button onClick={handleAddSupplier}>Add Supplier</Button>
-          <Button variant="secondary" onClick={onClose}>
+        <Button variant="fail" onClick={onClose}>
             Cancel
           </Button>
+          <Button variant="primary" onClick={handleAddSupplier}>Add Supplier</Button>
         </ButtonGroup>
       </Form>
     </Modal>

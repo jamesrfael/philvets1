@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import MainLayout from "../../components/Layout/MainLayout";
 import { colors } from "../../colors";
@@ -32,19 +32,6 @@ const StaffProfile = () => {
       setHasChanges(true);
     }
   };
-
-  useEffect(() => {
-    if (
-      isEditingName ||
-      isEditingEmail ||
-      isEditingPassword ||
-      isEditingContact
-    ) {
-      setHasChanges(true);
-    } else {
-      setHasChanges(false);
-    }
-  }, [name, email, password, confirmPassword, contact]);
 
   const handleSaveChanges = () => {
     console.log("Changes saved!");
@@ -132,7 +119,9 @@ const StaffProfile = () => {
               ) : (
                 <FieldText>{contact}</FieldText>
               )}
-              <EditButton onClick={() => setIsEditingContact(!isEditingContact)}>
+              <EditButton
+                onClick={() => setIsEditingContact(!isEditingContact)}
+              >
                 <FaPencilAlt />
               </EditButton>
             </FieldContainer>
@@ -162,18 +151,24 @@ const StaffProfile = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     showBorder={isEditingPassword}
                   />
-                  <EyeIcon onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  <EyeIcon
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
                     {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                   </EyeIcon>
                 </FieldContainer>
-                <EditButton onClick={() => setIsEditingPassword(!isEditingPassword)}>
+                <EditButton
+                  onClick={() => setIsEditingPassword(!isEditingPassword)}
+                >
                   <FaPencilAlt />
                 </EditButton>
               </InputContainer>
             ) : (
               <FieldContainer>
                 <FieldText>********</FieldText>
-                <EditButton onClick={() => setIsEditingPassword(!isEditingPassword)}>
+                <EditButton
+                  onClick={() => setIsEditingPassword(!isEditingPassword)}
+                >
                   <FaPencilAlt />
                 </EditButton>
               </FieldContainer>

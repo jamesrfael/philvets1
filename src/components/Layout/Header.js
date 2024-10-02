@@ -17,7 +17,7 @@ const pageTitles = {
   "/admin/inventory": "Inventory",
   "/admin/suppliers": "Supplier",
   "/admin/customers": "Customer",
-  "/admin/staffs": "Staff",
+  "/admin/users": "User",
   "/admin/sales": "Sales",
   "/admin/returns": "Return",
   "/admin/logs": "Log",
@@ -25,8 +25,12 @@ const pageTitles = {
   "/admin/categories": "Product / Category",
   "/admin/profile": "Profile",
   "/admin/notifications": "Notifications",
-  "/staff/dashboard": "Staff Dashboard",
-  "/staff/profile": "Staff Profile",
+  "/admin/orders/request": "Request Order",
+  "/admin/orders/sales": "Request Order",
+  "/admin/orders/purchase": "Purchase Order",
+  
+  "/staff/dashboard": "User Dashboard",
+  "/staff/profile": "User Profile",
   "/staff/orders": "Order",
   "/staff/delivery": "Delivery",
   "/staff/products": "Product",
@@ -79,7 +83,9 @@ const Header = ({ toggleSidebar }) => {
       <PageTitle>{pageTitle}</PageTitle>
       <RightSection>
         <BellIcon
-          className={location.pathname.includes("/notifications") ? "active" : ""}
+          className={
+            location.pathname.includes("/notifications") ? "active" : ""
+          }
           onClick={goToNotifications}
         />
         <ProfileContainer
@@ -90,7 +96,9 @@ const Header = ({ toggleSidebar }) => {
             className={location.pathname.includes("/profile") ? "active" : ""}
             onClick={goToProfile}
           >
-            <span>{location.pathname.startsWith("/admin") ? "Admin" : "Staff"}</span>
+            <span>
+              {location.pathname.startsWith("/admin") ? "Admin" : "User"}
+            </span>
             <TbUserCircle className="h-5 w-5 ml-1" />
           </ProfileButton>
           {isDropdownOpen && (

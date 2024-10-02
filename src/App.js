@@ -2,8 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
+
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminStaffs from "./pages/admin/AdminStaffs";
+import AdminUsers from "./pages/admin/AdminUsers";
 import AdminCustomers from "./pages/admin/AdminCustomers";
 import AdminInventory from "./pages/admin/AdminInventory";
 import AdminReports from "./pages/admin/AdminReports";
@@ -55,7 +56,7 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/profile" element={<AdminProfile />} />
-        <Route path="/admin/staffs" element={<AdminStaffs />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/customers" element={<AdminCustomers />} />
         <Route path="/admin/inventory" element={<AdminInventory />} />
         <Route path="/admin/reports" element={<AdminReports />} />
@@ -63,7 +64,10 @@ function App() {
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/orders/request" element={<AdminRequest />} />
         <Route path="/admin/orders/sales-order" element={<AdminSalesOrder />} />
-        <Route path="/admin/orders/purchase-order" element={<AdminPurchaseOrder />} />
+        <Route
+          path="/admin/orders/purchase-order"
+          element={<AdminPurchaseOrder />}
+        />
         <Route path="/admin/delivery" element={<AdminDelivery />} />
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/sales" element={<AdminSales />} />
@@ -72,7 +76,7 @@ function App() {
         <Route path="/admin/categories" element={<AdminCategories />} />
         <Route path="/admin/category-view" element={<AdminCategoryView />} />
         <Route path="/admin/notifications" element={<AdminNotification />} />
-        
+
         {/* Staff Routes */}
         <Route path="/staff/dashboard" element={<StaffDashboard />} />
         <Route path="/staff/profile" element={<StaffProfile />} />
@@ -88,6 +92,8 @@ function App() {
         <Route path="/staff/categories" element={<StaffCategories />} />
         <Route path="/staff/category-view" element={<StaffCategoryView />} />
         <Route path="/staff/notifications" element={<StaffNotification />} />
+        <Route path="/staff/orders/request" element={<StaffRequest />} />
+        <Route path="/staff/orders/sales-order" element={<StaffSalesOrder />} />
 
         {/* Fallback Route */}
         <Route path="*" element={<NotFoundPage />} />

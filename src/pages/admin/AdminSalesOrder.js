@@ -10,6 +10,7 @@ import CardTotalSalesOrder from "../../components/CardsData/CardTotalSalesOrder"
 import Button from "../../components/Layout/Button"; // Import the Button component
 import { orders as initialOrders } from "../../pages/data/OrderData";
 import { FaPlus } from "react-icons/fa";
+import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
 const AdminSalesOrder = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const AdminSalesOrder = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingSalesOrder, setIsAddingSalesOrder] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: 'orderDate', direction: 'desc' }); // Default sorting set to Order Date
 
   // Filter Sales Orders and apply search term
   const filteredOrders = orders.filter((order) => {
@@ -29,6 +31,14 @@ const AdminSalesOrder = () => {
     );
   });
 
+  // Sort filtered orders based on sortConfig
+  const sortedOrders = filteredOrders.sort((a, b) => {
+    if (sortConfig.key === "orderDate") {
+      return (new Date(b.orderDate) - new Date(a.orderDate)) * (sortConfig.direction === 'asc' ? 1 : -1);
+    }
+    return a.clientName.localeCompare(b.clientName) * (sortConfig.direction === 'asc' ? 1 : -1);
+  });
+
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
 
@@ -38,7 +48,7 @@ const AdminSalesOrder = () => {
   // Update headers to include "Client ID"
   const headers = ["Client", "Order Date", "Status", "Action"];
 
-  const rows = filteredOrders.map((order) => [
+  const rows = sortedOrders.map((order) => [
     order.clientName, // Show clientName
     order.orderDate,
     <Status status={order.salesOrderStatus}>{order.salesOrderStatus}</Status>,
@@ -46,6 +56,14 @@ const AdminSalesOrder = () => {
       Details
     </Button>,
   ]);
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
 
   return (
     <MainLayout>
@@ -64,7 +82,31 @@ const AdminSalesOrder = () => {
           <CardTotalSalesOrder /> {/* Changed to PurchaseOrder Card */}
         </div>
       </AnalyticsContainer>
-      <Table headers={headers} rows={rows} />
+      <Table headers={headers.map((header, index) => (
+        <TableHeader
+          key={index}
+          onClick={() => handleSort(header === "Order Date" ? 'orderDate' : 'clientName')}
+        >
+          {header}
+          {/* Display chevrons for Client and Order Date */}
+          {(header === "Order Date" || header === "Client") && (
+            <>
+              {sortConfig.key === (header === "Order Date" ? 'orderDate' : 'clientName') ? (
+                sortConfig.direction === 'asc' ? (
+                  <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                ) : (
+                  <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                )
+              ) : (
+                <span style={{ opacity: 0.5 }}>
+                  <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                </span>
+              )}
+            </>
+          )}
+        </TableHeader>
+      ))} rows={rows} />
       {selectedOrder && (
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
       )}
@@ -76,7 +118,6 @@ const AdminSalesOrder = () => {
 };
 
 // Styled Components
-
 const Controls = styled.div`
   display: flex;
   justify-content: space-between;
@@ -118,6 +159,14 @@ const StyledButton = styled(Button)`
     font-size: 20px;
     margin-right: 8px;
   }
+`;
+
+const TableHeader = styled.th`
+  text-align: center; /* Center the header text */
+  cursor: pointer; /* Change cursor to pointer */
+  display: flex; /* Use flex to align items */
+  justify-content: center; /* Center content */
+  align-items: center; /* Center vertically */
 `;
 
 export default AdminSalesOrder;

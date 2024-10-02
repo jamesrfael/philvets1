@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import productData from "../data/ProductData";
@@ -23,7 +23,6 @@ const StaffProducts = () => {
   const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] =
     useState(false);
 
-  
   const filteredProducts = productData.products.filter((product) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const productDetail = productData.productDetails.find(
@@ -133,8 +132,8 @@ const StaffProducts = () => {
       </Controls>
       <AnalyticsContainer>
         <CardTotalProducts />
-        <div onClick={() => navigate ("/staff/categories")}>
-        <CardTotalCategories />
+        <div onClick={() => navigate("/staff/categories")}>
+          <CardTotalCategories />
         </div>
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />

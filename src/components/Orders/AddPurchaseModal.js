@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../Layout/Modal";
+import Button from "../Layout/Button";
+import styled from "styled-components";
 import { IoCloseCircle } from "react-icons/io5";
 import {
   calculateLineTotal,
@@ -12,17 +14,17 @@ import {
   Input,
   OrderDetailsSection,
   Table,
-  AddProductButton,
   DeleteButton,
   TotalSection,
   TotalRow,
   TotalLabel,
   TotalValue,
-  SaveButton,
   QuantityInput,
   SuggestionsList,
   SuggestionItem,
+  SuggestionsContainer,
 } from "./OrderStyles";
+import { suppliers } from "../../pages/data/SupplierData"; // Ensure this path is correct
 
 const products = [
   { id: 1, name: "Canine Dewormer", price: 20.0 },
@@ -31,7 +33,11 @@ const products = [
 ];
 
 const AddPurchaseModal = ({ onClose, onSave }) => {
-  const [clientName, setClientName] = useState("");
+  const [supplierName, setSupplierName] = useState("");
+  const [supplierNumber, setSupplierNumber] = useState("");
+  const [contactPersonName, setContactPersonName] = useState("");
+  const [contactPersonNumber, setContactPersonNumber] = useState("");
+
   const [orderDetails, setOrderDetails] = useState([
     {
       productId: "",
@@ -42,8 +48,12 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
       lineTotal: 0,
     },
   ]);
+
   const [productSearch, setProductSearch] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
+
+  const [supplierSearch, setSupplierSearch] = useState("");
+  const [filteredSuppliers, setFilteredSuppliers] = useState(suppliers);
   const [currentEditingIndex, setCurrentEditingIndex] = useState(null);
 
   const handleAddProduct = () => {
@@ -87,6 +97,26 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
     setProductSearch("");
     setFilteredProducts(products);
     setCurrentEditingIndex(null);
+  };
+
+  const handleSupplierInputChange = (value) => {
+    setSupplierSearch(value);
+
+    const filtered = suppliers.filter((supplier) =>
+      supplier.supplierName.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredSuppliers(filtered);
+  };
+
+  const handleSupplierSelect = (supplier) => {
+    // Update the state to reflect the selected supplier
+    setSupplierName(supplier.supplierName); // Populate supplier name
+    setSupplierNumber(supplier.supplierNumber); // Populate supplier number
+    setContactPersonName(supplier.contactPersonName); // Populate contact person name
+    setContactPersonNumber(supplier.contactPersonNumber); // Populate contact person number
+
+    setSupplierSearch(""); // Clear the search input after selection
+    setFilteredSuppliers([]); // Clear suggestions
   };
 
   const handleQuantityChange = (index, value) => {
@@ -133,7 +163,10 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
 
     const newOrder = {
       orderType: "Purchase Order",
-      clientName,
+      supplierName,
+      supplierNumber,
+      contactPersonName,
+      contactPersonNumber,
       purchaseOrderDlvryDate: today,
       purchaseOrderStatus: "Pending",
       purchaseOrderTotQty: calculateTotalQuantity(orderDetails),
@@ -157,10 +190,47 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
   return (
     <Modal title="Add Purchase Order" onClose={onClose}>
       <Field>
-        <Label>Client Name</Label>
+        <Label>Supplier Name</Label>
         <Input
-          value={clientName}
-          onChange={(e) => setClientName(e.target.value)}
+          value={supplierSearch} // Keep this as the search input value
+          onChange={(e) => handleSupplierInputChange(e.target.value)}
+          placeholder="Search Supplier"
+        />
+        {/* Container for suggestions */}
+        <SuggestionsContainer>
+          {supplierSearch && filteredSuppliers.length > 0 && (
+            <SuggestionsList>
+              {filteredSuppliers.map((supplier) => (
+                <SuggestionItem
+                  key={supplier.supplierNumber}
+                  onClick={() => handleSupplierSelect(supplier)} // When clicked, this fills the input
+                >
+                  {supplier.supplierName}
+                </SuggestionItem>
+              ))}
+            </SuggestionsList>
+          )}
+        </SuggestionsContainer>
+      </Field>
+      <Field>
+        <Label>Supplier Number</Label>
+        <Input
+          value={supplierNumber}
+          readOnly // Make this read-only; auto-filled when supplier is selected
+        />
+      </Field>
+      <Field>
+        <Label>Contact Person Name</Label>
+        <Input
+          value={contactPersonName}
+          readOnly // Make this read-only; auto-filled when supplier is selected
+        />
+      </Field>
+      <Field>
+        <Label>Contact Person Number</Label>
+        <Input
+          value={contactPersonNumber}
+          readOnly // Make this read-only; auto-filled when supplier is selected
         />
       </Field>
       <OrderDetailsSection>
@@ -252,9 +322,9 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
             ))}
           </tbody>
         </Table>
-        <AddProductButton onClick={handleAddProduct}>
+        <Button variant="primary" onClick={handleAddProduct}>
           Add Another Product
-        </AddProductButton>
+        </Button>
         <TotalSection>
           <TotalRow>
             <TotalLabel>Total Quantity:</TotalLabel>
@@ -266,9 +336,22 @@ const AddPurchaseModal = ({ onClose, onSave }) => {
           </TotalRow>
         </TotalSection>
       </OrderDetailsSection>
-      <SaveButton onClick={handleSave}>Save Order</SaveButton>
+      <ButtonGroup>
+        <Button variant="fail" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button variant="primary" onClick={handleSave}>
+          Add Purchase Order
+        </Button>
+      </ButtonGroup>
     </Modal>
   );
 };
+
+const ButtonGroup = styled.div`
+display: flex;
+gap: 10px;
+justify-content: flex-end;
+`;
 
 export default AddPurchaseModal;

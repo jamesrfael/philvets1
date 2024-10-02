@@ -2,7 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { IoCloseCircle } from "react-icons/io5";
 
-const Modal = ({ title, status, completedDate, children, onClose, fixedWidth }) => {
+const Modal = ({
+  title,
+  status,
+  completedDate,
+  children,
+  onClose,
+  fixedWidth,
+}) => {
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -22,7 +29,9 @@ const Modal = ({ title, status, completedDate, children, onClose, fixedWidth }) 
         {status && (
           <StatusContainer status={status}>
             {status}
-            {status === "Completed" && <CompletedDate>{completedDate || ""}</CompletedDate>}
+            {status === "Completed" && (
+              <CompletedDate>{completedDate || ""}</CompletedDate>
+            )}
           </StatusContainer>
         )}
 
@@ -48,7 +57,7 @@ const Backdrop = styled.div`
 const ModalContainer = styled.div`
   background: white;
   border-radius: 8px;
-  width: ${(props) => (props.fixedWidth ? props.fixedWidth : '80%')};
+  width: ${(props) => (props.fixedWidth ? props.fixedWidth : "80%")};
   max-width: 1000px;
   padding: 20px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
@@ -79,15 +88,18 @@ const CloseButton = styled.button`
 
 const StatusContainer = styled.span`
   background-color: ${(props) =>
-    props.status === "Completed" || props.status === "In stock"
-      ? "#1DBA0B" 
-      : props.status === "Pending" || props.status === "Low stock"
+    props.status === "Completed" ||
+    props.status === "In stock" ||
+    props.status === "Received" ||
+    props.status === "Delivered"
+      ? "#1DBA0B"
+      : props.status === "Shipped" || props.status === "Low stock"
       ? "#f08400"
       : props.status === "Cancelled" || props.status === "Out of stock"
-      ? "#ff5757" 
-      : props.status === "Processing"
-      ? "#00C4FF" 
-      : "gray"}; 
+      ? "#ff5757"
+      : props.status === "Processing" || props.status === "Approved"
+      ? "#00C4FF"
+      : "gray"};
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -100,7 +112,6 @@ const StatusContainer = styled.span`
   margin-top: 10px;
   align-self: flex-end;
 `;
-
 
 const CompletedDate = styled.div`
   font-size: 11px;

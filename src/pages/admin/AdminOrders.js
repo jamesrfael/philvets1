@@ -11,7 +11,7 @@ import { orders as initialOrders } from "../../pages/data/OrderData";
 
 const AdminOrders = () => {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
 

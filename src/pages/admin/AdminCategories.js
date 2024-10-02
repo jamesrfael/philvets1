@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa"; // Import your icons
 import AddCategoryModal from "../../components/Products/AddCategoryModal"; // Adjust the path if needed
 
-const StaffCategories = () => {
+const UserCategories = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
@@ -99,12 +99,10 @@ const BackButton = styled.button`
   }
 `;
 
-
-
 const CategoryContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
 `;
 
-export default StaffCategories;
+export default UserCategories;
