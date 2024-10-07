@@ -74,7 +74,7 @@ function App() {
         <Route path="/admin/returns" element={<AdminReturns />} />
         <Route path="/admin/logs" element={<AdminLogs />} />
         <Route path="/admin/categories" element={<AdminCategories />} />
-        <Route path="/admin/category-view" element={<AdminCategoryView />} />
+        <Route path="/admin/categories/:categoryId" element={<AdminCategoryView />} />
         <Route path="/admin/notifications" element={<AdminNotification />} />
 
         {/* Staff Routes */}
