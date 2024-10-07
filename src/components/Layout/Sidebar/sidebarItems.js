@@ -57,7 +57,6 @@ export const staffSidebarItems = [
     label: "Order",
     link: "/staff/orders",
     dropdown: [
-      { icon: TbChevronRight, label: "Request", link: "/staff/orders/request" },
       { icon: TbChevronRight, label: "Sales", link: "/staff/orders/sales" },
     ],
   },
