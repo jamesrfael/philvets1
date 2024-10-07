@@ -90,7 +90,7 @@ function App() {
         <Route path="/staff/returns" element={<StaffReturns />} />
         <Route path="/staff/reports" element={<StaffReports />} />
         <Route path="/staff/categories" element={<StaffCategories />} />
-        <Route path="/staff/category-view" element={<StaffCategoryView />} />
+        <Route path="/staff/categories/:categoryId" element={<StaffCategoryView />} />
         <Route path="/staff/notifications" element={<StaffNotification />} />
         <Route path="/staff/orders/request" element={<StaffRequest />} />
         <Route path="/staff/orders/sales-order" element={<StaffSalesOrder />} />

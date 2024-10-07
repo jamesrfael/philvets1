@@ -6,8 +6,10 @@ import productData from "../data/ProductData";
 import Table from "../../components/Layout/Table";
 import Button from "../../components/Layout/Button";
 
-const CategoryProducts = () => {
+const AdminCategoryView = () => {
   const { categoryId } = useParams();
+  console.log("Category ID from URL:", categoryId);  // Add this to check
+
 
   const filteredProducts = productData.products.filter(
     (product) => product.PROD_CAT_CODE === categoryId
@@ -47,4 +49,4 @@ const Controls = styled.div`
   margin-bottom: 16px;
 `;
 
-export default CategoryProducts;
+export default AdminCategoryView;
