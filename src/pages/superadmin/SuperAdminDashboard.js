@@ -19,33 +19,33 @@ const SuperAdminDashboard = () => {
   return (
     <MainLayout>
       <CardContainer>
-        <div onClick={() => navigate("/super-admin/products")}>
+        <div onClick={() => navigate("/superadmin/products")}>
           <CardTotalProducts />
         </div>
-        <div onClick={() => navigate("/super-admin/sales")}>
+        <div onClick={() => navigate("/superadmin/sales")}>
           <CardTotalSales />
         </div>
-        <div onClick={() => navigate("/super-admin/inventory")}>
+        <div onClick={() => navigate("/superadmin/inventory")}>
           <CardLowStocks />
         </div>
-        <div onClick={() => navigate("/super-admin/notifications")}>
+        <div onClick={() => navigate("/superadmin/notifications")}>
           <CardTotalNotification />
         </div>
       </CardContainer>
       <TablesContainer>
         <Row>
-          <StyledLink to="/super-admin/products">
+          <StyledLink to="/superadmin/products">
             <HighestSellingProducts />
           </StyledLink>
-          <StyledLink to="/super-admin/sales">
+          <StyledLink to="/superadmin/sales">
             <LatestSales />
           </StyledLink>
         </Row>
         <Row>
-          <StyledLink to="/super-admin/products">
+          <StyledLink to="/superadmin/products">
             <RecentlyAddedProducts />
           </StyledLink>
-          <StyledLink to="/super-admin/inventory">
+          <StyledLink to="/superadmin/inventory">
             <LowestStocks />
           </StyledLink>
         </Row>

@@ -5,59 +5,32 @@ import { LuWarehouse, LuBox } from "react-icons/lu";
 import { GrGroup } from "react-icons/gr";
 
 // Example Sidebar Items
-export const superAdminSidebarItems = [
-    { icon: TbLayoutDashboard, label: "Dashboard", link: "/admin/dashboard" },
-    {
-      icon: MdOutlineShoppingCart, label: "Order", link: "/admin/orders",
-      dropdown: [
-        {
-          icon: TbChevronRight, label: "Requests", link: "/admin/orders/request",
-        },
-        {
-          icon: TbChevronRight, label: "Customer", link: "/admin/orders/customer-order",
-        },
-        {
-          icon: TbChevronRight, label: "Purchase", link: "/admin/orders/purchase-order",
-        },
-      ],
-    },
-    { icon: TbTruckDelivery, label: "Delivery", link: "/admin/delivery" },
-    { icon: LuBox, label: "Product", link: "/admin/products" },
-    { icon: MdOutlineInventory2, label: "Inventory", link: "/admin/inventory" },
-    { icon: LuWarehouse, label: "Supplier", link: "/admin/suppliers" },
-    { icon: TbUserDollar, label: "Customer", link: "/admin/customers" },
-    { icon: GrGroup, label: "User", link: "/admin/users" },
-    { icon: TbBasketDollar, label: "Sales", link: "/admin/sales" },
-    { icon: TbTruckReturn, label: "Return", link: "/admin/returns" },
-    { icon: TbHistory, label: "Logs", link: "/admin/logs" },
-    { icon: TbFileReport, label: "Report", link: "/admin/reports" },
-  ];
-
 export const adminSidebarItems = [
-  { icon: TbLayoutDashboard, label: "Dashboard", link: "/admin/dashboard" },
+  { icon: TbLayoutDashboard, label: "Dashboard", link: "/super-admin/dashboard" },
   {
-    icon: MdOutlineShoppingCart, label: "Order", link: "/admin/orders",
+    icon: MdOutlineShoppingCart, label: "Order", link: "/super-admin/orders",
     dropdown: [
       {
-        icon: TbChevronRight, label: "Requests", link: "/admin/orders/request",
+        icon: TbChevronRight, label: "Requests", link: "/super-admin/orders/request",
       },
       {
-        icon: TbChevronRight, label: "Customer", link: "/admin/orders/customer-order",
+        icon: TbChevronRight, label: "Customer", link: "/super-admin/orders/customer-order",
       },
       {
-        icon: TbChevronRight, label: "Purchase", link: "/admin/orders/purchase-order",
+        icon: TbChevronRight, label: "Purchase", link: "/super-admin/orders/purchase-order",
       },
     ],
   },
-  { icon: TbTruckDelivery, label: "Delivery", link: "/admin/delivery" },
-  { icon: LuBox, label: "Product", link: "/admin/products" },
-  { icon: MdOutlineInventory2, label: "Inventory", link: "/admin/inventory" },
-  { icon: LuWarehouse, label: "Supplier", link: "/admin/suppliers" },
-  { icon: TbUserDollar, label: "Customer", link: "/admin/customers" },
-  { icon: GrGroup, label: "User", link: "/admin/users" },
-  { icon: TbTruckReturn, label: "Return", link: "/admin/returns" },
-  { icon: TbHistory, label: "Logs", link: "/admin/logs" },
-  { icon: TbFileReport, label: "Report", link: "/admin/reports" },
+  { icon: TbTruckDelivery, label: "Delivery", link: "/super-admin/delivery" },
+  { icon: LuBox, label: "Product", link: "/super-admin/products" },
+  { icon: MdOutlineInventory2, label: "Inventory", link: "/super-admin/inventory" },
+  { icon: LuWarehouse, label: "Supplier", link: "/super-admin/suppliers" },
+  { icon: TbUserDollar, label: "Customer", link: "/super-admin/customers" },
+  { icon: GrGroup, label: "User", link: "/super-admin/users" },
+  { icon: TbBasketDollar, label: "Sales", link: "/super-admin/sales" },
+  { icon: TbTruckReturn, label: "Return", link: "/super-admin/returns" },
+  { icon: TbHistory, label: "Logs", link: "/super-admin/logs" },
+  { icon: TbFileReport, label: "Report", link: "/super-admin/reports" },
 ];
 
 export const staffSidebarItems = [

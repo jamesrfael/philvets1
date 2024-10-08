@@ -10,7 +10,7 @@ import { colors } from "../../colors";
 import { FaBox, FaGift, FaFlask, FaThermometerHalf, FaMedkit, FaArrowLeft } from "react-icons/fa";
 import AddCategoryModal from "../../components/Products/AddCategoryModal";
 
-const AdminCategories = () => {
+const SuperAdminCategories = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate(); 
@@ -95,4 +95,4 @@ const CategoryContainer = styled.div`
   gap: 16px;
 `;
 
-export default AdminCategories;
+export default SuperAdminCategories;

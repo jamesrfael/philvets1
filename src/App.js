@@ -4,26 +4,24 @@ import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
 
 import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
-
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminUsers from "./pages/admin/AdminUsers";
-import AdminCustomers from "./pages/admin/AdminCustomers";
-import AdminInventory from "./pages/admin/AdminInventory";
-import AdminReports from "./pages/admin/AdminReports";
-import AdminSuppliers from "./pages/admin/AdminSuppliers";
-import AdminOrders from "./pages/admin/AdminOrders";
-import AdminRequest from "./pages/admin/AdminRequest";
-import AdminSalesOrder from "./pages/admin/AdminSalesOrder";
-import AdminPurchaseOrder from "./pages/admin/AdminPurchaseOrder";
-import AdminDelivery from "./pages/admin/AdminDelivery";
-import AdminProducts from "./pages/admin/AdminProducts";
-import AdminSales from "./pages/admin/AdminSales";
-import AdminReturns from "./pages/admin/AdminReturns";
-import AdminLogs from "./pages/admin/AdminLogs";
-import AdminCategories from "./pages/admin/AdminCategories";
-import AdminCategoryView from "./pages/admin/AdminCategoryView";
-import AdminProfile from "./pages/admin/AdminProfile";
-import AdminNotification from "./pages/admin/AdminNotification";
+import AdminUsers from "./pages/superadmin/AdminUsers";
+import AdminCustomers from "./pages/superadmin/AdminCustomers";
+import AdminInventory from "./pages/superadmin/AdminInventory";
+import AdminReports from "./pages/superadmin/AdminReports";
+import AdminSuppliers from "./pages/superadmin/AdminSuppliers";
+import AdminOrders from "./pages/superadmin/AdminOrders";
+import AdminRequest from "./pages/superadmin/AdminRequest";
+import AdminSalesOrder from "./pages/superadmin/AdminSalesOrder";
+import AdminPurchaseOrder from "./pages/superadmin/AdminPurchaseOrder";
+import AdminDelivery from "./pages/superadmin/AdminDelivery";
+import AdminProducts from "./pages/superadmin/AdminProducts";
+import AdminSales from "./pages/superadmin/AdminSales";
+import AdminReturns from "./pages/superadmin/AdminReturns";
+import AdminLogs from "./pages/superadmin/AdminLogs";
+import AdminCategories from "./pages/superadmin/SuperAdminCategories";
+import AdminCategoryView from "./pages/superadmin/AdminCategoryView";
+import AdminProfile from "./pages/superadmin/AdminProfile";
+import AdminNotification from "./pages/superadmin/AdminNotification";
 
 import StaffDashboard from "./pages/staff/StaffDashboard";
 import StaffProfile from "./pages/staff/StaffProfile";
@@ -55,30 +53,26 @@ function App() {
         {/* Forgot Password Route */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        {/* Super Admin Routes*/}
-        <Route path="/super-admin/dashboard" element={<SuperAdminDashboard />} />
-
-
-        {/* Admin Routes */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/profile" element={<AdminProfile />} />
-        <Route path="/admin/users" element={<AdminUsers />} />
-        <Route path="/admin/customers" element={<AdminCustomers />} />
-        <Route path="/admin/inventory" element={<AdminInventory />} />
-        <Route path="/admin/reports" element={<AdminReports />} />
-        <Route path="/admin/suppliers" element={<AdminSuppliers />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
-        <Route path="/admin/orders/request" element={<AdminRequest />} />
-        <Route path="/admin/orders/sales-order" element={<AdminSalesOrder />} />
-        <Route path="/admin/orders/purchase-order" element={<AdminPurchaseOrder />} />
-        <Route path="/admin/delivery" element={<AdminDelivery />} />
-        <Route path="/admin/products" element={<AdminProducts />} />
-        <Route path="/admin/sales" element={<AdminSales />} />
-        <Route path="/admin/returns" element={<AdminReturns />} />
-        <Route path="/admin/logs" element={<AdminLogs />} />
-        <Route path="/admin/categories" element={<AdminCategories />} />
-        <Route path="/admin/categories/:categoryId" element={<AdminCategoryView />} />
-        <Route path="/admin/notifications" element={<AdminNotification />} />
+        {/* Super Admin Routes */}
+        <Route path="/superadmin/dashboard" element={<SuperAdminDashboard />} />
+        <Route path="/superadmin/profile" element={<AdminProfile />} />
+        <Route path="/superadmin/users" element={<AdminUsers />} />
+        <Route path="/superadmin/customers" element={<AdminCustomers />} />
+        <Route path="/superadmin/inventory" element={<AdminInventory />} />
+        <Route path="/superadmin/reports" element={<AdminReports />} />
+        <Route path="/superadmin/suppliers" element={<AdminSuppliers />} />
+        <Route path="/superadmin/orders" element={<AdminOrders />} />
+        <Route path="/superadmin/orders/request" element={<AdminRequest />} />
+        <Route path="/superadmin/orders/customer-order" element={<AdminSalesOrder />} />
+        <Route path="/superadmin/orders/purchase-order" element={<AdminPurchaseOrder />} />
+        <Route path="/superadmin/delivery" element={<AdminDelivery />} />
+        <Route path="/superadmin/products" element={<AdminProducts />} />
+        <Route path="/superadmin/sales" element={<AdminSales />} />
+        <Route path="/superadmin/returns" element={<AdminReturns />} />
+        <Route path="/superadmin/logs" element={<AdminLogs />} />
+        <Route path="/superadmin/categories" element={<AdminCategories />} />
+        <Route path="/superadmin/categories/:categoryId" element={<AdminCategoryView />} />
+        <Route path="/superadmin/notifications" element={<AdminNotification />} />
 
         {/* Staff Routes */}
         <Route path="/staff/dashboard" element={<StaffDashboard />} />
