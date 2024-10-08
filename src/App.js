@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
 
+import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
+
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminCustomers from "./pages/admin/AdminCustomers";
@@ -53,6 +55,10 @@ function App() {
         {/* Forgot Password Route */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
+        {/* Super Admin Routes*/}
+        <Route path="/super-admin/dashboard" element={<SuperAdminDashboard />} />
+
+
         {/* Admin Routes */}
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/profile" element={<AdminProfile />} />
@@ -64,10 +70,7 @@ function App() {
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/orders/request" element={<AdminRequest />} />
         <Route path="/admin/orders/sales-order" element={<AdminSalesOrder />} />
-        <Route
-          path="/admin/orders/purchase-order"
-          element={<AdminPurchaseOrder />}
-        />
+        <Route path="/admin/orders/purchase-order" element={<AdminPurchaseOrder />} />
         <Route path="/admin/delivery" element={<AdminDelivery />} />
         <Route path="/admin/products" element={<AdminProducts />} />
         <Route path="/admin/sales" element={<AdminSales />} />
