@@ -7,12 +7,12 @@ import SearchBar from "../../components/Layout/SearchBar";
 import { colors } from "../../colors";
 import Table from "../../components/Layout/Table";
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
-import { suppliers as initialSuppliers } from "../../pages/data/SupplierData";
+import { suppliers as initialSuppliers } from "../data/SupplierData";
 import Button from "../../components/Layout/Button";
 import { FaPlus } from "react-icons/fa"; // Import the FaPlus icon
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const AdminSuppliers = () => {
+const SuperAdminSuppliers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSuppliers, setFilteredSuppliers] = useState(initialSuppliers);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
@@ -195,4 +195,4 @@ const TableHeader = styled.th`
   justify-content: center; /* Center content */
   align-items: center; /* Center vertically */
 `;
-export default AdminSuppliers;
+export default SuperAdminSuppliers;

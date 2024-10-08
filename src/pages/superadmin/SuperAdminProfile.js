@@ -5,7 +5,7 @@ import { colors } from "../../colors";
 import { FaPencilAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import profilePic from "../../assets/profile.png";
 
-const AdminProfile = () => {
+const SuperAdminProfile = () => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
@@ -373,4 +373,4 @@ const SaveChangesButton = styled.button`
   margin-right: auto;
 `;
 
-export default AdminProfile;
+export default SuperAdminProfile;

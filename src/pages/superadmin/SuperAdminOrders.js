@@ -7,9 +7,9 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import Button from "../../components/Layout/Button"; // Import the Button component
-import { orders as initialOrders } from "../../pages/data/OrderData";
+import { orders as initialOrders } from "../data/OrderData";
 
-const AdminOrders = () => {
+const SuperAdminOrders = () => {
   const navigate = useNavigate();
   const [orders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
@@ -98,4 +98,4 @@ const Status = styled.span`
   font-weight: bold;
 `;
 
-export default AdminOrders;
+export default SuperAdminOrders;

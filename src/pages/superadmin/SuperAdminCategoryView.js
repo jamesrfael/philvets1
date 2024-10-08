@@ -6,7 +6,7 @@ import productData from "../data/ProductData"; // Ensure this imports the correc
 import Table from "../../components/Layout/Table";
 import Button from "../../components/Layout/Button";
 
-const AdminCategoryView = () => {
+const SuperAdminCategoryView = () => {
   const { categoryId } = useParams(); // Get categoryId from URL
 
   // Filter products based on the categoryId
@@ -60,4 +60,4 @@ const NoProductsMessage = styled.p`
   color: grey;
 `;
 
-export default AdminCategoryView;
+export default SuperAdminCategoryView;

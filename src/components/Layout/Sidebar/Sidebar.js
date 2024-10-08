@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useLocation, NavLink } from "react-router-dom";
 import { TbChevronDown } from "react-icons/tb";
 import philvetsLogo from "../../../assets/philvets.png";
-import { adminSidebarItems, staffSidebarItems } from "./sidebarItems";
+import { superAdminSidebarItems, staffSidebarItems } from "./sidebarItems";
 import { TbLogout2 } from "react-icons/tb";
 
 // Centralized theme object for colors
@@ -16,7 +16,7 @@ const theme = {
   background: "#FFFFFF", // Background color (for active state)
 };
 
-const Sidebar = ({ isOpen, onClose, isAdmin, }) => {
+const Sidebar = ({ isOpen, onClose, isSuperAdmin, }) => {
   const sidebarRef = useRef(null);
   const location = useLocation(); // Get the current location
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -34,7 +34,7 @@ const Sidebar = ({ isOpen, onClose, isAdmin, }) => {
     };
   }, [onClose]);
 
-  const sidebarItems = isAdmin ? adminSidebarItems : staffSidebarItems;
+  const sidebarItems = isSuperAdmin ? superAdminSidebarItems : staffSidebarItems;
 
   // Ensure dropdown remains open if any of its subItems matches the current route
   useEffect(() => {

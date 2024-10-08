@@ -12,7 +12,7 @@ import CardTotalUsers from "../../components/CardsData/CardTotalUsers";
 import Button from "../../components/Layout/Button";
 import { FaPlus } from "react-icons/fa";
 
-const AdminUsers = () => {
+const SuperAdminUsers = () => {
   const [staff, setUser] = useState(initialUser);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -163,4 +163,4 @@ const AnalyticsContainer = styled.div`
   padding: 0 1px;
 `;
 
-export default AdminUsers;
+export default SuperAdminUsers;

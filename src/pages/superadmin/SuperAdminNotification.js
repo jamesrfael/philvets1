@@ -3,9 +3,9 @@ import MainLayout from "../../components/Layout/MainLayout";
 import styled, { keyframes } from "styled-components"; // Import keyframes for animation
 import SearchBar from "../../components/Layout/SearchBar";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Import the CardTotalNotification component
-import { notificationData } from "../../pages/data/NotificationData"; // Import the notification data
+import { notificationData } from "../data/NotificationData"; // Import the notification data
 
-const AdminNotification = () => {
+const SuperAdminNotification = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [notifications, setNotifications] = useState(
     notificationData.map(notification => ({ ...notification, isRead: false }))
@@ -179,4 +179,4 @@ const MarkAsUnread = styled.span`
   }
 `;
 
-export default AdminNotification;
+export default SuperAdminNotification;

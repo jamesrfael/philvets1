@@ -55,7 +55,7 @@ const Header = ({ toggleSidebar }) => {
 
   const goToProfile = () => {
     if (location.pathname.startsWith("/admin")) {
-      navigate("/admin/profile");
+      navigate("/superadmin/profile");
     } else if (location.pathname.startsWith("/staff")) {
       navigate("/staff/profile");
     }
@@ -63,7 +63,7 @@ const Header = ({ toggleSidebar }) => {
 
   const goToNotifications = () => {
     if (location.pathname.startsWith("/admin")) {
-      navigate("/admin/notifications");
+      navigate("/superadmin/notifications");
     } else if (location.pathname.startsWith("/staff")) {
       navigate("/staff/notifications");
     }
@@ -94,7 +94,7 @@ const Header = ({ toggleSidebar }) => {
             onClick={goToProfile}
           >
             <span>
-              {location.pathname.startsWith("/admin") ? "Admin" : "User"}
+              {location.pathname.startsWith("/superadmin") ? "Admin" : "User"}
             </span>
             <TbUserCircle className="h-5 w-5 ml-1" />
           </ProfileButton>

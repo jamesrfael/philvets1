@@ -8,11 +8,11 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder";
 import Button from "../../components/Layout/Button";
-import { orders as initialOrders } from "../../pages/data/OrderData";
+import { orders as initialOrders } from "../data/OrderData";
 import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const AdminPurchaseOrder = () => {
+const SuperAdminPurchaseOrder = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
@@ -80,7 +80,7 @@ const AdminPurchaseOrder = () => {
         </StyledButton>
       </Controls>
       <AnalyticsContainer>
-        <div onClick={() => navigate("/admin/orders/purchase-order")}>
+        <div onClick={() => navigate("/superadmin/orders/purchase-order")}>
           <CardTotalPurchaseOrder />
         </div>
       </AnalyticsContainer>
@@ -173,4 +173,4 @@ const TableHeader = styled.th`
   align-items: center; /* Center vertically */
 `;
 
-export default AdminPurchaseOrder;
+export default SuperAdminPurchaseOrder;

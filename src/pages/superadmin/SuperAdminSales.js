@@ -10,7 +10,7 @@ import CardTotalSales from "../../components/CardsData/CardTotalSales";
 import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions";
 import Button from "../../components/Layout/Button"; // Import the Button component
 
-const AdminSales = () => {
+const SuperAdminSales = () => {
   const [sales] = useState(initialSales);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSale, setSelectedSale] = useState(null);
@@ -112,4 +112,4 @@ const AnalyticsContainer = styled.div`
   padding: 0 1px;
 `;
 
-export default AdminSales;
+export default SuperAdminSales;

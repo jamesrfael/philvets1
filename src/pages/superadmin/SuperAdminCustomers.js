@@ -12,7 +12,7 @@ import customersData from "../data/CustomersData";
 import { FaPlus } from "react-icons/fa"; // Import the FaPlus icon
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const AdminCustomers = () => {
+const SuperAdminCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCustomers, setFilteredCustomers] = useState(customersData);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -214,4 +214,4 @@ const TableHeader = styled.th`
   align-items: center; /* Center vertically */
 `;
 
-export default AdminCustomers;
+export default SuperAdminCustomers;

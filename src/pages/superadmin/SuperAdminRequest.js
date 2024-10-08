@@ -12,7 +12,7 @@ import { requests as initialRequests } from "../data/RequestData"; // Ensure thi
 import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const AdminRequest = () => {
+const SuperAdminRequest = () => {
   const navigate = useNavigate();
   const [requests, setRequests] = useState(initialRequests);
   const [searchTerm, setSearchTerm] = useState("");
@@ -102,7 +102,7 @@ const AdminRequest = () => {
         </StyledButton>
       </Controls>
       <AnalyticsContainer>
-        <div onClick={() => navigate("/admin/requests/pending-request")}>
+        <div onClick={() => navigate("/superadmin/requests/pending-request")}>
           <CardTotalPendingRequest />
         </div>
       </AnalyticsContainer>
@@ -209,4 +209,4 @@ const TableHeader = styled.th`
   align-items: center; /* Center vertically */
 `;
 
-export default AdminRequest;
+export default SuperAdminRequest;

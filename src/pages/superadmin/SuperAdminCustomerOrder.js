@@ -8,11 +8,11 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalSalesOrder from "../../components/CardsData/CardTotalSalesOrder"; // Replaced Card
 import Button from "../../components/Layout/Button"; // Import the Button component
-import { orders as initialOrders } from "../../pages/data/OrderData";
+import { orders as initialOrders } from "../data/OrderData";
 import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const AdminSalesOrder = () => {
+const SuperAdminCustomerOrder = () => {
   const navigate = useNavigate();
   const [orders, setOrders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
@@ -169,4 +169,4 @@ const TableHeader = styled.th`
   align-items: center; /* Center vertically */
 `;
 
-export default AdminSalesOrder;
+export default SuperAdminCustomerOrder;

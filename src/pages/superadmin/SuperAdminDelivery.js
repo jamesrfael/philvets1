@@ -4,14 +4,14 @@ import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/Delivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
-import { deliveries } from "../../pages/data/DeliveryData";
+import { deliveries } from "../data/DeliveryData";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
 import Button from "../../components/Layout/Button"; // Import the Button component
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const AdminDelivery = () => {
+const SuperAdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: "name", direction: "asc" }); // Default sorting set to Name
@@ -81,7 +81,7 @@ const AdminDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <div onClick={() => navigate("/admin/delivery")}>
+        <div onClick={() => navigate("/superadmin/delivery")}>
           <CardTotalDelivery />
         </div>
       </SummarySection>
@@ -162,4 +162,4 @@ const TableHeader = styled.th`
   align-items: center; /* Center vertically */
 `;
 
-export default AdminDelivery;
+export default SuperAdminDelivery;
