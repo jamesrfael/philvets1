@@ -216,9 +216,11 @@ const ProductDetailsModal = ({ productId, onClose }) => {
             </DetailItem>
           </Details>
           <ButtonGroup>
-            <Button onClick={handleSave}>Save</Button>
-            <Button onClick={handleCancel} variant="secondary">
+          <Button variant="fail" onClick={handleCancel}>
               Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSave}>
+              Save
             </Button>
           </ButtonGroup>
         </>

@@ -16,7 +16,7 @@ import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
 import RevenueGraph from "../../components/Reports/RevenueGraph";
 import CostBreakdownPieChart from "../../components/Reports/CostBreakdownPieChart";
 
-const SuperAdminReports = () => {
+const AdminReports = () => {
   const navigate = useNavigate(); // Declare useNavigate here
 
   return (
@@ -132,4 +132,4 @@ const GraphContainer = styled.div`
   }
 `;
 
-export default SuperAdminReports;
+export default AdminReports;

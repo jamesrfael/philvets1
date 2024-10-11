@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Modal from "../Layout/Modal";
-import { colors } from '../../colors'; // Ensure the path to colors is correct
-import Button from "../Layout/Button"; // Import the Button component
+import Modal from "../../Layout/Modal";
+import { colors } from '../../../colors'; // Ensure the path to colors is correct
+import Button from "../../Layout/Button"; // Import the Button component
 
 const RequestDetailsModal = ({ request, onClose, onCancel }) => {
   if (!request) return null;

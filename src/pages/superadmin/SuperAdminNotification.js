@@ -5,10 +5,10 @@ import SearchBar from "../../components/Layout/SearchBar";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Import the CardTotalNotification component
 import { notificationData } from "../data/NotificationData"; // Import the notification data
 
-const SuperAdminNotification = () => {
+const AdminNotification = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [notifications, setNotifications] = useState(
-    notificationData.map(notification => ({ ...notification, isRead: false }))
+    notificationData.map((notification) => ({ ...notification, isRead: false }))
   ); // Initialize notifications with read status
 
   // Filter notifications based on search term
@@ -22,13 +22,17 @@ const SuperAdminNotification = () => {
   });
 
   // Sort notifications: unread first, then read
-  const sortedNotifications = filteredNotifications.sort((a, b) => (a.isRead === b.isRead ? 0 : a.isRead ? 1 : -1));
+  const sortedNotifications = filteredNotifications.sort((a, b) =>
+    a.isRead === b.isRead ? 0 : a.isRead ? 1 : -1
+  );
 
   // Mark notification as read
   const markAsRead = (id) => {
     setNotifications((prevNotifications) =>
       prevNotifications.map((notification) =>
-        notification.id === id ? { ...notification, isRead: true } : notification
+        notification.id === id
+          ? { ...notification, isRead: true }
+          : notification
       )
     );
   };
@@ -37,7 +41,9 @@ const SuperAdminNotification = () => {
   const markAsUnread = (id) => {
     setNotifications((prevNotifications) =>
       prevNotifications.map((notification) =>
-        notification.id === id ? { ...notification, isRead: false } : notification
+        notification.id === id
+          ? { ...notification, isRead: false }
+          : notification
       )
     );
   };
@@ -52,7 +58,8 @@ const SuperAdminNotification = () => {
         />
       </Controls>
       <SummarySection>
-        <CardTotalNotification /> {/* Use the CardTotalNotification component */}
+        <CardTotalNotification />{" "}
+        {/* Use the CardTotalNotification component */}
       </SummarySection>
       <NotificationList>
         {sortedNotifications.map((notification) => (
@@ -81,16 +88,14 @@ const Notification = ({ notification, onClick, onMarkAsUnread }) => {
 
   return (
     <NotificationItem
-      className={notification.isRead ? 'read' : 'unread'}
+      className={notification.isRead ? "read" : "unread"}
       onClick={handleClick}
     >
       <h4>{notification.title}</h4>
       <p>{notification.message}</p>
       <small>{new Date(notification.timestamp).toLocaleString()}</small>
       {notification.isRead && (
-        <MarkAsUnread onClick={handleMarkAsUnread}>
-          Mark as Unread
-        </MarkAsUnread>
+        <MarkAsUnread onClick={handleMarkAsUnread}>Mark as Unread</MarkAsUnread>
       )}
     </NotificationItem>
   );
@@ -136,7 +141,7 @@ const NotificationItem = styled.div`
   position: relative; /* Set relative positioning for absolute children */
   transition: background-color 0.2s ease, transform 0.5s ease; // Add transform transition
   width: 100%; /* Full width for each notification item */
-  
+
   &.read {
     background-color: #f0f0f0;
   }
@@ -179,4 +184,4 @@ const MarkAsUnread = styled.span`
   }
 `;
 
-export default SuperAdminNotification;
+export default AdminNotification;

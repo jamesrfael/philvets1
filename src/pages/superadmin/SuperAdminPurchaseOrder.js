@@ -2,67 +2,69 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
-import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
-import AddPurchaseModal from "../../components/Orders/AddPurchaseModal";
+import PurchaseOrderDetailsModal from "../../components/Orders/Purchase Order/PurchaseOrderDetailsModal";
+import AddPurchaseOrderModal from "../../components/Orders/Purchase Order/AddPurchaseOrderModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder";
 import Button from "../../components/Layout/Button";
-import { orders as initialOrders } from "../data/OrderData";
-import { FaPlus } from "react-icons/fa";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
+import PURCHASE_ORDERS from "../data/PurchaseOrderData"; // Make sure this path is correct
+import { FaPlus, FaChevronUp, FaChevronDown } from "react-icons/fa";
 
-const SuperAdminPurchaseOrder = () => {
+const AdminPurchaseOrder = () => {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState(PURCHASE_ORDERS); // Use PURCHASE_ORDERS directly
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingPurchaseOrder, setIsAddingPurchaseOrder] = useState(false);
-  const [sortConfig, setSortConfig] = useState({ key: 'orderDate', direction: 'desc' }); // Default sorting set to Order Date
+  const [sortConfig, setSortConfig] = useState({
+    key: "PURCHASE_ORDER_DATE",
+    direction: "desc",
+  });
 
-  // Filter Purchase Orders and apply search term
-  const filteredOrders = orders.filter((order) => {
+  const filteredOrders = (orders || []).filter((order) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
-      order.orderType === "Purchase Order" && // Ensure only Purchase Orders are shown
-      (order.supplierName?.toLowerCase().includes(lowerCaseSearchTerm) || // Now using supplierName
-        order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-        order.purchaseOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm))
+      order.SUPPLIER_ID.toString().includes(lowerCaseSearchTerm) ||
+      order.PURCHASE_ORDER_DATE.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.PURCHASE_ORDER_STATUS.toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
 
-  // Sort filtered orders based on sortConfig
   const sortedOrders = filteredOrders.sort((a, b) => {
-    if (sortConfig.key === "orderDate") {
-      return (new Date(b.orderDate) - new Date(a.orderDate)) * (sortConfig.direction === 'asc' ? 1 : -1);
+    if (sortConfig.key === "PURCHASE_ORDER_DATE") {
+      return (
+        (new Date(b.PURCHASE_ORDER_DATE) - new Date(a.PURCHASE_ORDER_DATE)) *
+        (sortConfig.direction === "asc" ? 1 : -1)
+      );
     }
-    return a.supplierName.localeCompare(b.supplierName) * (sortConfig.direction === 'asc' ? 1 : -1);
+    return a.PURCHASE_ORDER_ID - b.PURCHASE_ORDER_ID; // Ensure correct comparison
   });
 
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
+  const openAddPurchaseOrderModal = () => setIsAddingPurchaseOrder(true);
+  const closeAddPurchaseOrderModal = () => setIsAddingPurchaseOrder(false);
 
-  const openAddPurchaseModal = () => setIsAddingPurchaseOrder(true); // Open modal function
-  const closeAddPurchaseModal = () => setIsAddingPurchaseOrder(false); // Close modal function
+  const headers = ["Supplier ID", "Order Date", "Status", "Action"];
 
-  // Update headers to include "Client ID"
-  const headers = ["Supplier", "Order Date", "Status", "Action"];
-
-  const rows = sortedOrders.map((order) => [
-    order.supplierName, // Show supplierName
-    order.orderDate,
-    <Status status={order.purchaseOrderStatus}>
-      {order.purchaseOrderStatus}
-    </Status>,
-    <Button onClick={() => openDetailsModal(order)} fontSize="14px">
-      Details
-    </Button>,
-  ]);
+  const rows = sortedOrders.map((order) => {
+    return [
+      order.SUPPLIER_ID, // Display supplier ID
+      order.PURCHASE_ORDER_DATE,
+      <Status status={order.PURCHASE_ORDER_STATUS || "Pending"}>
+        {order.PURCHASE_ORDER_STATUS || "Pending"}
+      </Status>, // Use the new Status component
+      <Button onClick={() => openDetailsModal(order)} fontSize="14px">
+        Details
+      </Button>,
+    ];
+  });
 
   const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key, direction });
   };
@@ -71,49 +73,69 @@ const SuperAdminPurchaseOrder = () => {
     <MainLayout>
       <Controls>
         <SearchBar
-          placeholder="Search / Filter orders..."
+          placeholder="Search / Filter purchase orders... "
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <StyledButton onClick={openAddPurchaseModal}>
+        <StyledButton onClick={openAddPurchaseOrderModal}>
           <FaPlus className="icon" /> Purchase Order
         </StyledButton>
       </Controls>
       <AnalyticsContainer>
-        <div onClick={() => navigate("/superadmin/orders/purchase-order")}>
+        <div onClick={() => navigate("/admin/orders/purchase-order")}>
           <CardTotalPurchaseOrder />
         </div>
       </AnalyticsContainer>
-      <Table headers={headers.map((header, index) => (
-        <TableHeader
-          key={index}
-          onClick={() => handleSort(header === "Order Date" ? 'orderDate' : 'supplierName')}
-        >
-          {header}
-          {/* Display chevrons for Supplier and Order Date */}
-          {(header === "Order Date" || header === "Supplier") && (
-            <>
-              {sortConfig.key === (header === "Order Date" ? 'orderDate' : 'supplierName') ? (
-                sortConfig.direction === 'asc' ? (
-                  <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+      <Table
+        headers={headers.map((header, index) => (
+          <TableHeader
+            key={index}
+            onClick={() =>
+              handleSort(
+                header === "Order Date" ? "PURCHASE_ORDER_DATE" : "SUPPLIER_ID"
+              )
+            }
+          >
+            {header}
+            {(header === "Order Date" || header === "Supplier ID") && (
+              <>
+                {sortConfig.key ===
+                (header === "Order Date"
+                  ? "PURCHASE_ORDER_DATE"
+                  : "SUPPLIER_ID") ? (
+                  sortConfig.direction === "asc" ? (
+                    <FaChevronUp
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
+                  ) : (
+                    <FaChevronDown
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
+                  )
                 ) : (
-                  <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
-                )
-              ) : (
-                <span style={{ opacity: 0.5 }}>
-                  <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
-                  <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
-                </span>
-              )}
-            </>
-          )}
-        </TableHeader>
-      ))} rows={rows} />
+                  <span style={{ opacity: 0.5 }}>
+                    <FaChevronUp
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
+                    <FaChevronDown
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
+                  </span>
+                )}
+              </>
+            )}
+          </TableHeader>
+        ))}
+        rows={rows}
+      />
       {selectedOrder && (
-        <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
+        <PurchaseOrderDetailsModal
+          order={selectedOrder}
+          onClose={closeDetailsModal}
+        />
       )}
-      {isAddingPurchaseOrder && ( // Render the AddPurchaseModal
-        <AddPurchaseModal onClose={closeAddPurchaseModal} />
+      {isAddingPurchaseOrder && (
+        <AddPurchaseOrderModal onClose={closeAddPurchaseOrderModal} />
       )}
     </MainLayout>
   );
@@ -137,17 +159,11 @@ const AnalyticsContainer = styled.div`
 
 const Status = styled.span`
   background-color: ${(props) =>
-    props.status === "Received"
-      ? "#1DBA0B"  // Green
-      : props.status === "Approved"
-      ? "#00bbff"  // Blue
-      : props.status === "Shipped"
-      ? "#f08400"  // Amber/Orange
-      : props.status === "Cancelled"
-      ? "#F44336"  // Red
-      : props.status === "Completed"
-      ? "#1DBA0B"  // Purple
-      : "gray"};
+    props.status === "Paid"
+      ? "#1DBA0B"
+      : props.status === "Pending"
+      ? "#f08400"
+      : "#1DBA0B"}; // Change colors based on payment status
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -166,11 +182,11 @@ const StyledButton = styled(Button)`
 `;
 
 const TableHeader = styled.th`
-  text-align: center; /* Center the header text */
-  cursor: pointer; /* Change cursor to pointer */
-  display: flex; /* Use flex to align items */
-  justify-content: center; /* Center content */
-  align-items: center; /* Center vertically */
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-export default SuperAdminPurchaseOrder;
+export default AdminPurchaseOrder;

@@ -9,7 +9,7 @@ import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
 import Button from "../../components/Layout/Button";
 import AddCustomerModal from "../../components/Customers/AddCustomerModal";
 import CustomerDetailsModal from "../../components/Customers/CustomerDetailsModal"; // Import CustomerDetailsModal
-import customersData from "../data/CustomersData";
+import customersData from "../data/ClientsData";
 import { FaPlus } from "react-icons/fa";
 
 const StaffCustomers = () => {

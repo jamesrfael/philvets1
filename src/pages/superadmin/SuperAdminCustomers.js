@@ -7,29 +7,31 @@ import Table from "../../components/Layout/Table";
 import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
 import Button from "../../components/Layout/Button";
 import AddCustomerModal from "../../components/Customers/AddCustomerModal";
-import CustomerDetailsModal from "../../components/Customers/CustomerDetailsModal"; // Import CustomerDetailsModal
-import customersData from "../data/CustomersData";
-import { FaPlus } from "react-icons/fa"; // Import the FaPlus icon
-import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
+import CustomerDetailsModal from "../../components/Customers/CustomerDetailsModal";
+import clientsData from "../data/ClientsData";
+import { FaPlus } from "react-icons/fa";
+import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 
 const SuperAdminCustomers = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCustomers, setFilteredCustomers] = useState(customersData);
+  const [filteredCustomers, setFilteredCustomers] = useState(clientsData);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showDetailsModal, setShowDetailsModal] = useState(false); // State for CustomerDetailsModal
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [sortConfig, setSortConfig] = useState({ key: "customerName", direction: "asc" }); // Default sorting
+  const [sortConfig, setSortConfig] = useState({
+    key: "CLIENT_NAME",
+    direction: "asc",
+  });
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
     setSearchTerm(value);
-    const filtered = customersData.filter((customer) => {
+    const filtered = clientsData.filter((customer) => {
       if (!value) return true;
-      const fullName = `${customer.firstName} ${customer.lastName}`.toLowerCase();
       return (
-        fullName.includes(value) ||
-        customer.email.toLowerCase().includes(value) ||
-        customer.phone.includes(value)
+        customer.CLIENT_NAME.toLowerCase().includes(value) ||
+        customer.CLIENT_EMAIL.toLowerCase().includes(value) ||
+        customer.CLIENT_PHONENUM.includes(value)
       );
     });
     setFilteredCustomers(filtered);
@@ -46,7 +48,7 @@ const SuperAdminCustomers = () => {
 
   const closeModals = () => {
     setShowAddModal(false);
-    setShowDetailsModal(false); // Close CustomerDetailsModal
+    setShowDetailsModal(false);
     setSelectedCustomer(null);
   };
 
@@ -56,12 +58,19 @@ const SuperAdminCustomers = () => {
 
   const handleRemoveCustomer = (customerId) => {
     const updatedCustomers = filteredCustomers.filter(
-      (customer) => customer.customerId !== customerId
+      (customer) => customer.CLIENT_ID !== customerId
     );
     setFilteredCustomers(updatedCustomers);
   };
 
-  const headers = ["Customer Name", "Email", "Phone", "Registration Date", "Action"];
+  const headers = [
+    "Customer Name",
+    "City",
+    "Province",
+    "Phone",
+    "Email",
+    "Action",
+  ];
 
   const handleSort = (key) => {
     let direction = "asc";
@@ -71,23 +80,22 @@ const SuperAdminCustomers = () => {
     setSortConfig({ key, direction });
   };
 
-  // Sort filtered customers based on sortConfig
   const sortedCustomers = [...filteredCustomers].sort((a, b) => {
-    if (sortConfig.key === "customerName") {
-      const nameA = `${a.firstName} ${a.lastName}`;
-      const nameB = `${b.firstName} ${b.lastName}`;
-      return nameA.localeCompare(nameB) * (sortConfig.direction === "asc" ? 1 : -1);
-    } else if (sortConfig.key === "registrationDate") {
-      return (new Date(b.registrationDate) - new Date(a.registrationDate)) * (sortConfig.direction === "asc" ? 1 : -1);
+    if (sortConfig.key === "CLIENT_NAME") {
+      return (
+        a.CLIENT_NAME.localeCompare(b.CLIENT_NAME) *
+        (sortConfig.direction === "asc" ? 1 : -1)
+      );
     }
-    return 0; // Default return for non-sortable headers
+    return 0;
   });
 
   const rows = sortedCustomers.map((customer) => [
-    `${customer.firstName} ${customer.lastName}`,
-    customer.email,
-    customer.phone,
-    customer.registrationDate,
+    customer.CLIENT_NAME,
+    customer.CLIENT_CITY,
+    customer.CLIENT_PROVINCE,
+    customer.CLIENT_PHONENUM,
+    customer.CLIENT_EMAIL,
     <ActionButton key="action" onClick={() => openDetailsModal(customer)}>
       Details
     </ActionButton>,
@@ -113,40 +121,30 @@ const SuperAdminCustomers = () => {
           <TableHeader
             key={index}
             onClick={() => {
-              if (header === "Customer Name") handleSort("customerName");
-              if (header === "Registration Date") handleSort("registrationDate");
+              if (header === "Customer Name") handleSort("CLIENT_NAME");
             }}
           >
             {header}
-            {/* Display chevrons for Customer Name and Registration Date */}
             {header === "Customer Name" && (
               <>
-                {sortConfig.key === "customerName" ? (
+                {sortConfig.key === "CLIENT_NAME" ? (
                   sortConfig.direction === "asc" ? (
-                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronUp
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
                   ) : (
-                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronDown
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
                   )
                 ) : (
                   <span style={{ opacity: 0.5 }}>
-                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
-                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
-                  </span>
-                )}
-              </>
-            )}
-            {header === "Registration Date" && (
-              <>
-                {sortConfig.key === "registrationDate" ? (
-                  sortConfig.direction === "asc" ? (
-                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
-                  ) : (
-                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
-                  )
-                ) : (
-                  <span style={{ opacity: 0.5 }}>
-                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
-                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronUp
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
+                    <FaChevronDown
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
                   </span>
                 )}
               </>
@@ -160,7 +158,7 @@ const SuperAdminCustomers = () => {
       )}
       {showDetailsModal && selectedCustomer && (
         <CustomerDetailsModal
-          customer={selectedCustomer}
+          client={selectedCustomer}
           onClose={closeModals}
           onRemove={handleRemoveCustomer}
         />
@@ -207,11 +205,11 @@ const ActionButton = styled(Button)`
 `;
 
 const TableHeader = styled.th`
-  text-align: center; /* Center the header text */
-  cursor: pointer; /* Change cursor to pointer */
-  display: flex; /* Use flex to align items */
-  justify-content: center; /* Center content */
-  align-items: center; /* Center vertically */
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default SuperAdminCustomers;

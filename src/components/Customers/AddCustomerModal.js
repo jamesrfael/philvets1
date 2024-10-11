@@ -1,18 +1,25 @@
 import React, { useState } from "react";
-import Modal from "../Layout/Modal"; // Reusable Modal component
+import Modal from "../Layout/Modal";
 import styled from "styled-components";
 import Button from "../Layout/Button";
 
 const AddCustomerModal = ({ onClose, onAdd }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [clientName, setClientName] = useState("");
+  const [clientCity, setClientCity] = useState("");
+  const [clientProvince, setClientProvince] = useState("");
+  const [clientPhoneNum, setClientPhoneNum] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
 
   const handleAddCustomer = () => {
-    if (firstName && lastName && email && phone) {
-      const newCustomer = { firstName, lastName, email, phone };
-      onAdd(newCustomer);
+    if (clientName && clientCity && clientProvince && clientPhoneNum && clientEmail) {
+      const newClient = {
+        CLIENT_NAME: clientName,
+        CLIENT_CITY: clientCity,
+        CLIENT_PROVINCE: clientProvince,
+        CLIENT_PHONENUM: clientPhoneNum,
+        CLIENT_EMAIL: clientEmail,
+      };
+      onAdd(newClient);
       onClose();
     } else {
       alert("Please fill in all fields");
@@ -20,38 +27,44 @@ const AddCustomerModal = ({ onClose, onAdd }) => {
   };
 
   return (
-    <Modal title="Add New Customer" onClose={onClose}>
+    <Modal title="Add New Client" onClose={onClose}>
       <Form>
-        <Label>First Name</Label>
+        <Label>Client Name</Label>
         <Input
           type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          value={clientName}
+          onChange={(e) => setClientName(e.target.value)}
         />
-        <Label>Last Name</Label>
+        <Label>City</Label>
         <Input
           type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          value={clientCity}
+          onChange={(e) => setClientCity(e.target.value)}
+        />
+        <Label>Province</Label>
+        <Input
+          type="text"
+          value={clientProvince}
+          onChange={(e) => setClientProvince(e.target.value)}
+        />
+        <Label>Phone Number</Label>
+        <Input
+          type="text"
+          value={clientPhoneNum}
+          onChange={(e) => setClientPhoneNum(e.target.value)}
         />
         <Label>Email</Label>
         <Input
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Label>Phone</Label>
-        <Input
-          type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          value={clientEmail}
+          onChange={(e) => setClientEmail(e.target.value)}
         />
         <ButtonGroup>
           <Button variant="fail" onClick={onClose}>
             Cancel
           </Button>
           <Button variant="primary" onClick={handleAddCustomer}>
-            Add Customer
+            Add Client
           </Button>
         </ButtonGroup>
       </Form>
@@ -59,7 +72,7 @@ const AddCustomerModal = ({ onClose, onAdd }) => {
   );
 };
 
-// Styled components
+// Styled Components
 const Form = styled.div`
   display: flex;
   flex-direction: column;

@@ -11,10 +11,13 @@ import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
 import Button from "../../components/Layout/Button"; // Import the Button component
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const SuperAdminDelivery = () => {
+const AdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState(null);
-  const [sortConfig, setSortConfig] = useState({ key: "name", direction: "asc" }); // Default sorting set to Name
+  const [sortConfig, setSortConfig] = useState({
+    key: "name",
+    direction: "asc",
+  }); // Default sorting set to Name
   const navigate = useNavigate(); // Declare useNavigate here
 
   const filteredDeliveries = deliveries.filter((delivery) => {
@@ -30,18 +33,23 @@ const SuperAdminDelivery = () => {
   // Sort filtered deliveries based on sortConfig
   const sortedDeliveries = filteredDeliveries.sort((a, b) => {
     if (sortConfig.key === "date") {
-      return (new Date(b.date) - new Date(a.date)) * (sortConfig.direction === 'asc' ? 1 : -1);
+      return (
+        (new Date(b.date) - new Date(a.date)) *
+        (sortConfig.direction === "asc" ? 1 : -1)
+      );
     }
-    return a.name.localeCompare(b.name) * (sortConfig.direction === 'asc' ? 1 : -1);
+    return (
+      a.name.localeCompare(b.name) * (sortConfig.direction === "asc" ? 1 : -1)
+    );
   });
 
   const openDetailsModal = (delivery) => setSelectedDelivery(delivery);
   const closeDetailsModal = () => setSelectedDelivery(null);
 
   const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key, direction });
   };
@@ -81,7 +89,7 @@ const SuperAdminDelivery = () => {
         />
       </Controls>
       <SummarySection>
-        <div onClick={() => navigate("/superadmin/delivery")}>
+        <div onClick={() => navigate("/admin/delivery")}>
           <CardTotalDelivery />
         </div>
       </SummarySection>
@@ -89,22 +97,34 @@ const SuperAdminDelivery = () => {
         headers={headers.map((header) => (
           <TableHeader
             key={header.key}
-            onClick={header.key === "name" || header.key === "date" ? () => handleSort(header.key) : undefined}
+            onClick={
+              header.key === "name" || header.key === "date"
+                ? () => handleSort(header.key)
+                : undefined
+            }
           >
             {header.title}
             {/* Display chevrons for Name and Order Date */}
             {(header.key === "date" || header.key === "name") && (
               <>
                 {sortConfig.key === header.key ? (
-                  sortConfig.direction === 'asc' ? (
-                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
+                  sortConfig.direction === "asc" ? (
+                    <FaChevronUp
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
                   ) : (
-                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronDown
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
                   )
                 ) : (
                   <span style={{ opacity: 0.5 }}>
-                    <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
-                    <FaChevronDown style={{ marginLeft: '5px', fontSize: '12px' }} />
+                    <FaChevronUp
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
+                    <FaChevronDown
+                      style={{ marginLeft: "5px", fontSize: "12px" }}
+                    />
                   </span>
                 )}
               </>
@@ -162,4 +182,4 @@ const TableHeader = styled.th`
   align-items: center; /* Center vertically */
 `;
 
-export default SuperAdminDelivery;
+export default AdminDelivery;

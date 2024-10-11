@@ -33,7 +33,7 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
     const confirmRemoval = window.confirm("Are you sure you want to remove this supplier?");
     if (confirmRemoval) {
       if (typeof onRemove === 'function') {
-        onRemove(supplier.supplierId); // Assuming you have a supplierId for identification
+        onRemove(supplier.SUPP_ID); // Use SUPP_ID for identification
       } else {
         console.error('onRemove is not a function');
       }
@@ -43,36 +43,36 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
 
   return (
     <Modal
-      title={isEditing ? `Edit ${supplier.supplierName}` : `${supplier.supplierName} Details`}
+      title={isEditing ? `Edit ${supplier.SUPP_COMPANY_NAME}` : `${supplier.SUPP_COMPANY_NAME} Details`}
       onClose={onClose}
     >
       {isEditing ? (
         <>
           <Details>
             <DetailItem>
-              <strong>Supplier Name:</strong>
+              <strong>Company Name:</strong>
               <Input
                 type="text"
-                value={editedSupplier.supplierName || ''}
-                onChange={(e) => setEditedSupplier({ ...editedSupplier, supplierName: e.target.value })}
+                value={editedSupplier.SUPP_COMPANY_NAME || ''}
+                onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_COMPANY_NAME: e.target.value })}
                 border
               />
             </DetailItem>
             <DetailItem>
-              <strong>Supplier Number:</strong>
+              <strong>Company Number:</strong>
               <Input
                 type="text"
-                value={editedSupplier.supplierNumber || ''}
-                onChange={(e) => setEditedSupplier({ ...editedSupplier, supplierNumber: e.target.value })}
+                value={editedSupplier.SUPP_COMPANY_NUM || ''}
+                onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_COMPANY_NUM: e.target.value })}
                 border
               />
             </DetailItem>
             <DetailItem>
-              <strong>Contact Person:</strong>
+              <strong>Contact Name:</strong>
               <Input
                 type="text"
-                value={editedSupplier.contactPersonName || ''}
-                onChange={(e) => setEditedSupplier({ ...editedSupplier, contactPersonName: e.target.value })}
+                value={editedSupplier.SUPP_CONTACT_NAME || ''}
+                onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_CONTACT_NAME: e.target.value })}
                 border
               />
             </DetailItem>
@@ -80,8 +80,8 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
               <strong>Contact Number:</strong>
               <Input
                 type="text"
-                value={editedSupplier.contactPersonNumber || ''}
-                onChange={(e) => setEditedSupplier({ ...editedSupplier, contactPersonNumber: e.target.value })}
+                value={editedSupplier.SUPP_CONTACT_PHNUM || ''}
+                onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_CONTACT_PHNUM: e.target.value })}
                 border
               />
             </DetailItem>
@@ -95,19 +95,19 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
         <>
           <Section>
             <Detail>
-              <DetailLabel>Supplier Name:</DetailLabel> {supplier.supplierName}
+              <DetailLabel>Company Name:</DetailLabel> {supplier.SUPP_COMPANY_NAME}
             </Detail>
             <Detail>
-              <DetailLabel>Supplier Number:</DetailLabel> {supplier.supplierNumber}
+              <DetailLabel>Company Number:</DetailLabel> {supplier.SUPP_COMPANY_NUM}
             </Detail>
             <Detail>
-              <DetailLabel>Contact Person:</DetailLabel> {supplier.contactPersonName}
+              <DetailLabel>Contact Name:</DetailLabel> {supplier.SUPP_CONTACT_NAME}
             </Detail>
             <Detail>
-              <DetailLabel>Contact Number:</DetailLabel> {supplier.contactPersonNumber}
+              <DetailLabel>Contact Number:</DetailLabel> {supplier.SUPP_CONTACT_PHNUM}
             </Detail>
           </Section>
-            <ButtonGroup>
+          <ButtonGroup>
             <Button variant="fail" onClick={handleRemove}>Remove</Button>
             <Button variant="primary" onClick={handleEdit}>Edit</Button>
           </ButtonGroup>
@@ -120,11 +120,11 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
 // Prop Types for validation
 SupplierDetailsModal.propTypes = {
   supplier: PropTypes.shape({
-    supplierId: PropTypes.string.isRequired,
-    supplierName: PropTypes.string,
-    supplierNumber: PropTypes.string,
-    contactPersonName: PropTypes.string,
-    contactPersonNumber: PropTypes.string,
+    SUPP_ID: PropTypes.string.isRequired,
+    SUPP_COMPANY_NAME: PropTypes.string,
+    SUPP_COMPANY_NUM: PropTypes.string,
+    SUPP_CONTACT_NAME: PropTypes.string,
+    SUPP_CONTACT_PHNUM: PropTypes.string,
   }),
   onClose: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,

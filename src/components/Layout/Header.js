@@ -5,13 +5,37 @@ import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { colors } from "../../colors";
 
-// Updated pageTitles with additional staff titles
+// Updated pageTitles with superadmin and other role titles
 const pageTitles = {
-  "/superadmin/dashboard": "Dashboard",
+  // Admin routes
+  "/admin/dashboard": "Admin Dashboard",
+  "/admin/orders": "Order",
+  "/admin/orders/pending-request": "Request",
+  "/admin/orders/customer-order": "Customer Order",
+  "/admin/orders/purchase-order": "Purchase Order",
+  "/admin/delivery": "Delivery",
+  "/admin/products": "Product",
+  "/admin/inventory": "Inventory",
+  "/admin/suppliers": "Supplier",
+  "/admin/customers": "Customer",
+  "/admin/users": "User",
+  "/admin/sales": "Sales",
+  "/admin/returns": "Return",
+  "/admin/logs": "Log",
+  "/admin/reports": "Report",
+  "/admin/categories": "Product / Category",
+  "/admin/profile": "Profile",
+  "/admin/notifications": "Notifications",
+  "/admin/orders/request": "Request Order",
+  "/admin/orders/sales": "Sales Order",
+  "/admin/orders/purchase": "Purchase Order",
+
+  // SuperAdmin routes
+  "/superadmin/dashboard": "SuperAdmin Dashboard",
   "/superadmin/orders": "Order",
-  "/superadmin/orders/request": "Request Order",
-  "/superadmin/orders/customer": "Customer Order",
-  "/superadmin/orders/purchase": "Purchase Order",
+  "/superadmin/orders/pending-request": "Request",
+  "/superadmin/orders/customer-order": "Customer Order",
+  "/superadmin/orders/purchase-order": "Purchase Order",
   "/superadmin/delivery": "Delivery",
   "/superadmin/products": "Product",
   "/superadmin/inventory": "Inventory",
@@ -23,11 +47,15 @@ const pageTitles = {
   "/superadmin/logs": "Log",
   "/superadmin/reports": "Report",
   "/superadmin/categories": "Product / Category",
-  "/superadmin/profile": "Profile",
+  "/superadmin/profile": "SuperAdmin Profile",
   "/superadmin/notifications": "Notifications",
-  
-  "/staff/dashboard": "User Dashboard",
-  "/staff/profile": "User Profile",
+  "/superadmin/orders/request": "Request Order",
+  "/superadmin/orders/sales": "Sales Order",
+  "/superadmin/orders/purchase": "Purchase Order",
+
+  // Staff routes
+  "/staff/dashboard": "Staff Dashboard",
+  "/staff/profile": "Staff Profile",
   "/staff/orders": "Order",
   "/staff/delivery": "Delivery",
   "/staff/products": "Product",
@@ -55,17 +83,21 @@ const Header = ({ toggleSidebar }) => {
 
   const goToProfile = () => {
     if (location.pathname.startsWith("/admin")) {
-      navigate("/superadmin/profile");
+      navigate("/admin/profile");
     } else if (location.pathname.startsWith("/staff")) {
       navigate("/staff/profile");
+    } else if (location.pathname.startsWith("/superadmin")) {
+      navigate("/superadmin/profile");
     }
   };
 
   const goToNotifications = () => {
     if (location.pathname.startsWith("/admin")) {
-      navigate("/superadmin/notifications");
+      navigate("/admin/notifications");
     } else if (location.pathname.startsWith("/staff")) {
       navigate("/staff/notifications");
+    } else if (location.pathname.startsWith("/superadmin")) {
+      navigate("/superadmin/notifications");
     }
   };
 
@@ -94,7 +126,11 @@ const Header = ({ toggleSidebar }) => {
             onClick={goToProfile}
           >
             <span>
-              {location.pathname.startsWith("/superadmin") ? "Admin" : "User"}
+              {location.pathname.startsWith("/admin")
+                ? "Admin"
+                : location.pathname.startsWith("/superadmin")
+                ? "SuperAdmin"
+                : "User"}
             </span>
             <TbUserCircle className="h-5 w-5 ml-1" />
           </ProfileButton>

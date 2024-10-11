@@ -7,7 +7,7 @@ import SearchBar from "../../components/Layout/SearchBar";
 import { colors } from "../../colors";
 import Table from "../../components/Layout/Table";
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
-import { suppliers as initialSuppliers } from "../data/SupplierData";
+import { suppliers as initialSuppliers } from "../../pages/data/SupplierData"; // Import supplier data
 import Button from "../../components/Layout/Button";
 import { FaPlus } from "react-icons/fa"; // Import the FaPlus icon
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
@@ -18,7 +18,7 @@ const SuperAdminSuppliers = () => {
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false); // Track the Add modal visibility
-  const [sortConfig, setSortConfig] = useState({ key: "supplierName", direction: "asc" }); // Default sorting
+  const [sortConfig, setSortConfig] = useState({ key: "SUPP_COMPANY_NAME", direction: "asc" }); // Default sorting
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
@@ -26,10 +26,10 @@ const SuperAdminSuppliers = () => {
     const filtered = initialSuppliers.filter((supplier) => {
       if (!value) return true;
       return (
-        supplier.supplierName.toLowerCase().includes(value) ||
-        supplier.supplierNumber.includes(value) ||
-        supplier.contactPersonName.toLowerCase().includes(value) ||
-        supplier.contactPersonNumber.includes(value)
+        supplier.SUPP_COMPANY_NAME?.toLowerCase().includes(value) || // Optional chaining to handle undefined
+        supplier.SUPP_COMPANY_NUM.includes(value) ||
+        supplier.SUPP_CONTACT_NAME?.toLowerCase().includes(value) || // Optional chaining to handle undefined
+        supplier.SUPP_CONTACT_PHNUM.includes(value)
       );
     });
     setFilteredSuppliers(filtered);
@@ -65,8 +65,10 @@ const SuperAdminSuppliers = () => {
   };
 
   const sortedSuppliers = [...filteredSuppliers].sort((a, b) => {
-    if (sortConfig.key === "supplierName") {
-      return a.supplierName.localeCompare(b.supplierName) * (sortConfig.direction === "asc" ? 1 : -1);
+    if (sortConfig.key === "SUPP_COMPANY_NAME") {
+      const nameA = a.SUPP_COMPANY_NAME || ""; // Fallback to empty string if undefined
+      const nameB = b.SUPP_COMPANY_NAME || ""; // Fallback to empty string if undefined
+      return nameA.localeCompare(nameB) * (sortConfig.direction === "asc" ? 1 : -1);
     }
     return 0;
   });
@@ -80,10 +82,10 @@ const SuperAdminSuppliers = () => {
   ];
 
   const rows = sortedSuppliers.map((supplier) => [
-    supplier.supplierName,
-    supplier.supplierNumber,
-    supplier.contactPersonName,
-    supplier.contactPersonNumber,
+    supplier.SUPP_COMPANY_NAME,
+    supplier.SUPP_COMPANY_NUM,
+    supplier.SUPP_CONTACT_NAME,
+    supplier.SUPP_CONTACT_PHNUM,
     <ActionButton key="action" onClick={() => openDetailsModal(supplier)}>
       Details
     </ActionButton>,
@@ -110,13 +112,13 @@ const SuperAdminSuppliers = () => {
         headers={headers.map((header, index) => (
           <TableHeader
             key={index}
-            onClick={() => header === "Supplier Name" && handleSort("supplierName")}
+            onClick={() => header === "Supplier Name" && handleSort("SUPP_COMPANY_NAME")}
           >
             {header}
             {/* Display chevrons for Supplier Name */}
             {header === "Supplier Name" && (
               <>
-                {sortConfig.key === "supplierName" ? (
+                {sortConfig.key === "SUPP_COMPANY_NAME" ? (
                   sortConfig.direction === "asc" ? (
                     <FaChevronUp style={{ marginLeft: '5px', fontSize: '12px' }} />
                   ) : (
@@ -189,10 +191,11 @@ const ActionButton = styled(Button)`
 `;
 
 const TableHeader = styled.th`
-  text-align: center; /* Center the header text */
-  cursor: pointer; /* Change cursor to pointer */
-  display: flex; /* Use flex to align items */
-  justify-content: center; /* Center content */
-  align-items: center; /* Center vertically */
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
 export default SuperAdminSuppliers;

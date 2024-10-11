@@ -2,7 +2,7 @@
 
 import React from "react";
 import Card from "../Layout/Card"; // Import the reusable Card component
-import customersData from "../../pages/data/CustomersData"; // Import customer data
+import customersData from "../../pages/data/ClientsData"; // Import customer data
 import styled from "styled-components";
 import { FaUsers } from "react-icons/fa"; // Import an icon from react-icons
 

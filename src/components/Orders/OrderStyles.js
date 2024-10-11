@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { colors } from "../../colors";
+import Button from "../Layout/Button"; 
 
+// Modal Overlay and Content styles
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -26,6 +28,7 @@ export const ModalContent = styled.div`
   position: relative;
 `;
 
+// Modal header, body, and footer
 export const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -43,6 +46,7 @@ export const ModalFooter = styled.div`
   margin-top: 20px;
 `;
 
+// Input field styles
 export const Field = styled.div`
   margin-bottom: 15px;
   position: relative; /* Required for absolute positioning of suggestions */
@@ -78,10 +82,12 @@ export const DescriptionBox = styled.textarea`
   font-size: 1em;
 `;
 
+// Order Details section styles
 export const OrderDetailsSection = styled.div`
   margin-bottom: 20px;
 `;
 
+// Table styles
 export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -101,6 +107,7 @@ export const Table = styled.table`
   }
 `;
 
+// Button styles
 export const AddProductButton = styled.button`
   background-color: ${colors.primary};
   color: white;
@@ -121,6 +128,7 @@ export const DeleteButton = styled.button`
   color: ${colors.fail};
 `;
 
+// Total section styles
 export const TotalSection = styled.div`
   margin-top: 20px;
   text-align: right;
@@ -140,6 +148,7 @@ export const TotalValue = styled.span`
   font-weight: bold;
 `;
 
+// Save and close button styles
 export const SaveButton = styled.button`
   background-color: ${colors.primary};
   color: white;
@@ -157,6 +166,7 @@ export const CloseButton = styled.button`
   color: ${colors.fail};
 `;
 
+// Discount styles
 export const DiscountContainer = styled.div`
   display: flex;
   align-items: center;
@@ -177,37 +187,67 @@ export const DiscountSelect = styled.select`
   border: 1px solid #ccc;
 `;
 
+// Quantity input style
 export const QuantityInput = styled(Input)`
   width: 66px;
 `;
 
-// New styled component for suggestions container
 export const SuggestionsContainer = styled.div`
-  position: absolute; /* Allows overlapping with other UI */
-  top: 100%; /* Places it right below the input */
-  left: 0;
-  right: 0;
-  z-index: 10; /* Ensures it appears above other elements */
-`;
-
-export const SuggestionsList = styled.ul`
-  position: relative; /* Set to relative to stack properly */
-  background: white;
+  position: absolute; /* Ensure it appears in the right place relative to the input */
+  z-index: 10; /* Keep it above other content */
+  width: 40%; /* Match the width of the input */
+  background-color: white; /* Make it stand out */
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-height: 150px;
-  overflow-y: auto;
-  list-style: none;
-  padding: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for clarity */
+  max-height: 150px; /* Limit the height */
+  overflow-y: auto; /* Enable scroll if the list is too long */
+`;
+export const SuggestionsList = styled.ul`
+  list-style-type: none;
   margin: 0;
+  padding: 0;
 `;
 
 export const SuggestionItem = styled.li`
   padding: 8px;
   cursor: pointer;
   &:hover {
-    background-color: ${colors.primary};
-    color: white;
+    background-color: #f0f0f0; /* Add a hover effect */
+  }
+`;
+
+// Button group style
+export const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+// Purchase Styles
+export const SupplierSearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px; // Space between the input and button
+`;
+
+export const PIconButton = styled(Button)`
+  display: inline-flex;
+  align-items: center;
+
+  .icon {
+    margin-right: 0.5rem;
+  }
+`;
+
+// Sales Styles
+export const SIconButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 15px;
+
+  .icon {
+    font-size: 15px;
   }
 `;

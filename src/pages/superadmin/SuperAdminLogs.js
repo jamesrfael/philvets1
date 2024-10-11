@@ -6,7 +6,7 @@ import Table from "../../components/Layout/Table";
 import CardTotalLogs from "../../components/CardsData/CardTotalLogs";
 import { logData } from "../data/LogsData";
 
-const SuperAdminLogs = () => {
+const AdminLogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredLogs = logData.filter(
@@ -17,12 +17,7 @@ const SuperAdminLogs = () => {
       (log.USER_ID ? log.USER_ID.toString().includes(searchTerm) : false)
   );
 
-  const headers = [
-    "Date & Time",
-    "Title",
-    "Description",
-    "User ID",
-  ];
+  const headers = ["Date & Time", "Title", "Description", "User ID"];
 
   const rows = filteredLogs.map((log) => [
     log.LOG_DATETIME,
@@ -63,4 +58,4 @@ const AnalyticsContainer = styled.div`
   padding: 0 1px;
 `;
 
-export default SuperAdminLogs;
+export default AdminLogs;

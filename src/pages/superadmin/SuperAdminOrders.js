@@ -9,7 +9,7 @@ import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import Button from "../../components/Layout/Button"; // Import the Button component
 import { orders as initialOrders } from "../data/OrderData";
 
-const SuperAdminOrders = () => {
+const AdminOrders = () => {
   const navigate = useNavigate();
   const [orders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,12 +18,11 @@ const SuperAdminOrders = () => {
   const filteredOrders = orders.filter((order) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
-      order.orderType.toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.purchaseOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.salesOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.clientId?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
-      order.supplierId?.toString().toLowerCase().includes(lowerCaseSearchTerm)
+      order.ORDER_TYPE.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.ORDER_DATACREATED.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.ORDER_STATUS?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.CLIENT_ID?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.SUPPLIER_ID?.toString().toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
 
@@ -33,11 +32,9 @@ const SuperAdminOrders = () => {
   const headers = ["Order Type", "Order Date", "Status", "Action"];
 
   const rows = filteredOrders.map((order) => [
-    order.orderType,
-    order.orderDate,
-    <Status status={order.purchaseOrderStatus || order.salesOrderStatus}>
-      {order.purchaseOrderStatus || order.salesOrderStatus}
-    </Status>,
+    order.ORDER_TYPE,
+    order.ORDER_DATACREATED,
+    <Status status={order.ORDER_STATUS}>{order.ORDER_STATUS}</Status>,
     <Button onClick={() => openDetailsModal(order)} fontSize="14px">
       Details
     </Button>,
@@ -98,4 +95,4 @@ const Status = styled.span`
   font-weight: bold;
 `;
 
-export default SuperAdminOrders;
+export default AdminOrders;

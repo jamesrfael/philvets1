@@ -9,13 +9,13 @@ const AddUserModal = ({ onClose, onSave }) => {
   const [firstname, setFirstname] = useState("");
   const [midinitial, setMidinitial] = useState("");
   const [lastname, setLastname] = useState("");
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("staff_"); // Initialize with 'staff_'
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [acctype, setAcctype] = useState("User"); // Default to 'User'
+  const [acctype, setAcctype] = useState("Staff"); // Default to 'Staff'
   const [image, setImage] = useState(null);
 
   const modalRef = useRef();
@@ -33,6 +33,17 @@ const AddUserModal = ({ onClose, onSave }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [onClose]);
+
+  // Update username dynamically based on the first name, last name, and account type
+  useEffect(() => {
+    if (firstname && lastname && acctype) {
+      const generatedUsername = `${acctype.toLowerCase()}_${firstname.toLowerCase()}${lastname.toLowerCase()}`.replace(/\s/g, "");
+      setUsername(generatedUsername);
+    } else if (acctype) {
+      // If only acctype is set, start with acctype_
+      setUsername(`${acctype.toLowerCase()}_`);
+    }
+  }, [firstname, lastname, acctype]);
 
   const handleSave = async () => {
     const formData = new FormData();
@@ -84,11 +95,14 @@ const AddUserModal = ({ onClose, onSave }) => {
     setShowPassword(!showPassword);
   };
 
+  // Determine if it's a superadmin or admin page
+  const isSuperadminPage = window.location.pathname.includes("/superadmin/users");
+
   return (
     <ModalOverlay>
       <ModalContent ref={modalRef}>
         <ModalHeader>
-          <h2>Add User Member</h2>
+          <h2>Add User</h2>
           <CloseButton onClick={onClose}>
             <IoCloseCircle />
           </CloseButton>
@@ -100,13 +114,6 @@ const AddUserModal = ({ onClose, onSave }) => {
               {image && <img src={image} alt="User" />}
               <Input type="file" onChange={handleImageChange} />
             </ImageContainer>
-          </Field>
-          <Field>
-            <Label>Username</Label>
-            <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
           </Field>
           <Field>
             <Label>First Name</Label>
@@ -130,11 +137,32 @@ const AddUserModal = ({ onClose, onSave }) => {
             />
           </Field>
           <Field>
+            <Label>Address</Label>
+            <Input
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Phone Number</Label>
+            <Input
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+          </Field>
+          <Field>
             <Label>Email</Label>
             <Input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </Field>
+          <Field>
+            <Label>Username</Label>
+            <Input
+              value={username}
+              readOnly // Make it read-only since it's generated automatically
             />
           </Field>
           <Field>
@@ -146,34 +174,25 @@ const AddUserModal = ({ onClose, onSave }) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <TogglePasswordButton onClick={togglePasswordVisibility}>
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </TogglePasswordButton>
             </PasswordWrapper>
           </Field>
-          <Field>
-            <Label>Phone Number</Label>
-            <Input
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <Label>Address</Label>
-            <Input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </Field>
-          <Field>
-            <Label>Account Type</Label>
-            <Select
-              value={acctype}
-              onChange={(e) => setAcctype(e.target.value)}
-            >
-              <option value="User">User</option>
-              <option value="Admin">Admin</option>
-            </Select>
-          </Field>
+
+          {/* Show account type dropdown only if on superadmin page */}
+          {isSuperadminPage ? (
+            <Field>
+              <Label>Account Type</Label>
+              <Select
+                value={acctype}
+                onChange={(e) => setAcctype(e.target.value)}
+              >
+                <option value="Staff">Staff</option>
+                <option value="Admin">Admin</option>
+              </Select>
+            </Field>
+          ) : null}
+
         </ModalBody>
         <ModalFooter>
           <Button variant="fail" onClick={onClose}>
@@ -243,7 +262,7 @@ const Field = styled.div`
 const Label = styled.label`
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 const Input = styled.input`
@@ -251,6 +270,18 @@ const Input = styled.input`
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
+`;
+
+const PasswordWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const TogglePasswordButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 8px;
 `;
 
 const Select = styled.select`
@@ -262,50 +293,25 @@ const Select = styled.select`
 
 const ImageContainer = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  margin-bottom: 15px;
+  gap: 10px;
 
   img {
     width: 100px;
     height: 100px;
     object-fit: cover;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    border-radius: 50%;
   }
-
-  input[type="file"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-`;
-
-const PasswordWrapper = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const TogglePasswordButton = styled.button`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #666;
-  font-size: 1.2rem;
 `;
 
 const ModalFooter = styled.div`
-  margin-top: 20px;
   display: flex;
   justify-content: flex-end;
-`;
+  margin-top: 20px;
 
+  button:first-of-type {
+    margin-right: 10px;
+  }
+`;
 
 export default AddUserModal;

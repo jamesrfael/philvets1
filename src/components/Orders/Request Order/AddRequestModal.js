@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Modal from "../Layout/Modal";
-import Button from "../Layout/Button";
+import Modal from "../../Layout/Modal";
+import Button from "../../Layout/Button";
 import styled from "styled-components";  // Import styled for styled-components
 import { IoCloseCircle } from "react-icons/io5";  // Import the icon
-import { Field, Label, Input, DeleteButton, DescriptionBox, OrderDetailsSection, Table, QuantityInput, SuggestionsList, SuggestionItem, TotalSection, TotalRow, TotalLabel, TotalValue } from "./OrderStyles";
-import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue } from "../../utils/CalculationUtils";
+import { Field, Label, Input, DeleteButton, DescriptionBox, OrderDetailsSection, Table, QuantityInput, SuggestionsList, SuggestionItem, TotalSection, TotalRow, TotalLabel, TotalValue } from "../OrderStyles";
+import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue } from "../../../utils/CalculationUtils";
 
 const products = [
   { id: 1, name: "Canine Dewormer", price: 20.0 },

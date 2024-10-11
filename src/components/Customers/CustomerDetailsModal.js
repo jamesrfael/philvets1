@@ -1,83 +1,100 @@
-// src/components/CustomerDetailsModal.js
 import React, { useState } from "react";
-import Modal from "../Layout/Modal"; // Ensure the path to Modal is correct
+import Modal from "../Layout/Modal";
 import styled from "styled-components";
-import Button from "../Layout/Button"; // Import the Button component
+import Button from "../Layout/Button";
 
-const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
+const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedCustomer, setEditedCustomer] = useState(customer);
+  const [editedClient, setEditedClient] = useState(client || {});
 
-  if (!customer) return null;
+  if (!client) return null; // Ensure modal doesn't render if client is undefined
 
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = () => {
-    const confirmSave = window.confirm(
-      "Are you sure you want to save the changes?"
-    );
+    const confirmSave = window.confirm("Are you sure you want to save the changes?");
     if (confirmSave) {
       // Implement save logic here
-      alert("Customer details saved");
+      alert("Client details saved");
       setIsEditing(false);
     }
   };
 
   const handleCancel = () => {
-    const confirmCancel = window.confirm(
-      "Are you sure you want to discard the changes?"
-    );
+    const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
     if (confirmCancel) {
       setIsEditing(false);
-      setEditedCustomer(customer);
+      setEditedClient(client); // Reset to original client data on cancel
     }
   };
 
   const handleRemove = () => {
-    const confirmRemoval = window.confirm(
-      "Are you sure you want to remove this customer?"
-    );
+    const confirmRemoval = window.confirm("Are you sure you want to remove this client?");
     if (confirmRemoval) {
-      onRemove(customer.customerId); // Call the remove callback with the customer ID
-      onClose(); // Close the modal after removal
+      onRemove(client.CLIENT_ID);
+      onClose();
     }
   };
 
   return (
     <Modal
-      title={
-        isEditing
-          ? `Edit ${customer.firstName} ${customer.lastName}`
-          : `Customer Details`
-      }
+      title={isEditing ? `Edit ${client.CLIENT_NAME}` : `Client Details`}
       onClose={onClose}
     >
       {isEditing ? (
         <>
           <Details>
             <DetailItem>
-              <strong>First Name:</strong>
+              <strong>Client Name:</strong>
               <Input
                 type="text"
-                value={editedCustomer.firstName}
+                value={editedClient.CLIENT_NAME || ""} // Add fallback to empty string
                 onChange={(e) =>
-                  setEditedCustomer({
-                    ...editedCustomer,
-                    firstName: e.target.value,
+                  setEditedClient({
+                    ...editedClient,
+                    CLIENT_NAME: e.target.value,
                   })
                 }
                 border
               />
             </DetailItem>
             <DetailItem>
-              <strong>Last Name:</strong>
+              <strong>City:</strong>
               <Input
                 type="text"
-                value={editedCustomer.lastName}
+                value={editedClient.CLIENT_CITY || ""}
                 onChange={(e) =>
-                  setEditedCustomer({
-                    ...editedCustomer,
-                    lastName: e.target.value,
+                  setEditedClient({
+                    ...editedClient,
+                    CLIENT_CITY: e.target.value,
+                  })
+                }
+                border
+              />
+            </DetailItem>
+            <DetailItem>
+              <strong>Province:</strong>
+              <Input
+                type="text"
+                value={editedClient.CLIENT_PROVINCE || ""}
+                onChange={(e) =>
+                  setEditedClient({
+                    ...editedClient,
+                    CLIENT_PROVINCE: e.target.value,
+                  })
+                }
+                border
+              />
+            </DetailItem>
+            <DetailItem>
+              <strong>Phone Number:</strong>
+              <Input
+                type="tel"
+                value={editedClient.CLIENT_PHONENUM || ""}
+                onChange={(e) =>
+                  setEditedClient({
+                    ...editedClient,
+                    CLIENT_PHONENUM: e.target.value,
                   })
                 }
                 border
@@ -87,39 +104,11 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
               <strong>Email:</strong>
               <Input
                 type="email"
-                value={editedCustomer.email}
+                value={editedClient.CLIENT_EMAIL || ""}
                 onChange={(e) =>
-                  setEditedCustomer({
-                    ...editedCustomer,
-                    email: e.target.value,
-                  })
-                }
-                border
-              />
-            </DetailItem>
-            <DetailItem>
-              <strong>Phone:</strong>
-              <Input
-                type="tel"
-                value={editedCustomer.phone}
-                onChange={(e) =>
-                  setEditedCustomer({
-                    ...editedCustomer,
-                    phone: e.target.value,
-                  })
-                }
-                border
-              />
-            </DetailItem>
-            <DetailItem>
-              <strong>Registration Date:</strong>
-              <Input
-                type="text"
-                value={editedCustomer.registrationDate}
-                onChange={(e) =>
-                  setEditedCustomer({
-                    ...editedCustomer,
-                    registrationDate: e.target.value,
+                  setEditedClient({
+                    ...editedClient,
+                    CLIENT_EMAIL: e.target.value,
                   })
                 }
                 border
@@ -139,20 +128,19 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
         <>
           <Section>
             <Detail>
-              <DetailLabel>First Name:</DetailLabel> {customer.firstName}
+              <DetailLabel>Client Name:</DetailLabel> {client.CLIENT_NAME || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Last Name:</DetailLabel> {customer.lastName}
+              <DetailLabel>City:</DetailLabel> {client.CLIENT_CITY || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Email:</DetailLabel> {customer.email}
+              <DetailLabel>Province:</DetailLabel> {client.CLIENT_PROVINCE || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Phone:</DetailLabel> {customer.phone}
+              <DetailLabel>Phone:</DetailLabel> {client.CLIENT_PHONENUM || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Registration Date:</DetailLabel>{" "}
-              {customer.registrationDate}
+              <DetailLabel>Email:</DetailLabel> {client.CLIENT_EMAIL || "N/A"}
             </Detail>
           </Section>
 
@@ -171,11 +159,17 @@ const CustomerDetailsModal = ({ customer, onClose, onRemove }) => {
 };
 
 // Styled Components
-
 const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  margin-bottom: 20px;
+`;
+
+const Detail = styled.div`
+  margin-bottom: 10px;
+`;
+
+const DetailLabel = styled.span`
+  font-weight: bold;
+  margin-right: 10px;
 `;
 
 const Details = styled.div`
@@ -184,35 +178,20 @@ const Details = styled.div`
 
 const DetailItem = styled.div`
   margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
 `;
 
-const Detail = styled.div`
-  margin-bottom: 10px;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-`;
-
-const DetailLabel = styled.span`
-  font-weight: bold;
-  margin-right: 8px;
+const Input = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: ${(props) => (props.border ? "1px solid #ccc" : "none")};
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-`;
-
-const Input = styled.input`
-  border: ${(props) => (props.border ? "1px solid #ddd" : "none")};
-  border-radius: 4px;
-  padding: 8px;
-  width: 100%;
-  box-sizing: border-box;
 `;
 
 export default CustomerDetailsModal;

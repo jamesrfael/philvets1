@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
-import AddSalesModal from "../../components/Orders/AddSalesModal";
+import AddCustomerOrderModal from "../../components/Orders/Customer Order/AddCustomerOrderModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
@@ -31,8 +31,8 @@ const StaffOrders = () => {
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
 
-  const openAddSalesModal = () => setIsAddingSales(true);
-  const closeAddSalesModal = () => setIsAddingSales(false);
+  const openAddCustomerOrderModal = () => setIsAddingSales(true);
+  const closeAddCustomerOrderModal = () => setIsAddingSales(false);
 
   const handleSaveNewOrder = (newOrder) => {
     setOrders([...orders, newOrder]);
@@ -59,8 +59,8 @@ const StaffOrders = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <StyledButton onClick={openAddSalesModal}>
-          <FaPlus className="icon" /> Sales Order
+        <StyledButton onClick={openAddCustomerOrderModal}>
+          <FaPlus className="icon" /> Customer Order
         </StyledButton>
       </Controls>
       <AnalyticsContainer>
@@ -71,8 +71,8 @@ const StaffOrders = () => {
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
       )}
       {isAddingSales && (
-        <AddSalesModal
-          onClose={closeAddSalesModal}
+        <AddCustomerOrderModal
+          onClose={closeAddCustomerOrderModal}
           onSave={handleSaveNewOrder}
         />
       )}

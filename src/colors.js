@@ -6,7 +6,7 @@ export const colors = {
 
   secondary: "#f08400",
   secondaryHover: "#975300",
-  success: "##1DBA0B",
+  success: "#1DBA0B",
   successHover: "#137C07",
   fail:  "#ff5757",
   failHover: "#e52424",

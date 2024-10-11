@@ -3,45 +3,38 @@ import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import OrderDetailsModal from "../../components/Orders/OrderDetailsModal";
-import AddSalesModal from "../../components/Orders/AddSalesModal"; // Import AddSalesModal
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import CardTotalSalesOrder from "../../components/CardsData/CardTotalSalesOrder"; // Replaced Card
+import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import Button from "../../components/Layout/Button"; // Import the Button component
-import { orders as initialOrders } from "../data/OrderData";
-import { FaPlus } from "react-icons/fa";
+import { orders as initialOrders } from "../../pages/data/OrderData";
 
-const StaffSalesOrder = () => {
+const AdminOrders = () => {
   const navigate = useNavigate();
   const [orders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isAddingSalesOrder, setIsAddingSalesOrder] = useState(false);
 
-  // Filter Sales Orders and apply search term
   const filteredOrders = orders.filter((order) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
-      order.orderType === "Sales Order" && // Ensure only Sales Orders are shown
-      (order.clientName?.toLowerCase().includes(lowerCaseSearchTerm) || // Now using clientName
-        order.orderDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-        order.salesOrderStatus?.toLowerCase().includes(lowerCaseSearchTerm))
+      order.ORDER_TYPE.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.ORDER_DATACREATED.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.ORDER_STATUS?.toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.CLIENT_ID?.toString().toLowerCase().includes(lowerCaseSearchTerm) ||
+      order.SUPPLIER_ID?.toString().toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
 
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
 
-  const openAddSalesModal = () => setIsAddingSalesOrder(true); // Open modal function
-  const closeAddSalesModal = () => setIsAddingSalesOrder(false); // Close modal function
-
-  // Update headers to include "Client ID"
-  const headers = ["Client", "Order Date", "Status", "Action"];
+  const headers = ["Order Type", "Order Date", "Status", "Action"];
 
   const rows = filteredOrders.map((order) => [
-    order.clientName, // Show clientName
-    order.orderDate,
-    <Status status={order.salesOrderStatus}>{order.salesOrderStatus}</Status>,
+    order.ORDER_TYPE,
+    order.ORDER_DATACREATED,
+    <Status status={order.ORDER_STATUS}>{order.ORDER_STATUS}</Status>,
     <Button onClick={() => openDetailsModal(order)} fontSize="14px">
       Details
     </Button>,
@@ -51,24 +44,20 @@ const StaffSalesOrder = () => {
     <MainLayout>
       <Controls>
         <SearchBar
-          placeholder="Search / Filter orders..."
+          placeholder="Search / Filter order..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <StyledButton onClick={openAddSalesModal}>
-          <FaPlus className="icon" /> Sales Order
-        </StyledButton>
       </Controls>
       <AnalyticsContainer>
-        <div onClick={() => navigate("/admin/orders/sales-order")}>
-          <CardTotalSalesOrder /> {/* Changed to PurchaseOrder Card */}
+        <div onClick={() => navigate("/admin/orders")}>
+          <CardTotalOrders />
         </div>
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {selectedOrder && (
         <OrderDetailsModal order={selectedOrder} onClose={closeDetailsModal} />
       )}
-      {isAddingSalesOrder && <AddSalesModal onClose={closeAddSalesModal} />}
     </MainLayout>
   );
 };
@@ -92,11 +81,9 @@ const AnalyticsContainer = styled.div`
 
 const Status = styled.span`
   background-color: ${(props) =>
-    props.status === "Approved" ||
-    props.status === "Received" ||
-    props.status === "Delivered"
+    props.status === "Approved" || props.status === "Received"
       ? "#1DBA0B"
-      : props.status === "Shipped"
+      : props.status === "Pending"
       ? "#f08400"
       : props.status === "Cancelled"
       ? "#ff5757"
@@ -108,14 +95,4 @@ const Status = styled.span`
   font-weight: bold;
 `;
 
-const StyledButton = styled(Button)`
-  display: flex;
-  align-items: center;
-
-  .icon {
-    font-size: 20px;
-    margin-right: 8px;
-  }
-`;
-
-export default StaffSalesOrder;
+export default AdminOrders;

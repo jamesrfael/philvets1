@@ -4,15 +4,17 @@ import { orders } from "../../pages/data/OrderData"; // Import the orders data
 import styled from "styled-components";
 import { FaClipboardList } from "react-icons/fa"; // Updated icon
 
-const CardTotalSalesOrder = () => {
-  // Calculation for total number of Sales Orders
-  const salesOrderCount = orders.filter(order => order.orderType === "Sales Order").length;
+const CardTotalCustomerOrder = () => {
+  // Calculation for total number of Customer Orders
+  const salesOrderCount = orders.filter(
+    (order) => order.orderType === "Customer Order"
+  ).length;
 
   return (
     <CardContainer>
       <Card
-        label="Total Sales Orders"
-        value={salesOrderCount} // Display the total number of Sales Orders
+        label="Total Customer Orders"
+        value={salesOrderCount} // Display the total number of Customer Orders
         icon={<FaClipboardList />} // Updated icon
       />
     </CardContainer>
@@ -23,4 +25,4 @@ const CardContainer = styled.div`
   cursor: pointer;
 `;
 
-export default CardTotalSalesOrder;
+export default CardTotalCustomerOrder;
