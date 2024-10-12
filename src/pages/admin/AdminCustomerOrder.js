@@ -14,7 +14,7 @@ import CustomerOrderDetailsModal from "../../components/Orders/Customer Order/Cu
 
 const AdminCustomerOrder = () => {
   const navigate = useNavigate();
-  const [customer, setSales] = useState(customerOrders); // Use customer data instead of orders
+  const [customer] = useState(customerOrders); // Use customer data instead of orders
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingCustomerOrder, setIsAddingCustomerOrder] = useState(false);

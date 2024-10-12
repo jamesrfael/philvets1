@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Modal from "../../Layout/Modal"; // Assuming you have a modal component
 import { colors } from "../../../colors"; // Ensure the path to colors is correct
-import PURCHASE_ORDERS from "../../../pages/data/PurchaseOrderData"; // Import the purchase orders data
 
 const PurchaseOrderDetailsModal = ({ order, onClose }) => {
   // Early return if order is not provided

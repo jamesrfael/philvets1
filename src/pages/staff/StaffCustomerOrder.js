@@ -14,7 +14,7 @@ import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron i
 
 const StaffCustomerOrder = () => {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingCustomerOrder, setIsAddingCustomerOrder] = useState(false);
