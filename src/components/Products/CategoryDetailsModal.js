@@ -84,7 +84,7 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: ${colors.fail};
+  color: ${colors.red};
 `;
 
 const ModalBody = styled.div``;

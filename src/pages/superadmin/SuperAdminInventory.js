@@ -9,7 +9,7 @@ import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import Button from "../../components/Layout/Button";
 import InventoryDetailsModal from "../../components/Inventory/InventoryDetailsModal"; // Ensure the path is correct
 
-const AdminInventory = () => {
+const SuperAdminInventory = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -99,4 +99,4 @@ const Status = styled.span`
   white-space: nowrap; /* Prevent text wrapping */
 `;
 
-export default AdminInventory;
+export default SuperAdminInventory;

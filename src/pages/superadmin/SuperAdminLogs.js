@@ -6,7 +6,7 @@ import Table from "../../components/Layout/Table";
 import CardTotalLogs from "../../components/CardsData/CardTotalLogs";
 import { logData } from "../data/LogsData";
 
-const AdminLogs = () => {
+const SuperAdminLogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredLogs = logData.filter(
@@ -58,4 +58,4 @@ const AnalyticsContainer = styled.div`
   padding: 0 1px;
 `;
 
-export default AdminLogs;
+export default SuperAdminLogs;

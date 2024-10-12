@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
@@ -7,10 +6,15 @@ import Table from "../../components/Layout/Table";
 import Button from "../../components/Layout/Button";
 import { colors } from "../../colors"; // Colors for styling
 import Card from "../../components/Layout/Card"; // Import the Card component
-import { FaExclamationTriangle, FaShoppingCart, FaChartLine, FaWarehouse, FaDollarSign } from "react-icons/fa"; // Import icons
+import {
+  FaExclamationTriangle,
+  FaShoppingCart,
+  FaChartLine,
+  FaWarehouse,
+  FaDollarSign,
+} from "react-icons/fa"; // Import icons
 
 const AdminReports = () => {
-  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("Sales Report"); // Track active tab
   const [startDate, setStartDate] = useState(""); // Track start date filter
@@ -20,27 +24,132 @@ const AdminReports = () => {
 
   // Sample data for different reports
   const salesReports = [
-    ["Sales Report 1", "2024-10-01", "Daily", "₱20,000 Total Sales", "View Details", { details: "Detailed info for Sales Report 1" }],
-    ["Sales Report 2", "2024-10-02", "Weekly", "₱50,000 Total Sales", "View Details", { details: "Detailed info for Sales Report 2" }],
-    ["Sales Report 3", "2024-10-03", "Monthly", "₱150,000 Total Sales", "View Details", { details: "Detailed info for Sales Report 3" }],
-    ["Sales Report 4", "2024-10-04", "Daily", "₱30,000 Total Sales", "View Details", { details: "Detailed info for Sales Report 4" }],
-    ["Sales Report 5", "2024-10-05", "Weekly", "₱60,000 Total Sales", "View Details", { details: "Detailed info for Sales Report 5" }],
+    [
+      "Sales Report 1",
+      "2024-10-01",
+      "Daily",
+      "₱20,000 Total Sales",
+      "View Details",
+      { details: "Detailed info for Sales Report 1" },
+    ],
+    [
+      "Sales Report 2",
+      "2024-10-02",
+      "Weekly",
+      "₱50,000 Total Sales",
+      "View Details",
+      { details: "Detailed info for Sales Report 2" },
+    ],
+    [
+      "Sales Report 3",
+      "2024-10-03",
+      "Monthly",
+      "₱150,000 Total Sales",
+      "View Details",
+      { details: "Detailed info for Sales Report 3" },
+    ],
+    [
+      "Sales Report 4",
+      "2024-10-04",
+      "Daily",
+      "₱30,000 Total Sales",
+      "View Details",
+      { details: "Detailed info for Sales Report 4" },
+    ],
+    [
+      "Sales Report 5",
+      "2024-10-05",
+      "Weekly",
+      "₱60,000 Total Sales",
+      "View Details",
+      { details: "Detailed info for Sales Report 5" },
+    ],
   ];
 
   const inventoryReports = [
-    ["Inventory Report 1", "2024-10-01", "Daily", "500 Items In Stock", "View Details", { details: "Detailed info for Inventory Report 1" }],
-    ["Inventory Report 2", "2024-10-02", "Weekly", "200 Items In Stock", "View Details", { details: "Detailed info for Inventory Report 2" }],
-    ["Inventory Report 3", "2024-10-03", "Monthly", "750 Items In Stock", "View Details", { details: "Detailed info for Inventory Report 3" }],
-    ["Inventory Report 4", "2024-10-04", "Daily", "300 Items In Stock", "View Details", { details: "Detailed info for Inventory Report 4" }],
-    ["Inventory Report 5", "2024-10-05", "Weekly", "100 Items In Stock", "View Details", { details: "Detailed info for Inventory Report 5" }],
+    [
+      "Inventory Report 1",
+      "2024-10-01",
+      "Daily",
+      "500 Items In Stock",
+      "View Details",
+      { details: "Detailed info for Inventory Report 1" },
+    ],
+    [
+      "Inventory Report 2",
+      "2024-10-02",
+      "Weekly",
+      "200 Items In Stock",
+      "View Details",
+      { details: "Detailed info for Inventory Report 2" },
+    ],
+    [
+      "Inventory Report 3",
+      "2024-10-03",
+      "Monthly",
+      "750 Items In Stock",
+      "View Details",
+      { details: "Detailed info for Inventory Report 3" },
+    ],
+    [
+      "Inventory Report 4",
+      "2024-10-04",
+      "Daily",
+      "300 Items In Stock",
+      "View Details",
+      { details: "Detailed info for Inventory Report 4" },
+    ],
+    [
+      "Inventory Report 5",
+      "2024-10-05",
+      "Weekly",
+      "100 Items In Stock",
+      "View Details",
+      { details: "Detailed info for Inventory Report 5" },
+    ],
   ];
 
   const orderReports = [
-    ["Order Report 1", "2024-10-01", "Daily", "50 Orders Placed", "View Details", { details: "Detailed info for Order Report 1" }],
-    ["Order Report 2", "2024-10-02", "Weekly", "200 Orders Placed", "View Details", { details: "Detailed info for Order Report 2" }],
-    ["Order Report 3", "2024-10-03", "Monthly", "300 Orders Placed", "View Details", { details: "Detailed info for Order Report 3" }],
-    ["Order Report 4", "2024-10-04", "Daily", "75 Orders Placed", "View Details", { details: "Detailed info for Order Report 4" }],
-    ["Order Report 5", "2024-10-05", "Weekly", "125 Orders Placed", "View Details", { details: "Detailed info for Order Report 5" }],
+    [
+      "Order Report 1",
+      "2024-10-01",
+      "Daily",
+      "50 Orders Placed",
+      "View Details",
+      { details: "Detailed info for Order Report 1" },
+    ],
+    [
+      "Order Report 2",
+      "2024-10-02",
+      "Weekly",
+      "200 Orders Placed",
+      "View Details",
+      { details: "Detailed info for Order Report 2" },
+    ],
+    [
+      "Order Report 3",
+      "2024-10-03",
+      "Monthly",
+      "300 Orders Placed",
+      "View Details",
+      { details: "Detailed info for Order Report 3" },
+    ],
+    [
+      "Order Report 4",
+      "2024-10-04",
+      "Daily",
+      "75 Orders Placed",
+      "View Details",
+      { details: "Detailed info for Order Report 4" },
+    ],
+    [
+      "Order Report 5",
+      "2024-10-05",
+      "Weekly",
+      "125 Orders Placed",
+      "View Details",
+      { details: "Detailed info for Order Report 5" },
+    ],
   ];
 
   // Function to render the appropriate table based on the active tab
@@ -117,13 +226,22 @@ const AdminReports = () => {
 
       {/* Tabs for different reports */}
       <Tabs>
-        <StyledTabButton active={activeTab === "Sales Report"} onClick={() => setActiveTab("Sales Report")}>
+        <StyledTabButton
+          active={activeTab === "Sales Report"}
+          onClick={() => setActiveTab("Sales Report")}
+        >
           Sales Report
         </StyledTabButton>
-        <StyledTabButton active={activeTab === "Inventory Report"} onClick={() => setActiveTab("Inventory Report")}>
+        <StyledTabButton
+          active={activeTab === "Inventory Report"}
+          onClick={() => setActiveTab("Inventory Report")}
+        >
           Inventory Report
         </StyledTabButton>
-        <StyledTabButton active={activeTab === "Order Report"} onClick={() => setActiveTab("Order Report")}>
+        <StyledTabButton
+          active={activeTab === "Order Report"}
+          onClick={() => setActiveTab("Order Report")}
+        >
           Order Report
         </StyledTabButton>
       </Tabs>
@@ -138,11 +256,19 @@ const AdminReports = () => {
         <DateFilters>
           <label>
             Start Date:
-            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
           </label>
           <label>
             End Date:
-            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
           </label>
         </DateFilters>
       </Controls>
@@ -155,7 +281,7 @@ const AdminReports = () => {
         <DetailsModal>
           <h3>Report Details</h3>
           <p>{selectedReport}</p>
-          <Button variant="secondary" onClick={() => setSelectedReport(null)}>
+          <Button variant="orange" onClick={() => setSelectedReport(null)}>
             Close
           </Button>
         </DetailsModal>
@@ -193,11 +319,14 @@ const Tabs = styled.div`
 `;
 
 const StyledTabButton = styled(Button)`
-  background-color: ${(props) => (props.active ? colors.primary : "#d3d3d3")}; /* Light gray for inactive */
-  color: ${(props) => (props.active ? "white" : "#000")}; /* Black for inactive text */
-  
+  background-color: ${(props) =>
+    props.active ? colors.primary : "#d3d3d3"}; /* Light gray for inactive */
+  color: ${(props) =>
+    props.active ? "white" : "#000"}; /* Black for inactive text */
+
   &:hover {
-    background-color: ${(props) => (props.active ? colors.primaryHover : "#bbb")}; /* Darker gray for hover */
+    background-color: ${(props) =>
+      props.active ? colors.primaryHover : "#bbb"}; /* Darker gray for hover */
   }
 `;
 

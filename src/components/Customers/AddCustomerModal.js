@@ -11,7 +11,13 @@ const AddCustomerModal = ({ onClose, onAdd }) => {
   const [clientEmail, setClientEmail] = useState("");
 
   const handleAddCustomer = () => {
-    if (clientName && clientCity && clientProvince && clientPhoneNum && clientEmail) {
+    if (
+      clientName &&
+      clientCity &&
+      clientProvince &&
+      clientPhoneNum &&
+      clientEmail
+    ) {
       const newClient = {
         CLIENT_NAME: clientName,
         CLIENT_CITY: clientCity,
@@ -60,7 +66,7 @@ const AddCustomerModal = ({ onClose, onAdd }) => {
           onChange={(e) => setClientEmail(e.target.value)}
         />
         <ButtonGroup>
-          <Button variant="fail" onClick={onClose}>
+          <Button variant="red" onClick={onClose}>
             Cancel
           </Button>
           <Button variant="primary" onClick={handleAddCustomer}>

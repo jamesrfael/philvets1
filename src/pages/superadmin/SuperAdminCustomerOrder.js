@@ -12,9 +12,9 @@ import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 import CustomerOrderDetailsModal from "../../components/Orders/Customer Order/CustomerOrderDetailsModal";
 
-const AdminCustomerOrder = () => {
+const SuperAdminCustomerOrder = () => {
   const navigate = useNavigate();
-  const [customer, setSales] = useState(customerOrders); // Use customer data instead of orders
+  const [customer] = useState(customerOrders); // Use customer data instead of orders
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingCustomerOrder, setIsAddingCustomerOrder] = useState(false);
@@ -197,4 +197,4 @@ const TableHeader = styled.th`
   align-items: center; /* Center vertically */
 `;
 
-export default AdminCustomerOrder;
+export default SuperAdminCustomerOrder;

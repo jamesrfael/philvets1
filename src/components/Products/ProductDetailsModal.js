@@ -216,7 +216,7 @@ const ProductDetailsModal = ({ productId, onClose }) => {
             </DetailItem>
           </Details>
           <ButtonGroup>
-          <Button variant="fail" onClick={handleCancel}>
+            <Button variant="red" onClick={handleCancel}>
               Cancel
             </Button>
             <Button variant="primary" onClick={handleSave}>
@@ -269,7 +269,7 @@ const ProductDetailsModal = ({ productId, onClose }) => {
           </Section>
 
           <ButtonGroup>
-            <Button variant="fail" onClick={handleRemove}>
+            <Button variant="red" onClick={handleRemove}>
               Remove
             </Button>
             <Button variant="primary" onClick={handleEdit}>

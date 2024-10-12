@@ -13,14 +13,18 @@ export const initDB = async () => {
 };
 
 // Save layout order to IndexedDB
-export const saveLayout = async (key, layout) => {
+export const saveLayout = async (type, key, layout) => {
   const db = await initDB();
-  await db.put('layouts', { id: key, layout });
+  // Prefix the key with the type (e.g., 'admin_' or 'superadmin_')
+  const prefixedKey = `${type}_${key}`;
+  await db.put('layouts', { id: prefixedKey, layout });
 };
 
 // Get layout order from IndexedDB
-export const getLayout = async (key) => {
+export const getLayout = async (type, key) => {
   const db = await initDB();
-  const entry = await db.get('layouts', key);
+  // Prefix the key with the type (e.g., 'admin_' or 'superadmin_')
+  const prefixedKey = `${type}_${key}`;
+  const entry = await db.get('layouts', prefixedKey);
   return entry ? entry.layout : null;
 };

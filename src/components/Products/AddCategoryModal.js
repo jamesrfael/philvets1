@@ -61,8 +61,8 @@ const AddCategoryModal = ({ onClose, onSave }) => {
           </Field>
         </ModalBody>
         <ModalFooter>
-        <ButtonGroup>
-            <Button variant="fail" onClick={onClose}>
+          <ButtonGroup>
+            <Button variant="red" onClick={onClose}>
               Cancel
             </Button>
             <Button variant="primary" onClick={handleSave}>
@@ -78,11 +78,10 @@ const AddCategoryModal = ({ onClose, onSave }) => {
 // Styled Components
 
 const ButtonGroup = styled.div`
-display: flex;
-gap: 10px;
-justify-content: flex-end;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
 `;
-
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -126,7 +125,7 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: ${colors.fail};
+  color: ${colors.red};
 `;
 
 const ModalBody = styled.div``;
@@ -153,6 +152,5 @@ const ModalFooter = styled.div`
   justify-content: flex-end;
   margin-top: 20px;
 `;
-
 
 export default AddCategoryModal;

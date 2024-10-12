@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import Modal from '../Layout/Modal';
-import Button from '../Layout/Button';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import Modal from "../Layout/Modal";
+import Button from "../Layout/Button";
 
 const UserEditModal = ({ supplier, onClose, onSave }) => {
   const [editedSupplier, setEditedSupplier] = useState({ ...supplier }); // Initialize with supplier data
 
   const handleSave = () => {
-    const confirmSave = window.confirm("Are you sure you want to save the changes?");
+    const confirmSave = window.confirm(
+      "Are you sure you want to save the changes?"
+    );
     if (confirmSave) {
       onSave(editedSupplier); // Call the onSave function with the edited supplier
       onClose(); // Close the modal after saving
@@ -16,54 +18,77 @@ const UserEditModal = ({ supplier, onClose, onSave }) => {
   };
 
   const handleCancel = () => {
-    const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
+    const confirmCancel = window.confirm(
+      "Are you sure you want to discard the changes?"
+    );
     if (confirmCancel) {
       onClose();
     }
   };
 
   return (
-    <Modal
-      title={`Edit ${supplier.SUPP_COMPANY_NAME}`}
-      onClose={onClose}
-    >
+    <Modal title={`Edit ${supplier.SUPP_COMPANY_NAME}`} onClose={onClose}>
       <Details>
         <DetailItem>
           <strong>Supplier Name:</strong>
           <Input
             type="text"
-            value={editedSupplier.SUPP_COMPANY_NAME || ''}
-            onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_COMPANY_NAME: e.target.value })}
+            value={editedSupplier.SUPP_COMPANY_NAME || ""}
+            onChange={(e) =>
+              setEditedSupplier({
+                ...editedSupplier,
+                SUPP_COMPANY_NAME: e.target.value,
+              })
+            }
           />
         </DetailItem>
         <DetailItem>
           <strong>Supplier Number:</strong>
           <Input
             type="text"
-            value={editedSupplier.SUPP_COMPANY_NUM || ''}
-            onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_COMPANY_NUM: e.target.value })}
+            value={editedSupplier.SUPP_COMPANY_NUM || ""}
+            onChange={(e) =>
+              setEditedSupplier({
+                ...editedSupplier,
+                SUPP_COMPANY_NUM: e.target.value,
+              })
+            }
           />
         </DetailItem>
         <DetailItem>
           <strong>Contact Person:</strong>
           <Input
             type="text"
-            value={editedSupplier.SUPP_CONTACT_NAME || ''}
-            onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_CONTACT_NAME: e.target.value })}
+            value={editedSupplier.SUPP_CONTACT_NAME || ""}
+            onChange={(e) =>
+              setEditedSupplier({
+                ...editedSupplier,
+                SUPP_CONTACT_NAME: e.target.value,
+              })
+            }
           />
         </DetailItem>
         <DetailItem>
           <strong>Contact Number:</strong>
           <Input
             type="text"
-            value={editedSupplier.SUPP_CONTACT_PHNUM || ''}
-            onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_CONTACT_PHNUM: e.target.value })}
+            value={editedSupplier.SUPP_CONTACT_PHNUM || ""}
+            onChange={(e) =>
+              setEditedSupplier({
+                ...editedSupplier,
+                SUPP_CONTACT_PHNUM: e.target.value,
+              })
+            }
           />
         </DetailItem>
       </Details>
       <ButtonGroup>
-        <Button variant="primary" onClick={handleSave}>Save</Button>
-        <Button variant="fail" onClick={handleCancel}>Cancel</Button>
+        <Button variant="primary" onClick={handleSave}>
+          Save
+        </Button>
+        <Button variant="red" onClick={handleCancel}>
+          Cancel
+        </Button>
       </ButtonGroup>
     </Modal>
   );

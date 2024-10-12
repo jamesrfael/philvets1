@@ -54,7 +54,11 @@ const AdminUsers = () => {
   const headers = ["Image", "Name", "Email", "Username", "Actions"];
 
   const rows = filteredUser.map((member) => [
-    <img src={member.image} alt={`${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`} width="50" />,
+    <img
+      src={member.image}
+      alt={`${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`}
+      width="50"
+    />,
     `${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`, // Display full name
     member.USER_EMAIL,
     member.USER_USERNAME,
@@ -87,8 +91,8 @@ const AdminUsers = () => {
             <FaPlus className="icon" /> User
           </StyledButton>
           <Button
-            backgroundColor={showInactive ? colors.success : colors.fail}
-            hoverColor={showInactive ? colors.successHover : colors.failHover}
+            backgroundColor={showInactive ? colors.green : colors.red}
+            hoverColor={showInactive ? colors.greenHover : colors.redHover}
             onClick={() => setShowInactive(!showInactive)}
           >
             {showInactive ? "Show Active" : "Show Inactive"}

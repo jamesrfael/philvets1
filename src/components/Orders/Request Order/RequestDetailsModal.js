@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import Modal from "../../Layout/Modal";
-import { colors } from '../../../colors'; // Ensure the path to colors is correct
+import { colors } from "../../../colors"; // Ensure the path to colors is correct
 import Button from "../../Layout/Button"; // Import the Button component
 
 const RequestDetailsModal = ({ request, onClose, onCancel }) => {
@@ -22,14 +22,27 @@ const RequestDetailsModal = ({ request, onClose, onCancel }) => {
       onClose={onClose}
     >
       <Section>
-        <p><strong>Request By:</strong> {request.requestBy}</p>
-        <p><strong>Request Date:</strong> {request.requestDate}</p>
-        <p><strong>Status:</strong> {request.status}</p>
+        <p>
+          <strong>Request By:</strong> {request.requestBy}
+        </p>
+        <p>
+          <strong>Request Date:</strong> {request.requestDate}
+        </p>
+        <p>
+          <strong>Status:</strong> {request.status}
+        </p>
         {request.deliveryDateExpected && (
-          <p><strong>Expected Delivery Date:</strong> {request.deliveryDateExpected}</p>
+          <p>
+            <strong>Expected Delivery Date:</strong>{" "}
+            {request.deliveryDateExpected}
+          </p>
         )}
-        <p><strong>Description:</strong> {request.description}</p>
-        <p><strong>Client ID:</strong> {request.clientID}</p>
+        <p>
+          <strong>Description:</strong> {request.description}
+        </p>
+        <p>
+          <strong>Client ID:</strong> {request.clientID}
+        </p>
       </Section>
       <Section>
         <TableWrapper>
@@ -44,8 +57,10 @@ const RequestDetailsModal = ({ request, onClose, onCancel }) => {
             </thead>
             <tbody>
               {request.orderDetails.map((detail, index) => {
-                const price = detail.price ? detail.price.toFixed(2) : 'N/A';
-                const total = detail.price ? (detail.price * detail.quantity).toFixed(2) : 'N/A';
+                const price = detail.price ? detail.price.toFixed(2) : "N/A";
+                const total = detail.price
+                  ? (detail.price * detail.quantity).toFixed(2)
+                  : "N/A";
 
                 return (
                   <TableRow key={index}>
@@ -60,13 +75,19 @@ const RequestDetailsModal = ({ request, onClose, onCancel }) => {
           </Table>
         </TableWrapper>
         <TotalSummary>
-          <p><strong>Total Products:</strong> {request.orderDetails.reduce((total, item) => total + item.quantity, 0)}</p>
+          <p>
+            <strong>Total Products:</strong>{" "}
+            {request.orderDetails.reduce(
+              (total, item) => total + item.quantity,
+              0
+            )}
+          </p>
         </TotalSummary>
       </Section>
       {/* Conditionally render the Cancel Order button */}
       {request.status === "Pending" && (
         <ButtonGroup>
-          <Button variant="fail" onClick={handleCancelOrder}>
+          <Button variant="red" onClick={handleCancelOrder}>
             Cancel Order
           </Button>
         </ButtonGroup>

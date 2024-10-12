@@ -13,7 +13,7 @@ import AddCategoryModal from "../../components/Products/AddCategoryModal";
 import ProductDetailsModal from "../../components/Products/ProductDetailsModal"; // Import the ProductDetailsModal component
 import { FaPlus } from "react-icons/fa"; // Import FaPlus icon
 
-const AdminProducts = () => {
+const SuperAdminProducts = () => {
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -187,4 +187,4 @@ const AnalyticsContainer = styled.div`
   padding: 0 1px;
 `;
 
-export default AdminProducts;
+export default SuperAdminProducts;

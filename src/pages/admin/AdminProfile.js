@@ -44,7 +44,17 @@ const AdminProfile = () => {
     } else {
       setHasChanges(false);
     }
-  }, [name, email, password, confirmPassword, contact]);
+  }, [
+    isEditingName,
+    isEditingEmail,
+    isEditingPassword,
+    isEditingContact,
+    name,
+    email,
+    password,
+    confirmPassword,
+    contact
+  ]); // Add all necessary dependencies here
 
   const handleSaveChanges = () => {
     console.log("Changes saved!");
@@ -215,7 +225,7 @@ const LeftPanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center items vertically */
+  justify-content: center;
   margin-bottom: 20px;
 
   @media (min-width: 768px) {
@@ -308,9 +318,9 @@ const InputField = styled.input`
   margin-right: 10px;
   border: ${({ showBorder }) => (showBorder ? "1px solid #ccc" : "none")};
   border-radius: 8px;
-  width: 100%; /* Full width by default */
-  max-width: 500px; /* Maximum width for larger screens */
-  box-sizing: border-box; /* Ensure padding is included in width */
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
 `;
 
 const EditButton = styled.button`
@@ -348,7 +358,7 @@ const FieldContainer = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  width: 100%; /* Full width */
+  width: 100%;
 `;
 
 const EyeIcon = styled.div`

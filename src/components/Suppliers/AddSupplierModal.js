@@ -11,7 +11,12 @@ const AddSupplierModal = ({ onClose, onAdd }) => {
 
   const handleAddSupplier = () => {
     // Validate input before adding supplier
-    if (supplierName && supplierNumber && contactPersonName && contactPersonNumber) {
+    if (
+      supplierName &&
+      supplierNumber &&
+      contactPersonName &&
+      contactPersonNumber
+    ) {
       const newSupplier = {
         supplierName,
         supplierNumber,
@@ -57,10 +62,12 @@ const AddSupplierModal = ({ onClose, onAdd }) => {
           placeholder="Enter contact person number"
         />
         <ButtonGroup>
-        <Button variant="fail" onClick={onClose}>
+          <Button variant="red" onClick={onClose}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleAddSupplier}>Add Supplier</Button>
+          <Button variant="primary" onClick={handleAddSupplier}>
+            Add Supplier
+          </Button>
         </ButtonGroup>
       </Form>
     </Modal>

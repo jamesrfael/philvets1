@@ -1,10 +1,29 @@
 import React, { useState } from "react";
 import Modal from "../../Layout/Modal";
 import Button from "../../Layout/Button";
-import styled from "styled-components";  // Import styled for styled-components
-import { IoCloseCircle } from "react-icons/io5";  // Import the icon
-import { Field, Label, Input, DeleteButton, DescriptionBox, OrderDetailsSection, Table, QuantityInput, SuggestionsList, SuggestionItem, TotalSection, TotalRow, TotalLabel, TotalValue } from "../OrderStyles";
-import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue } from "../../../utils/CalculationUtils";
+import styled from "styled-components"; // Import styled for styled-components
+import { IoCloseCircle } from "react-icons/io5"; // Import the icon
+import {
+  Field,
+  Label,
+  Input,
+  DeleteButton,
+  DescriptionBox,
+  OrderDetailsSection,
+  Table,
+  QuantityInput,
+  SuggestionsList,
+  SuggestionItem,
+  TotalSection,
+  TotalRow,
+  TotalLabel,
+  TotalValue,
+} from "../OrderStyles";
+import {
+  calculateLineTotal,
+  calculateTotalQuantity,
+  calculateTotalValue,
+} from "../../../utils/CalculationUtils";
 
 const products = [
   { id: 1, name: "Canine Dewormer", price: 20.0 },
@@ -29,7 +48,10 @@ const AddRequestModal = ({ onClose, onSave }) => {
   const [currentEditingIndex, setCurrentEditingIndex] = useState(null);
 
   const handleAddProduct = () => {
-    setOrderDetails([...orderDetails, { productId: "", productName: "", price: 0, quantity: 1, lineTotal: 0 }]);
+    setOrderDetails([
+      ...orderDetails,
+      { productId: "", productName: "", price: 0, quantity: 1, lineTotal: 0 },
+    ]);
   };
 
   const handleProductInputChange = (index, value) => {
@@ -49,7 +71,9 @@ const AddRequestModal = ({ onClose, onSave }) => {
     updatedOrderDetails[index].productId = product.id;
     updatedOrderDetails[index].productName = product.name;
     updatedOrderDetails[index].price = product.price;
-    updatedOrderDetails[index].lineTotal = calculateLineTotal(updatedOrderDetails[index]);
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(
+      updatedOrderDetails[index]
+    );
     setOrderDetails(updatedOrderDetails);
     setProductSearch("");
     setFilteredProducts(products);
@@ -59,7 +83,9 @@ const AddRequestModal = ({ onClose, onSave }) => {
   const handleQuantityChange = (index, value) => {
     const updatedOrderDetails = [...orderDetails];
     updatedOrderDetails[index].quantity = Math.max(1, value);
-    updatedOrderDetails[index].lineTotal = calculateLineTotal(updatedOrderDetails[index]);
+    updatedOrderDetails[index].lineTotal = calculateLineTotal(
+      updatedOrderDetails[index]
+    );
     setOrderDetails(updatedOrderDetails);
   };
 
@@ -86,11 +112,17 @@ const AddRequestModal = ({ onClose, onSave }) => {
     <Modal title="Add Request" onClose={onClose}>
       <Field>
         <Label>Client Name</Label>
-        <Input value={clientName} onChange={(e) => setClientName(e.target.value)} />
+        <Input
+          value={clientName}
+          onChange={(e) => setClientName(e.target.value)}
+        />
       </Field>
       <Field>
         <Label>Description</Label>
-        <DescriptionBox value={description} onChange={(e) => setDescription(e.target.value)} />
+        <DescriptionBox
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
       </Field>
       <OrderDetailsSection>
         <h3>Products</h3>
@@ -111,13 +143,18 @@ const AddRequestModal = ({ onClose, onSave }) => {
                   <div style={{ position: "relative" }}>
                     <Input
                       value={detail.productName}
-                      onChange={(e) => handleProductInputChange(index, e.target.value)}
+                      onChange={(e) =>
+                        handleProductInputChange(index, e.target.value)
+                      }
                       placeholder="Search / Filter product"
                     />
                     {currentEditingIndex === index && productSearch && (
                       <SuggestionsList>
                         {filteredProducts.map((product) => (
-                          <SuggestionItem key={product.id} onClick={() => handleProductSelect(index, product)}>
+                          <SuggestionItem
+                            key={product.id}
+                            onClick={() => handleProductSelect(index, product)}
+                          >
                             {product.name}
                           </SuggestionItem>
                         ))}
@@ -131,7 +168,9 @@ const AddRequestModal = ({ onClose, onSave }) => {
                     type="number"
                     min="1"
                     value={detail.quantity}
-                    onChange={(e) => handleQuantityChange(index, Number(e.target.value))}
+                    onChange={(e) =>
+                      handleQuantityChange(index, Number(e.target.value))
+                    }
                   />
                 </td>
                 <td>₱{detail.lineTotal.toFixed(2)}</td>
@@ -159,7 +198,7 @@ const AddRequestModal = ({ onClose, onSave }) => {
         </TotalSection>
       </OrderDetailsSection>
       <ButtonGroup>
-        <Button variant="fail" onClick={onClose}>
+        <Button variant="red" onClick={onClose}>
           Cancel
         </Button>
         <Button variant="primary" onClick={handleSave}>

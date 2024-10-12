@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import sadDog from "../assets/sad.gif";
 import { colors } from "../colors";
-import Button from '../components/Layout/Button';
-import { Link } from 'react-router-dom';
+import Button from "../components/Layout/Button";
+import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
   return (
@@ -14,7 +14,9 @@ const NotFoundPage = () => {
         </SadDogContainer>
         <Content>
           <Title>404</Title>
-          <Subtitle>Oops! <br /> Page Not Found</Subtitle>
+          <Subtitle>
+            Oops! <br /> Page Not Found
+          </Subtitle>
           <Description></Description>
           <HomeLink to="/staff/dashboard">
             <Button variant="primary">Go to Home</Button>
@@ -50,13 +52,13 @@ const Content = styled.div`
 
 const Title = styled.h1`
   font-size: 6rem;
-  color: ${colors.fail};
+  color: ${colors.red};
   margin: 0;
 `;
 
 const Subtitle = styled.h2`
   font-size: 2rem;
-  color: ${colors.secondary};
+  color: ${colors.orange};
 `;
 
 const Description = styled.p`

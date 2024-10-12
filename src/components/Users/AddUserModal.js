@@ -37,7 +37,11 @@ const AddUserModal = ({ onClose, onSave }) => {
   // Update username dynamically based on the first name, last name, and account type
   useEffect(() => {
     if (firstname && lastname && acctype) {
-      const generatedUsername = `${acctype.toLowerCase()}_${firstname.toLowerCase()}${lastname.toLowerCase()}`.replace(/\s/g, "");
+      const generatedUsername =
+        `${acctype.toLowerCase()}_${firstname.toLowerCase()}${lastname.toLowerCase()}`.replace(
+          /\s/g,
+          ""
+        );
       setUsername(generatedUsername);
     } else if (acctype) {
       // If only acctype is set, start with acctype_
@@ -96,7 +100,8 @@ const AddUserModal = ({ onClose, onSave }) => {
   };
 
   // Determine if it's a superadmin or admin page
-  const isSuperadminPage = window.location.pathname.includes("/superadmin/users");
+  const isSuperadminPage =
+    window.location.pathname.includes("/superadmin/users");
 
   return (
     <ModalOverlay>
@@ -192,10 +197,9 @@ const AddUserModal = ({ onClose, onSave }) => {
               </Select>
             </Field>
           ) : null}
-
         </ModalBody>
         <ModalFooter>
-          <Button variant="fail" onClick={onClose}>
+          <Button variant="red" onClick={onClose}>
             Cancel
           </Button>
           <Button variant="primary" onClick={handleSave}>
@@ -250,7 +254,7 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: ${colors.fail};
+  color: ${colors.red};
 `;
 
 const ModalBody = styled.div``;

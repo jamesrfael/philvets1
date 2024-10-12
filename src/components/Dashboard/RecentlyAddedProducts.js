@@ -2,7 +2,7 @@ import React from "react";
 import DashboardTable from "./DashboardTable";
 
 const sampleData = [
-  { id: 1, name: "Premium Dog Food", dateAdded: "2024-08-20", quantity: 50, amount: "₱ 25,000" },
+  { id: 1, name: "Premium Dog Food", dateAdded: "2024-08-20", quantity: 50, amount: "₱ 125,000" },
   { id: 2, name: "Cat Scratching Post", dateAdded: "2024-08-21", quantity: 20, amount: "₱ 10,000" },
   { id: 3, name: "Fish Tank Pump", dateAdded: "2024-08-22", quantity: 15, amount: "₱ 7,500" },
   { id: 4, name: "Hamster Wheel", dateAdded: "2024-08-23", quantity: 30, amount: "₱ 3,000" },

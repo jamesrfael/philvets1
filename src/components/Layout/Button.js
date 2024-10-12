@@ -1,21 +1,21 @@
 // src/components/Button.js
-import React from 'react';
-import styled from 'styled-components';
-import { colors } from '../../colors'; // Adjust path as necessary
+import React from "react";
+import styled from "styled-components";
+import { colors } from "../../colors"; // Adjust path as necessary
 
-const Button = ({ variant = 'primary', onClick, children, ...props }) => {
+const Button = ({ variant = "primary", onClick, children, ...props }) => {
   const variantColors = {
     primary: {
       backgroundColor: colors.primary,
       hoverColor: colors.primaryHover,
-      textColor: 'white',
+      textColor: "white",
     },
-    fail: {
-      backgroundColor: colors.fail,
-      hoverColor: colors.failHover,
-      textColor: 'white',
+    red: {
+      backgroundColor: colors.red,
+      hoverColor: colors.redHover,
+      textColor: "white",
     },
-    // You can add more variants if needed, such as 'success', 'warning', etc.
+    // You can add more variants if needed, such as 'green', 'warning', etc.
   };
 
   const selectedVariant = variantColors[variant] || variantColors.primary;

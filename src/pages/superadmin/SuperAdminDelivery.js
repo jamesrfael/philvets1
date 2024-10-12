@@ -11,7 +11,7 @@ import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
 import Button from "../../components/Layout/Button"; // Import the Button component
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const AdminDelivery = () => {
+const SuperAdminDelivery = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [sortConfig, setSortConfig] = useState({
@@ -182,4 +182,4 @@ const TableHeader = styled.th`
   align-items: center; /* Center vertically */
 `;
 
-export default AdminDelivery;
+export default SuperAdminDelivery;

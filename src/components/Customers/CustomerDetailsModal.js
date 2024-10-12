@@ -12,7 +12,9 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = () => {
-    const confirmSave = window.confirm("Are you sure you want to save the changes?");
+    const confirmSave = window.confirm(
+      "Are you sure you want to save the changes?"
+    );
     if (confirmSave) {
       // Implement save logic here
       alert("Client details saved");
@@ -21,7 +23,9 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
   };
 
   const handleCancel = () => {
-    const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
+    const confirmCancel = window.confirm(
+      "Are you sure you want to discard the changes?"
+    );
     if (confirmCancel) {
       setIsEditing(false);
       setEditedClient(client); // Reset to original client data on cancel
@@ -29,7 +33,9 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
   };
 
   const handleRemove = () => {
-    const confirmRemoval = window.confirm("Are you sure you want to remove this client?");
+    const confirmRemoval = window.confirm(
+      "Are you sure you want to remove this client?"
+    );
     if (confirmRemoval) {
       onRemove(client.CLIENT_ID);
       onClose();
@@ -116,7 +122,7 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
             </DetailItem>
           </Details>
           <ButtonGroup>
-            <Button variant="fail" onClick={handleCancel}>
+            <Button variant="red" onClick={handleCancel}>
               Cancel
             </Button>
             <Button variant="primary" onClick={handleSave}>
@@ -128,16 +134,19 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
         <>
           <Section>
             <Detail>
-              <DetailLabel>Client Name:</DetailLabel> {client.CLIENT_NAME || "N/A"}
+              <DetailLabel>Client Name:</DetailLabel>{" "}
+              {client.CLIENT_NAME || "N/A"}
             </Detail>
             <Detail>
               <DetailLabel>City:</DetailLabel> {client.CLIENT_CITY || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Province:</DetailLabel> {client.CLIENT_PROVINCE || "N/A"}
+              <DetailLabel>Province:</DetailLabel>{" "}
+              {client.CLIENT_PROVINCE || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Phone:</DetailLabel> {client.CLIENT_PHONENUM || "N/A"}
+              <DetailLabel>Phone:</DetailLabel>{" "}
+              {client.CLIENT_PHONENUM || "N/A"}
             </Detail>
             <Detail>
               <DetailLabel>Email:</DetailLabel> {client.CLIENT_EMAIL || "N/A"}
@@ -145,7 +154,7 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
           </Section>
 
           <ButtonGroup>
-            <Button variant="fail" onClick={handleRemove}>
+            <Button variant="red" onClick={handleRemove}>
               Remove
             </Button>
             <Button variant="primary" onClick={handleEdit}>

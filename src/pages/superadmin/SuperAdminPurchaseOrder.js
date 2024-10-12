@@ -11,9 +11,9 @@ import Button from "../../components/Layout/Button";
 import PURCHASE_ORDERS from "../data/PurchaseOrderData"; // Make sure this path is correct
 import { FaPlus, FaChevronUp, FaChevronDown } from "react-icons/fa";
 
-const AdminPurchaseOrder = () => {
+const SuperAdminPurchaseOrder = () => {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState(PURCHASE_ORDERS); // Use PURCHASE_ORDERS directly
+  const [orders] = useState(PURCHASE_ORDERS); // Use PURCHASE_ORDERS directly
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingPurchaseOrder, setIsAddingPurchaseOrder] = useState(false);
@@ -189,4 +189,4 @@ const TableHeader = styled.th`
   align-items: center;
 `;
 
-export default AdminPurchaseOrder;
+export default SuperAdminPurchaseOrder;

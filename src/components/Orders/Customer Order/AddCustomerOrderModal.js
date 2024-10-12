@@ -24,8 +24,11 @@ import {
 } from "../OrderStyles";
 import { FaPlus } from "react-icons/fa";
 import useAddCustomerOrderModal from "../../../hooks/useAddCustomerOrderModal";
-import { calculateLineTotal, calculateTotalDiscount } from "../../../utils/CalculationUtils"; // Import calculation utilities
-import '../../../styles.css'; // Import your custom styles
+import {
+  calculateLineTotal,
+  calculateTotalDiscount,
+} from "../../../utils/CalculationUtils"; // Import calculation utilities
+import "../../../styles.css"; // Import your custom styles
 
 const AddCustomerOrderModal = ({ onClose, onSave }) => {
   const {
@@ -213,7 +216,10 @@ const AddCustomerOrderModal = ({ onClose, onSave }) => {
                       type="number"
                       value={orderDetail.quantity}
                       onChange={(e) =>
-                        handleQuantityChange(index, parseInt(e.target.value, 10))
+                        handleQuantityChange(
+                          index,
+                          parseInt(e.target.value, 10)
+                        )
                       }
                     />
                   </td>
@@ -255,9 +261,7 @@ const AddCustomerOrderModal = ({ onClose, onSave }) => {
             </tbody>
           </Table>
 
-          <Button onClick={handleAddProduct}>
-            Add Product
-          </Button>
+          <Button onClick={handleAddProduct}>Add Product</Button>
 
           <TotalSection>
             <TotalRow>
@@ -266,17 +270,21 @@ const AddCustomerOrderModal = ({ onClose, onSave }) => {
             </TotalRow>
             <TotalRow>
               <TotalLabel>Total Discount</TotalLabel>
-              <TotalValue style={{ color: "#ff5757" }}>₱{totalDiscount.toFixed(2)}</TotalValue>
+              <TotalValue style={{ color: "#ff5757" }}>
+                ₱{totalDiscount.toFixed(2)}
+              </TotalValue>
             </TotalRow>
             <TotalRow>
               <TotalLabel>Total Value</TotalLabel>
-              <TotalValue style={{ color: "#1DBA0B" }}>₱{totalValue.toFixed(2)}</TotalValue>
+              <TotalValue style={{ color: "#1DBA0B" }}>
+                ₱{totalValue.toFixed(2)}
+              </TotalValue>
             </TotalRow>
           </TotalSection>
         </OrderDetailsSection>
 
         <ButtonGroup>
-          <Button variant="fail" onClick={onClose}>
+          <Button variant="red" onClick={onClose}>
             Cancel
           </Button>
           <Button variant="primary" onClick={handleSave}>

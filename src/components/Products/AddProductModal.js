@@ -40,8 +40,8 @@ const AddProductModal = ({ onClose, onSave }) => {
       PROD_RO_QTY: parseInt(roQty),
       PROD_QOH: parseInt(qoh),
       PROD_IMG: "", // You might want to handle image upload separately
-      PROD_DATECREATED: new Date().toISOString().split('T')[0],
-      PROD_DATEUPDATED: new Date().toISOString().split('T')[0],
+      PROD_DATECREATED: new Date().toISOString().split("T")[0],
+      PROD_DATEUPDATED: new Date().toISOString().split("T")[0],
       PROD_CAT_CODE: categoryCode,
     };
 
@@ -164,8 +164,8 @@ const AddProductModal = ({ onClose, onSave }) => {
           </Field>
         </ModalBody>
         <ModalFooter>
-        <ButtonGroup>
-            <Button variant="fail" onClick={onClose}>
+          <ButtonGroup>
+            <Button variant="red" onClick={onClose}>
               Cancel
             </Button>
             <Button variant="primary" onClick={handleSave}>
@@ -222,7 +222,7 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: ${colors.fail};
+  color: ${colors.red};
 `;
 
 const ModalBody = styled.div``;
@@ -251,10 +251,9 @@ const ModalFooter = styled.div`
 `;
 
 const ButtonGroup = styled.div`
-display: flex;
-gap: 10px;
-justify-content: flex-end;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
 `;
-
 
 export default AddProductModal;

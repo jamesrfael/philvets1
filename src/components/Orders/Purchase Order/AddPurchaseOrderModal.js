@@ -23,7 +23,12 @@ import {
 } from "../OrderStyles";
 import { FaPlus } from "react-icons/fa";
 import useAddPurchaseOrderModal from "../../../hooks/useAddPurchaseOrderModal";
-import { calculateLineTotal, calculateTotalQuantity, calculateTotalValue, calculateTotalDiscount } from "../../../utils/CalculationUtils"; // Import calculation utilities
+import {
+  calculateLineTotal,
+  calculateTotalQuantity,
+  calculateTotalValue,
+  calculateTotalDiscount,
+} from "../../../utils/CalculationUtils"; // Import calculation utilities
 
 const AddPurchaseOrderModal = ({ onClose, onSave }) => {
   const {
@@ -227,17 +232,21 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
           </TotalRow>
           <TotalRow>
             <TotalLabel>Total Discount</TotalLabel>
-            <TotalValue style={{ color: "#ff5757" }}>₱{totalDiscount.toFixed(2)}</TotalValue>
+            <TotalValue style={{ color: "#ff5757" }}>
+              ₱{totalDiscount.toFixed(2)}
+            </TotalValue>
           </TotalRow>
           <TotalRow>
             <TotalLabel>Total Value</TotalLabel>
-            <TotalValue style={{ color: "#1DBA0B" }}>₱{totalValue.toFixed(2)}</TotalValue>
+            <TotalValue style={{ color: "#1DBA0B" }}>
+              ₱{totalValue.toFixed(2)}
+            </TotalValue>
           </TotalRow>
         </TotalSection>
       </OrderDetailsSection>
 
       <ButtonGroup>
-        <Button variant="fail" onClick={onClose}>
+        <Button variant="red" onClick={onClose}>
           Cancel
         </Button>
         <Button variant="primary" onClick={handleSave}>

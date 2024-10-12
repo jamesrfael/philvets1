@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { colors } from "../../colors";
-import Button from "../Layout/Button"; 
+import Button from "../Layout/Button";
 
 // Modal Overlay and Content styles
 export const ModalOverlay = styled.div`
@@ -125,7 +125,7 @@ export const DeleteButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 1.2em;
-  color: ${colors.fail};
+  color: ${colors.red};
 `;
 
 // Total section styles
@@ -163,7 +163,7 @@ export const CloseButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 1.5em;
-  color: ${colors.fail};
+  color: ${colors.red};
 `;
 
 // Discount styles

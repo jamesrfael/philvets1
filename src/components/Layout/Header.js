@@ -8,7 +8,7 @@ import { colors } from "../../colors";
 // Updated pageTitles with superadmin and other role titles
 const pageTitles = {
   // Admin routes
-  "/admin/dashboard": "Admin Dashboard",
+  "/admin/dashboard": "Dashboard",
   "/admin/orders": "Order",
   "/admin/orders/pending-request": "Request",
   "/admin/orders/customer-order": "Customer Order",
@@ -31,7 +31,7 @@ const pageTitles = {
   "/admin/orders/purchase": "Purchase Order",
 
   // SuperAdmin routes
-  "/superadmin/dashboard": "SuperAdmin Dashboard",
+  "/superadmin/dashboard": "Dashboard",
   "/superadmin/orders": "Order",
   "/superadmin/orders/pending-request": "Request",
   "/superadmin/orders/customer-order": "Customer Order",
@@ -54,7 +54,7 @@ const pageTitles = {
   "/superadmin/orders/purchase": "Purchase Order",
 
   // Staff routes
-  "/staff/dashboard": "Staff Dashboard",
+  "/staff/dashboard": "Dashboard",
   "/staff/profile": "Staff Profile",
   "/staff/orders": "Order",
   "/staff/delivery": "Delivery",

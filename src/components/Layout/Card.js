@@ -41,7 +41,7 @@ const CardContainer = styled.div`
 const CardContent = styled.div`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 150px;
 `;
 
 const TextContainer = styled.div`
@@ -49,7 +49,7 @@ const TextContainer = styled.div`
 `;
 
 const Label = styled.span`
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 450;
   white-space: nowrap; // Prevent label from wrapping
   overflow: hidden;

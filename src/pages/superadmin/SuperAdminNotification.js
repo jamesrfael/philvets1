@@ -5,7 +5,7 @@ import SearchBar from "../../components/Layout/SearchBar";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Import the CardTotalNotification component
 import { notificationData } from "../data/NotificationData"; // Import the notification data
 
-const AdminNotification = () => {
+const SuperAdminNotification = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [notifications, setNotifications] = useState(
     notificationData.map((notification) => ({ ...notification, isRead: false }))
@@ -170,18 +170,18 @@ const NotificationItem = styled.div`
 `;
 
 const MarkAsUnread = styled.span`
-  color: black; /* Bold black text */
-  font-weight: bold; /* Make it bold */
+  color: black;
+  font-weight: bold;
   cursor: pointer;
-  font-size: 0.8rem; /* Smaller font size */
-  position: absolute; /* Position it at the top right of the notification item */
-  top: 10px; /* Adjust as necessary */
-  right: 10px; /* Adjust as necessary */
+  font-size: 0.8rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   transition: color 0.2s ease;
 
   &:hover {
-    color: #333; /* Darker shade on hover */
+    color: #333;
   }
 `;
 
-export default AdminNotification;
+export default SuperAdminNotification;

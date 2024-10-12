@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types'; // Import PropTypes for validation
-import styled from 'styled-components';
-import Modal from '../Layout/Modal'; // Ensure the path to Modal is correct
-import Button from '../Layout/Button'; // Import the Button component
+import React, { useState } from "react";
+import PropTypes from "prop-types"; // Import PropTypes for validation
+import styled from "styled-components";
+import Modal from "../Layout/Modal"; // Ensure the path to Modal is correct
+import Button from "../Layout/Button"; // Import the Button component
 
 const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -13,7 +13,9 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = () => {
-    const confirmSave = window.confirm("Are you sure you want to save the changes?");
+    const confirmSave = window.confirm(
+      "Are you sure you want to save the changes?"
+    );
     if (confirmSave) {
       // Implement save logic here
       alert("Supplier details saved");
@@ -22,7 +24,9 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
   };
 
   const handleCancel = () => {
-    const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
+    const confirmCancel = window.confirm(
+      "Are you sure you want to discard the changes?"
+    );
     if (confirmCancel) {
       setIsEditing(false);
       setEditedSupplier(supplier);
@@ -30,12 +34,14 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
   };
 
   const handleRemove = () => {
-    const confirmRemoval = window.confirm("Are you sure you want to remove this supplier?");
+    const confirmRemoval = window.confirm(
+      "Are you sure you want to remove this supplier?"
+    );
     if (confirmRemoval) {
-      if (typeof onRemove === 'function') {
+      if (typeof onRemove === "function") {
         onRemove(supplier.SUPP_ID); // Use SUPP_ID for identification
       } else {
-        console.error('onRemove is not a function');
+        console.error("onRemove is not a function");
       }
       onClose(); // Close the modal after removal
     }
@@ -43,7 +49,11 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
 
   return (
     <Modal
-      title={isEditing ? `Edit ${supplier.SUPP_COMPANY_NAME}` : `${supplier.SUPP_COMPANY_NAME} Details`}
+      title={
+        isEditing
+          ? `Edit ${supplier.SUPP_COMPANY_NAME}`
+          : `${supplier.SUPP_COMPANY_NAME} Details`
+      }
       onClose={onClose}
     >
       {isEditing ? (
@@ -53,8 +63,13 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
               <strong>Company Name:</strong>
               <Input
                 type="text"
-                value={editedSupplier.SUPP_COMPANY_NAME || ''}
-                onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_COMPANY_NAME: e.target.value })}
+                value={editedSupplier.SUPP_COMPANY_NAME || ""}
+                onChange={(e) =>
+                  setEditedSupplier({
+                    ...editedSupplier,
+                    SUPP_COMPANY_NAME: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -62,8 +77,13 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
               <strong>Company Number:</strong>
               <Input
                 type="text"
-                value={editedSupplier.SUPP_COMPANY_NUM || ''}
-                onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_COMPANY_NUM: e.target.value })}
+                value={editedSupplier.SUPP_COMPANY_NUM || ""}
+                onChange={(e) =>
+                  setEditedSupplier({
+                    ...editedSupplier,
+                    SUPP_COMPANY_NUM: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -71,8 +91,13 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
               <strong>Contact Name:</strong>
               <Input
                 type="text"
-                value={editedSupplier.SUPP_CONTACT_NAME || ''}
-                onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_CONTACT_NAME: e.target.value })}
+                value={editedSupplier.SUPP_CONTACT_NAME || ""}
+                onChange={(e) =>
+                  setEditedSupplier({
+                    ...editedSupplier,
+                    SUPP_CONTACT_NAME: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
@@ -80,36 +105,53 @@ const SupplierDetailsModal = ({ supplier, onClose, onRemove }) => {
               <strong>Contact Number:</strong>
               <Input
                 type="text"
-                value={editedSupplier.SUPP_CONTACT_PHNUM || ''}
-                onChange={(e) => setEditedSupplier({ ...editedSupplier, SUPP_CONTACT_PHNUM: e.target.value })}
+                value={editedSupplier.SUPP_CONTACT_PHNUM || ""}
+                onChange={(e) =>
+                  setEditedSupplier({
+                    ...editedSupplier,
+                    SUPP_CONTACT_PHNUM: e.target.value,
+                  })
+                }
                 border
               />
             </DetailItem>
           </Details>
           <ButtonGroup>
-            <Button variant="primary" onClick={handleSave}>Save</Button>
-            <Button variant="fail" onClick={handleCancel}>Cancel</Button>
+            <Button variant="primary" onClick={handleSave}>
+              Save
+            </Button>
+            <Button variant="red" onClick={handleCancel}>
+              Cancel
+            </Button>
           </ButtonGroup>
         </>
       ) : (
         <>
           <Section>
             <Detail>
-              <DetailLabel>Company Name:</DetailLabel> {supplier.SUPP_COMPANY_NAME}
+              <DetailLabel>Company Name:</DetailLabel>{" "}
+              {supplier.SUPP_COMPANY_NAME}
             </Detail>
             <Detail>
-              <DetailLabel>Company Number:</DetailLabel> {supplier.SUPP_COMPANY_NUM}
+              <DetailLabel>Company Number:</DetailLabel>{" "}
+              {supplier.SUPP_COMPANY_NUM}
             </Detail>
             <Detail>
-              <DetailLabel>Contact Name:</DetailLabel> {supplier.SUPP_CONTACT_NAME}
+              <DetailLabel>Contact Name:</DetailLabel>{" "}
+              {supplier.SUPP_CONTACT_NAME}
             </Detail>
             <Detail>
-              <DetailLabel>Contact Number:</DetailLabel> {supplier.SUPP_CONTACT_PHNUM}
+              <DetailLabel>Contact Number:</DetailLabel>{" "}
+              {supplier.SUPP_CONTACT_PHNUM}
             </Detail>
           </Section>
           <ButtonGroup>
-            <Button variant="fail" onClick={handleRemove}>Remove</Button>
-            <Button variant="primary" onClick={handleEdit}>Edit</Button>
+            <Button variant="red" onClick={handleRemove}>
+              Remove
+            </Button>
+            <Button variant="primary" onClick={handleEdit}>
+              Edit
+            </Button>
           </ButtonGroup>
         </>
       )}
@@ -167,7 +209,7 @@ const ButtonGroup = styled.div`
 `;
 
 const Input = styled.input`
-  border: ${(props) => (props.border ? '1px solid #ddd' : 'none')};
+  border: ${(props) => (props.border ? "1px solid #ddd" : "none")};
   border-radius: 4px;
   padding: 8px;
   width: 100%;

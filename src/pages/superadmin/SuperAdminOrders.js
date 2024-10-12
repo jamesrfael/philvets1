@@ -9,7 +9,7 @@ import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import Button from "../../components/Layout/Button"; // Import the Button component
 import { orders as initialOrders } from "../data/OrderData";
 
-const AdminOrders = () => {
+const SuperAdminOrders = () => {
   const navigate = useNavigate();
   const [orders] = useState(initialOrders);
   const [searchTerm, setSearchTerm] = useState("");
@@ -95,4 +95,4 @@ const Status = styled.span`
   font-weight: bold;
 `;
 
-export default AdminOrders;
+export default SuperAdminOrders;

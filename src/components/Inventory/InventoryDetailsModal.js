@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Modal from '../Layout/Modal'; // Ensure the path to Modal is correct
-import styled from 'styled-components';
-import Button from '../Layout/Button'; // Import the Button component
+import React, { useState } from "react";
+import Modal from "../Layout/Modal"; // Ensure the path to Modal is correct
+import styled from "styled-components";
+import Button from "../Layout/Button"; // Import the Button component
 
 const InventoryDetailsModal = ({ item, onClose }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -12,7 +12,9 @@ const InventoryDetailsModal = ({ item, onClose }) => {
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = () => {
-    const confirmSave = window.confirm("Are you sure you want to save the changes?");
+    const confirmSave = window.confirm(
+      "Are you sure you want to save the changes?"
+    );
     if (confirmSave) {
       // Implement save logic here
       alert("Inventory details saved");
@@ -21,7 +23,9 @@ const InventoryDetailsModal = ({ item, onClose }) => {
   };
 
   const handleCancel = () => {
-    const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
+    const confirmCancel = window.confirm(
+      "Are you sure you want to discard the changes?"
+    );
     if (confirmCancel) {
       setIsEditing(false);
       setEditedItem(item);
@@ -29,7 +33,9 @@ const InventoryDetailsModal = ({ item, onClose }) => {
   };
 
   const handleRemove = () => {
-    const confirmRemoval = window.confirm("Are you sure you want to remove this item?");
+    const confirmRemoval = window.confirm(
+      "Are you sure you want to remove this item?"
+    );
     if (confirmRemoval) {
       // Implement remove logic here
       alert(`Item ${item.name} removed`);
@@ -69,7 +75,9 @@ const InventoryDetailsModal = ({ item, onClose }) => {
               <Input
                 type="text"
                 value={editedItem.name}
-                onChange={(e) => setEditedItem({ ...editedItem, name: e.target.value })}
+                onChange={(e) =>
+                  setEditedItem({ ...editedItem, name: e.target.value })
+                }
                 border
               />
             </DetailItem>
@@ -78,7 +86,9 @@ const InventoryDetailsModal = ({ item, onClose }) => {
               <Input
                 type="text"
                 value={editedItem.sku}
-                onChange={(e) => setEditedItem({ ...editedItem, sku: e.target.value })}
+                onChange={(e) =>
+                  setEditedItem({ ...editedItem, sku: e.target.value })
+                }
                 border
               />
             </DetailItem>
@@ -87,7 +97,9 @@ const InventoryDetailsModal = ({ item, onClose }) => {
               <Input
                 type="text"
                 value={editedItem.supplier}
-                onChange={(e) => setEditedItem({ ...editedItem, supplier: e.target.value })}
+                onChange={(e) =>
+                  setEditedItem({ ...editedItem, supplier: e.target.value })
+                }
                 border
               />
             </DetailItem>
@@ -96,7 +108,9 @@ const InventoryDetailsModal = ({ item, onClose }) => {
               <Input
                 type="number"
                 value={editedItem.quantity}
-                onChange={(e) => setEditedItem({ ...editedItem, quantity: e.target.value })}
+                onChange={(e) =>
+                  setEditedItem({ ...editedItem, quantity: e.target.value })
+                }
                 border
               />
             </DetailItem>
@@ -105,14 +119,18 @@ const InventoryDetailsModal = ({ item, onClose }) => {
               <Input
                 type="text"
                 value={editedItem.status}
-                onChange={(e) => setEditedItem({ ...editedItem, status: e.target.value })}
+                onChange={(e) =>
+                  setEditedItem({ ...editedItem, status: e.target.value })
+                }
                 border
               />
             </DetailItem>
           </Details>
           <ButtonGroup>
             <Button onClick={handleSave}>Save</Button>
-            <Button onClick={handleCancel} variant="secondary">Cancel</Button>
+            <Button onClick={handleCancel} variant="orange">
+              Cancel
+            </Button>
           </ButtonGroup>
         </>
       ) : (
@@ -136,14 +154,13 @@ const InventoryDetailsModal = ({ item, onClose }) => {
             </Detail>
           </Section>
           <ButtonGroup>
-            <Button variant="fail" onClick={handleRemove}>
+            <Button variant="red" onClick={handleRemove}>
               Remove
             </Button>
             <Button variant="primary" onClick={handleEdit}>
               Edit Details
             </Button>
           </ButtonGroup>
-
         </>
       )}
     </Modal>
@@ -204,7 +221,7 @@ const ButtonGroup = styled.div`
 `;
 
 const Input = styled.input`
-  border: ${(props) => (props.border ? '1px solid #ddd' : 'none')};
+  border: ${(props) => (props.border ? "1px solid #ddd" : "none")};
   border-radius: 4px;
   padding: 8px;
   width: 100%;

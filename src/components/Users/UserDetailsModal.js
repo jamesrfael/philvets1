@@ -14,7 +14,9 @@ const UserDetailsModal = ({ client, onClose, onRemove }) => {
   const handleEdit = () => setIsEditing(true);
 
   const handleSave = () => {
-    const confirmSave = window.confirm("Are you sure you want to save the changes?");
+    const confirmSave = window.confirm(
+      "Are you sure you want to save the changes?"
+    );
     if (confirmSave) {
       // Implement save logic here
       alert("User details saved");
@@ -23,7 +25,9 @@ const UserDetailsModal = ({ client, onClose, onRemove }) => {
   };
 
   const handleCancel = () => {
-    const confirmCancel = window.confirm("Are you sure you want to discard the changes?");
+    const confirmCancel = window.confirm(
+      "Are you sure you want to discard the changes?"
+    );
     if (confirmCancel) {
       setIsEditing(false);
       setEditedUser(client); // Reset to original client data on cancel
@@ -32,7 +36,9 @@ const UserDetailsModal = ({ client, onClose, onRemove }) => {
 
   const handleToggleActivation = () => {
     const confirmToggle = window.confirm(
-      `Are you sure you want to ${client.USER_ISACTIVE ? "deactivate" : "activate"} this user?`
+      `Are you sure you want to ${
+        client.USER_ISACTIVE ? "deactivate" : "activate"
+      } this user?`
     );
     if (confirmToggle) {
       onRemove(client.USER_ID); // Call onRemove with user ID
@@ -42,7 +48,11 @@ const UserDetailsModal = ({ client, onClose, onRemove }) => {
 
   return (
     <Modal
-      title={isEditing ? `Edit ${editedUser.USER_FIRSTNAME} ${editedUser.USER_LASTNAME}` : `User Details`}
+      title={
+        isEditing
+          ? `Edit ${editedUser.USER_FIRSTNAME} ${editedUser.USER_LASTNAME}`
+          : `User Details`
+      }
       onClose={onClose}
     >
       {isEditing ? (
@@ -134,7 +144,7 @@ const UserDetailsModal = ({ client, onClose, onRemove }) => {
             </DetailItem>
           </Details>
           <ButtonGroup>
-            <Button variant="fail" onClick={handleCancel}>
+            <Button variant="red" onClick={handleCancel}>
               Cancel
             </Button>
             <Button variant="primary" onClick={handleSave}>
@@ -146,19 +156,23 @@ const UserDetailsModal = ({ client, onClose, onRemove }) => {
         <>
           <Section>
             <Detail>
-              <DetailLabel>First Name:</DetailLabel> {client.USER_FIRSTNAME || "N/A"}
+              <DetailLabel>First Name:</DetailLabel>{" "}
+              {client.USER_FIRSTNAME || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Last Name:</DetailLabel> {client.USER_LASTNAME || "N/A"}
+              <DetailLabel>Last Name:</DetailLabel>{" "}
+              {client.USER_LASTNAME || "N/A"}
             </Detail>
             <Detail>
               <DetailLabel>Email:</DetailLabel> {client.USER_EMAIL || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Username:</DetailLabel> {client.USER_USERNAME || "N/A"}
+              <DetailLabel>Username:</DetailLabel>{" "}
+              {client.USER_USERNAME || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Phone:</DetailLabel> {client.USER_PHONENUMBER || "N/A"}
+              <DetailLabel>Phone:</DetailLabel>{" "}
+              {client.USER_PHONENUMBER || "N/A"}
             </Detail>
             <Detail>
               <DetailLabel>Address:</DetailLabel> {client.USER_ADDRESS || "N/A"}
@@ -166,9 +180,11 @@ const UserDetailsModal = ({ client, onClose, onRemove }) => {
           </Section>
 
           <ButtonGroup>
-            <Button 
-              backgroundColor={client.USER_ISACTIVE ? colors.fail : colors.success} 
-              hoverColor={client.USER_ISACTIVE ? colors.failHover : colors.successHover} 
+            <Button
+              backgroundColor={client.USER_ISACTIVE ? colors.red : colors.green}
+              hoverColor={
+                client.USER_ISACTIVE ? colors.redHover : colors.greenHover
+              }
               onClick={handleToggleActivation}
             >
               {client.USER_ISACTIVE ? "Deactivate" : "Activate"}

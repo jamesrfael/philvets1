@@ -29,7 +29,7 @@ const DashboardTable = ({ title, headers, data }) => {
 };
 
 const TableWrapper = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 10px;
   padding: 1rem;
   border-radius: 8px;
   background-color: white;

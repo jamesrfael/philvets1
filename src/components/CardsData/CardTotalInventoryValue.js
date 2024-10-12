@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FaDollarSign } from "react-icons/fa"; // Import an icon from react-icons
 
 const CardTotalInventoryValue = () => {
-  const totalInventoryValue = "₱ 680,000"; // Static value for demonstration
+  const totalInventoryValue = "₱ 11,680,000"; // Static value for demonstration
 
   return (
     <CardContainer>
