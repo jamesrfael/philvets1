@@ -1,14 +1,19 @@
+// src/components/MainLayout.js
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Sidebar from "./Sidebar/Sidebar"; // Import the shared Sidebar component
+import Sidebar from "./Sidebar/Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
 import { colors } from "../../colors";
 
 const MainLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const location = useLocation(); // Hook to get the current location
-  const isAdmin = location.pathname.startsWith('/admin');
+  const location = useLocation(); 
+
+  // Determine the role based on the URL
+  const role = location.pathname.includes('/superadmin') ? 'superadmin' :
+               location.pathname.includes('/admin') ? 'admin' :
+               'staff';
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -21,7 +26,7 @@ const MainLayout = ({ children }) => {
   return (
     <LayoutContainer>
       <MainContent>
-        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} isAdmin={isAdmin} />
+        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} role={role} />
         <Content>
           <Header toggleSidebar={toggleSidebar} />
           <MainContentLayout>{children}</MainContentLayout>
@@ -30,6 +35,7 @@ const MainLayout = ({ children }) => {
     </LayoutContainer>
   );
 };
+
 
 // Styled Components
 const LayoutContainer = styled.div`

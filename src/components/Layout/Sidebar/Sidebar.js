@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { useLocation, NavLink } from "react-router-dom";
 import { TbChevronDown } from "react-icons/tb";
 import philvetsLogo from "../../../assets/philvets.png";
-import { adminSidebarItems, staffSidebarItems } from "./sidebarItems";
+import { adminSidebarItems, staffSidebarItems, superadminSidebarItems } from "./sidebarItems"; // Imported superadmin items
 import { TbLogout2 } from "react-icons/tb";
 
-// Centralized theme object for colors
+// Centralized theme object for colors (move this if it's defined elsewhere)
 const theme = {
   text: "#000000", // Default text color
   textActive: "#FFFFFF", // Text color when active
@@ -16,7 +16,7 @@ const theme = {
   background: "#FFFFFF", // Background color (for active state)
 };
 
-const Sidebar = ({ isOpen, onClose, isAdmin }) => {
+const Sidebar = ({ isOpen, onClose, userRole }) => {
   const sidebarRef = useRef(null);
   const location = useLocation(); // Get the current location
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -34,7 +34,18 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
     };
   }, [onClose]);
 
-  const sidebarItems = isAdmin ? adminSidebarItems : staffSidebarItems;
+  // Determine sidebar items based on userRole and location
+  const getSidebarItems = () => {
+    if (location.pathname.startsWith("/superadmin")) {
+      return superadminSidebarItems;
+    } else if (location.pathname.startsWith("/admin")) {
+      return adminSidebarItems;
+    } else {
+      return staffSidebarItems;
+    }
+  };
+
+  const sidebarItems = getSidebarItems();
 
   // Ensure dropdown remains open if any of its subItems matches the current route
   useEffect(() => {
@@ -116,7 +127,8 @@ const Sidebar = ({ isOpen, onClose, isAdmin }) => {
   );
 };
 
-// Styled Components
+
+// Styled Components (make sure 'theme' is in scope)
 const SidebarContainer = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   background-color: white;
@@ -172,6 +184,7 @@ const SidebarContent = styled.div`
 const SidebarFooter = styled.div`
   padding: 16px;
 `;
+
 const SidebarLink = styled(NavLink)`
   display: flex;
   align-items: center;
@@ -232,6 +245,7 @@ const ChevronIconContainer = styled.div`
   transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "rotate(0deg)")};
   transition: transform 0.3s ease-in-out;
 `;
+
 const DropdownContainer = styled.div`
   padding-left: 10px; /* Indent dropdown items */
   margin-top: 4px;
@@ -252,19 +266,20 @@ const DropdownContainer = styled.div`
     }
 
     &:hover {
-      background-color: ${theme.primary}; /* Change background on hover */
-      color: ${theme.background}; /* Keep text white */
+      background-color: ${theme.backgroundHover};
+      color: ${theme.background};
     }
 
     .icon {
+      margin-right: 8px;
       width: 15px;
       height: 15px;
-      margin-right: 8px;
     }
 
     .dropdown-label {
-      font-size: 13px;
+      font-size: 14px;
     }
   }
 `;
+
 export default Sidebar;

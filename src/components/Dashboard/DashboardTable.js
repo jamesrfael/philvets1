@@ -5,7 +5,7 @@ import { colors } from "../../colors";
 const DashboardTable = ({ title, headers, data }) => {
   return (
     <TableWrapper>
-      <h3>{title}</h3>
+      <Title>{title}</Title> {/* Use styled component for title */}
       <Table>
         <thead>
           <tr>
@@ -39,12 +39,20 @@ const TableWrapper = styled.div`
   min-width: 45%; /* Ensures the table occupies about half of the row */
 `;
 
+const Title = styled.h3`
+  font-weight: bold; /* Make the title bold */
+  font-size: 15px;
+  padding-bottom: 10px; /* Optional: add some space below the title */
+`;
+
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   text-align: center;
+  table-layout: auto; /* Allows columns to adjust based on content */
 
-  th, td {
+  th,
+  td {
     padding: 0.75rem;
     border-bottom: 1px solid #ddd;
   }
@@ -53,10 +61,6 @@ const Table = styled.table`
     background-color: ${colors.primary};
     color: white;
   }
-
-  th:nth-child(1) { width: 30%; } /* Adjust the width as needed */
-  th:nth-child(2) { width: 40%; } /* Adjust the width as needed */
-  th:nth-child(3) { width: 30%; } /* Adjust the width as needed */
 `;
 
 export default DashboardTable;

@@ -1,5 +1,9 @@
+// src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { UserProvider } from "./context/UserContext"; // Import UserProvider
+
+
 import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
 
@@ -60,76 +64,119 @@ import StaffCategoryView from "./pages/staff/StaffCategoryView";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
+
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
+    <UserProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/superadmin/dashboard"
+            element={<SuperAdminDashboard />}
+          />
+          <Route path="/superadmin/profile" element={<SuperAdminProfile />} />
+          <Route path="/superadmin/users" element={<SuperAdminUsers />} />
+          <Route
+            path="/superadmin/customers"
+            element={<SuperAdminCustomers />}
+          />
+          <Route
+            path="/superadmin/inventory"
+            element={<SuperAdminInventory />}
+          />
+          <Route path="/superadmin/reports" element={<SuperAdminReports />} />
+          <Route
+            path="/superadmin/suppliers"
+            element={<SuperAdminSuppliers />}
+          />
+          <Route path="/superadmin/orders" element={<SuperAdminOrders />} />
+          <Route
+            path="/superadmin/orders/request"
+            element={<SuperAdminRequest />}
+          />
+          <Route
+            path="/superadmin/orders/customer-order"
+            element={<SuperAdminCustomerOrder />}
+          />
+          <Route
+            path="/superadmin/orders/purchase-order"
+            element={<SuperAdminPurchaseOrder />}
+          />
+          <Route path="/superadmin/delivery" element={<SuperAdminDelivery />} />
+          <Route path="/superadmin/products" element={<SuperAdminProducts />} />
+          <Route path="/superadmin/sales" element={<SuperAdminSales />} />
+          <Route path="/superadmin/returns" element={<SuperAdminReturns />} />
+          <Route path="/superadmin/logs" element={<SuperAdminLogs />} />
+          <Route
+            path="/superadmin/categories"
+            element={<SuperAdminCategories />}
+          />
+          <Route
+            path="/superadmin/categories/:categoryId"
+            element={<SuperAdminCategoryView />}
+          />
+          <Route
+            path="/superadmin/notifications"
+            element={<SuperAdminNotification />}
+          />
 
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/customers" element={<AdminCustomers />} />
+          <Route path="/admin/inventory" element={<AdminInventory />} />
+          <Route path="/admin/reports" element={<AdminReports />} />
+          <Route path="/admin/suppliers" element={<AdminSuppliers />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/orders/request" element={<AdminRequest />} />
+          <Route
+            path="/admin/orders/customer-order"
+            element={<AdminCustomerOrder />}
+          />
+          <Route
+            path="/admin/orders/purchase-order"
+            element={<AdminPurchaseOrder />}
+          />
+          <Route path="/admin/delivery" element={<AdminDelivery />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/sales" element={<AdminSales />} />
+          <Route path="/admin/returns" element={<AdminReturns />} />
+          <Route path="/admin/logs" element={<AdminLogs />} />
+          <Route path="/admin/categories" element={<AdminCategories />} />
+          <Route path="/admin/category-view" element={<AdminCategoryView />} />
+          <Route path="/admin/notifications" element={<AdminNotification />} />
 
-        <Route path="/superadmin/dashboard" element={<SuperAdminDashboard />} />
-        <Route path="/superadmin/profile" element={<SuperAdminProfile />} />
-        <Route path="/superadmin/users" element={<SuperAdminUsers />} />
-        <Route path="/superadmin/customers" element={<SuperAdminCustomers />} />
-        <Route path="/superadmin/inventory" element={<SuperAdminInventory />} />
-        <Route path="/superadmin/reports" element={<SuperAdminReports />} />
-        <Route path="/superadmin/suppliers" element={<SuperAdminSuppliers />} />
-        <Route path="/superadmin/orders" element={<SuperAdminOrders />} />
-        <Route path="/superadmin/orders/request" element={<SuperAdminRequest />} />
-        <Route path="/superadmin/orders/customer-order" element={<SuperAdminCustomerOrder />} />
-        <Route path="/superadmin/orders/purchase-order" element={<SuperAdminPurchaseOrder />} />
-        <Route path="/superadmin/delivery" element={<SuperAdminDelivery />} />
-        <Route path="/superadmin/products" element={<SuperAdminProducts />} />
-        <Route path="/superadmin/sales" element={<SuperAdminSales />} />
-        <Route path="/superadmin/returns" element={<SuperAdminReturns />} />
-        <Route path="/superadmin/logs" element={<SuperAdminLogs />} />
-        <Route path="/superadmin/categories" element={<SuperAdminCategories />} />
-        <Route path="/superadmin/categories/:categoryId" element={<SuperAdminCategoryView />} />
-        <Route path="/superadmin/notifications" element={<SuperAdminNotification />} />
+          <Route path="/staff/dashboard" element={<StaffDashboard />} />
+          <Route path="/staff/profile" element={<StaffProfile />} />
+          <Route path="/staff/orders" element={<StaffOrders />} />
+          <Route path="/staff/orders/request" element={<AdminRequest />} />
+          <Route
+            path="/staff/orders/customer-order"
+            element={<AdminCustomerOrder />}
+          />
+          <Route path="/staff/delivery" element={<StaffDelivery />} />
+          <Route path="/staff/products" element={<StaffProducts />} />
+          <Route path="/staff/inventory" element={<StaffInventory />} />
+          <Route path="/staff/customers" element={<StaffCustomers />} />
+          <Route path="/staff/returns" element={<StaffReturns />} />
+          <Route path="/staff/reports" element={<StaffReports />} />
+          <Route path="/staff/categories" element={<StaffCategories />} />
+          <Route path="/staff/category-view" element={<StaffCategoryView />} />
+          <Route path="/staff/notifications" element={<StaffNotification />} />
+          <Route path="/staff/orders/request" element={<StaffRequest />} />
+          <Route
+            path="/staff/orders/customer-order"
+            element={<StaffCustomerOrder />}
+          />
 
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/profile" element={<AdminProfile />} />
-        <Route path="/admin/users" element={<AdminUsers />} />
-        <Route path="/admin/customers" element={<AdminCustomers />} />
-        <Route path="/admin/inventory" element={<AdminInventory />} />
-        <Route path="/admin/reports" element={<AdminReports />} />
-        <Route path="/admin/suppliers" element={<AdminSuppliers />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
-        <Route path="/admin/orders/request" element={<AdminRequest />} />
-        <Route path="/admin/orders/customer-order" element={<AdminCustomerOrder />}/>
-        <Route path="/admin/orders/purchase-order" element={<AdminPurchaseOrder />}/>
-        <Route path="/admin/delivery" element={<AdminDelivery />} />
-        <Route path="/admin/products" element={<AdminProducts />} />
-        <Route path="/admin/sales" element={<AdminSales />} />
-        <Route path="/admin/returns" element={<AdminReturns />} />
-        <Route path="/admin/logs" element={<AdminLogs />} />
-        <Route path="/admin/categories" element={<AdminCategories />} />
-        <Route path="/admin/category-view" element={<AdminCategoryView />} />
-        <Route path="/admin/notifications" element={<AdminNotification />} />
-
-        <Route path="/staff/dashboard" element={<StaffDashboard />} />
-        <Route path="/staff/profile" element={<StaffProfile />} />
-        <Route path="/staff/orders" element={<StaffOrders />} />
-        <Route path="/staff/orders/request" element={<AdminRequest />} />
-        <Route path="/staff/orders/customer-order" element={<AdminCustomerOrder />} />
-        <Route path="/staff/delivery" element={<StaffDelivery />} />
-        <Route path="/staff/products" element={<StaffProducts />} />
-        <Route path="/staff/inventory" element={<StaffInventory />} />
-        <Route path="/staff/customers" element={<StaffCustomers />} />
-        <Route path="/staff/returns" element={<StaffReturns />} />
-        <Route path="/staff/reports" element={<StaffReports />} />
-        <Route path="/staff/categories" element={<StaffCategories />} />
-        <Route path="/staff/category-view" element={<StaffCategoryView />} />
-        <Route path="/staff/notifications" element={<StaffNotification />} />
-        <Route path="/staff/orders/request" element={<StaffRequest />} />
-        <Route path="/staff/orders/customer-order"element={<StaffCustomerOrder />} />
-
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Router>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Router>
+    </UserProvider>
   );
 }
 

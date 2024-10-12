@@ -1,26 +1,30 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import logo from "../assets/roundlogo.png";
-import loginbg from "../assets/loginbg.jpg";
+// src/pages/LoginPage.js
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { useUserRole } from '../context/UserContext'; // Import useUserRole to set the role
+import logo from '../assets/roundlogo.png';
+import loginbg from '../assets/loginbg.jpg';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // State for error message
+  const [error, setError] = useState('');
+  const { setRole } = useUserRole(); // Access setRole from context
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Simulate a login attempt
     if (username === 'admin@gmail.com' && password === 'Password123') {
-      // Redirect to admin dashboard on successful login
+      setRole('admin');
       window.location.href = '/admin/dashboard';
+    } else if (username === 'superadmin@gmail.com' && password === 'Password123') {
+      setRole('superadmin');
+      window.location.href = '/superadmin/dashboard';
     } else if (username === 'staff@gmail.com' && password === 'Password123') {
-      // Redirect to staff dashboard on successful login
+      setRole('staff');
       window.location.href = '/staff/dashboard';
     } else {
-      // Set error message on failed login
       setError('Invalid username or password');
     }
   };
@@ -32,22 +36,22 @@ const LoginPage = () => {
           <Logo src={logo} alt="Logo" />
         </LogoContainer>
         <Title>Login to your account</Title>
-        {error && <ErrorMessage>{error}</ErrorMessage>} {/* Display error message */}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <form onSubmit={handleLogin}>
-          <Input 
-            type="text" 
-            placeholder="Username" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
+          <Input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          <Input 
-            type="password" 
-            placeholder="Password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Link to="/forgot-password">
-            <ForgotPassword>Forgot password?</ForgotPassword>
+            <ForgotPasswordText>Forgot password?</ForgotPasswordText>
           </Link>
           <LoginButton type="submit">Login</LoginButton>
         </form>
@@ -56,7 +60,7 @@ const LoginPage = () => {
   );
 };
 
-// Styled components for styling
+// Styled components
 const BackgroundContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -130,7 +134,7 @@ const Input = styled.input`
   }
 `;
 
-const ForgotPassword = styled.p`
+const ForgotPasswordText = styled.p`
   font-size: 14px;
   color: gray;
   margin-bottom: 20px;

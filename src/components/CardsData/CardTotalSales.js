@@ -26,7 +26,7 @@ const CardTotalSales = () => {
   return (
     <CardContainer>
       <Card
-        label="Total This Month"
+        label="Sales This Month"
         value={`₱${totalSalesThisMonth.toFixed(2)}`} // Display the total sales amount
         icon={<FaDollarSign />} // Add the sales icon
       />

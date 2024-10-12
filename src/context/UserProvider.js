@@ -1,6 +1,6 @@
 // src/context/UserProvider.js
 import React from 'react';
-import { UserProvider } from './UserContext'; // Import UserProvider from UserContext
+import { UserProvider } from './UserContext';
 
 const AppWrapper = ({ children }) => {
   return <UserProvider>{children}</UserProvider>;
