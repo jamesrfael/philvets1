@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import productData from "../../data/ProductData";
 import SearchBar from "../Layout/SearchBar";
 import Table from "../Layout/Table";
@@ -17,9 +18,12 @@ const SharedProductsPage = () => {
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
-  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] =
-    useState(false);
+  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] = useState(false);
 
+  const navigate = useNavigate(); // Get the navigate function
+  const location = useLocation(); // Get the current location (URL)
+
+  // Filter products based on search term
   const filteredProducts = productData.products.filter((product) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const productDetail = productData.productDetails.find(
@@ -29,13 +33,10 @@ const SharedProductsPage = () => {
       (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
     )?.PROD_CAT_NAME;
 
-    // Filtering by Product Name, Category, and Brand
     return (
       product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
       category?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(
-        lowerCaseSearchTerm
-      )
+      productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
 
@@ -96,14 +97,30 @@ const SharedProductsPage = () => {
   const handleSaveProduct = (product, productDetails) => {
     console.log("New product:", product);
     console.log("New product details:", productDetails);
-    // Implement save logic here
     closeAddProductModal();
   };
 
   const handleSaveCategory = (category) => {
     console.log("New category:", category);
-    // Implement save logic here
     closeAddCategoryModal();
+  };
+
+  const handleCardClick = () => {
+    // Check the current path to determine the role
+    let path;
+    if (location.pathname.includes("/superadmin")) {
+      path = "/superadmin/categories";
+    } else if (location.pathname.includes("/admin")) {
+      path = "/admin/categories";
+    } else if (location.pathname.includes("/staff")) {
+      path = "/staff/categories";
+    } else {
+      alert("Access denied");
+      return;
+    }
+
+    // Navigate to the determined path
+    navigate(path);
   };
 
   return (
@@ -125,7 +142,9 @@ const SharedProductsPage = () => {
       </Controls>
       <AnalyticsContainer>
         <CardTotalProducts />
-        <CardTotalCategories />
+        <ClickableCard onClick={handleCardClick}>
+          <CardTotalCategories />
+        </ClickableCard>
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddProductModalOpen && (
@@ -179,6 +198,10 @@ const AnalyticsContainer = styled.div`
   gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
+`;
+
+const ClickableCard = styled.div`
+  cursor: pointer;
 `;
 
 const ActionButton = styled(Button)`

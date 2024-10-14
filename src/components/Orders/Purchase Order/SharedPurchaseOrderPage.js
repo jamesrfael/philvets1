@@ -158,11 +158,11 @@ const AnalyticsContainer = styled.div`
 
 const Status = styled.span`
   background-color: ${(props) =>
-    props.status === "Paid"
+    props.status === "Completed"
       ? "#1DBA0B"
-      : props.status === "Pending"
+      : props.status === "Pending" || props.status === "In Progress"
       ? "#f08400"
-      : "#ff5757"}; // Change colors based on payment status
+      : "#ff5757"};
   color: white;
   padding: 4px 8px;
   border-radius: 4px;

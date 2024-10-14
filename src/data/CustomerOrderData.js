@@ -1,4 +1,3 @@
-// src/pages/data/CustomerOrderData.js
 export const customerOrders = [
   {
     SALES_ORDER_ID: "ORDER-1001",
@@ -13,6 +12,26 @@ export const customerOrders = [
     SALES_ORDER_PYMNT_STAT: "Paid",
     CLIENT_ID: "CLIENT-101",
     ORDER_ID: "ORDER-1001",
+    ORDER_DETAILS: [
+      {
+        SALES_ORDER_DET_ID: "DETAIL-1001",
+        SALES_ORDER_PROD_ID: "PROD-001",
+        SALES_ORDER_PROD_NAME: "Dog Food Premium",
+        SALES_ORDER_PROD_DESCRIPTION: "Premium dog food for healthy growth.",
+        SALES_ORDER_QTY: 2,
+        SALES_ORDER_PRICE: 300.0,
+        SALES_ORDER_LINE_TOTAL: 600.0
+      },
+      {
+        SALES_ORDER_DET_ID: "DETAIL-1002",
+        SALES_ORDER_PROD_ID: "PROD-002",
+        SALES_ORDER_PROD_NAME: "Cat Food Premium",
+        SALES_ORDER_PROD_DESCRIPTION: "High-quality cat food for a balanced diet.",
+        SALES_ORDER_QTY: 1,
+        SALES_ORDER_PRICE: 800.0,
+        SALES_ORDER_LINE_TOTAL: 800.0
+      }
+    ]
   },
   {
     SALES_ORDER_ID: "ORDER-1002",
@@ -27,6 +46,17 @@ export const customerOrders = [
     SALES_ORDER_PYMNT_STAT: "Pending",
     CLIENT_ID: "CLIENT-102",
     ORDER_ID: "ORDER-1002",
+    ORDER_DETAILS: [
+      {
+        SALES_ORDER_DET_ID: "DETAIL-1003",
+        SALES_ORDER_PROD_ID: "PROD-003",
+        SALES_ORDER_PROD_NAME: "Complete Grooming Package",
+        SALES_ORDER_PROD_DESCRIPTION: "Complete grooming package for dogs.",
+        SALES_ORDER_QTY: 4,
+        SALES_ORDER_PRICE: 500.0,
+        SALES_ORDER_LINE_TOTAL: 2000.0
+      }
+    ]
   },
   {
     SALES_ORDER_ID: "ORDER-1003",
@@ -41,6 +71,17 @@ export const customerOrders = [
     SALES_ORDER_PYMNT_STAT: "Paid",
     CLIENT_ID: "CLIENT-103",
     ORDER_ID: "ORDER-1003",
+    ORDER_DETAILS: [
+      {
+        SALES_ORDER_DET_ID: "DETAIL-1004",
+        SALES_ORDER_PROD_ID: "PROD-004",
+        SALES_ORDER_PROD_NAME: "Flea and Tick Prevention",
+        SALES_ORDER_PROD_DESCRIPTION: "Flea and tick prevention for dogs and cats.",
+        SALES_ORDER_QTY: 3,
+        SALES_ORDER_PRICE: 450.0,
+        SALES_ORDER_LINE_TOTAL: 1350.0
+      }
+    ]
   },
   {
     SALES_ORDER_ID: "ORDER-1004",
@@ -55,6 +96,17 @@ export const customerOrders = [
     SALES_ORDER_PYMNT_STAT: "Paid",
     CLIENT_ID: "CLIENT-104",
     ORDER_ID: "ORDER-1004",
+    ORDER_DETAILS: [
+      {
+        SALES_ORDER_DET_ID: "DETAIL-1005",
+        SALES_ORDER_PROD_ID: "PROD-005",
+        SALES_ORDER_PROD_NAME: "High-Quality Cat Litter",
+        SALES_ORDER_PROD_DESCRIPTION: "High-quality cat litter for odor control.",
+        SALES_ORDER_QTY: 1,
+        SALES_ORDER_PRICE: 1000.0,
+        SALES_ORDER_LINE_TOTAL: 1000.0
+      }
+    ]
   },
   {
     SALES_ORDER_ID: "ORDER-1005",
@@ -69,170 +121,16 @@ export const customerOrders = [
     SALES_ORDER_PYMNT_STAT: "Pending",
     CLIENT_ID: "CLIENT-105",
     ORDER_ID: "ORDER-1005",
-  },
-];
-
-export const salesOrderDetails = [
-  {
-    SALES_ORDER_DET_ID: "DETAIL-1001",
-    SALES_ORDER_PROD_ID: "PROD-001",
-    SALES_ORDER_PROD_NAME: "Dog Food Premium",
-    SALES_ORDER_QTY: 2,
-    SALES_ORDER_PRICE: 300.0,
-    SALES_ORDER_LINE_TOTAL: 600.0,
-    SALES_ORDER_SUB_TOTAL: 600.0,
-    PRODUCT_ID: "PROD-001",
-    SALES_ORDER_ID: "ORDER-1001",
-  },
-  {
-    SALES_ORDER_DET_ID: "DETAIL-1002",
-    SALES_ORDER_PROD_ID: "PROD-002",
-    SALES_ORDER_PROD_NAME: "Cat Food Premium",
-    SALES_ORDER_QTY: 1,
-    SALES_ORDER_PRICE: 800.0,
-    SALES_ORDER_LINE_TOTAL: 800.0,
-    SALES_ORDER_SUB_TOTAL: 800.0,
-    PRODUCT_ID: "PROD-002",
-    SALES_ORDER_ID: "ORDER-1001",
-  },
-  {
-    SALES_ORDER_DET_ID: "DETAIL-1003",
-    SALES_ORDER_PROD_ID: "PROD-003",
-    SALES_ORDER_PROD_NAME: "Complete Grooming Package",
-    SALES_ORDER_QTY: 4,
-    SALES_ORDER_PRICE: 500.0,
-    SALES_ORDER_LINE_TOTAL: 2000.0,
-    SALES_ORDER_SUB_TOTAL: 2000.0,
-    PRODUCT_ID: "PROD-003",
-    SALES_ORDER_ID: "ORDER-1002",
-  },
-  {
-    SALES_ORDER_DET_ID: "DETAIL-1004",
-    SALES_ORDER_PROD_ID: "PROD-004",
-    SALES_ORDER_PROD_NAME: "Flea and Tick Prevention",
-    SALES_ORDER_QTY: 3,
-    SALES_ORDER_PRICE: 450.0,
-    SALES_ORDER_LINE_TOTAL: 1350.0,
-    SALES_ORDER_SUB_TOTAL: 1350.0,
-    PRODUCT_ID: "PROD-004",
-    SALES_ORDER_ID: "ORDER-1003",
-  },
-  {
-    SALES_ORDER_DET_ID: "DETAIL-1005",
-    SALES_ORDER_PROD_ID: "PROD-005",
-    SALES_ORDER_PROD_NAME: "High-Quality Cat Litter",
-    SALES_ORDER_QTY: 1,
-    SALES_ORDER_PRICE: 1000.0,
-    SALES_ORDER_LINE_TOTAL: 1000.0,
-    SALES_ORDER_SUB_TOTAL: 1000.0,
-    PRODUCT_ID: "PROD-005",
-    SALES_ORDER_ID: "ORDER-1004",
-  },
-];
-
-// Additional data to simulate product categories and inventory
-export const products = [
-  {
-    PROD_ID: "PROD-001",
-    PROD_NAME: "Dog Food Premium",
-    PROD_DETAILS_CODE: "DF-001",
-    PROD_FO_LEVEL: 10,
-    PROD_QTY: 100,
-    PROD_IMAGE: "url_to_image_1", // Replace with actual image URL
-    PROD_DATECREATED: "2024-01-01",
-    PROD_DATEUPDATED: "2024-01-05",
-  },
-  {
-    PROD_ID: "PROD-002",
-    PROD_NAME: "Cat Food Premium",
-    PROD_DETAILS_CODE: "CF-001",
-    PROD_FO_LEVEL: 5,
-    PROD_QTY: 50,
-    PROD_IMAGE: "url_to_image_2", // Replace with actual image URL
-    PROD_DATECREATED: "2024-01-02",
-    PROD_DATEUPDATED: "2024-01-06",
-  },
-  {
-    PROD_ID: "PROD-003",
-    PROD_NAME: "Complete Grooming Package",
-    PROD_DETAILS_CODE: "GROOM-001",
-    PROD_FO_LEVEL: 15,
-    PROD_QTY: 80,
-    PROD_IMAGE: "url_to_image_3", // Replace with actual image URL
-    PROD_DATECREATED: "2024-01-03",
-    PROD_DATEUPDATED: "2024-01-07",
-  },
-  {
-    PROD_ID: "PROD-004",
-    PROD_NAME: "Flea and Tick Prevention",
-    PROD_DETAILS_CODE: "FLEA-001",
-    PROD_FO_LEVEL: 20,
-    PROD_QTY: 150,
-    PROD_IMAGE: "url_to_image_4", // Replace with actual image URL
-    PROD_DATECREATED: "2024-01-04",
-    PROD_DATEUPDATED: "2024-01-08",
-  },
-  {
-    PROD_ID: "PROD-005",
-    PROD_NAME: "High-Quality Cat Litter",
-    PROD_DETAILS_CODE: "LIT-001",
-    PROD_FO_LEVEL: 25,
-    PROD_QTY: 200,
-    PROD_IMAGE: "url_to_image_5", // Replace with actual image URL
-    PROD_DATECREATED: "2024-01-05",
-    PROD_DATEUPDATED: "2024-01-09",
-  },
-];
-
-export const productDetails = [
-  {
-    PROD_DET_ID: "DET-001",
-    PROD_DETAILS_CODE: "DF-001",
-    PROD_DETAILS_DESCRIPTION: "Premium dog food for healthy growth.",
-    PROD_DETAILS_PRICE: 300.0,
-    PROD_DETAILS_BRAND: "DogBrand",
-    PROD_DETAILS_SIZE: "N/A",
-    PROD_DETAILS_MEASUREMENT: "N/A",
-    PROD_CAT_CODE: "CAT-001",
-  },
-  {
-    PROD_DET_ID: "DET-002",
-    PROD_DETAILS_CODE: "CF-001",
-    PROD_DETAILS_DESCRIPTION: "High-quality cat food for a balanced diet.",
-    PROD_DETAILS_PRICE: 800.0,
-    PROD_DETAILS_BRAND: "CatBrand",
-    PROD_DETAILS_SIZE: "N/A",
-    PROD_DETAILS_MEASUREMENT: "N/A",
-    PROD_CAT_CODE: "CAT-002",
-  },
-  {
-    PROD_DET_ID: "DET-003",
-    PROD_DETAILS_CODE: "GROOM-001",
-    PROD_DETAILS_DESCRIPTION: "Complete grooming package for dogs.",
-    PROD_DETAILS_PRICE: 70.0,
-    PROD_DETAILS_BRAND: "GroomingCo",
-    PROD_DETAILS_SIZE: "N/A",
-    PROD_DETAILS_MEASUREMENT: "N/A",
-    PROD_CAT_CODE: "CAT-003",
-  },
-  {
-    PROD_DET_ID: "DET-004",
-    PROD_DETAILS_CODE: "FLEA-001",
-    PROD_DETAILS_DESCRIPTION: "Flea and tick prevention for dogs and cats.",
-    PROD_DETAILS_PRICE: 25.0,
-    PROD_DETAILS_BRAND: "PestControl",
-    PROD_DETAILS_SIZE: "N/A",
-    PROD_DETAILS_MEASUREMENT: "N/A",
-    PROD_CAT_CODE: "CAT-004",
-  },
-  {
-    PROD_DET_ID: "DET-005",
-    PROD_DETAILS_CODE: "LIT-001",
-    PROD_DETAILS_DESCRIPTION: "High-quality cat litter for odor control.",
-    PROD_DETAILS_PRICE: 15.0,
-    PROD_DETAILS_BRAND: "LitterBrand",
-    PROD_DETAILS_SIZE: "N/A",
-    PROD_DETAILS_MEASUREMENT: "N/A",
-    PROD_CAT_CODE: "CAT-005",
-  },
+    ORDER_DETAILS: [
+      {
+        SALES_ORDER_DET_ID: "DETAIL-1006",
+        SALES_ORDER_PROD_ID: "PROD-001",
+        SALES_ORDER_PROD_NAME: "Dog Food Premium",
+        SALES_ORDER_PROD_DESCRIPTION: "Premium dog food for healthy growth.",
+        SALES_ORDER_QTY: 2,
+        SALES_ORDER_PRICE: 300.0,
+        SALES_ORDER_LINE_TOTAL: 600.0
+      }
+    ]
+  }
 ];

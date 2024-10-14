@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "../../Layout/Modal";
 import Button from "../../Layout/Button";
 import { IoCloseCircle } from "react-icons/io5";
@@ -60,6 +60,65 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
     setOrderDetails, // Ensure setOrderDetails is included for state updates
   } = useAddPurchaseOrderModal(onSave, onClose);
 
+  const [errors, setErrors] = useState({});
+
+  const validateFields = () => {
+    const newErrors = {};
+
+    // Validate required fields
+    if (!supplierCompanyName) newErrors.supplierCompanyName = true;
+    if (!supplierCompanyNum) newErrors.supplierCompanyNum = true;
+    if (!contactPersonName) newErrors.contactPersonName = true;
+    if (!contactPersonNumber) newErrors.contactPersonNumber = true;
+
+    // Validate contact numbers (must be 11 digits and start with 0)
+    if (!/^(0\d{10})?$/.test(contactPersonNumber)) {
+      newErrors.contactPersonNumber = true;
+    }
+    if (!/^(0\d{10})?$/.test(supplierCompanyNum)) {
+      newErrors.supplierCompanyNum = true;
+    }
+
+    // Validate order details (ensure product name is not empty)
+    orderDetails.forEach((detail, index) => {
+      if (!detail.productName) {
+        newErrors[`productName${index}`] = true;
+      }
+    });
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSaveWithValidation = () => {
+    if (validateFields()) {
+      handleSave(); // Proceed to save only if validation passes
+    }
+  };
+
+  // Automatically clear error messages when input is valid
+  const clearError = (field) => {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [field]: undefined, // Remove the specific error
+    }));
+  };
+
+  // Function to handle number input and ensure first digit is '0'
+  const handlePhoneNumberChange = (setterFunction, value) => {
+    let sanitizedValue = value.replace(/[^0-9]/g, ""); // Allow only numbers
+    if (sanitizedValue.length > 11) {
+      sanitizedValue = sanitizedValue.slice(0, 11); // Limit to 11 digits
+    }
+
+    // Ensure the first digit is '0'
+    if (sanitizedValue && sanitizedValue[0] !== "0") {
+      sanitizedValue = "0" + sanitizedValue.slice(0, 10);
+    }
+
+    setterFunction(sanitizedValue);
+  };
+
   // Calculate total values
   const totalQuantity = calculateTotalQuantity(orderDetails); // Total quantity of items
   const totalValue = calculateTotalValue(orderDetails); // Total value considering discounts
@@ -95,37 +154,65 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
         )}
       </Field>
       <Field>
-        <Label>Supplier Name</Label>
+        <Label>
+          Supplier Name{" "}
+          {errors.supplierCompanyName && (
+            <span style={{ color: "red" }}>*</span>
+          )}
+        </Label>
         <Input
           value={supplierCompanyName}
-          onChange={(e) => setSupplierCompanyName(e.target.value)}
+          onChange={(e) => {
+            setSupplierCompanyName(e.target.value);
+            clearError("supplierCompanyName"); // Clear error on change
+          }}
           placeholder="Supplier Name"
           disabled={!editable}
         />
       </Field>
       <Field>
-        <Label>Supplier Contact Number</Label>
+        <Label>
+          Supplier Contact Number{" "}
+          {errors.supplierCompanyNum && <span style={{ color: "red" }}>*</span>}
+        </Label>
         <Input
           value={supplierCompanyNum}
-          onChange={(e) => setSupplierCompanyNum(e.target.value)}
+          onChange={(e) => {
+            handlePhoneNumberChange(setSupplierCompanyNum, e.target.value);
+            clearError("supplierCompanyNum"); // Clear error on change
+          }}
           placeholder="Supplier Contact Number"
           disabled={!editable}
         />
       </Field>
       <Field>
-        <Label>Contact Person</Label>
+        <Label>
+          Contact Person{" "}
+          {errors.contactPersonName && <span style={{ color: "red" }}>*</span>}
+        </Label>
         <Input
           value={contactPersonName}
-          onChange={(e) => setContactPersonName(e.target.value)}
+          onChange={(e) => {
+            setContactPersonName(e.target.value);
+            clearError("contactPersonName"); // Clear error on change
+          }}
           placeholder="Contact Person Name"
           disabled={!editable}
         />
       </Field>
       <Field>
-        <Label>Contact Number</Label>
+        <Label>
+          Contact Number{" "}
+          {errors.contactPersonNumber && (
+            <span style={{ color: "red" }}>*</span>
+          )}
+        </Label>
         <Input
           value={contactPersonNumber}
-          onChange={(e) => setContactPersonNumber(e.target.value)}
+          onChange={(e) => {
+            handlePhoneNumberChange(setContactPersonNumber, e.target.value);
+            clearError("contactPersonNumber"); // Clear error on change
+          }}
           placeholder="Contact Person Number"
           disabled={!editable}
         />
@@ -149,12 +236,20 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
               <tr key={index}>
                 <td>
                   <Input
+                    style={{
+                      display: "inline-block",
+                      width: "calc(100% - 20px)",
+                    }}
                     value={orderDetail.productName}
-                    onChange={(e) =>
-                      handleProductInputChange(index, e.target.value)
-                    }
+                    onChange={(e) => {
+                      handleProductInputChange(index, e.target.value);
+                      clearError(`productName${index}`); // Clear error on change
+                    }}
                     placeholder="Product Name"
                   />
+                  {errors[`productName${index}`] && (
+                    <span style={{ color: "red", marginLeft: "5px" }}>*</span>
+                  )}
                   {productSearch && index === currentEditingIndex && (
                     <SuggestionsContainer>
                       {filteredProducts.length > 0 && (
@@ -203,24 +298,22 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
                       updatedOrderDetails[index] = {
                         ...updatedOrderDetails[index],
                         discountValue: value,
-                        discountType: "amount", // Assuming fixed discount
                       };
-                      setOrderDetails(updatedOrderDetails); // Update the order details state
+                      setOrderDetails(updatedOrderDetails);
                     }}
                     placeholder="Discount"
                   />
                 </td>
-                <td>₱{calculateLineTotal(orderDetail).toFixed(2)}</td>
+                <td>{calculateLineTotal(orderDetail)}</td>
                 <td>
                   <DeleteButton onClick={() => handleRemoveProduct(index)}>
-                    <IoCloseCircle />
+                    <IoCloseCircle className="icon" />
                   </DeleteButton>
                 </td>
               </tr>
             ))}
           </tbody>
         </Table>
-
         <Button onClick={handleAddProduct} style={{ marginTop: "10px" }}>
           Add Product
         </Button>
@@ -249,7 +342,7 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
         <Button variant="red" onClick={onClose}>
           Cancel
         </Button>
-        <Button variant="primary" onClick={handleSave}>
+        <Button variant="primary" onClick={handleSaveWithValidation}>
           Add Order
         </Button>
       </ButtonGroup>

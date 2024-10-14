@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Modal from "../../Layout/Modal"; // Assuming you have a modal component
 import { colors } from "../../../colors"; // Ensure the path to colors is correct
-import { salesOrderDetails } from "../../../data/CustomerOrderData"; // Import the sales order details
-import { products } from "../../../data/CustomerOrderData"; // Import the product data
 
 const CustomerOrderDetailsModal = ({ order, onClose }) => {
   // Early return if order is not provided
@@ -17,10 +15,8 @@ const CustomerOrderDetailsModal = ({ order, onClose }) => {
     return `₱${amount.toFixed(2)}`; // Format to two decimal places
   };
 
-  // Find the order details associated with the selected order
-  const orderDetails = salesOrderDetails.filter(
-    (detail) => detail.SALES_ORDER_ID === order.SALES_ORDER_ID
-  );
+  // Extract ORDER_DETAILS directly from the provided order
+  const orderDetails = order.ORDER_DETAILS || [];
 
   // Calculate total quantity and total amount safely
   const totalQuantity = orderDetails.reduce(
@@ -31,12 +27,6 @@ const CustomerOrderDetailsModal = ({ order, onClose }) => {
     (total, detail) => total + (detail.SALES_ORDER_LINE_TOTAL || 0),
     0
   );
-
-  // Function to get product details by product ID
-  const getProductDetails = (id) => {
-    // Find the product using the provided product ID
-    return products.find((product) => product.PROD_ID === id);
-  };
 
   return (
     <Modal
@@ -84,23 +74,14 @@ const CustomerOrderDetailsModal = ({ order, onClose }) => {
             </thead>
             <tbody>
               {orderDetails.length > 0 ? (
-                orderDetails.map((detail, index) => {
-                  const product = getProductDetails(detail.SALES_ORDER_PROD_ID);
-                  return (
-                    <TableRow key={index}>
-                      <TableCell>
-                        {product ? product.PROD_NAME : "Unknown Product"}
-                      </TableCell>
-                      <TableCell>{detail.SALES_ORDER_QTY || 0}</TableCell>
-                      <TableCell>
-                        {formatCurrency(detail.SALES_ORDER_PRICE || 0)}
-                      </TableCell>
-                      <TableCell>
-                        {formatCurrency(detail.SALES_ORDER_LINE_TOTAL || 0)}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
+                orderDetails.map((detail, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{detail.SALES_ORDER_PROD_NAME || "Unknown Product"}</TableCell>
+                    <TableCell>{detail.SALES_ORDER_QTY || 0}</TableCell>
+                    <TableCell>{formatCurrency(detail.SALES_ORDER_PRICE || 0)}</TableCell>
+                    <TableCell>{formatCurrency(detail.SALES_ORDER_LINE_TOTAL || 0)}</TableCell>
+                  </TableRow>
+                ))
               ) : (
                 <TableRow>
                   <TableCell colSpan={4}>No order details available.</TableCell>
@@ -175,4 +156,4 @@ const HighlightedTotal = styled.span`
   font-size: 16px;
 `;
 
-export default CustomerOrderDetailsModal; 
+export default CustomerOrderDetailsModal;

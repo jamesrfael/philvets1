@@ -3,7 +3,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider } from "./context/UserContext"; // Import UserProvider
 
-
 import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
 
@@ -63,7 +62,6 @@ import StaffCategories from "./pages/staff/StaffCategories";
 import StaffCategoryView from "./pages/staff/StaffCategoryView";
 
 import NotFoundPage from "./pages/NotFoundPage";
-
 
 function App() {
   return (
