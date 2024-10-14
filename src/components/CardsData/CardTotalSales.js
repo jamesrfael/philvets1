@@ -1,7 +1,7 @@
 import React from "react";
 import { FaDollarSign } from "react-icons/fa"; // Import an icon for sales
 import Card from "../Layout/Card";
-import { sales as initialSales } from "../../pages/data/SalesData";
+import { sales as initialSales } from "../../data/SalesData";
 import styled from "styled-components";
 
 // Function to calculate total sales for the current month
@@ -13,7 +13,10 @@ const calculateTotalSalesThisMonth = (sales) => {
   return sales.reduce((total, sale) => {
     const saleDate = new Date(sale.SALE_DATE); // Ensure SALE_DATE is in a valid date format
     // Check if the sale date is in the current month and year
-    if (saleDate.getMonth() === currentMonth && saleDate.getFullYear() === currentYear) {
+    if (
+      saleDate.getMonth() === currentMonth &&
+      saleDate.getFullYear() === currentYear
+    ) {
       return total + sale.SALES_INV_TOTAL;
     }
     return total;

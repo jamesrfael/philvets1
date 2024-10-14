@@ -3,7 +3,7 @@ import MainLayout from "../../components/Layout/MainLayout";
 import styled, { keyframes } from "styled-components"; // Import keyframes for animation
 import SearchBar from "../../components/Layout/SearchBar";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Import the CardTotalNotification component
-import { notificationData } from "../data/NotificationData"; // Import the notification data
+import { notificationData } from "../../data/NotificationData"; // Import the notification data
 
 const SuperAdminNotification = () => {
   const [searchTerm, setSearchTerm] = useState("");

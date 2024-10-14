@@ -6,7 +6,7 @@ import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Import the CardTotalNotification component
-import { notificationData } from "../../pages/data/NotificationData"; // Import the notification data
+import { notificationData } from "../../data/NotificationData"; // Import the notification data
 
 const StaffNotification = () => {
   const [searchTerm, setSearchTerm] = useState("");

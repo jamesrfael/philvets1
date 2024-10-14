@@ -38,8 +38,6 @@ const AddCustomerOrderModal = ({ onClose, onSave }) => {
     setClientCity,
     clientProvince,
     setClientProvince,
-    clientEmail,
-    setClientEmail,
     deliveryOption,
     setDeliveryOption,
     paymentTerms,
@@ -130,15 +128,7 @@ const AddCustomerOrderModal = ({ onClose, onSave }) => {
           </div>
         </Field>
 
-        <Field>
-          <Label>Client Email</Label>
-          <Input
-            value={clientEmail}
-            onChange={(e) => setClientEmail(e.target.value)}
-            placeholder="Client Email"
-            disabled={!editable}
-          />
-        </Field>
+        {/* Removed Email Field */}
 
         <Field>
           <Label>Delivery Option</Label>

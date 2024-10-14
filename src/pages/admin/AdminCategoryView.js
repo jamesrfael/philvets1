@@ -2,7 +2,7 @@ import React from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import productData from "../data/ProductData";
+import productData from "../../data/ProductData";
 import Table from "../../components/Layout/Table";
 import Button from "../../components/Layout/Button";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { FaTags } from "react-icons/fa"; // Import an icon from react-icons
 import Card from "../Layout/Card";
-import productData from "../../pages/data/ProductData";
+import productData from "../../data/ProductData";
 import styled from "styled-components";
 
 const CardTotalCategories = () => {

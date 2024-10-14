@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
-import productData from "../data/ProductData";
+import productData from "../../data/ProductData";
 import Card from "../../components/Layout/Card";
 import Button from "../../components/Layout/Button";
 import SearchBar from "../../components/Layout/SearchBar";
@@ -98,8 +98,6 @@ const BackButton = styled.button`
     color: ${colors.primaryHover}; // Change color on hover
   }
 `;
-
-
 
 const CategoryContainer = styled.div`
   display: grid;

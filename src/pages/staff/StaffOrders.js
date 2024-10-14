@@ -7,7 +7,7 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import Button from "../../components/Layout/Button"; // Import the Button component
-import { orders as initialOrders } from "../../pages/data/OrderData";
+import { orders as initialOrders } from "../../data/OrderData";
 import { FaPlus } from "react-icons/fa";
 
 const StaffOrders = () => {

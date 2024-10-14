@@ -8,22 +8,14 @@ const AddCustomerModal = ({ onClose, onAdd }) => {
   const [clientCity, setClientCity] = useState("");
   const [clientProvince, setClientProvince] = useState("");
   const [clientPhoneNum, setClientPhoneNum] = useState("");
-  const [clientEmail, setClientEmail] = useState("");
 
   const handleAddCustomer = () => {
-    if (
-      clientName &&
-      clientCity &&
-      clientProvince &&
-      clientPhoneNum &&
-      clientEmail
-    ) {
+    if (clientName && clientCity && clientProvince && clientPhoneNum) {
       const newClient = {
         CLIENT_NAME: clientName,
         CLIENT_CITY: clientCity,
         CLIENT_PROVINCE: clientProvince,
         CLIENT_PHONENUM: clientPhoneNum,
-        CLIENT_EMAIL: clientEmail,
       };
       onAdd(newClient);
       onClose();
@@ -33,37 +25,36 @@ const AddCustomerModal = ({ onClose, onAdd }) => {
   };
 
   return (
-    <Modal title="Add New Client" onClose={onClose}>
+    <Modal title="Add New Customer" onClose={onClose}>
       <Form>
-        <Label>Client Name</Label>
+        <Label>Customer Name</Label>
         <Input
           type="text"
+          placeholder="Enter Customer Name"
           value={clientName}
           onChange={(e) => setClientName(e.target.value)}
         />
-        <Label>City</Label>
-        <Input
-          type="text"
-          value={clientCity}
-          onChange={(e) => setClientCity(e.target.value)}
-        />
-        <Label>Province</Label>
-        <Input
-          type="text"
-          value={clientProvince}
-          onChange={(e) => setClientProvince(e.target.value)}
-        />
+        <Label>Location</Label>
+        <LocationContainer>
+          <CityInput
+            type="text"
+            placeholder="City"
+            value={clientCity}
+            onChange={(e) => setClientCity(e.target.value)}
+          />
+          <ProvinceInput
+            type="text"
+            placeholder="Province"
+            value={clientProvince}
+            onChange={(e) => setClientProvince(e.target.value)}
+          />
+        </LocationContainer>
         <Label>Phone Number</Label>
         <Input
           type="text"
+          placeholder="Enter Phone Number"
           value={clientPhoneNum}
           onChange={(e) => setClientPhoneNum(e.target.value)}
-        />
-        <Label>Email</Label>
-        <Input
-          type="email"
-          value={clientEmail}
-          onChange={(e) => setClientEmail(e.target.value)}
         />
         <ButtonGroup>
           <Button variant="red" onClick={onClose}>
@@ -93,6 +84,19 @@ const Input = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+`;
+
+const LocationContainer = styled.div`
+  display: flex;
+  gap: 10px; /* Space between city and province */
+`;
+
+const CityInput = styled(Input)`
+  flex: 1; /* Allows the city input to take available space */
+`;
+
+const ProvinceInput = styled(Input)`
+  flex: 1; /* Allows the province input to take available space */
 `;
 
 const ButtonGroup = styled.div`

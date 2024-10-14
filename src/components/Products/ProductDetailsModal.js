@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Modal from "../Layout/Modal"; // Import the reusable Modal component
-import productData from "../../pages/data/ProductData";
+import productData from "../../data/ProductData";
 import Button from "../Layout/Button";
 
 const ProductDetailsModal = ({ productId, onClose }) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "../Layout/Card";
-import { suppliers as initialSuppliers } from "../../pages/data/SupplierData";
+import { suppliers as initialSuppliers } from "../../data/SupplierData";
 import styled from "styled-components";
 import { FaWarehouse } from "react-icons/fa"; // Import a different icon
 

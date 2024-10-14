@@ -15,20 +15,40 @@ import { GrGroup } from "react-icons/gr";
 
 // Sidebar Items for SuperAdmin
 export const superadminSidebarItems = [
-  { icon: TbLayoutDashboard, label: "Dashboard", link: "/superadmin/dashboard" },
+  {
+    icon: TbLayoutDashboard,
+    label: "Dashboard",
+    link: "/superadmin/dashboard",
+  },
   {
     icon: MdOutlineShoppingCart,
     label: "Order",
     link: "/superadmin/orders",
     dropdown: [
-      { icon: TbChevronRight, label: "Request", link: "/superadmin/orders/request" },
-      { icon: TbChevronRight, label: "Customer", link: "/superadmin/orders/customer-order" },
-      { icon: TbChevronRight, label: "Purchase", link: "/superadmin/orders/purchase-order" },
+      {
+        icon: TbChevronRight,
+        label: "Request",
+        link: "/superadmin/orders/request",
+      },
+      {
+        icon: TbChevronRight,
+        label: "Customer",
+        link: "/superadmin/orders/customer-order",
+      },
+      {
+        icon: TbChevronRight,
+        label: "Purchase",
+        link: "/superadmin/orders/purchase-order",
+      },
     ],
   },
   { icon: TbTruckDelivery, label: "Delivery", link: "/superadmin/delivery" },
   { icon: LuBox, label: "Product", link: "/superadmin/products" },
-  { icon: MdOutlineInventory2, label: "Inventory", link: "/superadmin/inventory" },
+  {
+    icon: MdOutlineInventory2,
+    label: "Inventory",
+    link: "/superadmin/inventory",
+  },
   { icon: LuWarehouse, label: "Supplier", link: "/superadmin/suppliers" },
   { icon: TbUserDollar, label: "Customer", link: "/superadmin/customers" },
   { icon: GrGroup, label: "User", link: "/superadmin/users" },
@@ -82,8 +102,16 @@ export const staffSidebarItems = [
     label: "Order",
     link: "/staff/orders",
     dropdown: [
-      { icon: TbChevronRight, label: "Request", link: "/staff/orders/request" },
-      { icon: TbChevronRight, label: "Sales", link: "/staff/orders/sales" },
+      {
+        icon: TbChevronRight,
+        label: "Request",
+        link: "/staff/orders/request",
+      },
+      {
+        icon: TbChevronRight,
+        label: "Customer",
+        link: "/staff/orders/customer-order",
+      },
     ],
   },
   { icon: TbTruckDelivery, label: "Delivery", link: "/staff/delivery" },

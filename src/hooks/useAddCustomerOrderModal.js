@@ -4,8 +4,8 @@ import {
   calculateTotalQuantity,
   calculateTotalValue,
 } from "../utils/CalculationUtils";
-import clientsData from "../pages/data/ClientsData"; // Adjusted the path and import name
-import productData from "../pages/data/ProductData"; // Adjust the path as needed
+import clientsData from "../data/ClientsData"; // Adjusted the path and import name
+import productData from "../data/ProductData"; // Adjust the path as needed
 
 const useAddCustomerOrderModal = (onSave, onClose) => {
   // Initialize products from product data

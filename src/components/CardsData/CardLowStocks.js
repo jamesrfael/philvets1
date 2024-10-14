@@ -2,7 +2,7 @@
 import React from "react";
 import { FaExclamationTriangle } from "react-icons/fa"; // Import an icon from react-icons
 import Card from "../Layout/Card";
-import SampleInventoryData from "../../pages/data/InventoryData";
+import SampleInventoryData from "../../data/InventoryData";
 import styled from "styled-components";
 
 const CardLowStocks = () => {

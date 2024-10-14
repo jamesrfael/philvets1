@@ -2,7 +2,7 @@
 
 import React from "react";
 import Card from "../Layout/Card";
-import returnsData from "../../pages/data/ReturnsData";
+import returnsData from "../../data/ReturnsData";
 import styled from "styled-components";
 import { FaUndoAlt } from "react-icons/fa"; // Import an icon from react-icons
 

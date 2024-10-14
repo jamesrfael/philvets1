@@ -2,7 +2,7 @@
 
 import React from "react";
 import Card from "../Layout/Card";
-import { sales as initialSales } from "../../pages/data/SalesData";
+import { sales as initialSales } from "../../data/SalesData";
 import styled from "styled-components";
 import { FaExchangeAlt } from "react-icons/fa"; // Import an icon from react-icons
 

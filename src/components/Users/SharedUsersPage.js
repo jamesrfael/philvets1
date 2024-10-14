@@ -1,6 +1,4 @@
-// src/pages/AdminUsers.js
 import React, { useState } from "react";
-import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { staff as initialUser } from "../../data/UserData";
@@ -12,7 +10,7 @@ import CardTotalUsers from "../../components/CardsData/CardTotalUsers";
 import Button from "../../components/Layout/Button";
 import { FaPlus } from "react-icons/fa";
 
-const AdminUsers = () => {
+const SharedUsersPage = () => {
   const [staff, setUser] = useState(initialUser);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -75,7 +73,7 @@ const AdminUsers = () => {
   ]);
 
   return (
-    <MainLayout>
+    <>
       <Controls>
         <SearchBar
           placeholder="Search / Filter staff..."
@@ -114,12 +112,11 @@ const AdminUsers = () => {
           client={selectedUser} // Pass the selected user to the modal
           onClose={() => setIsDetailsModalOpen(false)}
           onRemove={(id) => {
-            // Implement user removal logic here if necessary
             handleActivateDeactivateUser(selectedUser.USER_EMAIL); // Deactivate the user
           }}
         />
       )}
-    </MainLayout>
+    </>
   );
 };
 
@@ -154,4 +151,4 @@ const AnalyticsContainer = styled.div`
   padding: 0 1px;
 `;
 
-export default AdminUsers;
+export default SharedUsersPage;

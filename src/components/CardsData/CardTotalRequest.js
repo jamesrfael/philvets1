@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "../Layout/Card"; // Import the reusable Card component
-import { requests } from "../../pages/data/RequestData"; // Import the requests data
+import { requests } from "../../data/RequestData"; // Import the requests data
 import styled from "styled-components";
 import { FaClipboardCheck } from "react-icons/fa"; // Import an icon from react-icons
 

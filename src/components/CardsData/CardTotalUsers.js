@@ -2,7 +2,7 @@
 
 import React from "react";
 import Card from "../Layout/Card";
-import { staff } from "../../pages/data/UserData"; // Import the staff data
+import { staff } from "../../data/UserData"; // Import the staff data
 import styled from "styled-components";
 import { FaUserTie } from "react-icons/fa"; // Import an icon from react-icons
 

@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Modal from "../../Layout/Modal"; // Assuming you have a modal component
 import { colors } from "../../../colors"; // Ensure the path to colors is correct
-import { salesOrderDetails } from "../../../pages/data/CustomerOrderData"; // Import the sales order details
-import { products } from "../../../pages/data/CustomerOrderData"; // Import the product data
+import { salesOrderDetails } from "../../../data/CustomerOrderData"; // Import the sales order details
+import { products } from "../../../data/CustomerOrderData"; // Import the product data
 
 const CustomerOrderDetailsModal = ({ order, onClose }) => {
   // Early return if order is not provided
@@ -175,4 +175,4 @@ const HighlightedTotal = styled.span`
   font-size: 16px;
 `;
 
-export default CustomerOrderDetailsModal;
+export default CustomerOrderDetailsModal; 

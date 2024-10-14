@@ -2,7 +2,7 @@
 import React from "react";
 import { FaBox } from "react-icons/fa"; // Import an icon for products
 import Card from "../Layout/Card"; // Import the reusable Card component
-import SampleInventoryData from "../../pages/data/InventoryData"; // Import the inventory data
+import SampleInventoryData from "../../data/InventoryData"; // Import the inventory data
 import styled from "styled-components";
 
 const CardTotalProducts = () => {

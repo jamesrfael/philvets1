@@ -17,7 +17,7 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
     );
     if (confirmSave) {
       // Implement save logic here
-      alert("Client details saved");
+      alert("Customer details saved");
       setIsEditing(false);
     }
   };
@@ -34,7 +34,7 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
 
   const handleRemove = () => {
     const confirmRemoval = window.confirm(
-      "Are you sure you want to remove this client?"
+      "Are you sure you want to remove this customer?"
     );
     if (confirmRemoval) {
       onRemove(client.CLIENT_ID);
@@ -44,14 +44,14 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
 
   return (
     <Modal
-      title={isEditing ? `Edit ${client.CLIENT_NAME}` : `Client Details`}
+      title={isEditing ? `Edit ${client.CLIENT_NAME}` : `Customer Details`}
       onClose={onClose}
     >
       {isEditing ? (
         <>
           <Details>
             <DetailItem>
-              <strong>Client Name:</strong>
+              <strong>Customer Name:</strong>
               <Input
                 type="text"
                 value={editedClient.CLIENT_NAME || ""} // Add fallback to empty string
@@ -65,32 +65,31 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
               />
             </DetailItem>
             <DetailItem>
-              <strong>City:</strong>
-              <Input
-                type="text"
-                value={editedClient.CLIENT_CITY || ""}
-                onChange={(e) =>
-                  setEditedClient({
-                    ...editedClient,
-                    CLIENT_CITY: e.target.value,
-                  })
-                }
-                border
-              />
-            </DetailItem>
-            <DetailItem>
-              <strong>Province:</strong>
-              <Input
-                type="text"
-                value={editedClient.CLIENT_PROVINCE || ""}
-                onChange={(e) =>
-                  setEditedClient({
-                    ...editedClient,
-                    CLIENT_PROVINCE: e.target.value,
-                  })
-                }
-                border
-              />
+              <strong>Location</strong>
+              <LocationContainer>
+                <CityInput
+                  type="text"
+                  value={editedClient.CLIENT_CITY || ""}
+                  onChange={(e) =>
+                    setEditedClient({
+                      ...editedClient,
+                      CLIENT_CITY: e.target.value,
+                    })
+                  }
+                  border
+                />
+                <ProvinceInput
+                  type="text"
+                  value={editedClient.CLIENT_PROVINCE || ""}
+                  onChange={(e) =>
+                    setEditedClient({
+                      ...editedClient,
+                      CLIENT_PROVINCE: e.target.value,
+                    })
+                  }
+                  border
+                />
+              </LocationContainer>
             </DetailItem>
             <DetailItem>
               <strong>Phone Number:</strong>
@@ -101,20 +100,6 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
                   setEditedClient({
                     ...editedClient,
                     CLIENT_PHONENUM: e.target.value,
-                  })
-                }
-                border
-              />
-            </DetailItem>
-            <DetailItem>
-              <strong>Email:</strong>
-              <Input
-                type="email"
-                value={editedClient.CLIENT_EMAIL || ""}
-                onChange={(e) =>
-                  setEditedClient({
-                    ...editedClient,
-                    CLIENT_EMAIL: e.target.value,
                   })
                 }
                 border
@@ -138,18 +123,12 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
               {client.CLIENT_NAME || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>City:</DetailLabel> {client.CLIENT_CITY || "N/A"}
-            </Detail>
-            <Detail>
-              <DetailLabel>Province:</DetailLabel>{" "}
-              {client.CLIENT_PROVINCE || "N/A"}
+              <DetailLabel>Location:</DetailLabel>{" "}
+              {`${client.CLIENT_CITY || "N/A"}, ${client.CLIENT_PROVINCE || "N/A"}`}
             </Detail>
             <Detail>
               <DetailLabel>Phone:</DetailLabel>{" "}
               {client.CLIENT_PHONENUM || "N/A"}
-            </Detail>
-            <Detail>
-              <DetailLabel>Email:</DetailLabel> {client.CLIENT_EMAIL || "N/A"}
             </Detail>
           </Section>
 
@@ -195,6 +174,19 @@ const Input = styled.input`
   margin-top: 5px;
   border-radius: 4px;
   border: ${(props) => (props.border ? "1px solid #ccc" : "none")};
+`;
+
+const LocationContainer = styled.div`
+  display: flex;
+  gap: 10px; /* Space between city and province */
+`;
+
+const CityInput = styled(Input)`
+  flex: 1; /* Allows the city input to take available space */
+`;
+
+const ProvinceInput = styled(Input)`
+  flex: 1; /* Allows the province input to take available space */
 `;
 
 const ButtonGroup = styled.div`

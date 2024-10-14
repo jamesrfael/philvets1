@@ -2,7 +2,7 @@
 
 import React from "react";
 import Card from "../Layout/Card"; // Import the reusable Card component
-import { logData } from "../../pages/data/LogsData"; // Import the log data
+import { logData } from "../../data/LogsData"; // Import the log data
 import styled from "styled-components";
 import { FaClipboardList } from "react-icons/fa"; // Import an icon from react-icons
 
