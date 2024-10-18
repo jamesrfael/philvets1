@@ -7,6 +7,7 @@ import Button from "../Layout/Button";
 const AddCategoryModal = ({ onClose, onSave }) => {
   const [categoryName, setCategoryName] = useState("");
   const [description, setDescription] = useState("");
+  const [errors, setErrors] = useState({}); // State for validation errors
   const modalRef = useRef();
 
   useEffect(() => {
@@ -23,8 +24,26 @@ const AddCategoryModal = ({ onClose, onSave }) => {
     };
   }, [onClose]);
 
+  const validate = () => {
+    const newErrors = {};
+    if (!categoryName.trim()) {
+      newErrors.categoryName = "Category name is required.";
+    }
+    if (!description.trim()) {
+      newErrors.description = "Description is required.";
+    }
+    return newErrors;
+  };
+
   const handleSave = () => {
-    // Implement saving logic here
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors); // Set validation errors if any
+      return;
+    }
+
+    // Reset errors and proceed with save
+    setErrors({});
     const newCategory = {
       name: categoryName,
       description,
@@ -50,6 +69,7 @@ const AddCategoryModal = ({ onClose, onSave }) => {
               onChange={(e) => setCategoryName(e.target.value)}
               placeholder="Enter category name"
             />
+            {errors.categoryName && <ErrorText>{errors.categoryName}</ErrorText>}
           </Field>
           <Field>
             <Label>Description</Label>
@@ -58,6 +78,7 @@ const AddCategoryModal = ({ onClose, onSave }) => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description"
             />
+            {errors.description && <ErrorText>{errors.description}</ErrorText>}
           </Field>
         </ModalBody>
         <ModalFooter>
@@ -76,6 +97,12 @@ const AddCategoryModal = ({ onClose, onSave }) => {
 };
 
 // Styled Components
+
+const ErrorText = styled.p`
+  color: ${colors.red};
+  font-size: 0.875rem;
+  margin-top: 5px;
+`;
 
 const ButtonGroup = styled.div`
   display: flex;
