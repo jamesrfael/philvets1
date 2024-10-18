@@ -27,10 +27,10 @@ const AddCategoryModal = ({ onClose, onSave }) => {
   const validate = () => {
     const newErrors = {};
     if (!categoryName.trim()) {
-      newErrors.categoryName = "Category name is required.";
+      newErrors.categoryName = "This field is required.";
     }
     if (!description.trim()) {
-      newErrors.description = "Description is required.";
+      newErrors.description = "This field is required.";
     }
     return newErrors;
   };
@@ -100,8 +100,8 @@ const AddCategoryModal = ({ onClose, onSave }) => {
 
 const ErrorText = styled.p`
   color: ${colors.red};
-  font-size: 0.875rem;
-  margin-top: 5px;
+  font-size: 0.75rem;
+  margin-top: 3px;
 `;
 
 const ButtonGroup = styled.div`
