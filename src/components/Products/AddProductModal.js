@@ -17,6 +17,8 @@ const AddProductModal = ({ onClose, onSave }) => {
   const [size, setSize] = useState("");
   const [measurement, setMeasurement] = useState("");
   const [image, setImage] = useState(null);
+
+  const [errors, setErrors] = useState({});
   const modalRef = useRef();
 
   useEffect(() => {
@@ -39,7 +41,27 @@ const AddProductModal = ({ onClose, onSave }) => {
     }
   };
 
+  const validate = () => {
+    const newErrors = {};
+    if (!productName) newErrors.productName = "This field is required.";
+    if (!detailsCode) newErrors.detailsCode = "This field is required.";
+    if (!roLevel || isNaN(roLevel) || roLevel < 1) newErrors.roLevel = "This field is required.";
+    if (!roQty || isNaN(roQty) || roQty < 0) newErrors.roQty = "This field is required.";
+    if (!qoh || isNaN(qoh) || qoh < 0) newErrors.qoh = "This field is required.";
+    if (!categoryCode) newErrors.categoryCode = "This field is required.";
+    if (!description) newErrors.description = "This field is required.";
+    if (!price || isNaN(price) || price <= 0) newErrors.price = "This field is required.";
+    if (!brand) newErrors.brand = "This field is required.";
+    if (!size) newErrors.size = "This field is required.";
+    if (!measurement) newErrors.measurement = "This field is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSave = () => {
+    if (!validate()) return;
+
     const newProduct = {
       PROD_ID: `P00${Math.floor(Math.random() * 1000)}`, // Example ID, should be unique
       PROD_NAME: productName,
@@ -67,16 +89,6 @@ const AddProductModal = ({ onClose, onSave }) => {
     onClose();
   };
 
-  const handleRoLevelChange = (e) => {
-    const value = Math.max(1, parseInt(e.target.value) || 1); // Ensure minimum value of 1
-    setRoLevel(value);
-  };
-
-  const handleRoQtyChange = (e) => {
-    const value = Math.max(0, parseInt(e.target.value) || 0); // Allow 0 or positive values only
-    setRoQty(value);
-  };
-
   return (
     <ModalOverlay>
       <ModalContent ref={modalRef}>
@@ -90,7 +102,7 @@ const AddProductModal = ({ onClose, onSave }) => {
           <ImageUpload>
             {image ? (
               <ImagePreview src={image} alt="Product Preview" />
-            ) : null} {/* Hide container if no image */}
+            ) : null}
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </ImageUpload>
           <Field>
@@ -100,6 +112,7 @@ const AddProductModal = ({ onClose, onSave }) => {
               onChange={(e) => setProductName(e.target.value)}
               placeholder="Enter product name"
             />
+            {errors.productName && <ErrorText>{errors.productName}</ErrorText>}
           </Field>
           <Field>
             <Label>Details Code</Label>
@@ -108,25 +121,28 @@ const AddProductModal = ({ onClose, onSave }) => {
               onChange={(e) => setDetailsCode(e.target.value)}
               placeholder="Enter details code"
             />
+            {errors.detailsCode && <ErrorText>{errors.detailsCode}</ErrorText>}
           </Field>
           <Field>
             <Label>RO Level</Label>
             <Input
               type="number"
               value={roLevel}
-              onChange={handleRoLevelChange} // Use the new handler
+              onChange={(e) => setRoLevel(e.target.value)}
               placeholder="Enter RO level"
-              min="1" // HTML5 minimum attribute
+              min="1"
             />
+            {errors.roLevel && <ErrorText>{errors.roLevel}</ErrorText>}
           </Field>
           <Field>
             <Label>RO Qty</Label>
             <Input
               type="number"
               value={roQty}
-              onChange={handleRoQtyChange} // Use the new handler
+              onChange={(e) => setRoQty(e.target.value)}
               placeholder="Enter RO quantity"
             />
+            {errors.roQty && <ErrorText>{errors.roQty}</ErrorText>}
           </Field>
           <Field>
             <Label>Quantity on Hand (QOH)</Label>
@@ -136,6 +152,7 @@ const AddProductModal = ({ onClose, onSave }) => {
               onChange={(e) => setQoh(e.target.value)}
               placeholder="Enter quantity on hand"
             />
+            {errors.qoh && <ErrorText>{errors.qoh}</ErrorText>}
           </Field>
           <Field>
             <Label>Category Code</Label>
@@ -144,6 +161,7 @@ const AddProductModal = ({ onClose, onSave }) => {
               onChange={(e) => setCategoryCode(e.target.value)}
               placeholder="Enter category code"
             />
+            {errors.categoryCode && <ErrorText>{errors.categoryCode}</ErrorText>}
           </Field>
           <Field>
             <Label>Description</Label>
@@ -152,6 +170,7 @@ const AddProductModal = ({ onClose, onSave }) => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description"
             />
+            {errors.description && <ErrorText>{errors.description}</ErrorText>}
           </Field>
           <Field>
             <Label>Price</Label>
@@ -162,6 +181,7 @@ const AddProductModal = ({ onClose, onSave }) => {
               onChange={(e) => setPrice(e.target.value)}
               placeholder="Enter price"
             />
+            {errors.price && <ErrorText>{errors.price}</ErrorText>}
           </Field>
           <Field>
             <Label>Brand</Label>
@@ -170,6 +190,7 @@ const AddProductModal = ({ onClose, onSave }) => {
               onChange={(e) => setBrand(e.target.value)}
               placeholder="Enter brand"
             />
+            {errors.brand && <ErrorText>{errors.brand}</ErrorText>}
           </Field>
           <Field>
             <Label>Size</Label>
@@ -179,6 +200,7 @@ const AddProductModal = ({ onClose, onSave }) => {
               <option value="Medium">Medium</option>
               <option value="Large">Large</option>
             </Select>
+            {errors.size && <ErrorText>{errors.size}</ErrorText>}
           </Field>
           <Field>
             <Label>Measurement</Label>
@@ -193,6 +215,7 @@ const AddProductModal = ({ onClose, onSave }) => {
               <option value="lbs">Pounds (lbs)</option>
               <option value="liter">Liters (L)</option>
             </Select>
+            {errors.measurement && <ErrorText>{errors.measurement}</ErrorText>}
           </Field>
         </ModalBody>
         <ModalFooter>
@@ -211,6 +234,12 @@ const AddProductModal = ({ onClose, onSave }) => {
 };
 
 // Styled Components
+const ErrorText = styled.span`
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 3px;
+`;
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
