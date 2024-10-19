@@ -21,6 +21,7 @@ const SharedPurchaseOrderPage = () => {
     direction: "desc",
   });
 
+  // Filter orders based on search term
   const filteredOrders = (orders || []).filter((order) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
@@ -30,6 +31,7 @@ const SharedPurchaseOrderPage = () => {
     );
   });
 
+  // Sort the filtered orders based on sort configuration
   const sortedOrders = filteredOrders.sort((a, b) => {
     if (sortConfig.key === "PURCHASE_ORDER_DATE") {
       return (
@@ -37,7 +39,13 @@ const SharedPurchaseOrderPage = () => {
         (sortConfig.direction === "asc" ? 1 : -1)
       );
     }
-    return a.PURCHASE_ORDER_ID - b.PURCHASE_ORDER_ID; // Ensure correct comparison
+    if (sortConfig.key === "PURCHASE_ORDER_ID") {
+      return (
+        (a.PURCHASE_ORDER_ID - b.PURCHASE_ORDER_ID) *
+        (sortConfig.direction === "asc" ? 1 : -1)
+      );
+    }
+    return a.SUPPLIER_ID - b.SUPPLIER_ID; // Sorting by Supplier ID
   });
 
   const openDetailsModal = (order) => setSelectedOrder(order);
@@ -47,19 +55,21 @@ const SharedPurchaseOrderPage = () => {
 
   const headers = ["Supplier ID", "Order Date", "Status", "Action"];
 
+  // Rows for the table
   const rows = sortedOrders.map((order) => {
     return [
       order.SUPPLIER_ID, // Display supplier ID
       order.PURCHASE_ORDER_DATE,
       <Status status={order.PURCHASE_ORDER_STATUS || "Pending"}>
         {order.PURCHASE_ORDER_STATUS || "Pending"}
-      </Status>, // Use the new Status component
+      </Status>, // Display status with styled status component
       <Button onClick={() => openDetailsModal(order)} fontSize="14px">
         Details
       </Button>,
     ];
   });
 
+  // Handle sort
   const handleSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -89,11 +99,15 @@ const SharedPurchaseOrderPage = () => {
         headers={headers.map((header, index) => (
           <TableHeader
             key={index}
-            onClick={() =>
-              handleSort(
-                header === "Order Date" ? "PURCHASE_ORDER_DATE" : "SUPPLIER_ID"
-              )
-            }
+            onClick={() => {
+              if (header === "Order Date" || header === "Supplier ID") {
+                handleSort(
+                  header === "Order Date"
+                    ? "PURCHASE_ORDER_DATE"
+                    : "PURCHASE_ORDER_ID"
+                );
+              }
+            }}
           >
             {header}
             {(header === "Order Date" || header === "Supplier ID") && (
@@ -101,7 +115,7 @@ const SharedPurchaseOrderPage = () => {
                 {sortConfig.key ===
                 (header === "Order Date"
                   ? "PURCHASE_ORDER_DATE"
-                  : "SUPPLIER_ID") ? (
+                  : "PURCHASE_ORDER_ID") ? (
                   sortConfig.direction === "asc" ? (
                     <FaChevronUp
                       style={{ marginLeft: "5px", fontSize: "12px" }}
@@ -182,7 +196,10 @@ const StyledButton = styled(Button)`
 
 const TableHeader = styled.th`
   text-align: center;
-  cursor: pointer;
+  cursor: ${(props) =>
+    props.children[0] === "Supplier ID" || props.children[0] === "Order Date"
+      ? "pointer"
+      : "default"};
   display: flex;
   justify-content: center;
   align-items: center;

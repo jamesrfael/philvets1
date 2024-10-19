@@ -17,13 +17,11 @@ const CategoryDetailsModal = ({ category = {}, products = [], onClose }) => {
   const [categoryDetails, setCategoryDetails] = useState(category);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [isAddProductMode, setIsAddProductMode] = useState(false); // State for Add Product modal
-
-  // Filter products by category and search term
-  const filteredProducts = products.filter((product) => {
-    const isInCategory = product.PROD_CAT_CODE === category.PROD_CAT_CODE;
-    const matchesSearchTerm = product.PROD_NAME.toLowerCase().includes(searchTerm.toLowerCase());
-    return isInCategory && matchesSearchTerm;
-  });
+  const [filteredProducts, setFilteredProducts] = useState(
+    products.filter(
+      (product) => product.PROD_CAT_CODE === category.PROD_CAT_CODE
+    )
+  );
 
   // Function to handle saving category details
   const handleSaveCategory = (updatedCategory) => {
@@ -43,8 +41,19 @@ const CategoryDetailsModal = ({ category = {}, products = [], onClose }) => {
     setIsAddProductMode(false); // Close the Add Product modal
   };
 
+  // Function to handle removing a product from the category
+  const handleRemoveProduct = (productId) => {
+    const updatedProducts = filteredProducts.filter(
+      (product) => product.PROD_ID !== productId
+    );
+    setFilteredProducts(updatedProducts);
+  };
+
   return (
-    <Modal title={`Category: ${categoryDetails.PROD_CAT_NAME}`} onClose={onClose}>
+    <Modal
+      title={`Category: ${categoryDetails.PROD_CAT_NAME}`}
+      onClose={onClose}
+    >
       <SearchBarContainer>
         <SearchBar
           placeholder="Search products..."
@@ -80,6 +89,14 @@ const CategoryDetailsModal = ({ category = {}, products = [], onClose }) => {
                     onClick={() => handleShowDetails(product.PROD_ID)}
                   >
                     Details
+                  </Button>
+                  <Button
+                    backgroundColor={colors.red}
+                    hoverColor={colors.redHover}
+                    onClick={() => handleRemoveProduct(product.PROD_ID)}
+                    style={{ marginLeft: "10px" }} // Add space between the buttons
+                  >
+                    Remove
                   </Button>
                 </TableCell>
               </TableRow>
@@ -169,5 +186,6 @@ const ButtonGroup = styled.div`
   justify-content: flex-end;
   margin-top: 15px;
 `;
+
 
 export default CategoryDetailsModal;

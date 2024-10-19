@@ -91,13 +91,15 @@ const SharedCustomerOrdersPage = () => {
         headers={headers.map((header, index) => (
           <TableHeader
             key={index}
-            onClick={() =>
-              handleSort(
-                header === "Order Date"
-                  ? "SALES_ORDER_DATACREATED"
-                  : "CLIENT_ID"
-              )
-            }
+            onClick={() => {
+              if (header === "Order Date" || header === "Client ID") {
+                handleSort(
+                  header === "Order Date"
+                    ? "SALES_ORDER_DATACREATED"
+                    : "CLIENT_ID"
+                );
+              }
+            }}
           >
             {header}
             {(header === "Order Date" || header === "Client ID") && (
@@ -186,7 +188,10 @@ const StyledButton = styled(Button)`
 
 const TableHeader = styled.th`
   text-align: center; /* Center the header text */
-  cursor: pointer; /* Change cursor to pointer */
+  cursor: ${(props) =>
+    props.children[0] === "Client ID" || props.children[0] === "Order Date"
+      ? "pointer"
+      : "default"}; /* Change cursor to pointer only for clickable headers */
   display: flex; /* Use flex to align items */
   justify-content: center; /* Center content */
   align-items: center; /* Center vertically */

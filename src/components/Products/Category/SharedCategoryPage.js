@@ -1,45 +1,55 @@
+// src/components/SharedCategoryPage.js
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom"; // For navigation
+import { colors } from "../../../colors";
+import productData from "../../../data/ProductData";
+import AddCategoryModal from "../../Products/Category/AddCategoryModal";
+import CategoryDetailsModal from "../../Products/Category/CategoryDetailsModal";
 import SearchBar from "../../Layout/SearchBar";
-import Card from "../../Layout/Card"; // Ensure this component is properly styled and handles onClick
+import Table from "../../Layout/Table";
+import CardTotalCategories from "../../CardsData/CardTotalCategories";
 import Button from "../../Layout/Button";
-import AddCategoryModal from "./AddCategoryModal"; // Ensure this modal exists
-import productData from "../../../data/ProductData"; // Adjust the import based on your file structure
-import { colors } from "../../../colors"; // Colors
+import { FaPlus } from "react-icons/fa";
 
 const SharedCategoryPage = () => {
+  const [categories, setCategories] = useState(productData.productCategories);
+  const [products] = useState(productData.products); // Access product data
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCategories, setFilteredCategories] = useState(productData.productCategories);
-  const [showAddModal, setShowAddModal] = useState(false);
-  
-  const navigate = useNavigate(); // For navigation to category view
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // Get product count for each category
-  const getCategoryProductCount = (categoryCode) => {
-    return productData.products.filter(
-      (product) => product.PROD_CAT_CODE === categoryCode
-    ).length;
+  // Count products for each category
+  const countProductsByCategory = (categoryCode) => {
+    return products.filter((product) => product.PROD_CAT_CODE === categoryCode)
+      .length;
   };
 
-  // Filter categories based on search term
-  const handleSearch = (event) => {
-    const value = event.target.value.trim().toLowerCase();
-    setSearchTerm(value);
-    const filtered = productData.productCategories.filter((category) => {
-      if (!value) return true;
-      return category.PROD_CAT_NAME.toLowerCase().includes(value);
-    });
-    setFilteredCategories(filtered);
+  const filteredCategories = categories.filter((category) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return category.PROD_CAT_NAME.toLowerCase().includes(lowerCaseSearchTerm);
+  });
+
+  const handleAddCategory = (newCategory) => {
+    setCategories((prevCategories) => [...prevCategories, newCategory]);
   };
 
-  const openAddCategoryModal = () => {
-    setShowAddModal(true);
-  };
+  const headers = ["Category Name", "Products", "Actions"];
 
-  const closeModal = () => {
-    setShowAddModal(false);
-  };
+  const rows = filteredCategories.map((category) => [
+    category.PROD_CAT_NAME,
+    countProductsByCategory(category.PROD_CAT_CODE), // Count products by category
+    <Button
+      backgroundColor={colors.primary}
+      hoverColor={colors.primaryHover}
+      onClick={() => {
+        setIsDetailsModalOpen(true);
+        setSelectedCategory(category); // Set the selected category for viewing details
+      }}
+    >
+      Details
+    </Button>,
+  ]);
 
   return (
     <>
@@ -47,48 +57,68 @@ const SharedCategoryPage = () => {
         <SearchBar
           placeholder="Search / Filter categories..."
           value={searchTerm}
-          onChange={handleSearch}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <StyledButton onClick={openAddCategoryModal}>
-          Add Category
-        </StyledButton>
+        <ButtonGroup>
+          <StyledButton
+            backgroundColor={colors.primary}
+            hoverColor={colors.primaryHover}
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            <FaPlus className="icon" /> Category
+          </StyledButton>
+        </ButtonGroup>
       </Controls>
-      <CategoryContainer>
-        {filteredCategories.map((category) => (
-          <Card
-            key={category.PROD_CAT_CODE}
-            label={category.PROD_CAT_NAME}
-            value={`${getCategoryProductCount(category.PROD_CAT_CODE)} Products`}
-            bgColor={colors.primary}
-            onClick={() => navigate(`/shared-category/${category.PROD_CAT_CODE}`)} // Navigate on click
-            style={{ cursor: 'pointer' }} // Add pointer cursor style for better UX
-          />
-        ))}
-      </CategoryContainer>
-      {showAddModal && (
-        <AddCategoryModal onClose={closeModal} />
+      <AnalyticsContainer>
+        <CardTotalCategories /> {/* Display Total Categories */}
+      </AnalyticsContainer>
+      <Table headers={headers} rows={rows} />
+      {isAddModalOpen && (
+        <AddCategoryModal
+          onClose={() => setIsAddModalOpen(false)}
+          onSave={handleAddCategory}
+        />
+      )}
+      {isDetailsModalOpen && (
+        <CategoryDetailsModal
+          category={selectedCategory} // Pass the selected category to the modal
+          products={products} // Pass the product list for the category
+          onClose={() => setIsDetailsModalOpen(false)}
+        />
       )}
     </>
   );
 };
 
-// Styled components
+// Styled Components
+
 const Controls = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  padding: 0 1px;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
 `;
 
 const StyledButton = styled(Button)`
   display: flex;
   align-items: center;
+
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
 `;
 
-const CategoryContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+const AnalyticsContainer = styled.div`
+  display: flex;
   gap: 16px;
+  margin-bottom: 16px;
+  padding: 0 1px;
 `;
 
 export default SharedCategoryPage;
