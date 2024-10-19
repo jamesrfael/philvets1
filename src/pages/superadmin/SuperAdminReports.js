@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
-import PurchaseOrderReport from "../../components/Reports/PurchaseOrderReport"; // Import PurchaseOrderReport
+import PurchaseOrderReport from "../../components/Reports/PurchaseOrderReport";
+import CustomerOrderReport from "../../components/Reports/CustomerOrderReport";
+import AllOrderReport from "../../components/Reports/AllOrderReport"; // Import the AllOrderReport component
 import Button from "../../components/Layout/Button"; // For the tab buttons
 import { colors } from "../../colors"; // Ensure colors are correctly imported
 
 const SuperAdminReports = () => {
-  const [activeTab, setActiveTab] = useState("Purchase Order Report"); // Set default tab to Purchase Order Report
+  const [activeTab, setActiveTab] = useState("All Orders Report"); // Set default tab to Purchase Order Report
 
   // Function to render the report body based on the active tab
   const renderActiveReport = () => {
     switch (activeTab) {
-      // Comment out the other reports for now
-      // case "Sales Report":
-      //   return <SalesReport />;
-      // case "Inventory Report":
-      //   return <InventoryReport />;
-      // case "Order Report":
-      //   return <OrderReport />;
+      case "All Orders Report":
+        return <AllOrderReport />;
+      case "Customer Order Report":
+        return <CustomerOrderReport />;
       case "Purchase Order Report":
-        return <PurchaseOrderReport />; // Render the PurchaseOrderReport
+        return <PurchaseOrderReport />;
       default:
         return null;
     }
@@ -28,14 +27,32 @@ const SuperAdminReports = () => {
   return (
     <MainLayout>
       <Tabs>
+
+
+        <StyledTabButton
+          active={activeTab === "All Orders Report"}
+          onClick={() => setActiveTab("All Orders Report")}
+        >
+          All Orders Report
+        </StyledTabButton>
+
         <StyledTabButton
           active={activeTab === "Purchase Order Report"}
           onClick={() => setActiveTab("Purchase Order Report")}
         >
           Purchase Order Report
         </StyledTabButton>
-      </Tabs>
 
+
+        <StyledTabButton
+          active={activeTab === "Customer Order Report"}
+          onClick={() => setActiveTab("Customer Order Report")}
+        >
+          Customer Order Report
+        </StyledTabButton>
+
+
+      </Tabs>
       {renderActiveReport()} {/* Render the report based on active tab */}
     </MainLayout>
   );
@@ -48,12 +65,16 @@ const Tabs = styled.div`
 `;
 
 const StyledTabButton = styled(Button)`
-  background-color: ${(props) => 
-    props.active ? colors.primary : "#e0e0e0"}; /* Use primary for active, grey for inactive */
+  background-color: ${(props) =>
+    props.active
+      ? colors.primary
+      : "#e0e0e0"}; /* Use primary for active, grey for inactive */
   color: ${(props) => (props.active ? "#fff" : "#000")};
   &:hover {
-    background-color: ${(props) => 
-      props.active ? colors.primaryHover : "#c0c0c0"}; // Use primaryHover for active hover
+    background-color: ${(props) =>
+      props.active
+        ? colors.primaryHover
+        : "#c0c0c0"}; // Use primaryHover for active hover
   }
 `;
 

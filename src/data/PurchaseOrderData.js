@@ -15,7 +15,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Topical treatment for dogs and cats to eliminate fleas and ticks.",
                 PURCH_ORDER_QTY: 50,
                 PURCH_ORDER_PRICE: 25.00,
-                PURCH_ORDER_LINE_TOTAL: 1250.00
+                PURCH_ORDER_LINE_TOTAL: -1250.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -24,7 +24,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Oral medication to treat intestinal worms in dogs.",
                 PURCH_ORDER_QTY: 40,
                 PURCH_ORDER_PRICE: 20.00,
-                PURCH_ORDER_LINE_TOTAL: 800.00
+                PURCH_ORDER_LINE_TOTAL: -800.00
             },
             {
                 PURCH_ORDER_DET_ID: 3,
@@ -33,7 +33,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Complete vaccination kit for kittens and adult cats.",
                 PURCH_ORDER_QTY: 30,
                 PURCH_ORDER_PRICE: 25.00,
-                PURCH_ORDER_LINE_TOTAL: 750.00
+                PURCH_ORDER_LINE_TOTAL: -750.00
             }
         ]
     },
@@ -53,7 +53,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Topical treatment for dogs and cats to eliminate fleas and ticks.",
                 PURCH_ORDER_QTY: 50,
                 PURCH_ORDER_PRICE: 25.00,
-                PURCH_ORDER_LINE_TOTAL: 1250.00
+                PURCH_ORDER_LINE_TOTAL: -1250.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -62,7 +62,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Oral medication to treat intestinal worms in dogs.",
                 PURCH_ORDER_QTY: 40,
                 PURCH_ORDER_PRICE: 20.00,
-                PURCH_ORDER_LINE_TOTAL: 800.00
+                PURCH_ORDER_LINE_TOTAL: -800.00
             },
             {
                 PURCH_ORDER_DET_ID: 3,
@@ -71,7 +71,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Complete vaccination kit for kittens and adult cats.",
                 PURCH_ORDER_QTY: 30,
                 PURCH_ORDER_PRICE: 25.00,
-                PURCH_ORDER_LINE_TOTAL: 750.00
+                PURCH_ORDER_LINE_TOTAL: -750.00
             }
         ]
     },
@@ -91,7 +91,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Nutritional supplement for maintaining horse health.",
                 PURCH_ORDER_QTY: 20,
                 PURCH_ORDER_PRICE: 50.00,
-                PURCH_ORDER_LINE_TOTAL: 1000.00
+                PURCH_ORDER_LINE_TOTAL: -1000.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -100,7 +100,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Complete dental care kit for dogs and cats.",
                 PURCH_ORDER_QTY: 30,
                 PURCH_ORDER_PRICE: 25.00,
-                PURCH_ORDER_LINE_TOTAL: 750.00
+                PURCH_ORDER_LINE_TOTAL: -750.00
             },
             {
                 PURCH_ORDER_DET_ID: 3,
@@ -109,7 +109,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "High-quality dry food for adult cats.",
                 PURCH_ORDER_QTY: 25,
                 PURCH_ORDER_PRICE: 10.00,
-                PURCH_ORDER_LINE_TOTAL: 250.00
+                PURCH_ORDER_LINE_TOTAL: -250.00
             }
         ]
     },
@@ -129,7 +129,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Tasty treats for positive reinforcement in dog training.",
                 PURCH_ORDER_QTY: 40,
                 PURCH_ORDER_PRICE: 15.00,
-                PURCH_ORDER_LINE_TOTAL: 600.00
+                PURCH_ORDER_LINE_TOTAL: -600.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -138,7 +138,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "High-absorbency litter for cats.",
                 PURCH_ORDER_QTY: 50,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 1500.00
+                PURCH_ORDER_LINE_TOTAL: -1500.00
             },
             {
                 PURCH_ORDER_DET_ID: 3,
@@ -147,7 +147,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Complete first aid kit for pets.",
                 PURCH_ORDER_QTY: 10,
                 PURCH_ORDER_PRICE: 600.00,
-                PURCH_ORDER_LINE_TOTAL: 6000.00
+                PURCH_ORDER_LINE_TOTAL: -6000.00
             }
         ]
     },
@@ -167,7 +167,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Essential vitamins for small animals like rabbits and guinea pigs.",
                 PURCH_ORDER_QTY: 15,
                 PURCH_ORDER_PRICE: 20.00,
-                PURCH_ORDER_LINE_TOTAL: 300.00
+                PURCH_ORDER_LINE_TOTAL: -300.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -176,7 +176,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Gentle shampoo for dogs, hypoallergenic.",
                 PURCH_ORDER_QTY: 10,
                 PURCH_ORDER_PRICE: 45.00,
-                PURCH_ORDER_LINE_TOTAL: 450.00
+                PURCH_ORDER_LINE_TOTAL: -450.00
             }
         ]
     },
@@ -196,7 +196,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Durable and adjustable leash for dogs.",
                 PURCH_ORDER_QTY: 20,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 600.00
+                PURCH_ORDER_LINE_TOTAL: -600.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -205,7 +205,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Comfortable bed for small to medium pets.",
                 PURCH_ORDER_QTY: 10,
                 PURCH_ORDER_PRICE: 60.00,
-                PURCH_ORDER_LINE_TOTAL: 600.00
+                PURCH_ORDER_LINE_TOTAL: -600.00
             }
         ]
     },
@@ -225,7 +225,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Multi-level cat tree for climbing and scratching.",
                 PURCH_ORDER_QTY: 5,
                 PURCH_ORDER_PRICE: 150.00,
-                PURCH_ORDER_LINE_TOTAL: 750.00
+                PURCH_ORDER_LINE_TOTAL: -750.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -234,7 +234,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Spacious cage for small birds.",
                 PURCH_ORDER_QTY: 3,
                 PURCH_ORDER_PRICE: 50.00,
-                PURCH_ORDER_LINE_TOTAL: 150.00
+                PURCH_ORDER_LINE_TOTAL: -150.00
             }
         ]
     },
@@ -254,7 +254,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Premium dog food with real meat.",
                 PURCH_ORDER_QTY: 50,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 1500.00
+                PURCH_ORDER_LINE_TOTAL: -1500.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -263,7 +263,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "High-protein food for cats.",
                 PURCH_ORDER_QTY: 50,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 1500.00
+                PURCH_ORDER_LINE_TOTAL: -1500.00
             }
         ]
     },
@@ -283,7 +283,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Comfortable carrier backpack for small pets.",
                 PURCH_ORDER_QTY: 5,
                 PURCH_ORDER_PRICE: 150.00,
-                PURCH_ORDER_LINE_TOTAL: 750.00
+                PURCH_ORDER_LINE_TOTAL: -750.00
             }
         ]
     },
@@ -303,7 +303,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Complete grooming kit for pets.",
                 PURCH_ORDER_QTY: 15,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 450.00
+                PURCH_ORDER_LINE_TOTAL: -450.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -312,7 +312,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Safe habitat for small animals.",
                 PURCH_ORDER_QTY: 30,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 900.00
+                PURCH_ORDER_LINE_TOTAL: -900.00
             }
         ]
     },
@@ -332,7 +332,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Specially formulated food for aquarium fish.",
                 PURCH_ORDER_QTY: 40,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 1200.00
+                PURCH_ORDER_LINE_TOTAL: -1200.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -341,7 +341,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "High-efficiency filter for aquariums.",
                 PURCH_ORDER_QTY: 20,
                 PURCH_ORDER_PRICE: 60.00,
-                PURCH_ORDER_LINE_TOTAL: 1200.00
+                PURCH_ORDER_LINE_TOTAL: -1200.00
             }
         ]
     },
@@ -361,7 +361,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Nutritional food for reptiles.",
                 PURCH_ORDER_QTY: 15,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 450.00
+                PURCH_ORDER_LINE_TOTAL: -450.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -370,7 +370,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Safe habitat for reptiles.",
                 PURCH_ORDER_QTY: 5,
                 PURCH_ORDER_PRICE: 90.00,
-                PURCH_ORDER_LINE_TOTAL: 450.00
+                PURCH_ORDER_LINE_TOTAL: -450.00
             }
         ]
     },
@@ -390,7 +390,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Protective boots for dogs.",
                 PURCH_ORDER_QTY: 20,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 600.00
+                PURCH_ORDER_LINE_TOTAL: -600.00
             }
         ]
     },
@@ -410,7 +410,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Waterproof cover for car seats.",
                 PURCH_ORDER_QTY: 15,
                 PURCH_ORDER_PRICE: 50.00,
-                PURCH_ORDER_LINE_TOTAL: 750.00
+                PURCH_ORDER_LINE_TOTAL: -750.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -419,7 +419,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Waterproof raincoat for dogs.",
                 PURCH_ORDER_QTY: 20,
                 PURCH_ORDER_PRICE: 15.00,
-                PURCH_ORDER_LINE_TOTAL: 300.00
+                PURCH_ORDER_LINE_TOTAL: -300.00
             }
         ]
     },
@@ -439,7 +439,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Adjustable collar for cats.",
                 PURCH_ORDER_QTY: 30,
                 PURCH_ORDER_PRICE: 10.00,
-                PURCH_ORDER_LINE_TOTAL: 300.00
+                PURCH_ORDER_LINE_TOTAL: -300.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -448,7 +448,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Personalized ID tag for dogs.",
                 PURCH_ORDER_QTY: 30,
                 PURCH_ORDER_PRICE: 50.00,
-                PURCH_ORDER_LINE_TOTAL: 1500.00
+                PURCH_ORDER_LINE_TOTAL: -1500.00
             }
         ]
     },
@@ -468,7 +468,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Decorative items for fish tanks.",
                 PURCH_ORDER_QTY: 25,
                 PURCH_ORDER_PRICE: 20.00,
-                PURCH_ORDER_LINE_TOTAL: 500.00
+                PURCH_ORDER_LINE_TOTAL: -500.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -477,7 +477,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Heater for maintaining water temperature in aquariums.",
                 PURCH_ORDER_QTY: 10,
                 PURCH_ORDER_PRICE: 50.00,
-                PURCH_ORDER_LINE_TOTAL: 500.00
+                PURCH_ORDER_LINE_TOTAL: -500.00
             }
         ]
     },
@@ -497,7 +497,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Stylish and durable collar for dogs.",
                 PURCH_ORDER_QTY: 35,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 1050.00
+                PURCH_ORDER_LINE_TOTAL: -1050.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -506,7 +506,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Lightweight leash for cats.",
                 PURCH_ORDER_QTY: 35,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 1050.00
+                PURCH_ORDER_LINE_TOTAL: -1050.00
             }
         ]
     },
@@ -526,7 +526,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Durable crate for dog training.",
                 PURCH_ORDER_QTY: 10,
                 PURCH_ORDER_PRICE: 300.00,
-                PURCH_ORDER_LINE_TOTAL: 3000.00
+                PURCH_ORDER_LINE_TOTAL: -3000.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -535,7 +535,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Portable carrier for cats.",
                 PURCH_ORDER_QTY: 15,
                 PURCH_ORDER_PRICE: 100.00,
-                PURCH_ORDER_LINE_TOTAL: 1500.00
+                PURCH_ORDER_LINE_TOTAL: -1500.00
             }
         ]
     },
@@ -555,7 +555,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Gentle shampoo for all pets.",
                 PURCH_ORDER_QTY: 20,
                 PURCH_ORDER_PRICE: 30.00,
-                PURCH_ORDER_LINE_TOTAL: 600.00
+                PURCH_ORDER_LINE_TOTAL: -600.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -564,7 +564,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Brush for grooming pets.",
                 PURCH_ORDER_QTY: 10,
                 PURCH_ORDER_PRICE: 60.00,
-                PURCH_ORDER_LINE_TOTAL: 600.00
+                PURCH_ORDER_LINE_TOTAL: -600.00
             }
         ]
     },
@@ -584,7 +584,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Comfortable harness for dogs.",
                 PURCH_ORDER_QTY: 20,
                 PURCH_ORDER_PRICE: 50.00,
-                PURCH_ORDER_LINE_TOTAL: 1000.00
+                PURCH_ORDER_LINE_TOTAL: -1000.00
             },
             {
                 PURCH_ORDER_DET_ID: 2,
@@ -593,7 +593,7 @@ const PURCHASE_ORDERS = [
                 PURCH_ORDER_PROD_DESCRIPTION: "Durable scratching post for cats.",
                 PURCH_ORDER_QTY: 20,
                 PURCH_ORDER_PRICE: 25.00,
-                PURCH_ORDER_LINE_TOTAL: 500.00
+                PURCH_ORDER_LINE_TOTAL: -500.00
             }
         ]
     },

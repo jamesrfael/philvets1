@@ -26,7 +26,7 @@ const generateExcel = async (header, data, totalOrders, totalValue) => {
   const totalOrdersRow = worksheet.addRow(['Total Orders', totalOrders]);
   totalOrdersRow.getCell(1).font = { bold: true }; // Make "Total Orders" bold
 
-  const totalAmountRow = worksheet.addRow(['Total Amount', `₱${totalValue.toFixed(2)}`]);
+  const totalAmountRow = worksheet.addRow(['Total Amount', `₱${totalValue}`]);
   totalAmountRow.getCell(1).font = { bold: true }; // Make "Total Amount" bold
 
   // Center all the text in the summary cells

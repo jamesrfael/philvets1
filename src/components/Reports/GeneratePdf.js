@@ -1,4 +1,3 @@
-//GeneratePdf.js
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { logoBase64 } from '../../data/imageData'; // Import your base64 logo
@@ -40,10 +39,19 @@ const generatePDF = (header, data, totalOrders, totalValue, companyName = "PHILV
   doc.setFont('helvetica', 'normal');
   doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, logoY + logoHeight + 30);
 
-  // Prepare data for the table (remove peso sign from Order Amount)
+  // Prepare data for the table (ensure correct formatting)
   const pdfData = data.map(row => {
     return row.map((cell, index) => {
-      return index === 1 ? parseFloat(cell).toFixed(2) : cell; // Convert Order Amount to plain number
+      // Format only the order amount (assuming it's in index 1)
+      if (index === 1) {
+        const amount = parseFloat(cell);
+        return isNaN(amount) ? cell : amount; // Convert to number and format to 2 decimal places if valid
+      }
+      // Ensure IDs (User ID, Supplier ID) remain as plain integers (no decimals)
+      if (typeof cell === 'number' && !isNaN(cell)) {
+        return Math.floor(cell).toString(); // Convert to string without decimal places
+      }
+      return cell; // Return other values unchanged
     });
   });
 
@@ -72,7 +80,7 @@ const generatePDF = (header, data, totalOrders, totalValue, companyName = "PHILV
   doc.text(`Total Orders: ${totalOrders}`, 14, summaryY);
 
   // Move the Total Amount closer to the Total Orders
-  doc.text(`Total Amount: ${totalValue.toFixed(2)}`, 14, summaryY + 6);
+  doc.text(`Total Amount: ${totalValue.toFixed(2)}`, 14, summaryY + 6); // Keep this as 2 decimal places
 
   // Convert to base64 string for preview or download
   return doc.output("datauristring");

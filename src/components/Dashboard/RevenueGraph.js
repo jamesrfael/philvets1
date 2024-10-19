@@ -9,7 +9,7 @@ import {
   Legend,
 } from "recharts";
 import styled from "styled-components";
-
+//DONT USE THIS
 const data = [
   { name: "Sun", revenue: 4000, cost: 2400 },
   { name: "Mon", revenue: 3000, cost: 1398 },

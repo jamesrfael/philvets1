@@ -24,6 +24,7 @@ const Modal = ({
           <CloseButton onClick={onClose}>
             <IoCloseCircle color="#ff5757" size={24} />
           </CloseButton>
+          
         </Header>
 
         {status && (

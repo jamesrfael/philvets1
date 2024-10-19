@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import ReportBody from "./ReportBody";
-import PURCHASE_ORDERS from "../../data/PurchaseOrderData";
+import { customerOrders } from "../../data/CustomerOrderData"; // Correctly importing the named export
 import generatePDF from "./GeneratePdf";
 import generateExcel from "./GenerateExcel";
 import PreviewModal from "./PreviewModal";
 
-const PurchaseOrderReport = () => {
+const CustomerOrderReport = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -17,50 +17,45 @@ const PurchaseOrderReport = () => {
   const matchesSearchTerm = (order) => {
     const searchStr = searchTerm.toLowerCase();
     return (
-      order.PURCHASE_ORDER_ID.toString().toLowerCase().includes(searchStr) ||
-      order.SUPPLIER_ID.toString().toLowerCase().includes(searchStr) ||
-      order.USER_ID.toString().toLowerCase().includes(searchStr) ||
-      order.PURCHASE_ORDER_STATUS.toLowerCase().includes(searchStr) ||
-      order.PURCHASE_ORDER_DATE.toLowerCase().includes(searchStr) ||
-      order.PURCHASE_ORDER_TOT_QTY.toString().toLowerCase().includes(searchStr) ||
-      order.PURCHASE_ORDER_TOTAL.toString().toLowerCase().includes(searchStr)
+      order.SALES_ORDER_ID.toString().toLowerCase().includes(searchStr) ||
+      order.CLIENT_ID.toString().toLowerCase().includes(searchStr) ||
+      order.SALES_ORDER_PYMNT_STAT.toLowerCase().includes(searchStr) ||
+      order.SALES_ORDER_DLVRY_DATE.toLowerCase().includes(searchStr) ||
+      order.SALES_ORDER_TOT_QTY.toString().toLowerCase().includes(searchStr) ||
+      order.SALES_ORDER_PROD_TOTAL.toString().toLowerCase().includes(searchStr)
     );
   };
 
   // Filter orders based on search term and date range
-  const filteredOrders = PURCHASE_ORDERS.filter((order) => {
+  const filteredOrders = customerOrders.filter((order) => {
     const matchesDateRange =
-      (!startDate || new Date(order.PURCHASE_ORDER_DATE) >= new Date(startDate)) &&
-      (!endDate || new Date(order.PURCHASE_ORDER_DATE) <= new Date(endDate));
+      (!startDate || new Date(order.SALES_ORDER_DLVRY_DATE) >= new Date(startDate)) &&
+      (!endDate || new Date(order.SALES_ORDER_DLVRY_DATE) <= new Date(endDate));
     return matchesSearchTerm(order) && matchesDateRange;
   });
 
   const totalOrders = filteredOrders.length;
-
-  // Calculate total order value (as negative)
-  const totalOrderValue = -filteredOrders.reduce(
-    (acc, order) => acc + (order.PURCHASE_ORDER_TOTAL || 0),
+  const totalOrderValue = filteredOrders.reduce(
+    (acc, order) => acc + (order.SALES_ORDER_PROD_TOTAL || 0),
     0
   );
 
   // Map the filtered orders to display only the necessary fields
   const tableData = filteredOrders.map((order) => [
-    order.PURCHASE_ORDER_ID,
-    order.SUPPLIER_ID,
-    order.USER_ID,
-    order.PURCHASE_ORDER_STATUS,
-    order.PURCHASE_ORDER_DATE,
-    order.PURCHASE_ORDER_TOT_QTY,
-    `₱${(-Math.abs(order.PURCHASE_ORDER_TOTAL)).toFixed(2)}`, // Display as negative value
+    order.SALES_ORDER_ID,
+    order.CLIENT_ID,
+    order.SALES_ORDER_PYMNT_STAT,
+    order.SALES_ORDER_DLVRY_DATE,
+    order.SALES_ORDER_TOT_QTY,
+    `₱${order.SALES_ORDER_PROD_TOTAL.toFixed(2)}`,
   ]);
 
   // Updated header to match the requested fields
   const header = [
     "Order ID",
-    "Supplier ID",
-    "User ID",
-    "Status",
-    "Order Date",
+    "Client ID",
+    "Payment Status",
+    "Delivery Date",
     "Quantity",
     "Order Amount",
   ];
@@ -77,7 +72,7 @@ const PurchaseOrderReport = () => {
       header,
       rows: tableData,
       totalOrders, // Pass total orders
-      totalAmount: totalOrderValue, // Pass total amount as negative
+      totalAmount: totalOrderValue, // Pass total amount
     });
     setPdfContent("");
     setIsModalOpen(true);
@@ -86,7 +81,7 @@ const PurchaseOrderReport = () => {
   const handleDownloadPDF = () => {
     const link = document.createElement("a");
     link.href = pdfContent;
-    link.download = "purchase_order_report.pdf";
+    link.download = "customer_order_report.pdf";
     link.click();
     setIsModalOpen(false);
   };
@@ -97,7 +92,7 @@ const PurchaseOrderReport = () => {
       const url = URL.createObjectURL(excelBlobData);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "purchase_order_report.xlsx";
+      a.download = "customer_order_report.xlsx";
       a.click();
       URL.revokeObjectURL(url);
       setIsModalOpen(false);
@@ -109,7 +104,7 @@ const PurchaseOrderReport = () => {
   return (
     <>
       <ReportBody
-        title="Purchase Order Report"
+        title="Customer Order Report"
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         startDate={startDate}
@@ -119,7 +114,7 @@ const PurchaseOrderReport = () => {
         headers={header}
         rows={tableData}
         totalOrders={totalOrders}
-        totalOrderValue={totalOrderValue} // Pass the total as negative
+        totalOrderValue={totalOrderValue}
         onDownloadPDF={handlePreviewPDF}
         onPreviewExcel={handlePreviewExcel}
       />
@@ -136,4 +131,4 @@ const PurchaseOrderReport = () => {
   );
 };
 
-export default PurchaseOrderReport;
+export default CustomerOrderReport;
