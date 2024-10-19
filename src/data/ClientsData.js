@@ -6,7 +6,7 @@ const clientsData = [
     CLIENT_CITY: "Quezon City",
     CLIENT_PROVINCE: "Metro Manila",
     CLIENT_PHONENUM: "09171234567",
-    CLIENT_EMAIL: "juan.delacruz@example.ph",
+    CLIENT_EMAIL: "juan.delacruz@example.com",
   },
   {
     CLIENT_ID: "CL002",
@@ -14,7 +14,7 @@ const clientsData = [
     CLIENT_CITY: "Makati City",
     CLIENT_PROVINCE: "Metro Manila",
     CLIENT_PHONENUM: "09281234567",
-    CLIENT_EMAIL: "maria.santos@example.ph",
+    CLIENT_EMAIL: "maria.santos@example.com",
   },
   {
     CLIENT_ID: "CL003",
@@ -22,7 +22,7 @@ const clientsData = [
     CLIENT_CITY: "Cebu City",
     CLIENT_PROVINCE: "Cebu",
     CLIENT_PHONENUM: "09391234567",
-    CLIENT_EMAIL: "josefa.lopez@example.ph",
+    CLIENT_EMAIL: "josefa.lopez@example.com",
   },
   {
     CLIENT_ID: "CL004",
@@ -30,7 +30,7 @@ const clientsData = [
     CLIENT_CITY: "Davao City",
     CLIENT_PROVINCE: "Davao del Sur",
     CLIENT_PHONENUM: "09181234567",
-    CLIENT_EMAIL: "andres.reyes@example.ph",
+    CLIENT_EMAIL: "andres.reyes@example.com",
   },
   {
     CLIENT_ID: "CL005",
@@ -38,7 +38,7 @@ const clientsData = [
     CLIENT_CITY: "Naga City",
     CLIENT_PROVINCE: "Camarines Sur",
     CLIENT_PHONENUM: "09192345678",
-    CLIENT_EMAIL: "isabela.flores@example.ph",
+    CLIENT_EMAIL: "isabela.flores@example.com",
   },
   {
     CLIENT_ID: "CL006",
@@ -46,7 +46,7 @@ const clientsData = [
     CLIENT_CITY: "Baguio City",
     CLIENT_PROVINCE: "Benguet",
     CLIENT_PHONENUM: "09201234567",
-    CLIENT_EMAIL: "carlos.bautista@example.ph",
+    CLIENT_EMAIL: "carlos.bautista@example.com",
   },
   {
     CLIENT_ID: "CL007",
@@ -54,7 +54,7 @@ const clientsData = [
     CLIENT_CITY: "Puerto Princesa",
     CLIENT_PROVINCE: "Palawan",
     CLIENT_PHONENUM: "09173456789",
-    CLIENT_EMAIL: "angela.cruz@example.ph",
+    CLIENT_EMAIL: "angela.cruz@example.com",
   },
   {
     CLIENT_ID: "CL008",
@@ -62,7 +62,7 @@ const clientsData = [
     CLIENT_CITY: "Zamboanga City",
     CLIENT_PROVINCE: "Zamboanga del Sur",
     CLIENT_PHONENUM: "09293456789",
-    CLIENT_EMAIL: "ramon.torres@example.ph",
+    CLIENT_EMAIL: "ramon.torres@example.com",
   },
   {
     CLIENT_ID: "CL009",
@@ -70,7 +70,7 @@ const clientsData = [
     CLIENT_CITY: "Iloilo City",
     CLIENT_PROVINCE: "Iloilo",
     CLIENT_PHONENUM: "09184567890",
-    CLIENT_EMAIL: "lourdes.mendoza@example.ph",
+    CLIENT_EMAIL: "lourdes.mendoza@example.com",
   },
   {
     CLIENT_ID: "CL010",
@@ -78,7 +78,7 @@ const clientsData = [
     CLIENT_CITY: "San Fernando",
     CLIENT_PROVINCE: "Pampanga",
     CLIENT_PHONENUM: "09393456789",
-    CLIENT_EMAIL: "fernando.garcia@example.ph",
+    CLIENT_EMAIL: "fernando.garcia@example.com",
   },
   {
     CLIENT_ID: "CL011",
@@ -86,7 +86,7 @@ const clientsData = [
     CLIENT_CITY: "Antipolo",
     CLIENT_PROVINCE: "Rizal",
     CLIENT_PHONENUM: "09181234567",
-    CLIENT_EMAIL: "teresa.villanueva@example.ph",
+    CLIENT_EMAIL: "teresa.villanueva@example.com",
   },
   {
     CLIENT_ID: "CL012",
@@ -94,7 +94,7 @@ const clientsData = [
     CLIENT_CITY: "Taguig City",
     CLIENT_PROVINCE: "Metro Manila",
     CLIENT_PHONENUM: "09221234567",
-    CLIENT_EMAIL: "eduardo.ramos@example.ph",
+    CLIENT_EMAIL: "eduardo.ramos@example.com",
   },
   {
     CLIENT_ID: "CL013",
@@ -102,7 +102,7 @@ const clientsData = [
     CLIENT_CITY: "Mandaue City",
     CLIENT_PROVINCE: "Cebu",
     CLIENT_PHONENUM: "09331234567",
-    CLIENT_EMAIL: "sofia.reyes@example.ph",
+    CLIENT_EMAIL: "sofia.reyes@example.com",
   },
   {
     CLIENT_ID: "CL014",
@@ -110,7 +110,7 @@ const clientsData = [
     CLIENT_CITY: "Tarlac City",
     CLIENT_PROVINCE: "Tarlac",
     CLIENT_PHONENUM: "09145678901",
-    CLIENT_EMAIL: "luis.santos@example.ph",
+    CLIENT_EMAIL: "luis.santos@example.com",
   },
   {
     CLIENT_ID: "CL015",
@@ -118,7 +118,7 @@ const clientsData = [
     CLIENT_CITY: "Bacoor",
     CLIENT_PROVINCE: "Cavite",
     CLIENT_PHONENUM: "09245678901",
-    CLIENT_EMAIL: "carmen.alonzo@example.ph",
+    CLIENT_EMAIL: "carmen.alonzo@example.com",
   },
   {
     CLIENT_ID: "CL016",
@@ -126,7 +126,7 @@ const clientsData = [
     CLIENT_CITY: "General Santos",
     CLIENT_PROVINCE: "South Cotabato",
     CLIENT_PHONENUM: "09121234567",
-    CLIENT_EMAIL: "miguel.castillo@example.ph",
+    CLIENT_EMAIL: "miguel.castillo@example.com",
   },
   {
     CLIENT_ID: "CL017",
@@ -134,7 +134,7 @@ const clientsData = [
     CLIENT_CITY: "Cainta",
     CLIENT_PROVINCE: "Rizal",
     CLIENT_PHONENUM: "09231234567",
-    CLIENT_EMAIL: "anna.cruz@example.ph",
+    CLIENT_EMAIL: "anna.cruz@example.com",
   },
   {
     CLIENT_ID: "CL018",
@@ -142,7 +142,7 @@ const clientsData = [
     CLIENT_CITY: "San Pablo City",
     CLIENT_PROVINCE: "Laguna",
     CLIENT_PHONENUM: "09112345678",
-    CLIENT_EMAIL: "victor.ong@example.ph",
+    CLIENT_EMAIL: "victor.ong@example.com",
   },
   {
     CLIENT_ID: "CL019",
@@ -150,7 +150,7 @@ const clientsData = [
     CLIENT_CITY: "Angeles City",
     CLIENT_PROVINCE: "Pampanga",
     CLIENT_PHONENUM: "09281234568",
-    CLIENT_EMAIL: "diana.ramirez@example.ph",
+    CLIENT_EMAIL: "diana.ramirez@example.com",
   },
   {
     CLIENT_ID: "CL020",
@@ -158,7 +158,7 @@ const clientsData = [
     CLIENT_CITY: "Dumaguete City",
     CLIENT_PROVINCE: "Negros Oriental",
     CLIENT_PHONENUM: "09341234567",
-    CLIENT_EMAIL: "gabriel.torres@example.ph",
+    CLIENT_EMAIL: "gabriel.torres@example.com",
   },
   {
     CLIENT_ID: "CL021",
@@ -166,7 +166,7 @@ const clientsData = [
     CLIENT_CITY: "Bacolod City",
     CLIENT_PROVINCE: "Negros Occidental",
     CLIENT_PHONENUM: "09187654321",
-    CLIENT_EMAIL: "elena.morales@example.ph",
+    CLIENT_EMAIL: "elena.morales@example.com",
   },
   {
     CLIENT_ID: "CL022",
@@ -174,7 +174,7 @@ const clientsData = [
     CLIENT_CITY: "Legazpi City",
     CLIENT_PROVINCE: "Albay",
     CLIENT_PHONENUM: "09284567890",
-    CLIENT_EMAIL: "roberto.diaz@example.ph",
+    CLIENT_EMAIL: "roberto.diaz@example.com",
   },
   {
     CLIENT_ID: "CL023",
@@ -182,7 +182,7 @@ const clientsData = [
     CLIENT_CITY: "Butuan City",
     CLIENT_PROVINCE: "Agusan del Norte",
     CLIENT_PHONENUM: "09126547890",
-    CLIENT_EMAIL: "rosa.jimenez@example.ph",
+    CLIENT_EMAIL: "rosa.jimenez@example.com",
   },
   {
     CLIENT_ID: "CL024",
@@ -190,7 +190,7 @@ const clientsData = [
     CLIENT_CITY: "Ormoc City",
     CLIENT_PROVINCE: "Leyte",
     CLIENT_PHONENUM: "09236547890",
-    CLIENT_EMAIL: "samuel.reyes@example.ph",
+    CLIENT_EMAIL: "samuel.reyes@example.com",
   },
   {
     CLIENT_ID: "CL025",
@@ -198,7 +198,7 @@ const clientsData = [
     CLIENT_CITY: "Santiago City",
     CLIENT_PROVINCE: "Isabela",
     CLIENT_PHONENUM: "09346547890",
-    CLIENT_EMAIL: "victoria.lim@example.ph",
+    CLIENT_EMAIL: "victoria.lim@example.com",
   },
   {
     CLIENT_ID: "CL026",
@@ -206,7 +206,7 @@ const clientsData = [
     CLIENT_CITY: "San Fernando City",
     CLIENT_PROVINCE: "La Union",
     CLIENT_PHONENUM: "09157654321",
-    CLIENT_EMAIL: "henry.ong@example.ph",
+    CLIENT_EMAIL: "henry.ong@example.com",
   },
   {
     CLIENT_ID: "CL027",
@@ -214,7 +214,7 @@ const clientsData = [
     CLIENT_CITY: "Iligan City",
     CLIENT_PROVINCE: "Lanao del Norte",
     CLIENT_PHONENUM: "09252654321",
-    CLIENT_EMAIL: "patricia.lim@example.ph",
+    CLIENT_EMAIL: "patricia.lim@example.com",
   },
   {
     CLIENT_ID: "CL028",
@@ -222,7 +222,7 @@ const clientsData = [
     CLIENT_CITY: "Vigan City",
     CLIENT_PROVINCE: "Ilocos Sur",
     CLIENT_PHONENUM: "09372654321",
-    CLIENT_EMAIL: "ricardo.santos@example.ph",
+    CLIENT_EMAIL: "ricardo.santos@example.com",
   },
   {
     CLIENT_ID: "CL029",
@@ -230,7 +230,7 @@ const clientsData = [
     CLIENT_CITY: "Tuguegarao City",
     CLIENT_PROVINCE: "Cagayan",
     CLIENT_PHONENUM: "09186654321",
-    CLIENT_EMAIL: "alicia.cruz@example.ph",
+    CLIENT_EMAIL: "alicia.cruz@example.com",
   },
   {
     CLIENT_ID: "CL030",
@@ -238,7 +238,7 @@ const clientsData = [
     CLIENT_CITY: "Lucena City",
     CLIENT_PROVINCE: "Quezon",
     CLIENT_PHONENUM: "09293654321",
-    CLIENT_EMAIL: "manuel.castillo@example.ph",
+    CLIENT_EMAIL: "manuel.castillo@example.com",
   },
 ];
 

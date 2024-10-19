@@ -1,108 +1,125 @@
+// src/pages/AdminCategories.js
 import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
+import { colors } from "../../colors";
 import productData from "../../data/ProductData";
-import Card from "../../components/Layout/Card";
-import Button from "../../components/Layout/Button";
+import AddCategoryModal from "../../components/Products/Category/AddCategoryModal";
+import CategoryDetailsModal from "../../components/Products/Category/CategoryDetailsModal";
 import SearchBar from "../../components/Layout/SearchBar";
-import { colors } from "../../colors"; // Ensure colors are correctly imported
-import {
-  FaBox,
-  FaGift,
-  FaFlask,
-  FaThermometerHalf,
-  FaMedkit,
-  FaArrowLeft,
-} from "react-icons/fa"; // Import your icons
-import AddCategoryModal from "../../components/Products/AddCategoryModal"; // Adjust the path if needed
+import Table from "../../components/Layout/Table";
+import CardTotalCategories from "../../components/CardsData/CardTotalCategories";
+import Button from "../../components/Layout/Button";
+import { FaPlus } from "react-icons/fa";
 
-const UserCategories = () => {
+const AdminCategories = () => {
+  const [categories, setCategories] = useState(productData.productCategories);
+  const [products] = useState(productData.products); // Access product data
   const [searchTerm, setSearchTerm] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const categoryIcons = {
-    C001: <FaBox />,
-    C002: <FaGift />,
-    C003: <FaFlask />,
-    C004: <FaThermometerHalf />,
-    C005: <FaMedkit />,
+  // Count products for each category
+  const countProductsByCategory = (categoryCode) => {
+    return products.filter((product) => product.PROD_CAT_CODE === categoryCode)
+      .length;
   };
 
-  const getCategoryProductCount = (categoryCode) => {
-    return productData.products.filter(
-      (product) => product.PROD_CAT_CODE === categoryCode
-    ).length;
+  const filteredCategories = categories.filter((category) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    return category.PROD_CAT_NAME.toLowerCase().includes(lowerCaseSearchTerm);
+  });
+
+  const handleAddCategory = (newCategory) => {
+    setCategories((prevCategories) => [...prevCategories, newCategory]);
   };
 
-  const filteredCategories = productData.productCategories.filter((category) =>
-    category.PROD_CAT_NAME.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const headers = ["Category Name", "Products", "Actions"];
+
+  const rows = filteredCategories.map((category) => [
+    category.PROD_CAT_NAME,
+    countProductsByCategory(category.PROD_CAT_CODE), // Count products by category
+    <Button
+      backgroundColor={colors.primary}
+      hoverColor={colors.primaryHover}
+      onClick={() => {
+        setIsDetailsModalOpen(true);
+        setSelectedCategory(category); // Set the selected category for viewing details
+      }}
+    >
+      Details
+    </Button>,
+  ]);
 
   return (
     <MainLayout>
       <Controls>
-        <LeftControls>
-          <BackButton onClick={() => window.history.back()}>
-            <FaArrowLeft />
-          </BackButton>
-          <SearchBar
-            placeholder="Search / Filter category..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </LeftControls>
-        <Button onClick={() => setIsModalOpen(true)}>Add Category</Button>
+        <SearchBar
+          placeholder="Search / Filter categories..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <ButtonGroup>
+          <StyledButton
+            backgroundColor={colors.primary}
+            hoverColor={colors.primaryHover}
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            <FaPlus className="icon" /> Category
+          </StyledButton>
+        </ButtonGroup>
       </Controls>
-      <CategoryContainer>
-        {filteredCategories.map((category) => (
-          <Card
-            key={category.PROD_CAT_CODE}
-            label={category.PROD_CAT_NAME}
-            value={`${getCategoryProductCount(category.PROD_CAT_CODE)}`}
-            bgColor={colors.primary} // Use the specified primary color
-            icon={categoryIcons[category.PROD_CAT_CODE]} // Add icon here
-            onClick={() => {}}
-          />
-        ))}
-      </CategoryContainer>
-      {isModalOpen && (
-        <AddCategoryModal onClose={() => setIsModalOpen(false)} />
+      <AnalyticsContainer>
+        <CardTotalCategories /> {/* Display Total Categories */}
+      </AnalyticsContainer>
+      <Table headers={headers} rows={rows} />
+      {isAddModalOpen && (
+        <AddCategoryModal
+          onClose={() => setIsAddModalOpen(false)}
+          onSave={handleAddCategory}
+        />
+      )}
+      {isDetailsModalOpen && (
+        <CategoryDetailsModal
+          category={selectedCategory} // Pass the selected category to the modal
+          products={products} // Pass the product list for the category
+          onClose={() => setIsDetailsModalOpen(false)}
+        />
       )}
     </MainLayout>
   );
 };
 
 // Styled Components
+
 const Controls = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  padding: 0 1px;
 `;
 
-const LeftControls = styled.div`
+const ButtonGroup = styled.div`
+  display: flex;
+`;
+
+const StyledButton = styled(Button)`
   display: flex;
   align-items: center;
-  gap: 10px; // Add gap between Back button and Search bar
-`;
 
-const BackButton = styled.button`
-  background: none; // Remove default button background
-  border: none; // Remove default button border
-  color: black; // Black color for the icon
-  font-size: 20px; // Size of the icon
-  cursor: pointer; // Pointer cursor on hover
-  transition: color 0.3s ease; // Smooth color transition
-
-  &:hover {
-    color: ${colors.primaryHover}; // Change color on hover
+  .icon {
+    font-size: 20px;
+    margin-right: 8px;
   }
 `;
 
-const CategoryContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+const AnalyticsContainer = styled.div`
+  display: flex;
   gap: 16px;
+  margin-bottom: 16px;
+  padding: 0 1px;
 `;
 
-export default UserCategories;
+export default AdminCategories;

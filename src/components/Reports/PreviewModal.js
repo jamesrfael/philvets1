@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { IoCloseCircle } from "react-icons/io5";
+import { FaEdit } from "react-icons/fa"; // Import the FaEdit icon from react-icons/fa
+import EditPdfModal from './EditPdfModal'; // Import the EditPdfModal
 
 const PreviewModal = ({
   isOpen,
@@ -8,8 +10,10 @@ const PreviewModal = ({
   pdfContent,
   excelData,
   onDownloadPDF,
-  onDownloadExcel
+  onDownloadExcel,
 }) => {
+  const [isEditModalOpen, setEditModalOpen] = useState(false); // State for edit modal
+
   if (!isOpen) return null;
 
   const handleBackdropClick = (e) => {
@@ -18,15 +22,29 @@ const PreviewModal = ({
     }
   };
 
+  const handleEditPDF = () => {
+    setEditModalOpen(true); // Open edit modal
+  };
+
+  const handleSaveCompanyDetails = (updatedDetails) => {
+    // Handle the updated details (e.g., update state or context if needed)
+    console.log("Updated company details:", updatedDetails);
+  };
+
   // Provide default values to avoid undefined errors
-  const totalOrders = excelData?.totalOrders || 0; // Default to 0 if undefined
-  const totalAmount = excelData?.totalAmount || 0; // Default to 0 if undefined
+  const totalOrders = excelData?.totalOrders || 0;
+  const totalAmount = excelData?.totalAmount || 0;
 
   return (
     <Backdrop onClick={handleBackdropClick}>
       <ModalContainer>
         <Header>
-          <Title>Preview {pdfContent ? "PDF" : "Excel"}</Title>
+          <Title>
+            Preview {pdfContent ? "PDF" : "Excel"}
+            {pdfContent && (
+              <EditIcon onClick={handleEditPDF} />
+            )}
+          </Title>
           <CloseButton onClick={onRequestClose}>
             <IoCloseCircle color="#ff5757" size={24} />
           </CloseButton>
@@ -64,7 +82,7 @@ const PreviewModal = ({
                   </tr>
                   <tr>
                     <td colSpan={excelData?.header.length - 1}><strong>Total Amount:</strong></td>
-                    <td><strong>₱{totalAmount.toFixed(2)}</strong></td> {/* This should work now */}
+                    <td><strong>₱{totalAmount.toFixed(2)}</strong></td>
                   </tr>
                 </tbody>
               </table>
@@ -79,6 +97,14 @@ const PreviewModal = ({
           )}
         </ButtonContainer>
       </ModalContainer>
+
+      {/* EditPdfModal component */}
+      {isEditModalOpen && (
+        <EditPdfModal 
+          onClose={() => setEditModalOpen(false)} 
+          onSave={handleSaveCompanyDetails} 
+        />
+      )}
     </Backdrop>
   );
 };
@@ -120,6 +146,15 @@ const Title = styled.h2`
   font-weight: bold;
   margin: 0;
   font-size: 25px;
+  display: flex;
+  align-items: center;
+`;
+
+const EditIcon = styled(FaEdit)`  // Use FaEdit icon from /fa
+  color: black;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 10px;
 `;
 
 const CloseButton = styled.button`

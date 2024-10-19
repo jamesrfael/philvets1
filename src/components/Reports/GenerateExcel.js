@@ -1,60 +1,5 @@
-import jsPDF from "jspdf";
-import "jspdf-autotable";
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver'; // Ensure you have file-saver for Excel download
-
-// PDF Generation
-const generatePDF = (header, data, totalOrders, totalValue) => {
-  const doc = new jsPDF();
-
-  // Use UTF-8 encoding to ensure peso sign renders correctly
-  doc.setFont('helvetica', 'normal', 'utf-8');
-
-  // Header
-  doc.setFontSize(18);
-  doc.setFont('helvetica', 'bold'); // Make the title bold
-  doc.text("Purchase Order Report", 14, 22);
-  
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal'); // Reset to normal for the date
-  doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 28); // Closer to the title
-
-  // Prepare data for the table (remove peso sign from Order Amount)
-  const pdfData = data.map(row => {
-    return row.map((cell, index) => {
-      // Assuming the Order Amount is at index 1 (adjust as necessary)
-      return index === 1 ? parseFloat(cell).toFixed(2) : cell; // Convert Order Amount to plain number
-    });
-  });
-
-  // Table
-  doc.autoTable({
-    head: [header],
-    body: pdfData,
-    startY: 38, // Start closer to the date
-    styles: {
-      cellPadding: 3,
-      fontSize: 9, // Set font size smaller for data
-      halign: 'center', // Center text horizontally in cells
-      valign: 'middle', // Center text vertically
-    },
-    headStyles: {
-      fillColor: [0, 196, 255], // Set header background color (00C4FF)
-      textColor: [255, 255, 255], // Set header text color (white)
-      fontStyle: 'bold', // Make headers bold
-      halign: 'center', // Center header text
-    },
-  });
-
-  // Summary
-  const summaryY = doc.autoTable.previous.finalY + 10; // Position totals closer to the table
-  doc.setFont('helvetica', 'bold'); // Make totals bold
-  doc.text(`Total Orders: ${totalOrders}`, 14, summaryY);
-  doc.text(`Total Amount: ${totalValue.toFixed(2)}`, 14, summaryY + 10); // Remove peso sign
-
-  // Convert to base64 string for preview or download
-  return doc.output("datauristring");
-};
 
 // Excel Generation
 const generateExcel = async (header, data, totalOrders, totalValue) => {
@@ -108,4 +53,4 @@ const generateExcel = async (header, data, totalOrders, totalValue) => {
   }
 };
 
-export { generatePDF, generateExcel };
+export default generateExcel;

@@ -50,9 +50,9 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Link to="/forgot-password">
+          {/* <Link to="/forgot-password">
             <ForgotPasswordText>Forgot password?</ForgotPasswordText>
-          </Link>
+          </Link> */}
           <LoginButton type="submit">Login</LoginButton>
         </form>
       </FormContainer>

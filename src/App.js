@@ -6,6 +6,7 @@ import { UserProvider } from "./context/UserContext"; // Import UserProvider
 import LoginPage from "./pages/LoginPage";
 import ForgotPassword from "./pages/ForgotPasswordPage";
 
+// Admin Pages
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminCustomers from "./pages/admin/AdminCustomers";
@@ -22,10 +23,10 @@ import AdminSales from "./pages/admin/AdminSales";
 import AdminReturns from "./pages/admin/AdminReturns";
 import AdminLogs from "./pages/admin/AdminLogs";
 import AdminCategories from "./pages/admin/AdminCategories";
-import AdminCategoryView from "./pages/admin/AdminCategoryView";
 import AdminProfile from "./pages/admin/AdminProfile";
 import AdminNotification from "./pages/admin/AdminNotification";
 
+// SuperAdmin Pages
 import SuperAdminDashboard from "./pages/superadmin/SuperAdminDashboard";
 import SuperAdminUsers from "./pages/superadmin/SuperAdminUsers";
 import SuperAdminCustomers from "./pages/superadmin/SuperAdminCustomers";
@@ -42,10 +43,10 @@ import SuperAdminSales from "./pages/superadmin/SuperAdminSales";
 import SuperAdminReturns from "./pages/superadmin/SuperAdminReturns";
 import SuperAdminLogs from "./pages/superadmin/SuperAdminLogs";
 import SuperAdminCategories from "./pages/superadmin/SuperAdminCategories";
-import SuperAdminCategoryView from "./pages/superadmin/SuperAdminCategoryView";
 import SuperAdminProfile from "./pages/superadmin/SuperAdminProfile";
 import SuperAdminNotification from "./pages/superadmin/SuperAdminNotification";
 
+// Staff Pages
 import StaffDashboard from "./pages/staff/StaffDashboard";
 import StaffProfile from "./pages/staff/StaffProfile";
 import StaffOrders from "./pages/staff/StaffOrders";
@@ -59,8 +60,8 @@ import StaffReturns from "./pages/staff/StaffReturns";
 import StaffReports from "./pages/staff/StaffReports";
 import StaffNotification from "./pages/staff/StaffNotification";
 import StaffCategories from "./pages/staff/StaffCategories";
-import StaffCategoryView from "./pages/staff/StaffCategoryView";
 
+// Other Pages
 import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
@@ -68,60 +69,32 @@ function App() {
     <UserProvider>
       <Router>
         <Routes>
+          {/* Authentication */}
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
 
-          <Route
-            path="/superadmin/dashboard"
-            element={<SuperAdminDashboard />}
-          />
+          {/* SuperAdmin Routes */}
+          <Route path="/superadmin/dashboard" element={<SuperAdminDashboard />} />
           <Route path="/superadmin/profile" element={<SuperAdminProfile />} />
           <Route path="/superadmin/users" element={<SuperAdminUsers />} />
-          <Route
-            path="/superadmin/customers"
-            element={<SuperAdminCustomers />}
-          />
-          <Route
-            path="/superadmin/inventory"
-            element={<SuperAdminInventory />}
-          />
+          <Route path="/superadmin/customers" element={<SuperAdminCustomers />} />
+          <Route path="/superadmin/inventory" element={<SuperAdminInventory />} />
           <Route path="/superadmin/reports" element={<SuperAdminReports />} />
-          <Route
-            path="/superadmin/suppliers"
-            element={<SuperAdminSuppliers />}
-          />
+          <Route path="/superadmin/suppliers" element={<SuperAdminSuppliers />} />
           <Route path="/superadmin/orders" element={<SuperAdminOrders />} />
-          <Route
-            path="/superadmin/orders/request"
-            element={<SuperAdminRequest />}
-          />
-          <Route
-            path="/superadmin/orders/customer-order"
-            element={<SuperAdminCustomerOrder />}
-          />
-          <Route
-            path="/superadmin/orders/purchase-order"
-            element={<SuperAdminPurchaseOrder />}
-          />
+          <Route path="/superadmin/orders/request" element={<SuperAdminRequest />} />
+          <Route path="/superadmin/orders/customer-order" element={<SuperAdminCustomerOrder />} />
+          <Route path="/superadmin/orders/purchase-order" element={<SuperAdminPurchaseOrder />} />
           <Route path="/superadmin/delivery" element={<SuperAdminDelivery />} />
           <Route path="/superadmin/products" element={<SuperAdminProducts />} />
           <Route path="/superadmin/sales" element={<SuperAdminSales />} />
           <Route path="/superadmin/returns" element={<SuperAdminReturns />} />
           <Route path="/superadmin/logs" element={<SuperAdminLogs />} />
-          <Route
-            path="/superadmin/categories"
-            element={<SuperAdminCategories />}
-          />
-          <Route
-            path="/superadmin/categories/:categoryId"
-            element={<SuperAdminCategoryView />}
-          />
-          <Route
-            path="/superadmin/notifications"
-            element={<SuperAdminNotification />}
-          />
+          <Route path="/superadmin/categories" element={<SuperAdminCategories />} />
+          <Route path="/superadmin/notifications" element={<SuperAdminNotification />} />
 
+          {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
           <Route path="/admin/users" element={<AdminUsers />} />
@@ -131,31 +104,22 @@ function App() {
           <Route path="/admin/suppliers" element={<AdminSuppliers />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
           <Route path="/admin/orders/request" element={<AdminRequest />} />
-          <Route
-            path="/admin/orders/customer-order"
-            element={<AdminCustomerOrder />}
-          />
-          <Route
-            path="/admin/orders/purchase-order"
-            element={<AdminPurchaseOrder />}
-          />
+          <Route path="/admin/orders/customer-order" element={<AdminCustomerOrder />} />
+          <Route path="/admin/orders/purchase-order" element={<AdminPurchaseOrder />} />
           <Route path="/admin/delivery" element={<AdminDelivery />} />
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/sales" element={<AdminSales />} />
           <Route path="/admin/returns" element={<AdminReturns />} />
           <Route path="/admin/logs" element={<AdminLogs />} />
           <Route path="/admin/categories" element={<AdminCategories />} />
-          <Route path="/admin/category-view" element={<AdminCategoryView />} />
           <Route path="/admin/notifications" element={<AdminNotification />} />
 
+          {/* Staff Routes */}
           <Route path="/staff/dashboard" element={<StaffDashboard />} />
           <Route path="/staff/profile" element={<StaffProfile />} />
           <Route path="/staff/orders" element={<StaffOrders />} />
-          <Route path="/staff/orders/request" element={<AdminRequest />} />
-          <Route
-            path="/staff/orders/customer-order"
-            element={<AdminCustomerOrder />}
-          />
+          <Route path="/staff/orders/request" element={<StaffRequest />} />
+          <Route path="/staff/orders/customer-order" element={<StaffCustomerOrder />} />
           <Route path="/staff/delivery" element={<StaffDelivery />} />
           <Route path="/staff/products" element={<StaffProducts />} />
           <Route path="/staff/inventory" element={<StaffInventory />} />
@@ -163,14 +127,9 @@ function App() {
           <Route path="/staff/returns" element={<StaffReturns />} />
           <Route path="/staff/reports" element={<StaffReports />} />
           <Route path="/staff/categories" element={<StaffCategories />} />
-          <Route path="/staff/category-view" element={<StaffCategoryView />} />
           <Route path="/staff/notifications" element={<StaffNotification />} />
-          <Route path="/staff/orders/request" element={<StaffRequest />} />
-          <Route
-            path="/staff/orders/customer-order"
-            element={<StaffCustomerOrder />}
-          />
 
+          {/* Fallback Route */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

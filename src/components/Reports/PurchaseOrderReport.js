@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ReportBody from "./ReportBody";
 import PURCHASE_ORDERS from "../../data/PurchaseOrderData";
-import { generatePDF, generateExcel } from "./ConvertReport";
+import generatePDF from "./GeneratePdf";
+import generateExcel from "./GenerateExcel";
 import PreviewModal from "./PreviewModal";
 
 const PurchaseOrderReport = () => {
