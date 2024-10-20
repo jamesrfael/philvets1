@@ -9,19 +9,21 @@ const AddUserModal = ({ onClose, onSave }) => {
   const [firstname, setFirstname] = useState("");
   const [midinitial, setMidinitial] = useState("");
   const [lastname, setLastname] = useState("");
-  const [username, setUsername] = useState("staff_"); // Initialize with 'staff_'
+  const [username, setUsername] = useState("staff_");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [acctype, setAcctype] = useState("Staff"); // Default to 'Staff'
+  const [acctype, setAcctype] = useState("Staff");
   const [image, setImage] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const modalRef = useRef();
 
   useEffect(() => {
-    // Close modal on clicking outside
     const handleOutsideClick = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
         onClose();
@@ -34,22 +36,50 @@ const AddUserModal = ({ onClose, onSave }) => {
     };
   }, [onClose]);
 
-  // Update username dynamically based on the first name, last name, and account type
   useEffect(() => {
     if (firstname && lastname && acctype) {
-      const generatedUsername =
-        `${acctype.toLowerCase()}_${firstname.toLowerCase()}${lastname.toLowerCase()}`.replace(
-          /\s/g,
-          ""
-        );
+      const generatedUsername = `${acctype.toLowerCase()}_${firstname.toLowerCase()}${lastname.toLowerCase()}`.replace(/\s/g, "");
       setUsername(generatedUsername);
     } else if (acctype) {
-      // If only acctype is set, start with acctype_
       setUsername(`${acctype.toLowerCase()}_`);
     }
   }, [firstname, lastname, acctype]);
 
+  const validateFields = () => {
+    const newErrors = {};
+    
+    if (!firstname) newErrors.firstname = "First name is required.";
+    if (!lastname) newErrors.lastname = "Last name is required.";
+    if (!email) newErrors.email = "Email is required.";
+    else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) newErrors.email = "Please enter a valid email address.";
+    }
+    if (!password) newErrors.password = "Password is required.";
+    if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match.";
+    if (!phoneNumber) newErrors.phoneNumber = "Phone number is required.";
+    else {
+      const phoneRegex = /^0\d{10}$/;
+      if (!phoneRegex.test(phoneNumber)) newErrors.phoneNumber = "Phone number must start with '0' and be 11 digits long.";
+    }
+    if (!address) newErrors.address = "Address is required.";
+    if (!image) newErrors.image = "Image is required.";
+    
+    return newErrors;
+  };
+
   const handleSave = async () => {
+    const validationErrors = validateFields();
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+
+    // Prompt for confirmation
+    const confirmAddUser = window.confirm("Are you sure you want to add this user?");
+    if (!confirmAddUser) return; // If user cancels, exit early
+
     const formData = new FormData();
     formData.append("user_username", username);
     formData.append("user_firstname", firstname);
@@ -72,7 +102,7 @@ const AddUserModal = ({ onClose, onSave }) => {
 
       if (response.ok) {
         const result = await response.json();
-        onSave(result); // Pass newly added staff data
+        onSave(result);
         onClose();
       } else {
         const result = await response.json();
@@ -87,11 +117,17 @@ const AddUserModal = ({ onClose, onSave }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      const fileType = file.type.split('/')[0];
+      if (fileType === 'image') {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImage(reader.result);
+          setErrors((prev) => ({ ...prev, image: "" }));
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setErrors((prev) => ({ ...prev, image: "Please upload a valid image file." }));
+      }
     }
   };
 
@@ -99,9 +135,11 @@ const AddUserModal = ({ onClose, onSave }) => {
     setShowPassword(!showPassword);
   };
 
-  // Determine if it's a superadmin or admin page
-  const isSuperadminPage =
-    window.location.pathname.includes("/superadmin/users");
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const isSuperadminPage = window.location.pathname.includes("/superadmin/users");
 
   return (
     <ModalOverlay>
@@ -117,58 +155,47 @@ const AddUserModal = ({ onClose, onSave }) => {
             <Label>Image</Label>
             <ImageContainer>
               {image && <img src={image} alt="User" />}
-              <Input type="file" onChange={handleImageChange} />
+              <Input type="file" accept="image/*" onChange={handleImageChange} />
             </ImageContainer>
+            {errors.image && <ErrorMessage>{errors.image}</ErrorMessage>} {/* Display image error */}
           </Field>
           <Field>
             <Label>First Name</Label>
-            <Input
-              value={firstname}
-              onChange={(e) => setFirstname(e.target.value)}
-            />
+            <Input value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+            {errors.firstname && <ErrorMessage>{errors.firstname}</ErrorMessage>}
           </Field>
           <Field>
             <Label>Middle Initial</Label>
-            <Input
-              value={midinitial}
-              onChange={(e) => setMidinitial(e.target.value)}
-            />
+            <Input value={midinitial} onChange={(e) => setMidinitial(e.target.value)} />
           </Field>
           <Field>
             <Label>Last Name</Label>
-            <Input
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
-            />
+            <Input value={lastname} onChange={(e) => setLastname(e.target.value)} />
+            {errors.lastname && <ErrorMessage>{errors.lastname}</ErrorMessage>}
           </Field>
           <Field>
             <Label>Address</Label>
-            <Input
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
+            <Input value={address} onChange={(e) => setAddress(e.target.value)} />
+            {errors.address && <ErrorMessage>{errors.address}</ErrorMessage>}
           </Field>
           <Field>
             <Label>Phone Number</Label>
             <Input
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))} // Allow only numbers
+              onInput={(e) => e.target.value = e.target.value.replace(/[^0-9]/g, '')} // Further restrict input
+              maxLength={11} // Limit to 11 digits
             />
+            {errors.phoneNumber && <ErrorMessage>{errors.phoneNumber}</ErrorMessage>}
           </Field>
           <Field>
             <Label>Email</Label>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
           </Field>
           <Field>
             <Label>Username</Label>
-            <Input
-              value={username}
-              readOnly // Make it read-only since it's generated automatically
-            />
+            <Input value={username} readOnly />
           </Field>
           <Field>
             <Label>Password</Label>
@@ -176,27 +203,46 @@ const AddUserModal = ({ onClose, onSave }) => {
               <Input
                 type={showPassword ? "text" : "password"}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => { 
+                  setPassword(e.target.value); 
+                  setErrors((prev) => ({ ...prev, password: "" })); 
+                }}
               />
               <TogglePasswordButton onClick={togglePasswordVisibility}>
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </TogglePasswordButton>
             </PasswordWrapper>
+            {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
           </Field>
-
-          {/* Show account type dropdown only if on superadmin page */}
-          {isSuperadminPage ? (
+          {/* Conditionally render Confirm Password field */}
+          {password && (
+            <Field>
+              <Label>Confirm Password</Label>
+              <PasswordWrapper>
+                <Input
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => { 
+                    setConfirmPassword(e.target.value); 
+                    setErrors((prev) => ({ ...prev, confirmPassword: "" })); 
+                  }}
+                />
+                <TogglePasswordButton onClick={toggleConfirmPasswordVisibility}>
+                  {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
+                </TogglePasswordButton>
+              </PasswordWrapper>
+              {errors.confirmPassword && <ErrorMessage>{errors.confirmPassword}</ErrorMessage>}
+            </Field>
+          )}
+          {isSuperadminPage && (
             <Field>
               <Label>Account Type</Label>
-              <Select
-                value={acctype}
-                onChange={(e) => setAcctype(e.target.value)}
-              >
+              <Select value={acctype} onChange={(e) => setAcctype(e.target.value)}>
                 <option value="Staff">Staff</option>
                 <option value="Admin">Admin</option>
               </Select>
             </Field>
-          ) : null}
+          )}
         </ModalBody>
         <ModalFooter>
           <Button variant="red" onClick={onClose}>
@@ -316,6 +362,11 @@ const ModalFooter = styled.div`
   button:first-of-type {
     margin-right: 10px;
   }
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 0.875rem;
 `;
 
 export default AddUserModal;
