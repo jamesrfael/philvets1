@@ -175,3 +175,14 @@ export const SaveChangesButton = styled.button`
   margin-left: auto;
   margin-right: auto;
 `;
+export const ChangePasswordText = styled.p`
+  text-align: center;
+  cursor: pointer;
+  color: ${colors.primary};
+  font-weight: bold;
+  margin-top: 20px;
+
+  &:hover {
+    color: ${colors.primaryHover};
+  }
+`;

@@ -1,5 +1,6 @@
 // SharedProfilePage.js
 import React, { useState, useEffect } from "react";
+import ChangePassModal from "./ChangePassModal"; // Import the ChangePassModal component
 import {
   ProfileContainer,
   LeftPanel,
@@ -20,46 +21,47 @@ import {
   SaveChangesButton,
   InputContainer,
   EyeIcon,
+  ChangePasswordText // Import any necessary styles for the Change Password text
 } from "./ProfileStyles"; // Update import path as necessary
-import { FaPencilAlt, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa";
 import profilePic from "../../assets/profile.png";
 
 const SharedProfilePage = ({ userRole }) => {
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [isEditingContact, setIsEditingContact] = useState(false);
+  const [isChangePassModalOpen, setChangePassModalOpen] = useState(false); // State for modal
 
   const userData = {
     SuperAdmin: {
-      name: "Maria Santos",
+      firstName: "Maria",
+      middleInitial: "S.",
+      lastName: "Santos",
       email: "maria.santos@example.com",
-      password: "MariaAdminPassword",
       contact: "09123456789",
     },
     Admin: {
-      name: "John Doe",
+      firstName: "John",
+      middleInitial: "D.",
+      lastName: "Doe",
       email: "john.doe@example.com",
-      password: "JohnAdminPassword",
       contact: "09123456788",
     },
     Staff: {
-      name: "Jane Smith",
+      firstName: "Jane",
+      middleInitial: "A.",
+      lastName: "Smith",
       email: "jane.smith@example.com",
-      password: "JaneStaffPassword",
       contact: "09123456787",
     },
   };
 
-  const [name, setName] = useState(userData[userRole].name);
+  const [firstName, setFirstName] = useState(userData[userRole].firstName);
+  const [middleInitial, setMiddleInitial] = useState(userData[userRole].middleInitial);
+  const [lastName, setLastName] = useState(userData[userRole].lastName);
   const [email, setEmail] = useState(userData[userRole].email);
-  const [password, setPassword] = useState(userData[userRole].password);
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [contact, setContact] = useState(userData[userRole].contact);
   const [profileImage, setProfileImage] = useState(profilePic);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [hasChanges, setHasChanges] = useState(false);
   const [saveClicked, setSaveClicked] = useState(false);
 
@@ -74,12 +76,7 @@ const SharedProfilePage = ({ userRole }) => {
   };
 
   useEffect(() => {
-    if (
-      isEditingName ||
-      isEditingEmail ||
-      isEditingPassword ||
-      isEditingContact
-    ) {
+    if (isEditingName || isEditingEmail || isEditingContact) {
       setHasChanges(true);
     } else {
       setHasChanges(false);
@@ -87,12 +84,11 @@ const SharedProfilePage = ({ userRole }) => {
   }, [
     isEditingName,
     isEditingEmail,
-    isEditingPassword,
     isEditingContact,
-    name,
+    firstName,
+    middleInitial,
+    lastName,
     email,
-    password,
-    confirmPassword,
     contact,
   ]);
 
@@ -100,7 +96,6 @@ const SharedProfilePage = ({ userRole }) => {
     console.log("Changes saved!");
     setIsEditingName(false);
     setIsEditingEmail(false);
-    setIsEditingPassword(false);
     setIsEditingContact(false);
     setSaveClicked(true);
     setHasChanges(false);
@@ -125,24 +120,62 @@ const SharedProfilePage = ({ userRole }) => {
 
         <ProfileInfo>
           <AdminText>{userRole}</AdminText>
-          <NameText>{name}</NameText>
+          <NameText>{`${firstName} ${middleInitial} ${lastName}`}</NameText>
           <EmailText>{email}</EmailText>
         </ProfileInfo>
       </LeftPanel>
 
       <RightPanel>
         <ProfileField>
-          <Label>Name</Label>
+          <Label>First Name</Label>
           <FieldContainer>
             {isEditingName ? (
               <InputField
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 showBorder={isEditingName}
               />
             ) : (
-              <FieldText>{name}</FieldText>
+              <FieldText>{firstName}</FieldText>
+            )}
+            <EditButton onClick={() => setIsEditingName(!isEditingName)}>
+              <FaPencilAlt />
+            </EditButton>
+          </FieldContainer>
+        </ProfileField>
+
+        <ProfileField>
+          <Label>Middle Initial</Label>
+          <FieldContainer>
+            {isEditingName ? (
+              <InputField
+                type="text"
+                value={middleInitial}
+                onChange={(e) => setMiddleInitial(e.target.value)}
+                showBorder={isEditingName}
+              />
+            ) : (
+              <FieldText>{middleInitial}</FieldText>
+            )}
+            <EditButton onClick={() => setIsEditingName(!isEditingName)}>
+              <FaPencilAlt />
+            </EditButton>
+          </FieldContainer>
+        </ProfileField>
+
+        <ProfileField>
+          <Label>Last Name</Label>
+          <FieldContainer>
+            {isEditingName ? (
+              <InputField
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                showBorder={isEditingName}
+              />
+            ) : (
+              <FieldText>{lastName}</FieldText>
             )}
             <EditButton onClick={() => setIsEditingName(!isEditingName)}>
               <FaPencilAlt />
@@ -182,60 +215,10 @@ const SharedProfilePage = ({ userRole }) => {
             ) : (
               <FieldText>{contact}</FieldText>
             )}
-            <EditButton
-              onClick={() => setIsEditingContact(!isEditingContact)}
-            >
+            <EditButton onClick={() => setIsEditingContact(!isEditingContact)}>
               <FaPencilAlt />
             </EditButton>
           </FieldContainer>
-        </ProfileField>
-
-        <ProfileField>
-          <Label>Password</Label>
-          {isEditingPassword ? (
-            <InputContainer>
-              <FieldContainer>
-                <InputField
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  placeholder="New Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  showBorder={isEditingPassword}
-                />
-                <EyeIcon onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </EyeIcon>
-              </FieldContainer>
-              <FieldContainer>
-                <InputField
-                  type={showConfirmPassword ? "text" : "password"}
-                  value={confirmPassword}
-                  placeholder="Confirm Password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  showBorder={isEditingPassword}
-                />
-                <EyeIcon
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                </EyeIcon>
-              </FieldContainer>
-              <EditButton
-                onClick={() => setIsEditingPassword(!isEditingPassword)}
-              >
-                <FaPencilAlt />
-              </EditButton>
-            </InputContainer>
-          ) : (
-            <FieldContainer>
-              <FieldText>********</FieldText>
-              <EditButton
-                onClick={() => setIsEditingPassword(!isEditingPassword)}
-              >
-                <FaPencilAlt />
-              </EditButton>
-            </FieldContainer>
-          )}
         </ProfileField>
 
         {hasChanges && !saveClicked && (
@@ -243,7 +226,23 @@ const SharedProfilePage = ({ userRole }) => {
             Save Changes
           </SaveChangesButton>
         )}
+
+        {/* Centered Change Password Text */}
+        <ChangePasswordText onClick={() => setChangePassModalOpen(true)}>
+          Change Password
+        </ChangePasswordText>
       </RightPanel>
+
+      {/* Change Password Modal */}
+      {isChangePassModalOpen && (
+        <ChangePassModal
+          onClose={() => setChangePassModalOpen(false)}
+          onSave={(newPassword) => {
+            console.log("Password changed to:", newPassword);
+            setChangePassModalOpen(false);
+          }}
+        />
+      )}
     </ProfileContainer>
   );
 };

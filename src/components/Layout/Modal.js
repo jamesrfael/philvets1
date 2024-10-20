@@ -38,6 +38,8 @@ const Modal = ({
 
         <Content>{children}</Content>
       </ModalContainer>
+
+      
     </Backdrop>
   );
 };
