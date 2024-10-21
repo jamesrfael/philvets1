@@ -1,4 +1,4 @@
-export const customerOrders = [ 
+export const SALES_ORDER = [ 
   {
     SALES_ORDER_ID: "1001",
     SALES_ORDER_DATACREATED: "2024-01-15 10:30",

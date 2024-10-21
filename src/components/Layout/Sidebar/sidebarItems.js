@@ -27,17 +27,17 @@ export const superadminSidebarItems = [
       {
         icon: TbChevronRight,
         label: "Request",
-        link: "/superadmin/orders/request",
+        link: "/superadmin/request-order",
       },
       {
         icon: TbChevronRight,
         label: "Customer",
-        link: "/superadmin/orders/customer-order",
+        link: "/superadmin/customer-order",
       },
       {
         icon: TbChevronRight,
         label: "Purchase",
-        link: "/superadmin/orders/purchase-order",
+        link: "/superadmin/purchase-order",
       },
     ],
   },
@@ -82,17 +82,17 @@ export const adminSidebarItems = [
       {
         icon: TbChevronRight,
         label: "Requests",
-        link: "/admin/orders/request",
+        link: "/admin/request-order",
       },
       {
         icon: TbChevronRight,
         label: "Customer",
-        link: "/admin/orders/customer-order",
+        link: "/admin/customer-order",
       },
       {
         icon: TbChevronRight,
         label: "Purchase",
-        link: "/admin/orders/purchase-order",
+        link: "/admin/purchase-order",
       },
     ],
   },
@@ -133,12 +133,12 @@ export const staffSidebarItems = [
       {
         icon: TbChevronRight,
         label: "Request",
-        link: "/staff/orders/request",
+        link: "/staff/request-order",
       },
       {
         icon: TbChevronRight,
         label: "Customer",
-        link: "/staff/orders/customer-order",
+        link: "/staff/customer-order",
       },
     ],
   },

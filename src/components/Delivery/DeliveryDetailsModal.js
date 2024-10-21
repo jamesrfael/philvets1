@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import Modal from "../Layout/Modal"; // Importing the reusable Modal component
-import { colors } from "../../colors";
+import { colors } from "../../colors"; // Assuming colors is defined as per your application
+import Button from "../Layout/Button"; // Assuming your Button component is in this path
 
 // Utility function to format numbers as currency
 const formatCurrency = (amount) => {
   return `₱${amount.toFixed(2)}`;
 };
 
-const DeliveryDetailsModal = ({ delivery = {}, onClose }) => {
+const DeliveryDetailsModal = ({ delivery = {}, onClose, onAccept }) => {
   const calculateSubTotal = () => {
     if (!delivery.orderDetails) return 0;
     return delivery.orderDetails.reduce(
@@ -104,6 +105,19 @@ const DeliveryDetailsModal = ({ delivery = {}, onClose }) => {
           <Total>{formatCurrency(calculateTotalAfterDiscount())}</Total>
         </FormGroup>
       </FormSection>
+
+      {delivery.status === "Pending" && (
+        <ModalFooter>
+          <ButtonGroup>
+            <Button variant="red" onClick={onClose}>
+              Return
+            </Button>
+            <Button variant="green" onClick={onAccept}>
+              Accept
+            </Button>
+          </ButtonGroup>
+        </ModalFooter>
+      )}
     </Modal>
   );
 };
@@ -185,6 +199,17 @@ const DescriptionBox = styled.div`
   width: 100%;
   text-align: left;
   background: #f9f9f9;
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 export default DeliveryDetailsModal;

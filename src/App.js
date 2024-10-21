@@ -14,7 +14,7 @@ import AdminInventory from "./pages/admin/AdminInventory";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminSuppliers from "./pages/admin/AdminSuppliers";
 import AdminOrders from "./pages/admin/AdminOrders";
-import AdminRequest from "./pages/admin/AdminRequest";
+import AdminRequestOrder from "./pages/admin/AdminRequestOrder";
 import AdminCustomerOrder from "./pages/admin/AdminCustomerOrder";
 import AdminPurchaseOrder from "./pages/admin/AdminPurchaseOrder";
 import AdminDelivery from "./pages/admin/AdminDelivery";
@@ -34,7 +34,7 @@ import SuperAdminInventory from "./pages/superadmin/SuperAdminInventory";
 import SuperAdminReports from "./pages/superadmin/SuperAdminReports";
 import SuperAdminSuppliers from "./pages/superadmin/SuperAdminSuppliers";
 import SuperAdminOrders from "./pages/superadmin/SuperAdminOrders";
-import SuperAdminRequest from "./pages/superadmin/SuperAdminRequest";
+import SuperAdminRequestOrder from "./pages/superadmin/SuperAdminRequestOrder";
 import SuperAdminCustomerOrder from "./pages/superadmin/SuperAdminCustomerOrder";
 import SuperAdminPurchaseOrder from "./pages/superadmin/SuperAdminPurchaseOrder";
 import SuperAdminDelivery from "./pages/superadmin/SuperAdminDelivery";
@@ -50,7 +50,7 @@ import SuperAdminNotification from "./pages/superadmin/SuperAdminNotification";
 import StaffDashboard from "./pages/staff/StaffDashboard";
 import StaffProfile from "./pages/staff/StaffProfile";
 import StaffOrders from "./pages/staff/StaffOrders";
-import StaffRequest from "./pages/staff/StaffRequest";
+import StaffRequestOrder from "./pages/staff/StaffRequestOrder";
 import StaffCustomerOrder from "./pages/staff/StaffCustomerOrder";
 import StaffDelivery from "./pages/staff/StaffDelivery";
 import StaffProducts from "./pages/staff/StaffProducts";
@@ -83,9 +83,9 @@ function App() {
           <Route path="/superadmin/reports" element={<SuperAdminReports />} />
           <Route path="/superadmin/suppliers" element={<SuperAdminSuppliers />} />
           <Route path="/superadmin/orders" element={<SuperAdminOrders />} />
-          <Route path="/superadmin/orders/request" element={<SuperAdminRequest />} />
-          <Route path="/superadmin/orders/customer-order" element={<SuperAdminCustomerOrder />} />
-          <Route path="/superadmin/orders/purchase-order" element={<SuperAdminPurchaseOrder />} />
+          <Route path="/superadmin/request-order" element={<SuperAdminRequestOrder />} />
+          <Route path="/superadmin/customer-order" element={<SuperAdminCustomerOrder />} />
+          <Route path="/superadmin/purchase-order" element={<SuperAdminPurchaseOrder />} />
           <Route path="/superadmin/delivery" element={<SuperAdminDelivery />} />
           <Route path="/superadmin/products" element={<SuperAdminProducts />} />
           <Route path="/superadmin/sales" element={<SuperAdminSales />} />
@@ -103,9 +103,9 @@ function App() {
           <Route path="/admin/reports" element={<AdminReports />} />
           <Route path="/admin/suppliers" element={<AdminSuppliers />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/admin/orders/request" element={<AdminRequest />} />
-          <Route path="/admin/orders/customer-order" element={<AdminCustomerOrder />} />
-          <Route path="/admin/orders/purchase-order" element={<AdminPurchaseOrder />} />
+          <Route path="/admin/request-order" element={<AdminRequestOrder />} />
+          <Route path="/admin/customer-order" element={<AdminCustomerOrder />} />
+          <Route path="/admin/purchase-order" element={<AdminPurchaseOrder />} />
           <Route path="/admin/delivery" element={<AdminDelivery />} />
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/sales" element={<AdminSales />} />
@@ -118,8 +118,8 @@ function App() {
           <Route path="/staff/dashboard" element={<StaffDashboard />} />
           <Route path="/staff/profile" element={<StaffProfile />} />
           <Route path="/staff/orders" element={<StaffOrders />} />
-          <Route path="/staff/orders/request" element={<StaffRequest />} />
-          <Route path="/staff/orders/customer-order" element={<StaffCustomerOrder />} />
+          <Route path="/staff/request-order" element={<StaffRequestOrder />} />
+          <Route path="/staff/customer-order" element={<StaffCustomerOrder />} />
           <Route path="/staff/delivery" element={<StaffDelivery />} />
           <Route path="/staff/products" element={<StaffProducts />} />
           <Route path="/staff/inventory" element={<StaffInventory />} />

@@ -27,7 +27,6 @@ import {
   calculateLineTotal,
   calculateTotalQuantity,
   calculateTotalValue,
-  calculateTotalDiscount,
 } from "../../../utils/CalculationUtils"; // Import calculation utilities
 
 const AddPurchaseOrderModal = ({ onClose, onSave }) => {
@@ -57,7 +56,6 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
     handleSave,
     handleRemoveProduct,
     handleAddSupplier,
-    setOrderDetails, // Ensure setOrderDetails is included for state updates
   } = useAddPurchaseOrderModal(onSave, onClose);
 
   const [errors, setErrors] = useState({});
@@ -121,8 +119,7 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
 
   // Calculate total values
   const totalQuantity = calculateTotalQuantity(orderDetails); // Total quantity of items
-  const totalValue = calculateTotalValue(orderDetails); // Total value considering discounts
-  const totalDiscount = calculateTotalDiscount(orderDetails); // Total discount
+  const totalValue = calculateTotalValue(orderDetails); // Total value without discount
 
   return (
     <Modal title="Add Purchase Order" onClose={onClose}>
@@ -226,7 +223,6 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
               <th>Product Name</th>
               <th>Quantity</th>
               <th>Price</th>
-              <th>Discount</th>
               <th>Total</th>
               <th></th>
             </tr>
@@ -288,22 +284,6 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
                     placeholder="Price"
                   />
                 </td>
-                <td>
-                  <Input
-                    type="number"
-                    value={orderDetail.discountValue}
-                    onChange={(e) => {
-                      const value = parseFloat(e.target.value) || 0;
-                      const updatedOrderDetails = [...orderDetails];
-                      updatedOrderDetails[index] = {
-                        ...updatedOrderDetails[index],
-                        discountValue: value,
-                      };
-                      setOrderDetails(updatedOrderDetails);
-                    }}
-                    placeholder="Discount"
-                  />
-                </td>
                 <td>{calculateLineTotal(orderDetail)}</td>
                 <td>
                   <DeleteButton onClick={() => handleRemoveProduct(index)}>
@@ -322,12 +302,6 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
           <TotalRow>
             <TotalLabel>Total Quantity</TotalLabel>
             <TotalValue>{totalQuantity}</TotalValue>
-          </TotalRow>
-          <TotalRow>
-            <TotalLabel>Total Discount</TotalLabel>
-            <TotalValue style={{ color: "#ff5757" }}>
-              ₱{totalDiscount.toFixed(2)}
-            </TotalValue>
           </TotalRow>
           <TotalRow>
             <TotalLabel>Total Value</TotalLabel>

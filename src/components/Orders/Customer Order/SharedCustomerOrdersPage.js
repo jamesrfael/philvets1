@@ -5,13 +5,13 @@ import SearchBar from "../../../components/Layout/SearchBar";
 import Table from "../../../components/Layout/Table";
 import CardTotalCustomerOrder from "../../../components/CardsData/CardTotalCustomerOrder";
 import Button from "../../../components/Layout/Button";
-import { customerOrders } from "../../../data/CustomerOrderData";
+import { SALES_ORDER } from "../../../data/CustomerOrderData";
 import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import CustomerOrderDetailsModal from "./CustomerOrderDetailsModal";
 
 const SharedCustomerOrdersPage = () => {
-  const [customer] = useState(customerOrders); // Use customer data instead of orders
+  const [customer] = useState(SALES_ORDER); // Use customer data instead of orders
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingCustomerOrder, setIsAddingCustomerOrder] = useState(false);

@@ -3,49 +3,55 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
-import CardTotalReturns from "../../components/CardsData/CardTotalReturns"; 
-import CardTotalRequest from "../../components/CardsData/CardTotalRequest"; 
-import CardTotalOrders from "../../components/CardsData/CardTotalOrders"; 
-import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery"; 
-import CardLowStocks from "../../components/CardsData/CardLowStocks"; 
-import CardTotalProducts from "../../components/CardsData/CardTotalProducts"; 
-import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers"; 
+import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
+import CardTotalRequestOrder from "../../components/CardsData/CardTotalRequestOrder";
+import CardTotalCustomerOrder from "../../components/CardsData/CardTotalCustomerOrder";
+import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
+import CardLowStocks from "../../components/CardsData/CardLowStocks";
+import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
+import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
 import ExpiredItemsAlert from "../../components/Dashboard/ExpiredItemsAlert";
-import LowestStocks from "../../components/Dashboard/LowestStocks"; 
-import { getLayout, saveLayout } from "../../utils/indexedDB";  
+import LowestStocks from "../../components/Dashboard/LowestStocks";
+import { getLayout, saveLayout } from "../../utils/indexedDB";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import MainLayout from "../../components/Layout/MainLayout"; 
+import MainLayout from "../../components/Layout/MainLayout";
+import Loading from "../../components/Layout/Loading";
 
 const StaffDashboard = () => {
   const navigate = useNavigate();
   const [currentCardOrder, setCurrentCardOrder] = useState([
     "CardTotalReturns",
-    "CardTotalRequest",
-    "CardTotalOrders",
+    "CardTotalRequestOrder",
+    "CardTotalCustomerOrder",
     "CardTotalDelivery",
     "CardLowStocks",
     "CardTotalProducts",
-    "CardTotalCustomers"
+    "CardTotalCustomers",
   ]);
 
   const [tableOrder, setTableOrder] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadLayout = async () => {
-      const savedCardOrder = await getLayout('staff', 'cardOrder');
-      const savedTableOrder = await getLayout('staff', 'tableOrder');
+      setLoading(true);
+      try {
+        const savedCardOrder = await getLayout("staff", "cardOrder");
+        const savedTableOrder = await getLayout("staff", "tableOrder");
 
-      if (savedCardOrder) {
-        setCurrentCardOrder(savedCardOrder);
-      }
+        if (savedCardOrder) {
+          setCurrentCardOrder(savedCardOrder);
+        }
 
-      if (savedTableOrder) {
-        setTableOrder(savedTableOrder);
-      } else {
-        setTableOrder([
-          "ExpiredItemsAlert",
-          "LowestStocks",
-        ]);
+        if (savedTableOrder) {
+          setTableOrder(savedTableOrder);
+        } else {
+          setTableOrder(["ExpiredItemsAlert", "LowestStocks"]);
+        }
+      } catch (error) {
+        console.error("Error loading layout:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -58,25 +64,25 @@ const StaffDashboard = () => {
     const sourceIndex = result.source.index;
     const destinationIndex = result.destination.index;
 
-    if (result.type === 'CARD') {
+    if (result.type === "CARD") {
       const newOrder = Array.from(currentCardOrder);
       const [removed] = newOrder.splice(sourceIndex, 1);
       newOrder.splice(destinationIndex, 0, removed);
       setCurrentCardOrder(newOrder);
-      saveLayout('staff', 'cardOrder', newOrder);
-    } else if (result.type === 'TABLE') {
+      saveLayout("staff", "cardOrder", newOrder);
+    } else if (result.type === "TABLE") {
       const newTableOrder = Array.from(tableOrder);
       const [removed] = newTableOrder.splice(sourceIndex, 1);
       newTableOrder.splice(destinationIndex, 0, removed);
       setTableOrder(newTableOrder);
-      saveLayout('staff', 'tableOrder', newTableOrder);
+      saveLayout("staff", "tableOrder", newTableOrder);
     }
   };
 
   const cardComponents = {
     CardTotalReturns: <CardTotalReturns />,
-    CardTotalRequest: <CardTotalRequest />,
-    CardTotalOrders: <CardTotalOrders />,
+    CardTotalCustomerOrder: <CardTotalCustomerOrder />,
+    CardTotalRequestOrder: <CardTotalRequestOrder />,
     CardTotalDelivery: <CardTotalDelivery />,
     CardLowStocks: <CardLowStocks />,
     CardTotalProducts: <CardTotalProducts />,
@@ -88,6 +94,25 @@ const StaffDashboard = () => {
     LowestStocks: <LowestStocks />,
   };
 
+  const cardOnClickHandlers = {
+    CardTotalReturns: () => navigate("/staff/returns"),
+    CardTotalCustomerOrder: () => navigate("/staff/customer-order"),
+    CardTotalRequestOrder: () => navigate("/staff/request-order"),
+    CardTotalDelivery: () => navigate("/staff/delivery"),
+    CardLowStocks: () => navigate("/staff/inventory"),
+    CardTotalProducts: () => navigate("/staff/products"),
+    CardTotalCustomers: () => navigate("/staff/customers"),
+  };
+
+  const tableOnClickHandlers = {
+    ExpiredItemsAlert: () => navigate("/staff/inventory"),
+    LowestStocks: () => navigate("/staff/inventory"),
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <MainLayout>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -97,9 +122,9 @@ const StaffDashboard = () => {
               {currentCardOrder.map((cardKey, index) => {
                 if (cardComponents[cardKey]) {
                   return (
-                    <Draggable 
-                      key={cardKey} 
-                      draggableId={cardKey} 
+                    <Draggable
+                      key={cardKey}
+                      draggableId={cardKey}
                       index={index}
                     >
                       {(provided) => (
@@ -107,7 +132,7 @@ const StaffDashboard = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          onClick={() => navigate(`/staff/${cardKey.toLowerCase()}`)}
+                          onClick={cardOnClickHandlers[cardKey]}
                         >
                           {cardComponents[cardKey]}
                         </CardWrapper>
@@ -125,20 +150,24 @@ const StaffDashboard = () => {
         <Droppable droppableId="tables" type="TABLE">
           {(provided) => (
             <ScrollableTablesContainer>
-              <TablesContainer {...provided.droppableProps} ref={provided.innerRef}>
+              <TablesContainer
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
                 {tableOrder.map((tableKey, index) => {
                   if (tableComponents[tableKey]) {
                     return (
-                      <Draggable 
-                        key={tableKey} 
-                        draggableId={tableKey} 
+                      <Draggable
+                        key={tableKey}
+                        draggableId={tableKey}
                         index={index}
                       >
                         {(provided) => (
-                          <Row 
-                            ref={provided.innerRef} 
-                            {...provided.draggableProps} 
+                          <Row
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
                             {...provided.dragHandleProps}
+                            onClick={tableOnClickHandlers[tableKey]} // Add onClick for table items
                           >
                             <StyledLink to={`/staff/${tableKey.toLowerCase()}`}>
                               {tableComponents[tableKey]}
@@ -170,12 +199,12 @@ const CardContainer = styled.div`
 `;
 
 const CardWrapper = styled.div`
-  cursor: move; /* Change cursor to indicate draggable */
+  cursor: move;
 `;
 
 const ScrollableTablesContainer = styled.div`
-  overflow-x: auto; /* Enable horizontal scrolling */
-  margin: 2rem auto; /* Add margin for spacing */
+  overflow-x: auto;
+  margin: 2rem auto;
   width: 100%;
   padding: 7px;
 `;
@@ -184,7 +213,7 @@ const TablesContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  min-width: 488px; /* Set a minimum width to make the table content scrollable */
+  min-width: 488px;
 `;
 
 const Row = styled.div`
@@ -192,7 +221,7 @@ const Row = styled.div`
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
-  cursor: move; /* Change cursor to indicate draggable */
+  cursor: move;
 `;
 
 const StyledLink = styled(Link)`

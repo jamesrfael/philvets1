@@ -1,14 +1,11 @@
 import React from "react";
-import Card from "../Layout/Card"; // Import the reusable Card component
-import { orders } from "../../data/OrderData"; // Import the orders data
+import Card from "../Layout/Card";
+import { SALES_ORDER } from "../../data/CustomerOrderData";
 import styled from "styled-components";
-import { FaClipboardList } from "react-icons/fa"; // Updated icon
+import { FaClipboardList } from "react-icons/fa";
 
 const CardTotalCustomerOrder = () => {
-  // Calculation for total number of Customer Orders
-  const salesOrderCount = orders.filter(
-    (order) => order.orderType === "Customer Order"
-  ).length;
+  const salesOrderCount = SALES_ORDER.length;
 
   return (
     <CardContainer>

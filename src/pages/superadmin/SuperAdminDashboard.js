@@ -1,7 +1,7 @@
 // src/components/SuperAdminDashboard.js
 
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import HighestSellingProducts from "../../components/Dashboard/HighestSellingProducts";
 import RecentlyAddedProducts from "../../components/Dashboard/RecentlyAddedProducts";
@@ -10,28 +10,28 @@ import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalSales from "../../components/CardsData/CardTotalSales";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification";
-import CardTotalInventoryValue from "../../components/CardsData/CardTotalInventoryValue"; 
-import CardTotalCategories from "../../components/CardsData/CardTotalCategories"; 
-import CardTotalCustomerOrder from "../../components/CardsData/CardTotalCustomerOrder"; 
-import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers"; 
-import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery"; 
-import CardTotalLogs from "../../components/CardsData/CardTotalLogs"; 
-import CardTotalOrders from "../../components/CardsData/CardTotalOrders"; 
-import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder"; 
-import CardTotalRequest from "../../components/CardsData/CardTotalRequest"; 
-import CardTotalReturns from "../../components/CardsData/CardTotalReturns"; 
-import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers"; 
-import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions"; 
-import CardTotalUsers from "../../components/CardsData/CardTotalUsers"; 
+import CardTotalInventoryValue from "../../components/CardsData/CardTotalInventoryValue";
+import CardTotalCategories from "../../components/CardsData/CardTotalCategories";
+import CardTotalCustomerOrder from "../../components/CardsData/CardTotalCustomerOrder";
+import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
+import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
+import CardTotalLogs from "../../components/CardsData/CardTotalLogs";
+import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder";
+import CardTotalRequestOrder from "../../components/CardsData/CardTotalRequestOrder";
+import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
+import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
+import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions";
+import CardTotalUsers from "../../components/CardsData/CardTotalUsers";
 import ExpiredItemsAlert from "../../components/Dashboard/ExpiredItemsAlert";
-import { getLayout, saveLayout } from "../../utils/indexedDB";  
+import { getLayout, saveLayout } from "../../utils/indexedDB";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import MainLayout from "../../components/Layout/MainLayout"; 
+import MainLayout from "../../components/Layout/MainLayout";
+import Loading from "../../components/Layout/Loading";
+import ResetLayout from "../../utils/ResetLayout";
 
 const SuperAdminDashboard = () => {
   const navigate = useNavigate();
   const [currentCardOrder, setCurrentCardOrder] = useState([
-    "CardTotalSales",
     "CardTotalProducts",
     "CardLowStocks",
     "CardTotalNotification",
@@ -41,35 +41,43 @@ const SuperAdminDashboard = () => {
     "CardTotalCustomers",
     "CardTotalDelivery",
     "CardTotalLogs",
-    "CardTotalOrders",
     "CardTotalPurchaseOrder",
-    "CardTotalRequest",
+    "CardTotalRequestOrder",
     "CardTotalReturns",
     "CardTotalSuppliers",
     "CardTotalTransactions",
-    "CardTotalUsers"
+    "CardTotalUsers",
+    "CardTotalSales",
   ]);
 
   const [tableOrder, setTableOrder] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const loadLayout = async () => {
-      const savedCardOrder = await getLayout('superadmin', 'cardOrder');
-      const savedTableOrder = await getLayout('superadmin', 'tableOrder');
+      setLoading(true); // Start loading
+      try {
+        const savedCardOrder = await getLayout("superadmin", "cardOrder");
+        const savedTableOrder = await getLayout("superadmin", "tableOrder");
 
-      if (savedCardOrder) {
-        setCurrentCardOrder(savedCardOrder);
-      }
+        if (savedCardOrder) {
+          setCurrentCardOrder(savedCardOrder);
+        }
 
-      if (savedTableOrder) {
-        setTableOrder(savedTableOrder);
-      } else {
-        setTableOrder([
-          "HighestSellingProducts",
-          "ExpiredItemsAlert",
-          "RecentlyAddedProducts",
-          "LowestStocks",
-        ]);
+        if (savedTableOrder) {
+          setTableOrder(savedTableOrder);
+        } else {
+          setTableOrder([
+            "HighestSellingProducts",
+            "ExpiredItemsAlert",
+            "RecentlyAddedProducts",
+            "LowestStocks",
+          ]);
+        }
+      } catch (error) {
+        console.error("Error loading layout:", error);
+      } finally {
+        setLoading(false); // Ensure loading is stopped even if there's an error
       }
     };
 
@@ -82,19 +90,48 @@ const SuperAdminDashboard = () => {
     const sourceIndex = result.source.index;
     const destinationIndex = result.destination.index;
 
-    if (result.type === 'CARD') {
+    if (result.type === "CARD") {
       const newOrder = Array.from(currentCardOrder);
       const [removed] = newOrder.splice(sourceIndex, 1);
       newOrder.splice(destinationIndex, 0, removed);
       setCurrentCardOrder(newOrder);
-      saveLayout('superadmin', 'cardOrder', newOrder);
-    } else if (result.type === 'TABLE') {
+      saveLayout("superadmin", "cardOrder", newOrder);
+    } else if (result.type === "TABLE") {
       const newTableOrder = Array.from(tableOrder);
       const [removed] = newTableOrder.splice(sourceIndex, 1);
       newTableOrder.splice(destinationIndex, 0, removed);
       setTableOrder(newTableOrder);
-      saveLayout('superadmin', 'tableOrder', newTableOrder);
+      saveLayout("superadmin", "tableOrder", newTableOrder);
     }
+  };
+
+  // Custom onClick handlers for cards (with superadmin role)
+  const cardOnClickHandlers = {
+    CardTotalProducts: () => navigate("/superadmin/products"),
+    CardLowStocks: () => navigate("/superadmin/inventory"),
+    CardTotalNotification: () => navigate("/superadmin/notifications"),
+    CardTotalInventoryValue: () => navigate("/superadmin/inventory"),
+    CardTotalCategories: () => navigate("/superadmin/categories"),
+    CardTotalCustomerOrder: () => navigate("/superadmin/customer-order"),
+    CardTotalCustomers: () => navigate("/superadmin/customers"),
+    CardTotalDelivery: () => navigate("/superadmin/delivery"),
+    CardTotalLogs: () => navigate("/superadmin/logs"),
+    CardTotalPurchaseOrder: () => navigate("/superadmin/purchase-order"),
+    CardTotalRequestOrder: () => navigate("/superadmin/request-order"),
+    CardTotalReturns: () => navigate("/superadmin/returns"),
+    CardTotalSuppliers: () => navigate("/superadmin/suppliers"),
+    CardTotalTransactions: () => navigate("/superadmin/reports"),
+    CardTotalUsers: () => navigate("/superadmin/users"),
+    CardTotalSales: () => navigate("/superadmin/sales"),
+  };
+
+  // Custom onClick handlers for tables (with superadmin role)
+  const tableOnClickHandlers = {
+    HighestSellingProducts: () =>
+      navigate("/superadmin/products"),
+    ExpiredItemsAlert: () => navigate("/superadmin/inventory"),
+    RecentlyAddedProducts: () => navigate("/superadmin/products"),
+    LowestStocks: () => navigate("/superadmin/inventory"),
   };
 
   const cardComponents = {
@@ -108,9 +145,8 @@ const SuperAdminDashboard = () => {
     CardTotalCustomers: <CardTotalCustomers />,
     CardTotalDelivery: <CardTotalDelivery />,
     CardTotalLogs: <CardTotalLogs />,
-    CardTotalOrders: <CardTotalOrders />,
     CardTotalPurchaseOrder: <CardTotalPurchaseOrder />,
-    CardTotalRequest: <CardTotalRequest />,
+    CardTotalRequestOrder: <CardTotalRequestOrder />,
     CardTotalReturns: <CardTotalReturns />,
     CardTotalSuppliers: <CardTotalSuppliers />,
     CardTotalTransactions: <CardTotalTransactions />,
@@ -118,11 +154,15 @@ const SuperAdminDashboard = () => {
   };
 
   const tableComponents = {
-    HighestSellingProducts: <HighestSellingProducts />,
     ExpiredItemsAlert: <ExpiredItemsAlert />,
+    HighestSellingProducts: <HighestSellingProducts />,
     RecentlyAddedProducts: <RecentlyAddedProducts />,
     LowestStocks: <LowestStocks />,
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <MainLayout>
@@ -133,9 +173,9 @@ const SuperAdminDashboard = () => {
               {currentCardOrder.map((cardKey, index) => {
                 if (cardComponents[cardKey]) {
                   return (
-                    <Draggable 
-                      key={cardKey} 
-                      draggableId={cardKey} 
+                    <Draggable
+                      key={cardKey}
+                      draggableId={cardKey}
                       index={index}
                     >
                       {(provided) => (
@@ -143,7 +183,7 @@ const SuperAdminDashboard = () => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          onClick={() => navigate(`/superadmin/${cardKey.toLowerCase()}`)}
+                          onClick={cardOnClickHandlers[cardKey]}
                         >
                           {cardComponents[cardKey]}
                         </CardWrapper>
@@ -158,27 +198,29 @@ const SuperAdminDashboard = () => {
           )}
         </Droppable>
 
-        <Droppable droppableId="tables" type="TABLE">
-          {(provided) => (
-            <ScrollableTablesContainer>
-              <TablesContainer {...provided.droppableProps} ref={provided.innerRef}>
+        <ScrollableTablesContainer>
+          <Droppable droppableId="tables" type="TABLE">
+            {(provided) => (
+              <TablesContainer
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
                 {tableOrder.map((tableKey, index) => {
                   if (tableComponents[tableKey]) {
                     return (
-                      <Draggable 
-                        key={tableKey} 
-                        draggableId={tableKey} 
+                      <Draggable
+                        key={tableKey}
+                        draggableId={tableKey}
                         index={index}
                       >
                         {(provided) => (
-                          <Row 
-                            ref={provided.innerRef} 
-                            {...provided.draggableProps} 
+                          <Row
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
                             {...provided.dragHandleProps}
+                            onClick={tableOnClickHandlers[tableKey]}
                           >
-                            <StyledLink to={`/superadmin/${tableKey.toLowerCase()}`}>
-                              {tableComponents[tableKey]}
-                            </StyledLink>
+                            {tableComponents[tableKey]}
                           </Row>
                         )}
                       </Draggable>
@@ -188,10 +230,14 @@ const SuperAdminDashboard = () => {
                 })}
                 {provided.placeholder}
               </TablesContainer>
-            </ScrollableTablesContainer>
-          )}
-        </Droppable>
+            )}
+          </Droppable>
+        </ScrollableTablesContainer>
       </DragDropContext>
+      <ResetLayout
+        setCurrentCardOrder={setCurrentCardOrder}
+        setTableOrder={setTableOrder}
+      />
     </MainLayout>
   );
 };
@@ -206,12 +252,12 @@ const CardContainer = styled.div`
 `;
 
 const CardWrapper = styled.div`
-  cursor: move; /* Change cursor to indicate draggable */
+  cursor: move;
 `;
 
 const ScrollableTablesContainer = styled.div`
-  overflow-x: auto; /* Enable horizontal scrolling */
-  margin: 2rem auto; /* Add margin for spacing */
+  overflow-x: auto;
+  margin: 2rem auto;
   width: 100%;
   padding: 7px;
 `;
@@ -220,7 +266,7 @@ const TablesContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  min-width: 488px; /* Set a minimum width to make the table content scrollable */
+  min-width: 488px;
 `;
 
 const Row = styled.div`
@@ -228,13 +274,7 @@ const Row = styled.div`
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
-  cursor: move; /* Change cursor to indicate draggable */
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  display: block;
-  width: 100%;
+  cursor: move;
 `;
 
 export default SuperAdminDashboard;

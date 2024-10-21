@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ReportBody from "./ReportBody"; // Ensure you have this component
-import { customerOrders } from "../../data/CustomerOrderData"; // Import customer orders data
+import { SALES_ORDER } from "../../data/CustomerOrderData"; // Import customer orders data
 import PURCHASE_ORDERS from "../../data/PurchaseOrderData"; // Import purchase orders data as default export
 import { generatePDF, generateExcel } from "./GenerateAllOrdersExport"; // Import the combined export functions
 import PreviewAllOrderModal from "./PreviewAllOrderModal"; // Updated import
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const AllOrderReport = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,7 +18,7 @@ const AllOrderReport = () => {
   const combinedOrders = [];
 
   // Process customer orders
-  customerOrders.forEach(order => {
+  SALES_ORDER.forEach((order) => {
     combinedOrders.push({
       id: order.SALES_ORDER_ID,
       date: new Date(order.SALES_ORDER_DLVRY_DATE),
@@ -28,7 +28,7 @@ const AllOrderReport = () => {
   });
 
   // Process purchase orders
-  PURCHASE_ORDERS.forEach(order => {
+  PURCHASE_ORDERS.forEach((order) => {
     combinedOrders.push({
       id: order.PURCHASE_ORDER_ID,
       date: new Date(order.PURCHASE_ORDER_DATE),
@@ -38,33 +38,42 @@ const AllOrderReport = () => {
   });
 
   // Filter combined orders based on search term and date range
-  const filteredOrders = combinedOrders.filter(order => {
-    const matchesSearchTerm = 
+  const filteredOrders = combinedOrders.filter((order) => {
+    const matchesSearchTerm =
       order.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.quantity.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.quantity
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       order.amount.toFixed(2).toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesDateRange =
       (!startDate || order.date >= new Date(startDate)) &&
       (!endDate || order.date <= new Date(endDate));
-    
+
     return matchesSearchTerm && matchesDateRange;
   });
 
   const totalOrders = filteredOrders.length;
 
   // Calculate total sales and expenses
-  const totalSales = combinedOrders.reduce((acc, order) => acc + (order.amount > 0 ? order.amount : 0), 0); // Sum only sales
-  const totalExpenses = combinedOrders.reduce((acc, order) => acc + (order.amount < 0 ? -order.amount : 0), 0); // Sum only expenses
+  const totalSales = combinedOrders.reduce(
+    (acc, order) => acc + (order.amount > 0 ? order.amount : 0),
+    0
+  ); // Sum only sales
+  const totalExpenses = combinedOrders.reduce(
+    (acc, order) => acc + (order.amount < 0 ? -order.amount : 0),
+    0
+  ); // Sum only expenses
   const netProfit = totalSales - totalExpenses; // Net profit
 
   // Format number with currency and thousand separators
   const formatCurrency = (value) => {
-    return `₱${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+    return `₱${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
   };
 
   // Map the filtered orders to display only the necessary fields
-  const tableData = filteredOrders.map(order => [
+  const tableData = filteredOrders.map((order) => [
     order.id,
     order.date.toLocaleDateString(),
     order.quantity,
@@ -74,14 +83,28 @@ const AllOrderReport = () => {
   const header = ["Order ID", "Date", "Quantity", "Order Amount"];
 
   const handlePreviewPDF = async () => {
-    const pdfData = await generatePDF(header, tableData, totalOrders, totalSales, totalExpenses, netProfit);
+    const pdfData = await generatePDF(
+      header,
+      tableData,
+      totalOrders,
+      totalSales,
+      totalExpenses,
+      netProfit
+    );
     setPdfContent(pdfData);
     setExcelData(null);
     setIsModalOpen(true);
   };
 
   const handlePreviewExcel = async () => {
-    const excelBlobData = await generateExcel(header, tableData, totalOrders, totalSales, totalExpenses, netProfit);
+    const excelBlobData = await generateExcel(
+      header,
+      tableData,
+      totalOrders,
+      totalSales,
+      totalExpenses,
+      netProfit
+    );
     const url = URL.createObjectURL(excelBlobData);
     setExcelData({
       header,
@@ -90,7 +113,7 @@ const AllOrderReport = () => {
       totalSales, // Make sure to include totalSales for the Excel preview
       totalExpenses, // Make sure to include totalExpenses for the Excel preview
       netProfit, // Make sure to include netProfit for the Excel preview
-      url // Pass the URL for preview
+      url, // Pass the URL for preview
     });
     setPdfContent("");
     setIsModalOpen(true);
@@ -183,7 +206,7 @@ const CardTitle = styled.h3`
 const CardValue = styled.p`
   font-size: 24px;
   font-weight: bold;
-  color: ${props => props.color || "#4caf50"};
+  color: ${(props) => props.color || "#4caf50"};
 `;
 
 export default AllOrderReport;

@@ -1,9 +1,9 @@
-// src/pages/SuperAdminRequest.js
+// src/pages/AdminRequestOrder.js
 import React from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import SharedRequestsPage from "../../components/Orders/Request Order/SharedRequestsPage";
 
-const SuperAdminRequest = () => {
+const AdminRequestOrder = () => {
   return (
     <MainLayout>
       <SharedRequestsPage />
@@ -11,4 +11,4 @@ const SuperAdminRequest = () => {
   );
 };
 
-export default SuperAdminRequest;
+export default AdminRequestOrder;

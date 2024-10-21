@@ -5,9 +5,9 @@ import RequestDetailsModal from "../../../components/Orders/Request Order/Reques
 import AddRequestModal from "../../../components/Orders/Request Order/AddRequestModal";
 import SearchBar from "../../../components/Layout/SearchBar";
 import Table from "../../../components/Layout/Table";
-import CardTotalPendingRequest from "../../../components/CardsData/CardTotalRequest";
+import CardTotalPendingRequest from "../../CardsData/CardTotalRequestOrder";
 import Button from "../../../components/Layout/Button";
-import { requests as initialRequests } from "../../../data/RequestData"; // Ensure this path is correct
+import { requests as initialRequests } from "../../../data/RequestOrderData"; // Ensure this path is correct
 import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 

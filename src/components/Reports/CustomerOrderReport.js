@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReportBody from "./ReportBody";
-import { customerOrders } from "../../data/CustomerOrderData"; // Correctly importing the named export
+import { SALES_ORDER } from "../../data/CustomerOrderData"; // Correctly importing the named export
 import generatePDF from "./GeneratePdf";
 import generateExcel from "./GenerateExcel";
 import PreviewModal from "./PreviewModal";
@@ -27,9 +27,10 @@ const CustomerOrderReport = () => {
   };
 
   // Filter orders based on search term and date range
-  const filteredOrders = customerOrders.filter((order) => {
+  const filteredOrders = SALES_ORDER.filter((order) => {
     const matchesDateRange =
-      (!startDate || new Date(order.SALES_ORDER_DLVRY_DATE) >= new Date(startDate)) &&
+      (!startDate ||
+        new Date(order.SALES_ORDER_DLVRY_DATE) >= new Date(startDate)) &&
       (!endDate || new Date(order.SALES_ORDER_DLVRY_DATE) <= new Date(endDate));
     return matchesSearchTerm(order) && matchesDateRange;
   });
@@ -61,7 +62,12 @@ const CustomerOrderReport = () => {
   ];
 
   const handlePreviewPDF = () => {
-    const pdfData = generatePDF(header, tableData, totalOrders, totalOrderValue);
+    const pdfData = generatePDF(
+      header,
+      tableData,
+      totalOrders,
+      totalOrderValue
+    );
     setPdfContent(pdfData);
     setExcelData(null);
     setIsModalOpen(true);
@@ -88,7 +94,12 @@ const CustomerOrderReport = () => {
 
   const handleDownloadExcel = async () => {
     try {
-      const excelBlobData = await generateExcel(header, tableData, totalOrders, totalOrderValue); // Ensure this returns the Blob
+      const excelBlobData = await generateExcel(
+        header,
+        tableData,
+        totalOrders,
+        totalOrderValue
+      ); // Ensure this returns the Blob
       const url = URL.createObjectURL(excelBlobData);
       const a = document.createElement("a");
       a.href = url;

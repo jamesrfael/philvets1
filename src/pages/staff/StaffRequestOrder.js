@@ -1,9 +1,9 @@
-// src/pages/AdminRequest.js
+// src/pages/StaffRequestOrder.js
 import React from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import SharedRequestsPage from "../../components/Orders/Request Order/SharedRequestsPage";
 
-const AdminRequest = () => {
+const StaffRequestOrder = () => {
   return (
     <MainLayout>
       <SharedRequestsPage />
@@ -11,4 +11,4 @@ const AdminRequest = () => {
   );
 };
 
-export default AdminRequest;
+export default StaffRequestOrder;
