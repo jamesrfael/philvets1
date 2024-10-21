@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoCloseCircle } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa"; // Import the FaEdit icon from react-icons/fa
 import EditPdfModal from './EditPdfModal'; // Import the EditPdfModal
+import Loading from '../Layout/Loading'; // Import the Loading component
 
 const PreviewModal = ({
   isOpen,
@@ -13,6 +14,18 @@ const PreviewModal = ({
   onDownloadExcel,
 }) => {
   const [isEditModalOpen, setEditModalOpen] = useState(false); // State for edit modal
+  const [loading, setLoading] = useState(true); // State for loading
+
+  useEffect(() => {
+    if (pdfContent || excelData) {
+      // Simulate loading time if pdfContent or excelData is available
+      const timer = setTimeout(() => {
+        setLoading(false); // Set loading to false after a delay
+      }, 500); // Adjust the delay as needed
+
+      return () => clearTimeout(timer); // Clean up timer on unmount
+    }
+  }, [pdfContent, excelData]);
 
   if (!isOpen) return null;
 
@@ -50,7 +63,9 @@ const PreviewModal = ({
           </CloseButton>
         </Header>
         <Content>
-          {pdfContent ? (
+          {loading ? ( // Render Loading component while loading
+            <Loading />
+          ) : pdfContent ? (
             <iframe
               title="PDF Preview"
               src={pdfContent}

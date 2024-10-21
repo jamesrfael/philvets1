@@ -1,152 +1,133 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
-import productData from "../../data/ProductData";
 import SearchBar from "../Layout/SearchBar";
 import Table from "../Layout/Table";
-import CardTotalProducts from "../CardsData/CardTotalProducts";
-import CardTotalCategories from "../CardsData/CardTotalCategories";
-import Button from "../Layout/Button";
-import AddProductModal from "./AddProductModal";
-import ProductDetailsModal from "./ProductDetailsModal"; // Import the ProductDetailsModal component
-import { FaPlus } from "react-icons/fa"; // Import FaPlus icon
-import { colors } from "../../colors";
+import ReportCard from "../Layout/ReportCard";
+import { FaShoppingCart, FaDollarSign } from "react-icons/fa";
+import { SALES_ORDER } from "../../data/CustomerOrderData";
+import PURCHASE_ORDERS from "../../data/PurchaseOrderData";
 
-const SharedProductsPage = () => {
+const AllOrderReport = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState(null);
-  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] = useState(false);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-  const navigate = useNavigate(); // Get the navigate function
-  const location = useLocation(); // Get the current location (URL)
+  // Combine customer and purchase orders
+  const combinedOrders = [];
 
-  // Filter products based on search term
-  const filteredProducts = productData.products.filter((product) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const productDetail = productData.productDetails.find(
-      (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
-    );
-    const category = productData.productCategories.find(
-      (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
-    )?.PROD_CAT_NAME;
-
-    return (
-      product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
-      category?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(lowerCaseSearchTerm)
-    );
+  // Process customer orders
+  SALES_ORDER.forEach((order) => {
+    combinedOrders.push({
+      id: order.SALES_ORDER_ID,
+      date: new Date(order.SALES_ORDER_DLVRY_DATE),
+      quantity: order.SALES_ORDER_TOT_QTY,
+      amount: order.SALES_ORDER_PROD_TOTAL,
+    });
   });
 
-  const headers = [
-    "Image",
-    "Product",
-    "Category",
-    "Unit",
-    "Brand",
-    "Price",
-    "Action",
-  ];
-
-  const rows = filteredProducts.map((product) => {
-    const productDetail = productData.productDetails.find(
-      (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
-    );
-    const category = productData.productCategories.find(
-      (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
-    )?.PROD_CAT_NAME;
-
-    return [
-      <img
-        src={product.PROD_IMAGE} // Use PROD_IMAGE here
-        alt={product.PROD_NAME}
-        style={{ width: "50px", height: "auto" }}
-      />,
-      product.PROD_NAME,
-      category,
-      productDetail?.PROD_DETAILS_SIZE,
-      productDetail?.PROD_DETAILS_BRAND,
-      `₱${productDetail?.PROD_DETALS_PRICE}`,
-      <ActionButton
-        key="action"
-        fontSize="14px"
-        onClick={() => openProductDetailsModal(product.PROD_ID)}
-      >
-        Details
-      </ActionButton>,
-    ];
+  // Process purchase orders
+  PURCHASE_ORDERS.forEach((order) => {
+    combinedOrders.push({
+      id: order.PURCHASE_ORDER_ID,
+      date: new Date(order.PURCHASE_ORDER_DATE),
+      quantity: order.PURCHASE_ORDER_TOT_QTY,
+      amount: -order.PURCHASE_ORDER_TOTAL,
+    });
   });
 
-  // Handle modal open/close
-  const openAddProductModal = () => setIsAddProductModalOpen(true);
-  const closeAddProductModal = () => setIsAddProductModalOpen(false);
-  const openProductDetailsModal = (productId) => {
-    setSelectedProductId(productId);
-    setIsProductDetailsModalOpen(true);
-  };
-  const closeProductDetailsModal = () => {
-    setSelectedProductId(null);
-    setIsProductDetailsModalOpen(false);
+  // Filter combined orders based on search term and date range
+  const filteredOrders = combinedOrders.filter((order) => {
+    const matchesSearchTerm =
+      order.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.quantity
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      order.amount.toFixed(2).toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesDateRange =
+      (!startDate || order.date >= new Date(startDate)) &&
+      (!endDate || order.date <= new Date(endDate));
+
+    return matchesSearchTerm && matchesDateRange;
+  });
+
+  const totalOrders = filteredOrders.length;
+
+  // Calculate total sales and expenses
+  const totalSales = combinedOrders.reduce(
+    (acc, order) => acc + (order.amount > 0 ? order.amount : 0),
+    0
+  );
+  const totalExpenses = combinedOrders.reduce(
+    (acc, order) => acc + (order.amount < 0 ? -order.amount : 0),
+    0
+  );
+  const netProfit = totalSales - totalExpenses;
+
+  // Format number with currency and thousand separators
+  const formatCurrency = (value) => {
+    return `₱${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
   };
 
-  // Handle save actions in modals
-  const handleSaveProduct = (product, productDetails) => {
-    console.log("New product:", product);
-    console.log("New product details:", productDetails);
-    closeAddProductModal();
-  };
+  const tableData = filteredOrders.map((order) => [
+    order.id,
+    order.date.toLocaleDateString(),
+    order.quantity,
+    formatCurrency(order.amount),
+  ]);
 
-  const handleCardClick = () => {
-    // Check the current path to determine the role
-    let path;
-    if (location.pathname.includes("/superadmin")) {
-      path = "/superadmin/categories";
-    } else if (location.pathname.includes("/admin")) {
-      path = "/admin/categories";
-    } else if (location.pathname.includes("/staff")) {
-      path = "/staff/categories";
-    } else {
-      alert("Access denied");
-      return;
-    }
-
-    // Navigate to the determined path
-    navigate(path);
-  };
+  const header = ["Order ID", "Date", "Quantity", "Order Amount"];
 
   return (
     <>
       <Controls>
         <SearchBar
-          placeholder="Search / Filter product..."
+          placeholder="Search reports..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <ButtonGroup>
-          <StyledButton onClick={openAddProductModal}>
-            <FaPlus className="icon" /> Product
-          </StyledButton>
-        </ButtonGroup>
+        <DateContainer>
+          <label>
+            Start Date:
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </label>
+          <label>
+            End Date:
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </label>
+        </DateContainer>
       </Controls>
-      <AnalyticsContainer>
-        <CardTotalProducts />
-        <ClickableCard onClick={handleCardClick}>
-          <CardTotalCategories />
-        </ClickableCard>
-      </AnalyticsContainer>
-      <Table headers={headers} rows={rows} />
-      {isAddProductModalOpen && (
-        <AddProductModal
-          onClose={closeAddProductModal}
-          onSave={handleSaveProduct}
+
+      <CardsContainer>
+        <ReportCard
+          label="Total Orders"
+          value={`${totalOrders} Orders`}
+          icon={<FaShoppingCart />}
         />
-      )}
-      {isProductDetailsModalOpen && selectedProductId && (
-        <ProductDetailsModal
-          productId={selectedProductId}
-          onClose={closeProductDetailsModal}
+        <ReportCard
+          label="Total Order Value"
+          value={formatCurrency(totalSales)}
+          icon={<FaDollarSign />}
         />
-      )}
+        <ReportCard
+          label="Net Profit"
+          value={formatCurrency(netProfit)}
+          icon={<FaDollarSign />}
+        />
+      </CardsContainer>
+
+      <ReportContent>
+        <Table headers={header} rows={tableData} />
+      </ReportContent>
     </>
   );
 };
@@ -154,48 +135,60 @@ const SharedProductsPage = () => {
 // Styled components
 const Controls = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   margin-bottom: 16px;
-  padding: 0 1px;
-`;
 
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 16px;
-`;
-
-const StyledButton = styled(Button)`
-  display: flex;
-  align-items: center;
-
-  .icon {
-    font-size: 20px;
-    margin-right: 8px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 `;
 
-const AnalyticsContainer = styled.div`
+const DateContainer = styled.div`
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
-  padding: 0 1px;
-`;
+  flex-direction: column;
+  margin-top: 8px;
 
-const ClickableCard = styled.div`
-  cursor: pointer;
-`;
-
-const ActionButton = styled(Button)`
-  background-color: ${colors.primary};
-  &:hover {
-    background-color: ${colors.primaryHover};
+  label {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
   }
 
-  .icon {
-    font-size: 20px;
-    margin-right: 8px;
+  input {
+    margin-left: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    margin-top: 0;
+
+    label {
+      margin-left: 1rem;
+    }
   }
 `;
 
-export default SharedProductsPage;
+const CardsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+`;
+
+const ReportContent = styled.div`
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  min-height: 200px;
+  text-align: center;
+`;
+
+export default AllOrderReport;

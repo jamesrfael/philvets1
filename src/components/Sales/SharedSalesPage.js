@@ -1,114 +1,201 @@
-// src/components/Sales/SharedSalesPage.js
 import React, { useState } from "react";
 import styled from "styled-components";
-import SearchBar from "../../components/Layout/SearchBar";
-import Table from "../../components/Layout/Table";
-import { sales as initialSales } from "../../data/SalesData";
-import SalesDetailsModal from "../../components/Sales/SalesDetailsModal";
-import CardTotalSales from "../../components/CardsData/CardTotalSales";
-import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions";
-import Button from "../../components/Layout/Button"; // Import the Button component
+import SearchBar from "../Layout/SearchBar";
+import Table from "../Layout/Table";
+import ReportCard from "../Layout/ReportCard";
+import { FaShoppingCart, FaDollarSign } from "react-icons/fa";
+import { SALES_ORDER } from "../../data/CustomerOrderData";
+import PURCHASE_ORDERS from "../../data/PurchaseOrderData"; // Import purchase orders data
 
 const SharedSalesPage = () => {
-  const [sales] = useState(initialSales);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSale, setSelectedSale] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-  const totalSalesInPesos = sales.reduce(
-    (total, sale) => total + sale.SALES_INV_TOTAL,
-    0
-  );
+  // Combine sales and purchase orders into a single array
+  const combinedOrders = [];
 
-  const totalTransactions = sales.length;
-
-  const filteredSales = sales.filter((sale) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return (
-      sale.SALES_INV_ID.toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_DATETIME.toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_TOTAL.toString()
-        .toLowerCase()
-        .includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_DISCOUNT.toString()
-        .toLowerCase()
-        .includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_TOTAL_DLVRY.toString()
-        .toLowerCase()
-        .includes(lowerCaseSearchTerm) ||
-      sale.SALES_ORDER_DLVRY_OPT.toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.CLIENT_ID.toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.SALES_INV_CREATED_USER_ID.toLowerCase().includes(
-        lowerCaseSearchTerm
-      ) ||
-      sale.SALES_ORDER_ID.toLowerCase().includes(lowerCaseSearchTerm)
-    );
+  // Process sales orders
+  SALES_ORDER.forEach((order) => {
+    combinedOrders.push({
+      id: order.SALES_ORDER_ID,
+      date: new Date(order.SALES_ORDER_DLVRY_DATE),
+      quantity: order.SALES_ORDER_TOT_QTY,
+      amount: order.SALES_ORDER_PROD_TOTAL, // Positive amount for sales
+      type: "Sales Order",
+    });
   });
 
-  const headers = [
-    "Invoice ID",
-    "Date/Time",
-    "Total Amount",
-    "Discount",
-    "Delivery Fee",
-    "Delivery Option",
-    "Client ID",
-    "Created By",
-    "Order ID",
-    "Action",
-  ];
+  // Process purchase orders
+  PURCHASE_ORDERS.forEach((order) => {
+    combinedOrders.push({
+      id: order.PURCHASE_ORDER_ID,
+      date: new Date(order.PURCHASE_ORDER_DATE),
+      quantity: -order.PURCHASE_ORDER_TOT_QTY, // Negative quantity for expenses
+      amount: -order.PURCHASE_ORDER_TOTAL, // Negative amount for expenses
+      type: "Purchase Order",
+    });
+  });
 
-  const rows = filteredSales.map((sale, index) => [
-    sale.SALES_INV_ID,
-    sale.SALES_INV_DATETIME,
-    `₱${sale.SALES_INV_TOTAL.toFixed(2)}`,
-    `₱${sale.SALES_INV_DISCOUNT.toFixed(2)}`,
-    `₱${sale.SALES_INV_TOTAL_DLVRY.toFixed(2)}`,
-    sale.SALES_ORDER_DLVRY_OPT,
-    sale.CLIENT_ID,
-    sale.SALES_INV_CREATED_USER_ID,
-    sale.SALES_ORDER_ID,
-    <Button onClick={() => setSelectedSale(sale)}>Details</Button>,
+  // Filter combined orders based on search term and date range
+  const filteredOrders = combinedOrders.filter((order) => {
+    const matchesSearchTerm =
+      order.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.quantity.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.amount.toFixed(2).toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesDateRange =
+      (!startDate || order.date >= new Date(startDate)) &&
+      (!endDate || order.date <= new Date(endDate));
+
+    return matchesSearchTerm && matchesDateRange;
+  });
+
+  // Sort the filtered orders by date in descending order (latest first)
+  const sortedOrders = filteredOrders.sort((a, b) => b.date - a.date);
+
+  const totalOrders = sortedOrders.length;
+  const totalSales = sortedOrders.reduce(
+    (acc, order) => acc + (order.amount > 0 ? order.amount : 0),
+    0
+  );
+  const totalExpenses = sortedOrders.reduce(
+    (acc, order) => acc + (order.amount < 0 ? -order.amount : 0),
+    0
+  );
+  const netProfit = totalSales - totalExpenses;
+
+  // Format number with currency and thousand separators
+  const formatCurrency = (value) => {
+    return `₱${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  };
+
+  // Map the filtered orders to display the necessary fields in the correct order
+  const tableData = sortedOrders.map((order) => [
+    order.type, // Type first
+    order.id, 
+    order.date.toLocaleDateString(),
+    order.quantity,
+    formatCurrency(order.amount),
   ]);
 
-  const handleCloseModal = () => {
-    setSelectedSale(null);
-  };
+  const header = ["Type", "Order ID", "Date", "Quantity", "Amount"]; // Updated header order
 
   return (
     <>
       <Controls>
         <SearchBar
-          placeholder="Search / Filter sales..."
+          placeholder="Search orders..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <DateContainer>
+          <label>
+            Start Date:
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </label>
+          <label>
+            End Date:
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </label>
+        </DateContainer>
       </Controls>
-      <AnalyticsContainer>
-        <CardTotalSales totalSales={totalSalesInPesos} />
-        <CardTotalTransactions totalTransactions={totalTransactions} />
-      </AnalyticsContainer>
-      <Table headers={headers} rows={rows} />
-      {selectedSale && (
-        <SalesDetailsModal sale={selectedSale} onClose={handleCloseModal} />
-      )}
+
+      <CardsContainer>
+        <ReportCard
+          label="Total Orders"
+          value={`${totalOrders} Orders`}
+          icon={<FaShoppingCart />}
+        />
+        <ReportCard
+          label="Total Sales Value"
+          value={formatCurrency(totalSales)}
+          icon={<FaDollarSign />}
+        />
+        <ReportCard
+          label="Total Expenses"
+          value={`${formatCurrency(-totalExpenses)}`} // Negative sign behind the value
+          icon={<FaDollarSign />}
+        />
+        <ReportCard
+          label="Net Profit"
+          value={formatCurrency(netProfit)}
+          icon={<FaDollarSign />}
+        />
+      </CardsContainer>
+
+      <ReportContent>
+        <Table headers={header} rows={tableData} />
+      </ReportContent>
     </>
   );
 };
 
-// Styled Components
+// Styled components
 const Controls = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   margin-bottom: 16px;
-  padding: 0 1px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
-const AnalyticsContainer = styled.div`
+const DateContainer = styled.div`
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
-  padding: 0 1px;
+  flex-direction: column;
+  margin-top: 8px;
+
+  label {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  input {
+    margin-left: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    margin-top: 0;
+
+    label {
+      margin-left: 1rem;
+    }
+  }
+`;
+
+const CardsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+`;
+
+const ReportContent = styled.div`
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  min-height: 200px;
+  text-align: center;
 `;
 
 export default SharedSalesPage;
