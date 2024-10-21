@@ -35,9 +35,9 @@ const SharedReturnsPage = () => {
     setSelectedReturn(null); // Close the modal after cancel
   };
 
-  const headers = ["ID", "Name", "Return Date", "Type", "Status", "Actions"];
+  // Updated headers to remove the "ID" column
+  const headers = ["Name", "Return Date", "Type", "Status", "Actions"];
   const rows = filteredReturns.map((returnItem) => [
-    returnItem.id,
     returnItem.name,
     returnItem.returnDate,
     returnItem.type,

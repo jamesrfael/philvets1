@@ -156,7 +156,7 @@ const AllOrderReport = () => {
         </Card>
         <Card>
           <CardTitle>Total Expenses</CardTitle>
-          <CardValue color="#ff5757">{formatCurrency(totalExpenses)}</CardValue>
+          <CardValue color="#ff5757">{formatCurrency(-totalExpenses)}</CardValue> {/* Added negative sign */}
         </Card>
         <Card>
           <CardTitle>Net Profit</CardTitle>
@@ -195,7 +195,8 @@ const AllOrderReport = () => {
 // Styled components for the cards
 const CardContainer = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap; /* Allow the cards to wrap when they don't fit */
+  justify-content: space-between; /* Distribute space between the cards */
   margin-bottom: 10px;
 `;
 
@@ -204,7 +205,9 @@ const Card = styled.div`
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 10px;
-  width: 30%;
+  flex: 1 1 300px; /* Grow and shrink with a base size of 300px */
+  min-width: 250px; /* Set minimum width for cards */
+  margin: 5px; /* Add margin for spacing */
   text-align: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
