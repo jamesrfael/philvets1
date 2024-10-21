@@ -15,13 +15,15 @@ const SharedLogsPage = () => {
     return acc;
   }, {});
 
-  const filteredLogs = logData.filter(
-    (log) =>
+  const filteredLogs = logData.filter((log) => {
+    const userName = userNames[log.USER_ID] || "Unknown User";
+    return (
       log.LOG_TITLE.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.LOG_DESCRIPTION.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.LOG_DATETIME.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (log.USER_ID ? log.USER_ID.toString().includes(searchTerm) : false)
-  );
+      userName.toLowerCase().includes(searchTerm.toLowerCase()) // Search by user name
+    );
+  });
 
   // Update headers to reflect 'User' instead of 'User ID'
   const headers = ["Date & Time", "Title", "Description", "User"];

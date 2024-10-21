@@ -26,14 +26,15 @@ const CustomerOrderReport = () => {
     );
   };
 
-  // Filter orders based on search term and date range
-  const filteredOrders = SALES_ORDER.filter((order) => {
-    const matchesDateRange =
-      (!startDate ||
-        new Date(order.SALES_ORDER_DLVRY_DATE) >= new Date(startDate)) &&
-      (!endDate || new Date(order.SALES_ORDER_DLVRY_DATE) <= new Date(endDate));
-    return matchesSearchTerm(order) && matchesDateRange;
-  });
+  // Filter and sort orders based on search term and date range
+  const filteredOrders = SALES_ORDER
+    .filter((order) => {
+      const matchesDateRange =
+        (!startDate || new Date(order.SALES_ORDER_DLVRY_DATE) >= new Date(startDate)) &&
+        (!endDate || new Date(order.SALES_ORDER_DLVRY_DATE) <= new Date(endDate));
+      return matchesSearchTerm(order) && matchesDateRange;
+    })
+    .sort((a, b) => new Date(b.SALES_ORDER_DLVRY_DATE) - new Date(a.SALES_ORDER_DLVRY_DATE)); // Sort by delivery date descending
 
   const totalOrders = filteredOrders.length;
   const totalOrderValue = filteredOrders.reduce(

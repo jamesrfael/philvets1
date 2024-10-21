@@ -27,13 +27,15 @@ const PurchaseOrderReport = () => {
     );
   };
 
-  // Filter orders based on search term and date range
-  const filteredOrders = PURCHASE_ORDERS.filter((order) => {
-    const matchesDateRange =
-      (!startDate || new Date(order.PURCHASE_ORDER_DATE) >= new Date(startDate)) &&
-      (!endDate || new Date(order.PURCHASE_ORDER_DATE) <= new Date(endDate));
-    return matchesSearchTerm(order) && matchesDateRange;
-  });
+  // Filter and sort orders based on search term and date range
+  const filteredOrders = PURCHASE_ORDERS
+    .filter((order) => {
+      const matchesDateRange =
+        (!startDate || new Date(order.PURCHASE_ORDER_DATE) >= new Date(startDate)) &&
+        (!endDate || new Date(order.PURCHASE_ORDER_DATE) <= new Date(endDate));
+      return matchesSearchTerm(order) && matchesDateRange;
+    })
+    .sort((a, b) => new Date(b.PURCHASE_ORDER_DATE) - new Date(a.PURCHASE_ORDER_DATE)); // Sort by date descending
 
   const totalOrders = filteredOrders.length;
 

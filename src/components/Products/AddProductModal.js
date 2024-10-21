@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { colors } from "../../colors";
 import { IoCloseCircle } from "react-icons/io5";
 import Button from "../Layout/Button";
+import productData from "../../data/ProductData"; // Adjust the import path as necessary
 
 const AddProductModal = ({ onClose, onSave }) => {
   const [productName, setProductName] = useState("");
@@ -10,15 +11,16 @@ const AddProductModal = ({ onClose, onSave }) => {
   const [roLevel, setRoLevel] = useState("");
   const [roQty, setRoQty] = useState("");
   const [qoh, setQoh] = useState("");
-  const [categoryCode, setCategoryCode] = useState("");
+  const [category, setCategory] = useState("No Category"); // Default category
+  const [categoryCode, setCategoryCode] = useState(""); // Keep the code separate for saving
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [brand, setBrand] = useState("");
   const [size, setSize] = useState("");
   const [measurement, setMeasurement] = useState("");
   const [image, setImage] = useState(null);
-
   const [errors, setErrors] = useState({});
+
   const modalRef = useRef();
 
   useEffect(() => {
@@ -48,7 +50,6 @@ const AddProductModal = ({ onClose, onSave }) => {
     if (!roLevel || isNaN(roLevel) || roLevel < 1) newErrors.roLevel = "This field is required.";
     if (!roQty || isNaN(roQty) || roQty < 0) newErrors.roQty = "This field is required.";
     if (!qoh || isNaN(qoh) || qoh < 0) newErrors.qoh = "This field is required.";
-    if (!categoryCode) newErrors.categoryCode = "This field is required.";
     if (!description) newErrors.description = "This field is required.";
     if (!price || isNaN(price) || price <= 0) newErrors.price = "This field is required.";
     if (!brand) newErrors.brand = "This field is required.";
@@ -70,23 +71,35 @@ const AddProductModal = ({ onClose, onSave }) => {
       PROD_RO_QTY: parseInt(roQty),
       PROD_QOH: parseInt(qoh),
       PROD_IMG: image, // Store the image URL
-      PROD_DATECREATED: new Date().toISOString().split("T")[0],
-      PROD_DATEUPDATED: new Date().toISOString().split("T")[0],
-      PROD_CAT_CODE: categoryCode,
+      PROD_DATECREATED: productData.PROD_DATECREATED || new Date().toISOString().split("T")[0],
+      PROD_DATEUPDATED: productData.PROD_DATEUPDATED || new Date().toISOString().split("T")[0],
+      PROD_CAT_CODE: categoryCode || "C000", // Default code if none is selected
     };
 
     const newProductDetails = {
       PROD_DETAILS_CODE: detailsCode,
       PROD_DETAILS_DESCRIPTION: description,
-      PROD_DETALS_PRICE: parseFloat(price),
+      PROD_DETAILS_PRICE: parseFloat(price),
       PROD_DETAILS_BRAND: brand,
       PROD_DETAILS_SIZE: size,
       PROD_DETAILS_MEASUREMENT: measurement,
-      PROD_CAT_CODE: categoryCode,
+      PROD_CAT_CODE: categoryCode || "C000", // Default code if none is selected
     };
 
     onSave(newProduct, newProductDetails);
     onClose();
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    const categoryData = productData.productCategories.find(cat => cat.PROD_CAT_NAME === selectedCategory);
+    if (categoryData) {
+      setCategory(selectedCategory);
+      setCategoryCode(categoryData.PROD_CAT_CODE); // Set the category code from selected category
+    } else {
+      setCategory("No Category");
+      setCategoryCode(""); // Reset code if "No Category" is selected
+    }
   };
 
   return (
@@ -155,20 +168,23 @@ const AddProductModal = ({ onClose, onSave }) => {
             {errors.qoh && <ErrorText>{errors.qoh}</ErrorText>}
           </Field>
           <Field>
-            <Label>Category Code</Label>
-            <Input
-              value={categoryCode}
-              onChange={(e) => setCategoryCode(e.target.value)}
-              placeholder="Enter category code"
-            />
-            {errors.categoryCode && <ErrorText>{errors.categoryCode}</ErrorText>}
+            <Label>Category</Label>
+            <Select value={category} onChange={handleCategoryChange}>
+              <option value="No Category">No Category</option>
+              {productData.productCategories.map((cat) => (
+                <option key={cat.PROD_CAT_CODE} value={cat.PROD_CAT_NAME}>
+                  {cat.PROD_CAT_NAME}
+                </option>
+              ))}
+            </Select>
+            {errors.category && <ErrorText>{errors.category}</ErrorText>}
           </Field>
           <Field>
             <Label>Description</Label>
             <TextArea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter description"
+              placeholder="Enter product description"
             />
             {errors.description && <ErrorText>{errors.description}</ErrorText>}
           </Field>
@@ -176,10 +192,11 @@ const AddProductModal = ({ onClose, onSave }) => {
             <Label>Price</Label>
             <Input
               type="number"
-              step="0.01"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              placeholder="Enter price"
+              placeholder="Enter product price"
+              min="0.01"
+              step="0.01"
             />
             {errors.price && <ErrorText>{errors.price}</ErrorText>}
           </Field>

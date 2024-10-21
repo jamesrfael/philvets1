@@ -11,17 +11,19 @@ const SharedReturnsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedReturn, setSelectedReturn] = useState(null);
 
-  const filteredReturns = returnsData.filter((returnItem) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return (
-      returnItem.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-      returnItem.returnDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-      returnItem.type.toLowerCase().includes(lowerCaseSearchTerm) ||
-      returnItem.status.toLowerCase().includes(lowerCaseSearchTerm)
-    );
-  });
+  const filteredReturns = returnsData
+    .filter((returnItem) => {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      return (
+        returnItem.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+        returnItem.returnDate.toLowerCase().includes(lowerCaseSearchTerm) ||
+        returnItem.type.toLowerCase().includes(lowerCaseSearchTerm) ||
+        returnItem.status.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+    })
+    .sort((a, b) => new Date(b.returnDate) - new Date(a.returnDate)); // Sort by return date descending
 
-  const totalReturns = returnsData.length;
+  const totalReturns = filteredReturns.length;
 
   const openDetailModal = (returnItem) => setSelectedReturn(returnItem);
   const closeDetailModal = () => setSelectedReturn(null);

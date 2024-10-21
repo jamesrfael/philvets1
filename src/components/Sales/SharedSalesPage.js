@@ -41,7 +41,12 @@ const SharedSalesPage = () => {
   const filteredOrders = combinedOrders.filter((order) => {
     const matchesSearchTerm =
       order.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.quantity.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.type.toLowerCase().includes(searchTerm.toLowerCase()) || // Search by order type
+      order.date.toLocaleDateString().includes(searchTerm) || // Search by formatted date
+      order.quantity
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       order.amount.toFixed(2).toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesDateRange =
@@ -73,7 +78,7 @@ const SharedSalesPage = () => {
   // Map the filtered orders to display the necessary fields in the correct order
   const tableData = sortedOrders.map((order) => [
     order.type, // Type first
-    order.id, 
+    order.id,
     order.date.toLocaleDateString(),
     order.quantity,
     formatCurrency(order.amount),
