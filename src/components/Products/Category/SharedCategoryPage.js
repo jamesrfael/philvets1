@@ -70,7 +70,7 @@ const SharedCategoryPage = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalCategories /> {/* Display Total Categories */}
+        <CardTotalCategories /> {/* Display Categories */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddModalOpen && (

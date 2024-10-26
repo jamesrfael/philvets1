@@ -9,7 +9,7 @@ const CardTotalInventoryValue = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Inventory Value"
+        label="Inventory Value"
         value={totalInventoryValue}
         icon={<FaDollarSign />}
       />

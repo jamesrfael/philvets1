@@ -53,7 +53,11 @@ const PurchaseOrderReport = () => {
     order.PURCHASE_ORDER_STATUS,
     order.PURCHASE_ORDER_DATE,
     order.PURCHASE_ORDER_TOT_QTY,
-    `₱${(-Math.abs(order.PURCHASE_ORDER_TOTAL)).toFixed(2)}`, // Display as negative value
+    `₱${(-Math.abs(order.PURCHASE_ORDER_TOTAL)).toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`
+    
   ]);
 
   // Updated header to match the requested fields

@@ -133,7 +133,7 @@ const AllOrderReport = () => {
   const handleDownloadPDF = () => {
     const link = document.createElement("a");
     link.href = pdfContent;
-    link.download = "all_order_report.pdf";
+    link.download = "OrderReport.pdf";
     link.click();
     setIsModalOpen(false);
   };
@@ -142,7 +142,7 @@ const AllOrderReport = () => {
     if (!excelData) return; // Ensure there is data to download
     const link = document.createElement("a");
     link.href = excelData.url;
-    link.download = "all_order_report.xlsx";
+    link.download = "OrderReport.xlsx";
     link.click();
     setIsModalOpen(false);
   };
@@ -151,15 +151,18 @@ const AllOrderReport = () => {
     <>
       <CardContainer>
         <Card>
-          <CardTitle>Total Sales</CardTitle>
+          <CardTitle>Sales</CardTitle>
           <CardValue color="#f08400">{formatCurrency(totalSales)}</CardValue>
         </Card>
         <Card>
-          <CardTitle>Total Expenses</CardTitle>
-          <CardValue color="#ff5757">{formatCurrency(-totalExpenses)}</CardValue> {/* Added negative sign */}
+          <CardTitle>Expenses</CardTitle>
+          <CardValue color="#ff5757">
+            {formatCurrency(-totalExpenses)}
+          </CardValue>{" "}
+          {/* Added negative sign */}
         </Card>
         <Card>
-          <CardTitle>Net Profit</CardTitle>
+          <CardTitle>Profit</CardTitle>
           <CardValue color="#1DBA0B">{formatCurrency(netProfit)}</CardValue>
         </Card>
       </CardContainer>

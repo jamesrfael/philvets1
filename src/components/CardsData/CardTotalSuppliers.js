@@ -15,7 +15,7 @@ const CardTotalSuppliers = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Suppliers"
+        label="Suppliers"
         value={totalSuppliers} // Display the total number of suppliers
         icon={<FaWarehouse />} // Changed the icon to FaDolly
       />

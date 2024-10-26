@@ -11,7 +11,7 @@ const CardTotalPurchaseOrder = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Purchase Orders"
+        label="Purchase Orders"
         value={purchaseOrderCount} // Display the total number of Purchase Orders
         icon={<FaClipboardCheck />} // Keeping the existing icon
       />

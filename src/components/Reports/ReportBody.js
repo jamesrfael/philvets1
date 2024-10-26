@@ -18,7 +18,7 @@ const ReportBody = ({
   totalOrders,
   totalOrderValue,
   onDownloadPDF,
-  onPreviewExcel
+  onPreviewExcel,
 }) => {
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -62,7 +62,7 @@ const ReportBody = ({
           icon={<FaShoppingCart />}
         />
         <ReportCard
-          label={`Total Order Value`}
+          label={`Order Value`}
           value={`₱${totalOrderValue.toFixed(2)}`} // Keep peso sign in the value
           startDate={startDate ? formatDate(startDate) : ""}
           endDate={endDate ? formatDate(endDate) : ""}

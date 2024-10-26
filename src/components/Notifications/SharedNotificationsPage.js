@@ -41,7 +41,7 @@ const SharedNotificationsPage = () => {
         />
       </Controls>
       <SummarySection>
-        <CardTotalNotification /> {/* Total Notifications Count */}
+        <CardTotalNotification /> {/* Notifications Count */}
       </SummarySection>
       <NotificationsList>
         {filteredNotifications.map((notification, index) => (
@@ -50,7 +50,8 @@ const SharedNotificationsPage = () => {
             onClick={() => handleNotificationClick(index)} // Add onClick event handler
             read={notification.read} // Pass the read status for styling
           >
-            <Title read={notification.read}>{notification.title}</Title> {/* Bold if unread */}
+            <Title read={notification.read}>{notification.title}</Title>{" "}
+            {/* Bold if unread */}
             <Message>{notification.message}</Message>
             <Details>
               <Timestamp>{notification.timestamp}</Timestamp>
@@ -59,10 +60,12 @@ const SharedNotificationsPage = () => {
               </Priority>
             </Details>
             {notification.read && (
-              <MarkUnreadButton onClick={(e) => {
-                e.stopPropagation(); // Prevent triggering the notification card click event
-                handleNotificationClick(index);
-              }}>
+              <MarkUnreadButton
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering the notification card click event
+                  handleNotificationClick(index);
+                }}
+              >
                 Mark as unread
               </MarkUnreadButton>
             )}

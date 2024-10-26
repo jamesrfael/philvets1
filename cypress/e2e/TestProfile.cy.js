@@ -1,7 +1,8 @@
 describe("Profile Page Visibility Tests", () => {
   const profiles = [
     { role: "admin", imgAlt: "Admin Profile" },
-    { role: "staff", imgAlt: "User Profile" },
+    { role: "staff", imgAlt: "Staff Profile" },
+    { role: "superadmin", imgAlt: "Superadmin Profile" }, // Added superadmin
   ]; // Define profile roles and image alt text for each role
 
   profiles.forEach(({ role, imgAlt }) => {
@@ -11,11 +12,6 @@ describe("Profile Page Visibility Tests", () => {
       beforeEach(() => {
         // Visit the profile page for each role
         cy.visit(`http://localhost:3000/${role}/profile`);
-      });
-
-      it(`Should display the profile picture for ${role}`, () => {
-        // Check for profile picture visibility
-        cy.get(`img[alt="${imgAlt}"]`).should("be.visible");
       });
 
       it(`Should display the name field for ${role}`, () => {

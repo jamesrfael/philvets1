@@ -16,7 +16,7 @@ const CardTotalTransactions = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Transactions"
+        label="Transactions"
         value={totalTransactions} // Display the total number of transactions
         icon={<FaExchangeAlt />} // Add the icon here
       />

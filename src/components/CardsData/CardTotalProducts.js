@@ -12,7 +12,7 @@ const CardTotalProducts = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Products"
+        label="Products"
         value={totalProducts} // Display the total number of products
         icon={<FaBox />} // Add the products icon
       />

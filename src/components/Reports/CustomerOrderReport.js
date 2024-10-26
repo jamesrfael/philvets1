@@ -5,6 +5,14 @@ import generatePDF from "./GeneratePdf";
 import generateExcel from "./GenerateExcel";
 import PreviewModal from "./PreviewModal";
 
+// Utility function to format currency
+const formatCurrency = (amount) => {
+  return `₱${Math.abs(amount).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+};
+
 const CustomerOrderReport = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -49,7 +57,7 @@ const CustomerOrderReport = () => {
     order.SALES_ORDER_PYMNT_STAT,
     order.SALES_ORDER_DLVRY_DATE,
     order.SALES_ORDER_TOT_QTY,
-    `₱${order.SALES_ORDER_PROD_TOTAL.toFixed(2)}`,
+    formatCurrency(order.SALES_ORDER_PROD_TOTAL), // Format order amount with commas
   ]);
 
   // Updated header to match the requested fields

@@ -13,7 +13,7 @@ const CardTotalCustomers = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Customers"
+        label="Customers"
         value={totalCustomers} // Display the total number of customers
         icon={<FaUsers />} // Add the icon here
       />

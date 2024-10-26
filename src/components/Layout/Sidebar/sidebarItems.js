@@ -48,7 +48,7 @@ export const superadminSidebarItems = [
     dropdown: [
       {
         icon: TbChevronRight,
-        label: "Total Products",
+        label: "Products",
         link: "/superadmin/products",
       },
       {
@@ -103,7 +103,7 @@ export const adminSidebarItems = [
     dropdown: [
       {
         icon: TbChevronRight,
-        label: "Total Products",
+        label: "Products",
         link: "/admin/products",
       },
       {
@@ -149,7 +149,7 @@ export const staffSidebarItems = [
     dropdown: [
       {
         icon: TbChevronRight,
-        label: "Total Products",
+        label: "Products",
         link: "/staff/products",
       },
       {

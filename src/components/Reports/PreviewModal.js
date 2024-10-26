@@ -97,7 +97,7 @@ const PreviewModal = ({
                   </tr>
                   <tr>
                     <td colSpan={excelData?.header.length - 1}><strong>Total Amount:</strong></td>
-                    <td><strong>₱{totalAmount.toFixed(2)}</strong></td>
+                    <td><strong>₱{totalAmount.toFixed(2)}</strong></td> {/* Keep peso sign for Excel */}
                   </tr>
                 </tbody>
               </table>

@@ -1,4 +1,4 @@
-const roles = ['admin', 'staff'];
+const roles = ['admin', 'staff', 'superadmin'];
 
 roles.forEach(role => {
   describe(`${role.charAt(0).toUpperCase() + role.slice(1)} Delivery SearchBar and Buttons Tests`, () => {

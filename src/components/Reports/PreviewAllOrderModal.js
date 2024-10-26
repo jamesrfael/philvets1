@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoCloseCircle } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa"; // Import the FaEdit icon from react-icons/fa
-import EditPdfModal from './EditPdfModal'; // Import the EditPdfModal
-import Loading from '../Layout/Loading'; // Import the Loading component
+import EditPdfModal from "./EditPdfModal"; // Import the EditPdfModal
+import Loading from "../Layout/Loading"; // Import the Loading component
 
 const PreviewAllOrderModal = ({
   isOpen,
@@ -56,9 +56,7 @@ const PreviewAllOrderModal = ({
         <Header>
           <Title>
             Preview {pdfContent ? "PDF" : "Excel"}
-            {pdfContent && (
-              <EditIcon onClick={handleEditPDF} />
-            )}
+            {pdfContent && <EditIcon onClick={handleEditPDF} />}
           </Title>
           <CloseButton onClick={onRequestClose}>
             <IoCloseCircle color="#ff5757" size={24} />
@@ -94,20 +92,36 @@ const PreviewAllOrderModal = ({
                     </tr>
                   ))}
                   <tr>
-                    <td colSpan={excelData?.header.length - 1}><strong>Total Orders:</strong></td>
-                    <td><strong>{totalOrders}</strong></td>
+                    <td colSpan={excelData?.header.length - 1}>
+                      <strong>Total Orders:</strong>
+                    </td>
+                    <td>
+                      <strong>{totalOrders}</strong>
+                    </td>
                   </tr>
                   <tr>
-                    <td colSpan={excelData?.header.length - 1}><strong>Total Sales:</strong></td>
-                    <td><strong>₱{totalSales.toFixed(2)}</strong></td>
+                    <td colSpan={excelData?.header.length - 1}>
+                      <strong>Sales:</strong>
+                    </td>
+                    <td>
+                      <strong>₱{totalSales.toFixed(2)}</strong>
+                    </td>
                   </tr>
                   <tr>
-                    <td colSpan={excelData?.header.length - 1}><strong>Total Expenses:</strong></td>
-                    <td><strong>₱{totalExpenses.toFixed(2)}</strong></td>
+                    <td colSpan={excelData?.header.length - 1}>
+                      <strong>Expenses:</strong>
+                    </td>
+                    <td>
+                      <strong>₱{totalExpenses.toFixed(2)}</strong>
+                    </td>
                   </tr>
                   <tr>
-                    <td colSpan={excelData?.header.length - 1}><strong>Net Profit:</strong></td>
-                    <td><strong>₱{netProfit.toFixed(2)}</strong></td>
+                    <td colSpan={excelData?.header.length - 1}>
+                      <strong>Profit:</strong>
+                    </td>
+                    <td>
+                      <strong>₱{netProfit.toFixed(2)}</strong>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -116,18 +130,22 @@ const PreviewAllOrderModal = ({
         </Content>
         <ButtonContainer>
           {pdfContent ? (
-            <DownloadButton onClick={onDownloadPDF}>Download PDF</DownloadButton>
+            <DownloadButton onClick={onDownloadPDF}>
+              Download PDF
+            </DownloadButton>
           ) : (
-            <DownloadButton onClick={onDownloadExcel}>Download Excel</DownloadButton>
+            <DownloadButton onClick={onDownloadExcel}>
+              Download Excel
+            </DownloadButton>
           )}
         </ButtonContainer>
       </ModalContainer>
 
       {/* EditPdfModal component */}
       {isEditModalOpen && (
-        <EditPdfModal 
-          onClose={() => setEditModalOpen(false)} 
-          onSave={handleSaveCompanyDetails} 
+        <EditPdfModal
+          onClose={() => setEditModalOpen(false)}
+          onSave={handleSaveCompanyDetails}
         />
       )}
     </Backdrop>
@@ -195,7 +213,7 @@ const ButtonContainer = styled.div`
 `;
 
 const DownloadButton = styled.button`
-  background-color: #1dbA0b;
+  background-color: #1dba0b;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -221,7 +239,8 @@ const ExcelTableContainer = styled.div`
     width: 100%;
     border-collapse: collapse;
 
-    th, td {
+    th,
+    td {
       padding: 8px;
       border: 1px solid #ddd;
       text-align: center;

@@ -12,7 +12,7 @@ const CardTotalNotification = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Notifications"
+        label="Notifications"
         value={totalNotifications} // Display the total number of notifications
         icon={<FaBell />} // Add the icon here
       />

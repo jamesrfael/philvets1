@@ -98,7 +98,7 @@ const SharedUsersPage = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalUsers /> {/* Display Total Users */}
+        <CardTotalUsers /> {/* Display Users */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddModalOpen && (

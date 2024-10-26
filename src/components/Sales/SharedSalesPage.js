@@ -4,15 +4,16 @@ import SearchBar from "../Layout/SearchBar";
 import Table from "../Layout/Table";
 import ReportCard from "../Layout/ReportCard";
 import { FaShoppingCart, FaDollarSign } from "react-icons/fa";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { SALES_ORDER } from "../../data/CustomerOrderData";
-import PURCHASE_ORDERS from "../../data/PurchaseOrderData"; // Import purchase orders data
+import PURCHASE_ORDERS from "../../data/PurchaseOrderData";
+import { colors } from "../../colors"; // Import colors from colors.js
 
 const SharedSalesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  // Combine sales and purchase orders into a single array
   const combinedOrders = [];
 
   // Process sales orders
@@ -21,7 +22,7 @@ const SharedSalesPage = () => {
       id: order.SALES_ORDER_ID,
       date: new Date(order.SALES_ORDER_DLVRY_DATE),
       quantity: order.SALES_ORDER_TOT_QTY,
-      amount: order.SALES_ORDER_PROD_TOTAL, // Positive amount for sales
+      amount: order.SALES_ORDER_PROD_TOTAL,
       type: "Sales Order",
     });
   });
@@ -31,18 +32,17 @@ const SharedSalesPage = () => {
     combinedOrders.push({
       id: order.PURCHASE_ORDER_ID,
       date: new Date(order.PURCHASE_ORDER_DATE),
-      quantity: -order.PURCHASE_ORDER_TOT_QTY, // Negative quantity for expenses
-      amount: -order.PURCHASE_ORDER_TOTAL, // Negative amount for expenses
+      quantity: -order.PURCHASE_ORDER_TOT_QTY,
+      amount: -order.PURCHASE_ORDER_TOTAL,
       type: "Purchase Order",
     });
   });
 
-  // Filter combined orders based on search term and date range
   const filteredOrders = combinedOrders.filter((order) => {
     const matchesSearchTerm =
       order.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.type.toLowerCase().includes(searchTerm.toLowerCase()) || // Search by order type
-      order.date.toLocaleDateString().includes(searchTerm) || // Search by formatted date
+      order.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.date.toLocaleDateString().includes(searchTerm) ||
       order.quantity
         .toString()
         .toLowerCase()
@@ -56,9 +56,7 @@ const SharedSalesPage = () => {
     return matchesSearchTerm && matchesDateRange;
   });
 
-  // Sort the filtered orders by date in descending order (latest first)
   const sortedOrders = filteredOrders.sort((a, b) => b.date - a.date);
-
   const totalOrders = sortedOrders.length;
   const totalSales = sortedOrders.reduce(
     (acc, order) => acc + (order.amount > 0 ? order.amount : 0),
@@ -70,21 +68,48 @@ const SharedSalesPage = () => {
   );
   const netProfit = totalSales - totalExpenses;
 
-  // Format number with currency and thousand separators
   const formatCurrency = (value) => {
     return `₱${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
   };
 
-  // Map the filtered orders to display the necessary fields in the correct order
   const tableData = sortedOrders.map((order) => [
-    order.type, // Type first
+    order.type,
     order.id,
     order.date.toLocaleDateString(),
     order.quantity,
     formatCurrency(order.amount),
   ]);
 
-  const header = ["Type", "Order ID", "Date", "Quantity", "Amount"]; // Updated header order
+  const header = ["Type", "Order ID", "Date", "Quantity", "Amount"];
+
+  const pieChartData = [
+    { name: "Sales", value: totalSales },
+    { name: "Expenses", value: totalExpenses },
+    { name: "Profit", value: netProfit },
+  ];
+
+  // Custom Tooltip Component for formatting values
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const { name, value } = payload[0];
+      return (
+        <div
+          style={{
+            backgroundColor: "#fff",
+            padding: "5px",
+            border: "1px solid #ccc",
+          }}
+        >
+          <p>{`${name} : ${formatCurrency(value)}`}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Custom label function for pie slices
+  const renderCustomLabel = ({ name, value }) =>
+    `${name}: ${formatCurrency(value)}`;
 
   return (
     <>
@@ -121,21 +146,43 @@ const SharedSalesPage = () => {
           icon={<FaShoppingCart />}
         />
         <ReportCard
-          label="Total Sales Value"
+          label="Sales Value"
           value={formatCurrency(totalSales)}
           icon={<FaDollarSign />}
         />
         <ReportCard
-          label="Total Expenses"
-          value={`${formatCurrency(-totalExpenses)}`} // Negative sign behind the value
+          label="Expenses"
+          value={`${formatCurrency(-totalExpenses)}`}
           icon={<FaDollarSign />}
         />
         <ReportCard
-          label="Net Profit"
+          label="Profit"
           value={formatCurrency(netProfit)}
           icon={<FaDollarSign />}
         />
       </CardsContainer>
+
+      {/* Pie Chart Container */}
+      <ChartWrapper>
+        <h3>Pie Chart</h3>
+        <PieChart width={300} height={300}>
+          <Pie
+            data={pieChartData}
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            fill={colors.primary}
+            dataKey="value"
+            label={renderCustomLabel}
+          >
+            <Cell fill={colors.blue} />
+            <Cell fill={colors.red} />
+            <Cell fill={colors.green} />
+          </Pie>
+          <Tooltip content={<CustomTooltip />} />
+          <Legend />
+        </PieChart>
+      </ChartWrapper>
 
       <ReportContent>
         <Table headers={header} rows={tableData} />
@@ -194,6 +241,16 @@ const CardsContainer = styled.div`
   @media (max-width: 768px) {
     justify-content: center;
   }
+`;
+
+const ChartWrapper = styled.div`
+  width: 320px;
+  background-color: ${colors.background};
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 20px auto;
 `;
 
 const ReportContent = styled.div`

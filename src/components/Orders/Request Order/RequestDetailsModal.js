@@ -76,7 +76,7 @@ const RequestDetailsModal = ({ request, onClose, onCancel }) => {
         </TableWrapper>
         <TotalSummary>
           <p>
-            <strong>Total Products:</strong>{" "}
+            <strong>Products:</strong>{" "}
             {request.orderDetails.reduce(
               (total, item) => total + item.quantity,
               0

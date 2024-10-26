@@ -27,7 +27,7 @@ describe('Admin Suppliers Tests', () => {
 
   // Additional tests for the Add Supplier button
   it('Should open Add Supplier modal when Add Supplier button is clicked', () => {
-    cy.get('button').contains('Add Supplier').click();
+    cy.get('button').contains('Supplier').click();
     cy.get('div').contains('Supplier').should('exist'); // Check if modal is visible
   });
 

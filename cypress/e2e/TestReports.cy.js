@@ -11,24 +11,24 @@ roles.forEach((role) => {
     it("Should display all stats cards for staff", () => {
       if (role === "staff") {
         cy.get("div").contains("Low Stocks").should("be.visible");
-        cy.get("div").contains("Total Customers").should("be.visible");
-        cy.get("div").contains("Total Deliveries").should("be.visible");
+        cy.get("div").contains("Customers").should("be.visible");
+        cy.get("div").contains("Deliveries").should("be.visible");
         cy.get("div").contains("Total Orders").should("be.visible");
-        cy.get("div").contains("Total Products").should("be.visible");
-        cy.get("div").contains("Total Returns").should("be.visible");
-        cy.get("div").contains("Total Notifications").should("be.visible");
+        cy.get("div").contains("Products").should("be.visible");
+        cy.get("div").contains("Returns").should("be.visible");
+        cy.get("div").contains("Notifications").should("be.visible");
       } else {
         cy.get("div").contains("Low Stocks").should("be.visible");
-        cy.get("div").contains("Total Customers").should("be.visible");
-        cy.get("div").contains("Total Deliveries").should("be.visible");
-        cy.get("div").contains("Total Logs").should("be.visible");
+        cy.get("div").contains("Customers").should("be.visible");
+        cy.get("div").contains("Deliveries").should("be.visible");
+        cy.get("div").contains("Logs").should("be.visible");
         cy.get("div").contains("Total Orders").should("be.visible");
-        cy.get("div").contains("Total Products").should("be.visible");
-        cy.get("div").contains("Total Returns").should("be.visible");
-        cy.get("div").contains("Total Sales").should("be.visible");
-        cy.get("div").contains("Total Users").should("be.visible");
-        cy.get("div").contains("Total Suppliers").should("be.visible");
-        cy.get("div").contains("Total Notifications").should("be.visible");
+        cy.get("div").contains("Products").should("be.visible");
+        cy.get("div").contains("Returns").should("be.visible");
+        cy.get("div").contains("Total This Month").should("be.visible");
+        cy.get("div").contains("Users").should("be.visible");
+        cy.get("div").contains("Suppliers").should("be.visible");
+        cy.get("div").contains("Notifications").should("be.visible");
       }
     });
 
@@ -37,13 +37,13 @@ roles.forEach((role) => {
       cy.url().should("include", `/${role}/inventory`);
     });
 
-    it("Should navigate to Customers page when Total Customers card is clicked", () => {
-      cy.get("div").contains("Total Customers").click();
+    it("Should navigate to Customers page when Customers card is clicked", () => {
+      cy.get("div").contains("Customers").click();
       cy.url().should("include", `/${role}/customers`);
     });
 
     it("Should navigate to Delivery page when Total Delivery card is clicked", () => {
-      cy.get("div").contains("Total Deliveries").click();
+      cy.get("div").contains("Deliveries").click();
       cy.url().should("include", `/${role}/delivery`);
     });
 
@@ -52,13 +52,13 @@ roles.forEach((role) => {
       cy.url().should("include", `/${role}/orders`);
     });
 
-    it("Should navigate to Products page when Total Products card is clicked", () => {
-      cy.get("div").contains("Total Products").click();
+    it("Should navigate to Products page when Products card is clicked", () => {
+      cy.get("div").contains("Products").click();
       cy.url().should("include", `/${role}/products`);
     });
 
-    it("Should navigate to Returns page when Total Returns card is clicked", () => {
-      cy.get("div").contains("Total Returns").click();
+    it("Should navigate to Returns page when Returns card is clicked", () => {
+      cy.get("div").contains("Returns").click();
       cy.url().should("include", `/${role}/returns`);
     });
 

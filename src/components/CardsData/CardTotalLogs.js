@@ -12,7 +12,7 @@ const CardTotalLogs = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Logs"
+        label="Logs"
         value={totalLogs} // Display the total number of logs
         icon={<FaClipboardList />} // Add the icon here
       />

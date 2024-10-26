@@ -45,7 +45,7 @@ const generatePDF = (header, data, totalOrders, totalValue, companyName = "PHILV
       // Format only the order amount (assuming it's in index 1)
       if (index === 1) {
         const amount = parseFloat(cell);
-        return isNaN(amount) ? cell : amount; // Convert to number and format to 2 decimal places if valid
+        return isNaN(amount) ? cell : amount; // Convert to number without formatting
       }
       // Ensure IDs (User ID, Supplier ID) remain as plain integers (no decimals)
       if (typeof cell === 'number' && !isNaN(cell)) {
@@ -55,7 +55,7 @@ const generatePDF = (header, data, totalOrders, totalValue, companyName = "PHILV
     });
   });
 
-  // Table
+  // Table with auto width based on content
   doc.autoTable({
     head: [header],
     body: pdfData,
@@ -63,15 +63,25 @@ const generatePDF = (header, data, totalOrders, totalValue, companyName = "PHILV
     styles: {
       cellPadding: 3,
       fontSize: 9,
-      halign: 'center',
+      halign: 'center', // Default horizontal alignment for all cells
       valign: 'middle',
     },
     headStyles: {
       fillColor: [0, 196, 255],
       textColor: [255, 255, 255],
       fontStyle: 'bold',
-      halign: 'center',
+      halign: 'center', // Horizontal alignment for header cells
     },
+    columnStyles: {
+      0: { halign: 'center' },  // Center Order ID
+      1: { halign: 'center' },  // Center Supplier ID
+      2: { halign: 'center' },  // Center User ID
+      3: { halign: 'center' },  // Center Status
+      4: { halign: 'center' },  // Center Order Date
+      5: { halign: 'center' },  // Center Quantity
+      6: { halign: 'center' },  // Center Order Amount
+    },
+    autoSize: true, // Enable auto sizing for columns
   });
 
   // Summary (after the table)
@@ -79,8 +89,8 @@ const generatePDF = (header, data, totalOrders, totalValue, companyName = "PHILV
   doc.setFont('helvetica', 'bold');
   doc.text(`Total Orders: ${totalOrders}`, 14, summaryY);
 
-  // Move the Total Amount closer to the Total Orders
-  doc.text(`Total Amount: ${totalValue.toFixed(2)}`, 14, summaryY + 6); // Keep this as 2 decimal places
+  // Total Amount with commas
+  doc.text(`Total Amount: ${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 14, summaryY + 6); // Format total amount with commas
 
   // Convert to base64 string for preview or download
   return doc.output("datauristring");
