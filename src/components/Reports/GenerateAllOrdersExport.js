@@ -141,9 +141,6 @@ const generateExcel = async (
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("All Order Report");
 
-  // Add header row
-  const headerRow = (worksheet.addRow(header).font = { bold: true });
-
   // Center the text for all header cells
   header.forEach((_, index) => {
     worksheet.getColumn(index + 1).alignment = { horizontal: "center" };

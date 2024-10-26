@@ -1,26 +1,28 @@
-// src/components/ResetLayout.js
 import React from "react";
 import { saveLayout } from "./indexedDB";
 
 const ResetLayout = ({ setCurrentCardOrder, setTableOrder }) => {
   const handleResetLayout = async () => {
-    // Reset card layout to default state
+    // Reset card layout to default state with all required cards
     const defaultCardOrder = [
-      "CardTotalSales",
       "CardTotalInventoryValue",
-      "CardTotalProducts",
-      "CardLowStocks",
-      "CardTotalOrders",
-      "CardTotalCustomers",
-      "CardTotalTransactions",
-      "CardTotalDelivery",
-      "CardTotalReturns",
-      "CardTotalPurchaseOrder",
-      "CardTotalNotification",
+      "CardTotalSales",
+
       "CardTotalLogs",
-      "CardTotalCategories",
       "CardTotalSuppliers",
       "CardTotalUsers",
+      "CardTotalPurchaseOrder",
+      "CardTotalTransactions",
+      
+      "CardTotalProducts",
+      "CardTotalCategories",
+      "CardLowStocks",
+      "CardTotalCustomers",
+      "CardTotalCustomerOrder",
+      "CardTotalRequestOrder",
+      "CardTotalDelivery",
+      "CardTotalReturns",
+      "CardTotalNotification",
     ];
 
     // Reset table layout to default state
@@ -29,6 +31,7 @@ const ResetLayout = ({ setCurrentCardOrder, setTableOrder }) => {
       "ExpiredItemsAlert",
       "HighestSellingProducts",
       "RecentlyAddedProducts",
+      // Add any other tables you want to reset
     ];
 
     // Update the state with the default layout

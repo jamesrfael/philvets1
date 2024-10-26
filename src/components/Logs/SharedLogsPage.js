@@ -4,13 +4,13 @@ import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalLogs from "../../components/CardsData/CardTotalLogs";
 import { logData } from "../../data/LogsData";
-import { staff } from "../../data/UserData";
+import { USER } from "../../data/UserData";
 
 const SharedLogsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Create a map to get user names based on USER_ID
-  const userNames = staff.reduce((acc, user) => {
+  const userNames = USER.reduce((acc, user) => {
     acc[user.USER_ID] = `${user.USER_FIRSTNAME} ${user.USER_LASTNAME}`;
     return acc;
   }, {});

@@ -19,7 +19,7 @@ const pageTitles = {
   "/admin/inventory": "Inventory",
   "/admin/suppliers": "Supplier",
   "/admin/customers": "Customer",
-  "/admin/users": "User",
+  "/admin/users": "Staffs",
   "/admin/sales": "Sales",
   "/admin/returns": "Return",
   "/admin/logs": "Log",
@@ -128,7 +128,7 @@ const Header = ({ toggleSidebar }) => {
                 ? "Admin"
                 : location.pathname.startsWith("/superadmin")
                 ? "SuperAdmin"
-                : "User"}
+                : "Staff"}
             </span>
             <TbUserCircle className="h-5 w-5 ml-1" />
           </ProfileButton>

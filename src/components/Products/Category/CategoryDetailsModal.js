@@ -36,7 +36,7 @@ const CategoryDetailsModal = ({ category = {}, products = [], onClose }) => {
 
   // Function to handle adding a product to the category
   const handleAddProduct = (product) => {
-    // Add product logic here, for example:
+    // Add product logic here, for gmail:
     console.log("Adding product to category:", product);
     setIsAddProductMode(false); // Close the Add Product modal
   };
@@ -186,6 +186,5 @@ const ButtonGroup = styled.div`
   justify-content: flex-end;
   margin-top: 15px;
 `;
-
 
 export default CategoryDetailsModal;

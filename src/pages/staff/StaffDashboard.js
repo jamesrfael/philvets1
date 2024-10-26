@@ -1,53 +1,67 @@
 // src/components/StaffDashboard.js
 
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
-import CardTotalRequestOrder from "../../components/CardsData/CardTotalRequestOrder";
 import CardTotalCustomerOrder from "../../components/CardsData/CardTotalCustomerOrder";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
-import ExpiredItemsAlert from "../../components/Dashboard/ExpiredItemsAlert";
-import LowestStocks from "../../components/Dashboard/LowestStocks";
-import { getLayout, saveLayout } from "../../utils/indexedDB";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Add this import
+import CardTotalCategories from "../../components/CardsData/CardTotalCategories"; // Add this import
+import LowestStocks from "../../components/Dashboard/LowestStocks"; // Add this import for low stock table
+import ExpiredItemsAlert from "../../components/Dashboard/ExpiredItemsAlert"; // Add this import for expired items
+import { getLayout } from "../../utils/indexedDB";
 import MainLayout from "../../components/Layout/MainLayout";
 import Loading from "../../components/Layout/Loading";
 
 const StaffDashboard = () => {
   const navigate = useNavigate();
-  const [currentCardOrder, setCurrentCardOrder] = useState([
-    "CardTotalReturns",
-    "CardTotalRequestOrder",
-    "CardTotalCustomerOrder",
-    "CardTotalDelivery",
-    "CardLowStocks",
-    "CardTotalProducts",
-    "CardTotalCustomers",
-  ]);
-
-  const [tableOrder, setTableOrder] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const cardComponents = {
+    CardTotalProducts: <CardTotalProducts />,
+    CardLowStocks: <CardLowStocks />,
+    CardTotalCustomers: <CardTotalCustomers />,
+    CardTotalCustomerOrder: <CardTotalCustomerOrder />,
+    CardTotalReturns: <CardTotalReturns />,
+    CardTotalDelivery: <CardTotalDelivery />,
+    CardTotalNotification: <CardTotalNotification />, // Add notification card
+    CardTotalCategories: <CardTotalCategories />, // Add categories card
+  };
+
+  const tableComponents = {
+    LowestStocks: <LowestStocks />,
+    ExpiredItemsAlert: <ExpiredItemsAlert />,
+  };
+
+  const cardOrder = Object.keys(cardComponents);
+  const tableOrder = Object.keys(tableComponents); // Get all table keys from the tableComponents object
+
+  const cardOnClickHandlers = {
+    CardTotalProducts: () => navigate("/staff/products"),
+    CardLowStocks: () => navigate("/staff/inventory"),
+    CardTotalCustomers: () => navigate("/staff/customers"),
+    CardTotalCustomerOrder: () => navigate("/staff/customer-order"),
+    CardTotalReturns: () => navigate("/staff/returns"),
+    CardTotalDelivery: () => navigate("/staff/delivery"),
+    CardTotalNotification: () => navigate("/staff/notifications"), // Update as necessary
+    CardTotalCategories: () => navigate("/staff/categories"), // Update as necessary
+  };
+
+  const tableOnClickHandlers = {
+    LowestStocks: () => navigate("/staff/inventory"), // Update as necessary
+    ExpiredItemsAlert: () => navigate("/staff/inventory"), // Update as necessary
+  };
 
   useEffect(() => {
     const loadLayout = async () => {
       setLoading(true);
       try {
-        const savedCardOrder = await getLayout("staff", "cardOrder");
-        const savedTableOrder = await getLayout("staff", "tableOrder");
-
-        if (savedCardOrder) {
-          setCurrentCardOrder(savedCardOrder);
-        }
-
-        if (savedTableOrder) {
-          setTableOrder(savedTableOrder);
-        } else {
-          setTableOrder(["ExpiredItemsAlert", "LowestStocks"]);
-        }
+        await getLayout("staff", "cardOrder");
+        // No layout saving/loading as we're not implementing drag-and-drop
       } catch (error) {
         console.error("Error loading layout:", error);
       } finally {
@@ -58,133 +72,29 @@ const StaffDashboard = () => {
     loadLayout();
   }, []);
 
-  const onDragEnd = (result) => {
-    if (!result.destination) return;
-
-    const sourceIndex = result.source.index;
-    const destinationIndex = result.destination.index;
-
-    if (result.type === "CARD") {
-      const newOrder = Array.from(currentCardOrder);
-      const [removed] = newOrder.splice(sourceIndex, 1);
-      newOrder.splice(destinationIndex, 0, removed);
-      setCurrentCardOrder(newOrder);
-      saveLayout("staff", "cardOrder", newOrder);
-    } else if (result.type === "TABLE") {
-      const newTableOrder = Array.from(tableOrder);
-      const [removed] = newTableOrder.splice(sourceIndex, 1);
-      newTableOrder.splice(destinationIndex, 0, removed);
-      setTableOrder(newTableOrder);
-      saveLayout("staff", "tableOrder", newTableOrder);
-    }
-  };
-
-  const cardComponents = {
-    CardTotalReturns: <CardTotalReturns />,
-    CardTotalCustomerOrder: <CardTotalCustomerOrder />,
-    CardTotalRequestOrder: <CardTotalRequestOrder />,
-    CardTotalDelivery: <CardTotalDelivery />,
-    CardLowStocks: <CardLowStocks />,
-    CardTotalProducts: <CardTotalProducts />,
-    CardTotalCustomers: <CardTotalCustomers />,
-  };
-
-  const tableComponents = {
-    ExpiredItemsAlert: <ExpiredItemsAlert />,
-    LowestStocks: <LowestStocks />,
-  };
-
-  const cardOnClickHandlers = {
-    CardTotalReturns: () => navigate("/staff/returns"),
-    CardTotalCustomerOrder: () => navigate("/staff/customer-order"),
-    CardTotalRequestOrder: () => navigate("/staff/request-order"),
-    CardTotalDelivery: () => navigate("/staff/delivery"),
-    CardLowStocks: () => navigate("/staff/inventory"),
-    CardTotalProducts: () => navigate("/staff/products"),
-    CardTotalCustomers: () => navigate("/staff/customers"),
-  };
-
-  const tableOnClickHandlers = {
-    ExpiredItemsAlert: () => navigate("/staff/inventory"),
-    LowestStocks: () => navigate("/staff/inventory"),
-  };
-
   if (loading) {
     return <Loading />;
   }
 
   return (
     <MainLayout>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="cards" direction="horizontal" type="CARD">
-          {(provided) => (
-            <CardContainer {...provided.droppableProps} ref={provided.innerRef}>
-              {currentCardOrder.map((cardKey, index) => {
-                if (cardComponents[cardKey]) {
-                  return (
-                    <Draggable
-                      key={cardKey}
-                      draggableId={cardKey}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <CardWrapper
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          onClick={cardOnClickHandlers[cardKey]}
-                        >
-                          {cardComponents[cardKey]}
-                        </CardWrapper>
-                      )}
-                    </Draggable>
-                  );
-                }
-                return null;
-              })}
-              {provided.placeholder}
-            </CardContainer>
-          )}
-        </Droppable>
+      <CardContainer>
+        {cardOrder.map((cardKey) => (
+          <CardWrapper key={cardKey} onClick={cardOnClickHandlers[cardKey]}>
+            {cardComponents[cardKey]}
+          </CardWrapper>
+        ))}
+      </CardContainer>
 
-        <Droppable droppableId="tables" type="TABLE">
-          {(provided) => (
-            <ScrollableTablesContainer>
-              <TablesContainer
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {tableOrder.map((tableKey, index) => {
-                  if (tableComponents[tableKey]) {
-                    return (
-                      <Draggable
-                        key={tableKey}
-                        draggableId={tableKey}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <Row
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            onClick={tableOnClickHandlers[tableKey]} // Add onClick for table items
-                          >
-                            <StyledLink to={`/staff/${tableKey.toLowerCase()}`}>
-                              {tableComponents[tableKey]}
-                            </StyledLink>
-                          </Row>
-                        )}
-                      </Draggable>
-                    );
-                  }
-                  return null;
-                })}
-                {provided.placeholder}
-              </TablesContainer>
-            </ScrollableTablesContainer>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <ScrollableTablesContainer>
+        <TablesContainer>
+          {tableOrder.map((tableKey) => (
+            <Row key={tableKey} onClick={tableOnClickHandlers[tableKey]}>
+              {tableComponents[tableKey]}
+            </Row>
+          ))}
+        </TablesContainer>
+      </ScrollableTablesContainer>
     </MainLayout>
   );
 };
@@ -199,7 +109,7 @@ const CardContainer = styled.div`
 `;
 
 const CardWrapper = styled.div`
-  cursor: move;
+  cursor: pointer; // Updated to pointer for better UX
 `;
 
 const ScrollableTablesContainer = styled.div`
@@ -221,13 +131,7 @@ const Row = styled.div`
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
-  cursor: move;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  display: block;
-  width: 100%;
+  cursor: pointer; // Updated to pointer for better UX
 `;
 
 export default StaffDashboard;

@@ -19,9 +19,7 @@ import {
   FieldText,
   EditButton,
   SaveChangesButton,
-  InputContainer,
-  EyeIcon,
-  ChangePasswordText // Import any necessary styles for the Change Password text
+  ChangePasswordText, // Import any necessary styles for the Change Password text
 } from "./ProfileStyles"; // Update import path as necessary
 import { FaPencilAlt } from "react-icons/fa";
 import profilePic from "../../assets/profile.png";
@@ -37,27 +35,29 @@ const SharedProfilePage = ({ userRole }) => {
       firstName: "Maria",
       middleInitial: "S.",
       lastName: "Santos",
-      email: "maria.santos@example.com",
+      email: "maria.santos@gmail.com",
       contact: "09123456789",
     },
     Admin: {
       firstName: "John",
       middleInitial: "D.",
       lastName: "Doe",
-      email: "john.doe@example.com",
+      email: "john.doe@gmail.com",
       contact: "09123456788",
     },
     Staff: {
       firstName: "Jane",
       middleInitial: "A.",
       lastName: "Smith",
-      email: "jane.smith@example.com",
+      email: "jane.smith@gmail.com",
       contact: "09123456787",
     },
   };
 
   const [firstName, setFirstName] = useState(userData[userRole].firstName);
-  const [middleInitial, setMiddleInitial] = useState(userData[userRole].middleInitial);
+  const [middleInitial, setMiddleInitial] = useState(
+    userData[userRole].middleInitial
+  );
   const [lastName, setLastName] = useState(userData[userRole].lastName);
   const [email, setEmail] = useState(userData[userRole].email);
   const [contact, setContact] = useState(userData[userRole].contact);

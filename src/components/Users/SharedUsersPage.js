@@ -1,30 +1,41 @@
+// src/components/Users/SharedUsersPage.js
+
 import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
-import { staff as initialUser } from "../../data/UserData";
+import { USER as initialUser } from "../../data/UserData";
 import AddUserModal from "../../components/Users/AddUserModal";
-import UserDetailsModal from "../../components/Users/UserDetailsModal"; // Import the new modal
+import UserDetailsModal from "../../components/Users/UserDetailsModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import CardTotalUsers from "../../components/CardsData/CardTotalUsers";
+import CardTotalUsers from "../../components/CardsData/CardTotalUsers"; // Card for SuperAdmin
+import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs"; // Card for Admin
 import Button from "../../components/Layout/Button";
 import { FaPlus } from "react-icons/fa";
 
-const SharedUsersPage = () => {
-  const [staff, setUser] = useState(initialUser);
+const SharedUsersPage = ({ userType }) => {
+  const [USER, setUser] = useState(initialUser);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false); // State for the details modal
-  const [selectedUser, setSelectedUser] = useState(null); // State for selected user
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [showInactive, setShowInactive] = useState(false);
 
-  const filteredUser = staff.filter((member) => {
+  const filteredUser = USER.filter((member) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     const isActiveFilter = showInactive
-      ? !member.USER_ISACTIVE // Show only deactivated users
-      : member.USER_ISACTIVE; // Show only active users
+      ? !member.USER_ISACTIVE
+      : member.USER_ISACTIVE;
+
+    // Filter based on userType passed as prop
+    const isStaffOrAdmin =
+      userType === "admin"
+        ? member.USER_ACCTTYPE === "Staff" // Only show Staff for Admin
+        : member.USER_ACCTTYPE === "Staff" || member.USER_ACCTTYPE === "Admin"; // Show both Staff and Admin for SuperAdmin
+
     return (
       isActiveFilter &&
+      isStaffOrAdmin &&
       (member.USER_FIRSTNAME.toLowerCase().includes(lowerCaseSearchTerm) ||
         member.USER_LASTNAME.toLowerCase().includes(lowerCaseSearchTerm) ||
         member.USER_EMAIL.toLowerCase().includes(lowerCaseSearchTerm) ||
@@ -42,7 +53,7 @@ const SharedUsersPage = () => {
         member.USER_EMAIL === email
           ? {
               ...member,
-              USER_ISACTIVE: !member.USER_ISACTIVE, // Toggle active status
+              USER_ISACTIVE: !member.USER_ISACTIVE,
             }
           : member
       )
@@ -57,7 +68,7 @@ const SharedUsersPage = () => {
       alt={`${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`}
       width="50"
     />,
-    `${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`, // Display full name
+    `${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`,
     member.USER_EMAIL,
     member.USER_USERNAME,
     <Button
@@ -65,7 +76,7 @@ const SharedUsersPage = () => {
       hoverColor={colors.primaryHover}
       onClick={() => {
         setIsDetailsModalOpen(true);
-        setSelectedUser(member); // Set the selected user
+        setSelectedUser(member);
       }}
     >
       Details
@@ -76,7 +87,9 @@ const SharedUsersPage = () => {
     <>
       <Controls>
         <SearchBar
-          placeholder="Search / Filter staff..."
+          placeholder={`Search / Filter ${
+            userType === "admin" ? "staff..." : "users..."
+          }`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -98,7 +111,7 @@ const SharedUsersPage = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalUsers /> {/* Display Users */}
+        {userType === "admin" ? <CardTotalStaffs /> : <CardTotalUsers />}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddModalOpen && (
@@ -109,10 +122,10 @@ const SharedUsersPage = () => {
       )}
       {isDetailsModalOpen && (
         <UserDetailsModal
-          client={selectedUser} // Pass the selected user to the modal
+          client={selectedUser}
           onClose={() => setIsDetailsModalOpen(false)}
           onRemove={(id) => {
-            handleActivateDeactivateUser(selectedUser.USER_EMAIL); // Deactivate the user
+            handleActivateDeactivateUser(selectedUser.USER_EMAIL);
           }}
         />
       )}

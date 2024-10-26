@@ -48,7 +48,7 @@ export const superadminSidebarItems = [
     dropdown: [
       {
         icon: TbChevronRight,
-        label: "Products",
+        label: "Product",
         link: "/superadmin/products",
       },
       {
@@ -103,7 +103,7 @@ export const adminSidebarItems = [
     dropdown: [
       {
         icon: TbChevronRight,
-        label: "Products",
+        label: "Product",
         link: "/admin/products",
       },
       {
@@ -116,7 +116,7 @@ export const adminSidebarItems = [
   { icon: MdOutlineInventory2, label: "Inventory", link: "/admin/inventory" },
   { icon: LuWarehouse, label: "Supplier", link: "/admin/suppliers" },
   { icon: TbUserDollar, label: "Customer", link: "/admin/customers" },
-  { icon: GrGroup, label: "User", link: "/admin/users" },
+  { icon: GrGroup, label: "Staff", link: "/admin/users" },
   { icon: TbBasketDollar, label: "Sales", link: "/admin/sales" },
   { icon: TbTruckReturn, label: "Return", link: "/admin/returns" },
   { icon: TbHistory, label: "Logs", link: "/admin/logs" },
@@ -149,7 +149,7 @@ export const staffSidebarItems = [
     dropdown: [
       {
         icon: TbChevronRight,
-        label: "Products",
+        label: "Product",
         link: "/staff/products",
       },
       {

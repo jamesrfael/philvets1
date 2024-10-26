@@ -8,62 +8,96 @@ import RecentlyAddedProducts from "../../components/Dashboard/RecentlyAddedProdu
 import LowestStocks from "../../components/Dashboard/LowestStocks";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
-import CardTotalCategories from "../../components/CardsData/CardTotalCategories";
 import CardTotalCustomerOrder from "../../components/CardsData/CardTotalCustomerOrder";
 import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
-import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder";
 import CardTotalRequestOrder from "../../components/CardsData/CardTotalRequestOrder";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
-import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
-import CardTotalTransactions from "../../components/CardsData/CardTotalTransactions";
-import ExpiredItemsAlert from "../../components/Dashboard/ExpiredItemsAlert";
-import { getLayout, saveLayout } from "../../utils/indexedDB";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import CardTotalLogs from "../../components/CardsData/CardTotalLogs"; // Add logs card
+import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers"; // Add suppliers card
+import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs"; // Add users card
+import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder"; // Add purchase order card
+import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Add notifications card
+import { getLayout } from "../../utils/indexedDB";
 import MainLayout from "../../components/Layout/MainLayout";
 import Loading from "../../components/Layout/Loading";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [currentCardOrder, setCurrentCardOrder] = useState([
+  const [loading, setLoading] = useState(true);
+
+  const cardComponents = {
+    CardTotalProducts: <CardTotalProducts />,
+    CardLowStocks: <CardLowStocks />,
+    CardTotalCustomerOrder: <CardTotalCustomerOrder />,
+    CardTotalCustomers: <CardTotalCustomers />,
+    CardTotalDelivery: <CardTotalDelivery />,
+    CardTotalRequestOrder: <CardTotalRequestOrder />,
+    CardTotalReturns: <CardTotalReturns />,
+    CardTotalLogs: <CardTotalLogs />, // Add logs card
+    CardTotalSuppliers: <CardTotalSuppliers />, // Add suppliers card
+    CardTotalStaffs: <CardTotalStaffs />, // Add users card
+    CardTotalPurchaseOrder: <CardTotalPurchaseOrder />, // Add purchase order card
+    CardTotalNotification: <CardTotalNotification />, // Add notifications card
+  };
+
+  const tableComponents = {
+    HighestSellingProducts: <HighestSellingProducts />,
+    RecentlyAddedProducts: <RecentlyAddedProducts />,
+    LowestStocks: <LowestStocks />,
+  };
+
+  // Set your desired card order
+  const currentCardOrder = [
     "CardTotalProducts",
     "CardLowStocks",
-    "CardTotalCategories",
     "CardTotalCustomerOrder",
     "CardTotalCustomers",
     "CardTotalDelivery",
-    "CardTotalOrders",
-    "CardTotalPurchaseOrder",
     "CardTotalRequestOrder",
     "CardTotalReturns",
-    "CardTotalSuppliers",
-    "CardTotalTransactions",
-  ]);
+    "CardTotalLogs", // Add logs to the order
+    "CardTotalSuppliers", // Add suppliers to the order
+    "CardTotalStaffs", // Add users to the order
+    "CardTotalPurchaseOrder", // Add purchase order to the order
+    "CardTotalNotification", // Add notifications to the order
+  ];
 
-  const [tableOrder, setTableOrder] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // Set your desired table order
+  const tableOrder = [
+    "HighestSellingProducts",
+    "RecentlyAddedProducts",
+    "LowestStocks",
+  ];
+
+  const cardOnClickHandlers = {
+    CardTotalProducts: () => navigate("/admin/products"),
+    CardLowStocks: () => navigate("/admin/inventory"),
+    CardTotalCustomerOrder: () => navigate("/admin/customer-order"),
+    CardTotalCustomers: () => navigate("/admin/customers"),
+    CardTotalDelivery: () => navigate("/admin/delivery"),
+    CardTotalRequestOrder: () => navigate("/admin/request-order"),
+    CardTotalReturns: () => navigate("/admin/returns"),
+    CardTotalLogs: () => navigate("/admin/logs"), // Update as necessary
+    CardTotalSuppliers: () => navigate("/admin/suppliers"), // Update as necessary
+    CardTotalStaffs: () => navigate("/admin/users"), // Update as necessary
+    CardTotalPurchaseOrder: () => navigate("/admin/purchase-orders"), // Update as necessary
+    CardTotalNotification: () => navigate("/admin/notifications"), // Update as necessary
+  };
+
+  const tableOnClickHandlers = {
+    HighestSellingProducts: () => navigate("/admin/products"),
+    RecentlyAddedProducts: () => navigate("/admin/products"),
+    LowestStocks: () => navigate("/admin/inventory"),
+  };
 
   useEffect(() => {
     const loadLayout = async () => {
       setLoading(true);
       try {
-        const savedCardOrder = await getLayout("admin", "cardOrder");
-        const savedTableOrder = await getLayout("admin", "tableOrder");
-
-        if (savedCardOrder) {
-          setCurrentCardOrder(savedCardOrder);
-        }
-
-        if (savedTableOrder) {
-          setTableOrder(savedTableOrder);
-        } else {
-          setTableOrder([
-            "HighestSellingProducts",
-            "ExpiredItemsAlert",
-            "RecentlyAddedProducts",
-            "LowestStocks",
-          ]);
-        }
+        await getLayout("admin", "cardOrder");
+        await getLayout("admin", "tableOrder");
+        // No layout saving/loading since we're not implementing drag-and-drop
       } catch (error) {
         console.error("Error loading layout:", error);
       } finally {
@@ -74,143 +108,29 @@ const AdminDashboard = () => {
     loadLayout();
   }, []);
 
-  const onDragEnd = (result) => {
-    if (!result.destination) return;
-
-    const sourceIndex = result.source.index;
-    const destinationIndex = result.destination.index;
-
-    if (result.type === "CARD") {
-      const newOrder = Array.from(currentCardOrder);
-      const [removed] = newOrder.splice(sourceIndex, 1);
-      newOrder.splice(destinationIndex, 0, removed);
-      setCurrentCardOrder(newOrder);
-      saveLayout("admin", "cardOrder", newOrder);
-    } else if (result.type === "TABLE") {
-      const newTableOrder = Array.from(tableOrder);
-      const [removed] = newTableOrder.splice(sourceIndex, 1);
-      newTableOrder.splice(destinationIndex, 0, removed);
-      setTableOrder(newTableOrder);
-      saveLayout("admin", "tableOrder", newTableOrder);
-    }
-  };
-
-  const cardOnClickHandlers = {
-    CardTotalProducts: () => navigate("/admin/products"),
-    CardLowStocks: () => navigate("/admin/inventory"),
-    CardTotalCategories: () => navigate("/admin/categories"),
-    CardTotalCustomerOrder: () => navigate("/admin/customer-order"),
-    CardTotalCustomers: () => navigate("/admin/customers"),
-    CardTotalDelivery: () => navigate("/admin/delivery"),
-    CardTotalPurchaseOrder: () => navigate("/admin/purchase-order"),
-    CardTotalRequestOrder: () => navigate("/admin/request-order"),
-    CardTotalReturns: () => navigate("/admin/returns"),
-    CardTotalSuppliers: () => navigate("/admin/suppliers"),
-    CardTotalTransactions: () => navigate("/admin/reports"),
-  };
-
-  const tableOnClickHandlers = {
-    HighestSellingProducts: () => navigate("/admin/products"),
-    ExpiredItemsAlert: () => navigate("/admin/inventory"),
-    RecentlyAddedProducts: () => navigate("/admin/products"),
-    LowestStocks: () => navigate("/admin/inventory"),
-  };
-
-  const cardComponents = {
-    CardTotalProducts: <CardTotalProducts />,
-    CardLowStocks: <CardLowStocks />,
-    CardTotalCategories: <CardTotalCategories />,
-    CardTotalCustomerOrder: <CardTotalCustomerOrder />,
-    CardTotalCustomers: <CardTotalCustomers />,
-    CardTotalDelivery: <CardTotalDelivery />,
-    CardTotalPurchaseOrder: <CardTotalPurchaseOrder />,
-    CardTotalRequestOrder: <CardTotalRequestOrder />,
-    CardTotalReturns: <CardTotalReturns />,
-    CardTotalSuppliers: <CardTotalSuppliers />,
-    CardTotalTransactions: <CardTotalTransactions />,
-  };
-
-  const tableComponents = {
-    HighestSellingProducts: <HighestSellingProducts />,
-    ExpiredItemsAlert: <ExpiredItemsAlert />,
-    RecentlyAddedProducts: <RecentlyAddedProducts />,
-    LowestStocks: <LowestStocks />,
-  };
-
   if (loading) {
     return <Loading />;
   }
 
   return (
     <MainLayout>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="cards" direction="horizontal" type="CARD">
-          {(provided) => (
-            <CardContainer {...provided.droppableProps} ref={provided.innerRef}>
-              {currentCardOrder.map((cardKey, index) => {
-                if (cardComponents[cardKey]) {
-                  return (
-                    <Draggable
-                      key={cardKey}
-                      draggableId={cardKey}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <CardWrapper
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          onClick={cardOnClickHandlers[cardKey]}
-                        >
-                          {cardComponents[cardKey]}
-                        </CardWrapper>
-                      )}
-                    </Draggable>
-                  );
-                }
-                return null;
-              })}
-              {provided.placeholder}
-            </CardContainer>
-          )}
-        </Droppable>
+      <CardContainer>
+        {currentCardOrder.map((cardKey) => (
+          <CardWrapper key={cardKey} onClick={cardOnClickHandlers[cardKey]}>
+            {cardComponents[cardKey]}
+          </CardWrapper>
+        ))}
+      </CardContainer>
 
-        <Droppable droppableId="tables" type="TABLE">
-          {(provided) => (
-            <ScrollableTablesContainer>
-              <TablesContainer
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {tableOrder.map((tableKey, index) => {
-                  if (tableComponents[tableKey]) {
-                    return (
-                      <Draggable
-                        key={tableKey}
-                        draggableId={tableKey}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <Row
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            onClick={tableOnClickHandlers[tableKey]}
-                          >
-                            {tableComponents[tableKey]}
-                          </Row>
-                        )}
-                      </Draggable>
-                    );
-                  }
-                  return null;
-                })}
-                {provided.placeholder}
-              </TablesContainer>
-            </ScrollableTablesContainer>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <ScrollableTablesContainer>
+        <TablesContainer>
+          {tableOrder.map((tableKey) => (
+            <Row key={tableKey} onClick={tableOnClickHandlers[tableKey]}>
+              {tableComponents[tableKey]}
+            </Row>
+          ))}
+        </TablesContainer>
+      </ScrollableTablesContainer>
     </MainLayout>
   );
 };
@@ -225,20 +145,20 @@ const CardContainer = styled.div`
 `;
 
 const CardWrapper = styled.div`
-  cursor: move;
+  cursor: pointer; // Updated to pointer for better UX
 `;
 
 const ScrollableTablesContainer = styled.div`
   overflow-x: auto;
   margin: 2rem auto;
   width: 100%;
+  padding: 7px;
 `;
 
 const TablesContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 7px;
   min-width: 488px;
 `;
 
@@ -247,7 +167,7 @@ const Row = styled.div`
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
-  cursor: move;
+  cursor: pointer; // Updated to pointer for better UX
 `;
 
 export default AdminDashboard;

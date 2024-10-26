@@ -5,7 +5,6 @@ import MainLayout from "../../components/Layout/MainLayout";
 import CardLowStocks from "../../components/CardsData/CardLowStocks";
 import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
-import CardTotalOrders from "../../components/CardsData/CardTotalOrders";
 import CardTotalProducts from "../../components/CardsData/CardTotalProducts";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification";
@@ -24,9 +23,6 @@ const StaffReports = () => {
         </div>
         <div onClick={() => navigate("/staff/delivery")}>
           <CardTotalDelivery />
-        </div>
-        <div onClick={() => navigate("/staff/orders")}>
-          <CardTotalOrders />
         </div>
         <div onClick={() => navigate("/staff/products")}>
           <CardTotalProducts />
