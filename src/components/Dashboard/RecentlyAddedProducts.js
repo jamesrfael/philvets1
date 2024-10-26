@@ -1,17 +1,35 @@
 import React from "react";
 import DashboardTable from "./DashboardTable";
+import productData from "../../data/ProductData"; // Adjust the import path accordingly
 
-const sampleData = [
-  { id: 1, name: "Premium Dog Food", dateAdded: "2024-08-20", quantity: 50, amount: "₱ 125,000" },
-  { id: 2, name: "Cat Scratching Post", dateAdded: "2024-08-21", quantity: 20, amount: "₱ 10,000" },
-  { id: 3, name: "Fish Tank Pump", dateAdded: "2024-08-22", quantity: 15, amount: "₱ 7,500" },
-  { id: 4, name: "Hamster Wheel", dateAdded: "2024-08-23", quantity: 30, amount: "₱ 3,000" },
-  { id: 5, name: "Bird Feeder", dateAdded: "2024-08-24", quantity: 25, amount: "₱ 12,500" },
-];
+const AllProducts = () => {
+  const inventory = productData?.PRODUCT_INVENTORY; // Get inventory data
 
-const RecentlyAddedProducts = () => {
-  const headers = ["Product Name", "Date Added", "Quantity", "Amount"];
-  const data = sampleData.map((product) => [product.name, product.dateAdded, product.quantity, product.amount]);
+  // Ensure inventory is defined before processing
+  if (!inventory) {
+    return <p>Loading inventory data...</p>;
+  }
+
+  // Get a list of all products with their date received and quantity
+  const allProducts = inventory.map(item => {
+    const product = productData.PRODUCT.find(p => p.PROD_ID === item.PROD_ID);
+    return product
+      ? {
+          id: item.PROD_ID,
+          name: product.PROD_NAME,
+          dateReceived: item.PROD_INV_DATE_RCVD || "N/A", // Get the date received
+          quantity: item.PROD_INV_QTY_ON_HAND,
+        }
+      : null;
+  }).filter(Boolean); // Remove any nulls
+
+  // Sort products by date received in descending order and take the top 10
+  const sortedProducts = allProducts
+    .sort((a, b) => new Date(b.dateReceived) - new Date(a.dateReceived))
+    .slice(0, 10); // Get the top 10 products
+
+  const headers = ["Product Name", "Date Received", "Quantity"]; // Table headers
+  const data = sortedProducts.map(({ name, dateReceived, quantity }) => [name, dateReceived, quantity]); // Format data for the table
 
   return (
     <DashboardTable
@@ -23,4 +41,4 @@ const RecentlyAddedProducts = () => {
   );
 };
 
-export default RecentlyAddedProducts;
+export default AllProducts;

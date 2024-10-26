@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Button from "../Layout/Button";
-
 const ChangePassModal = ({ onClose, onSave }) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

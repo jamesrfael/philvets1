@@ -4,7 +4,7 @@ const productData = {
       PROD_INV_ID: "INV001",
       PROD_INV_BATCH_NO: "BATCH001",
       PROD_INV_DATE_RCVD: "2024-08-01",
-      PROD_INV_EXP_DATE: "2026-08-01",
+      PROD_INV_EXP_DATE: "2024-08-01",
       PROD_INV_QTY_ON_HAND: 100,
       PROD_INV_QTY_DLVRD: 20,
       PROD_ID: "P001", // Amoxicillin
@@ -13,8 +13,8 @@ const productData = {
     {
       PROD_INV_ID: "INV002",
       PROD_INV_BATCH_NO: "BATCH002",
-      PROD_INV_DATE_RCVD: "2024-08-05",
-      PROD_INV_EXP_DATE: "2026-08-05",
+      PROD_INV_DATE_RCVD: "2024-04-01",
+      PROD_INV_EXP_DATE: "2024-08-05",
       PROD_INV_QTY_ON_HAND: 90,
       PROD_INV_QTY_DLVRD: 15,
       PROD_ID: "P006", // Cephalexin

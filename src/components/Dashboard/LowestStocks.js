@@ -1,21 +1,30 @@
 import React from "react";
 import DashboardTable from "./DashboardTable";
-
-const sampleData = [
-  { id: 1, name: "Premium Cat Food", stocks: 10 },
-  { id: 2, name: "Dog Leash", stocks: 5 },
-  { id: 3, name: "Bird Cage", stocks: 3 },
-  { id: 4, name: "Hamster Bedding", stocks: 2 },
-  { id: 5, name: "Fish Tank Filter", stocks: 1 },
-];
+import productData from "../../data/ProductData"; // Adjust the import path accordingly
 
 const LowestStocks = () => {
-  const headers = ["Product Name", "Number of Stocks"];
+  const lowStockThreshold = 10; // Define the threshold for low stock
+  const inventory = productData?.PRODUCT_INVENTORY; // Get inventory data
 
-  // Sort data by stocks in ascending order
-  const sortedData = [...sampleData].sort((a, b) => a.stocks - b.stocks);
+  // Ensure inventory is defined before using filter
+  if (!inventory) {
+    return <p>Loading inventory data...</p>;
+  }
 
-  const data = sortedData.map((product) => [product.name, product.stocks]);
+  // Get a list of low-stock products and their quantities
+  const lowStockProducts = inventory
+    .filter((item) => item.PROD_INV_QTY_ON_HAND <= lowStockThreshold) // Filter low stock items
+    .map((item) => {
+      const product = productData.PRODUCT.find((p) => p.PROD_ID === item.PROD_ID);
+      return product
+        ? { id: item.PROD_ID, name: product.PROD_NAME, quantity: item.PROD_INV_QTY_ON_HAND }
+        : null;
+    })
+    .filter(Boolean) // Remove any nulls
+    .sort((a, b) => a.quantity - b.quantity); // Sort by quantity ascending
+
+  const headers = ["Product Name", "Number of Stocks"]; // Table headers
+  const data = lowStockProducts.map(({ name, quantity }) => [name, quantity]); // Format data for the table
 
   return (
     <DashboardTable
