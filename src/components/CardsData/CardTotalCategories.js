@@ -11,7 +11,7 @@ const CardTotalCategories = () => {
   return (
     <CardContainer>
       <Card
-        label="Categories"
+        label="Total Categories"
         value={totalCategories} // Display the total number of categories
         icon={<FaTags />} // Pass the icon here
       />

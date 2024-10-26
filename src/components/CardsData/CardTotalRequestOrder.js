@@ -11,7 +11,7 @@ const CardTotalRequestOrder = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Request Order" // Updated label to reflect total requests
+        label="Request Orders" // Updated label to reflect total requests
         value={totalRequestsCount} // Display the total number of requests
         icon={<FaClipboardCheck />} // Add the icon here
       />

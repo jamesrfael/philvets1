@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Modal from "../../Layout/Modal";
 import Button from "../../Layout/Button";
-import styled from "styled-components"; // Import styled for styled-components
-import { IoCloseCircle } from "react-icons/io5"; // Import the icon
+import styled from "styled-components";
+import { IoCloseCircle } from "react-icons/io5";
 import {
   Field,
   Label,
@@ -24,12 +24,7 @@ import {
   calculateTotalQuantity,
   calculateTotalValue,
 } from "../../../utils/CalculationUtils";
-
-const products = [
-  { id: 1, name: "Canine Dewormer", price: 20.0 },
-  { id: 2, name: "Feline Dewormer", price: 8.0 },
-  { id: 3, name: "Canine Nutritional Supplement", price: 30.0 },
-];
+import productData from "../../../data/ProductData";
 
 const AddRequestModal = ({ onClose, onSave }) => {
   const [clientName, setClientName] = useState("");
@@ -44,8 +39,17 @@ const AddRequestModal = ({ onClose, onSave }) => {
     },
   ]);
   const [productSearch, setProductSearch] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState(
+    productData.PRODUCT
+  );
   const [currentEditingIndex, setCurrentEditingIndex] = useState(null);
+
+  // Error state
+  const [errors, setErrors] = useState({
+    clientName: "",
+    description: "",
+    orderDetails: "",
+  });
 
   const handleAddProduct = () => {
     setOrderDetails([
@@ -57,8 +61,8 @@ const AddRequestModal = ({ onClose, onSave }) => {
   const handleProductInputChange = (index, value) => {
     setCurrentEditingIndex(index);
     setProductSearch(value);
-    const filtered = products.filter((product) =>
-      product.name.toLowerCase().includes(value.toLowerCase())
+    const filtered = productData.PRODUCT.filter((product) =>
+      product.PROD_NAME.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredProducts(filtered);
     const updatedOrderDetails = [...orderDetails];
@@ -68,15 +72,17 @@ const AddRequestModal = ({ onClose, onSave }) => {
 
   const handleProductSelect = (index, product) => {
     const updatedOrderDetails = [...orderDetails];
-    updatedOrderDetails[index].productId = product.id;
-    updatedOrderDetails[index].productName = product.name;
-    updatedOrderDetails[index].price = product.price;
+    updatedOrderDetails[index].productId = product.PROD_ID;
+    updatedOrderDetails[index].productName = product.PROD_NAME;
+    updatedOrderDetails[index].price = productData.PRODUCT_DETAILS.find(
+      (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
+    ).PROD_DETALS_PRICE;
     updatedOrderDetails[index].lineTotal = calculateLineTotal(
       updatedOrderDetails[index]
     );
     setOrderDetails(updatedOrderDetails);
     setProductSearch("");
-    setFilteredProducts(products);
+    setFilteredProducts(productData.PRODUCT);
     setCurrentEditingIndex(null);
   };
 
@@ -90,6 +96,30 @@ const AddRequestModal = ({ onClose, onSave }) => {
   };
 
   const handleSave = () => {
+    // Validation for required fields
+    let hasErrors = false;
+    const newErrors = { clientName: "", description: "", orderDetails: "" };
+
+    if (!clientName) {
+      newErrors.clientName = "Client Name is required.";
+      hasErrors = true;
+    }
+    if (!description) {
+      newErrors.description = "Description is required.";
+      hasErrors = true;
+    }
+    if (
+      orderDetails.length === 0 ||
+      orderDetails.some((detail) => !detail.productName)
+    ) {
+      newErrors.orderDetails = "At least one product must be added and named.";
+      hasErrors = true;
+    }
+
+    setErrors(newErrors);
+
+    if (hasErrors) return;
+
     const newRequest = {
       requestBy: clientName,
       description,
@@ -116,6 +146,7 @@ const AddRequestModal = ({ onClose, onSave }) => {
           value={clientName}
           onChange={(e) => setClientName(e.target.value)}
         />
+        {errors.clientName && <ErrorText>{errors.clientName}</ErrorText>}
       </Field>
       <Field>
         <Label>Description</Label>
@@ -123,6 +154,7 @@ const AddRequestModal = ({ onClose, onSave }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        {errors.description && <ErrorText>{errors.description}</ErrorText>}
       </Field>
       <OrderDetailsSection>
         <h3>Products</h3>
@@ -152,10 +184,10 @@ const AddRequestModal = ({ onClose, onSave }) => {
                       <SuggestionsList>
                         {filteredProducts.map((product) => (
                           <SuggestionItem
-                            key={product.id}
+                            key={product.PROD_ID}
                             onClick={() => handleProductSelect(index, product)}
                           >
-                            {product.name}
+                            {product.PROD_NAME}
                           </SuggestionItem>
                         ))}
                       </SuggestionsList>
@@ -183,6 +215,7 @@ const AddRequestModal = ({ onClose, onSave }) => {
             ))}
           </tbody>
         </Table>
+        {errors.orderDetails && <ErrorText>{errors.orderDetails}</ErrorText>}
         <Button variant="primary" onClick={handleAddProduct}>
           Add Another Product
         </Button>
@@ -214,6 +247,12 @@ const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+`;
+
+const ErrorText = styled.div`
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
 `;
 
 export default AddRequestModal;

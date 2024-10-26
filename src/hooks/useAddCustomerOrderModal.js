@@ -93,7 +93,7 @@ const useAddCustomerOrderModal = (onSave, onClose) => {
   };
 
   const handleProductSelect = (index, product) => {
-    const productDetail = productData.productDetails.find(
+    const productDetail = productData.PRODUCT_DETAILS.find(
       (detail) => detail.PROD_DETAILS_CODE === product.detailsCode
     );
 

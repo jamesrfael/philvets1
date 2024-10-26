@@ -1,35 +1,32 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../../components/Layout/SearchBar";
-import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Import the CardTotalNotification component
-import { notificationData as initialNotificationData } from "../../data/NotificationData"; // Import the notification data
+import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; 
+import { notificationData as initialNotificationData } from "../../data/NotificationData"; 
 
 const SharedNotificationsPage = () => {
-  // Create a state that tracks the notification data, including read/unread status
-  const [notifications, setNotifications] = useState(
-    initialNotificationData.map((notification) => ({
-      ...notification,
-      read: false, // Add a read property to each notification, default to false
-    }))
-  );
+  const [notifications, setNotifications] = useState(initialNotificationData);
   const [searchTerm, setSearchTerm] = useState("");
 
   // Function to toggle the read status of a notification
-  const handleNotificationClick = (index) => {
-    const updatedNotifications = [...notifications];
-    updatedNotifications[index].read = !updatedNotifications[index].read;
+  const toggleReadStatus = (index) => {
+    const updatedNotifications = notifications.map((notification, i) => 
+      i === index ? { ...notification, read: !notification.read } : notification
+    );
     setNotifications(updatedNotifications);
   };
 
-  // Filter notifications based on the search term
-  const filteredNotifications = notifications.filter((notification) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    return (
-      notification.title.toLowerCase().includes(lowerCaseSearchTerm) ||
-      notification.message.toLowerCase().includes(lowerCaseSearchTerm) ||
-      notification.timestamp.toLowerCase().includes(lowerCaseSearchTerm)
-    );
-  });
+  // Function to parse the timestamp into a Date object
+  const parseTimestamp = (timestamp) => new Date(timestamp.replace(" - ", "T"));
+
+  // Filter and sort notifications
+  const filteredNotifications = notifications
+    .filter(({ title, message, timestamp }) => 
+      [title, message, timestamp].some((field) => 
+        field.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    )
+    .sort((a, b) => parseTimestamp(b.timestamp) - parseTimestamp(a.timestamp)); // Sort by date descending
 
   return (
     <PageContainer>
@@ -46,12 +43,11 @@ const SharedNotificationsPage = () => {
       <NotificationsList>
         {filteredNotifications.map((notification, index) => (
           <NotificationCard
-            key={index}
-            onClick={() => handleNotificationClick(index)} // Add onClick event handler
+            key={notification.id}
+            onClick={() => toggleReadStatus(index)} // Toggle read status on click
             read={notification.read} // Pass the read status for styling
           >
-            <Title read={notification.read}>{notification.title}</Title>{" "}
-            {/* Bold if unread */}
+            <Title read={notification.read}>{notification.title}</Title>
             <Message>{notification.message}</Message>
             <Details>
               <Timestamp>{notification.timestamp}</Timestamp>
@@ -63,7 +59,7 @@ const SharedNotificationsPage = () => {
               <MarkUnreadButton
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent triggering the notification card click event
-                  handleNotificationClick(index);
+                  toggleReadStatus(index);
                 }}
               >
                 Mark as unread
@@ -147,7 +143,7 @@ const Priority = styled.span`
   border-radius: 4px;
   font-weight: bold;
 `;
-// "Mark as unread" button for read notifications
+
 const MarkUnreadButton = styled.button`
   align-self: flex-end;
   background-color: transparent;
@@ -160,4 +156,5 @@ const MarkUnreadButton = styled.button`
     text-decoration: none; // Remove underline on hover
   }
 `;
+
 export default SharedNotificationsPage;

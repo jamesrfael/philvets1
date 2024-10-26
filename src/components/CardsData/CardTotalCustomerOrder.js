@@ -10,7 +10,7 @@ const CardTotalCustomerOrder = () => {
   return (
     <CardContainer>
       <Card
-        label="Total Customer Orders"
+        label="Customer Orders"
         value={salesOrderCount} // Display the total number of Customer Orders
         icon={<FaClipboardList />} // Updated icon
       />

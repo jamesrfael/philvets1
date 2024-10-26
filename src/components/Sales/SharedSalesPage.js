@@ -4,10 +4,8 @@ import SearchBar from "../Layout/SearchBar";
 import Table from "../Layout/Table";
 import ReportCard from "../Layout/ReportCard";
 import { FaShoppingCart, FaDollarSign } from "react-icons/fa";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { SALES_ORDER } from "../../data/CustomerOrderData";
 import PURCHASE_ORDERS from "../../data/PurchaseOrderData";
-import { colors } from "../../colors"; // Import colors from colors.js
 
 const SharedSalesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -56,6 +54,7 @@ const SharedSalesPage = () => {
     return matchesSearchTerm && matchesDateRange;
   });
 
+  // Sort orders by date in descending order (latest first)
   const sortedOrders = filteredOrders.sort((a, b) => b.date - a.date);
   const totalOrders = sortedOrders.length;
   const totalSales = sortedOrders.reduce(
@@ -81,35 +80,6 @@ const SharedSalesPage = () => {
   ]);
 
   const header = ["Type", "Order ID", "Date", "Quantity", "Amount"];
-
-  const pieChartData = [
-    { name: "Sales", value: totalSales },
-    { name: "Expenses", value: totalExpenses },
-    { name: "Profit", value: netProfit },
-  ];
-
-  // Custom Tooltip Component for formatting values
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      const { name, value } = payload[0];
-      return (
-        <div
-          style={{
-            backgroundColor: "#fff",
-            padding: "5px",
-            border: "1px solid #ccc",
-          }}
-        >
-          <p>{`${name} : ${formatCurrency(value)}`}</p>
-        </div>
-      );
-    }
-    return null;
-  };
-
-  // Custom label function for pie slices
-  const renderCustomLabel = ({ name, value }) =>
-    `${name}: ${formatCurrency(value)}`;
 
   return (
     <>
@@ -161,28 +131,6 @@ const SharedSalesPage = () => {
           icon={<FaDollarSign />}
         />
       </CardsContainer>
-
-      {/* Pie Chart Container */}
-      <ChartWrapper>
-        <h3>Pie Chart</h3>
-        <PieChart width={300} height={300}>
-          <Pie
-            data={pieChartData}
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            fill={colors.primary}
-            dataKey="value"
-            label={renderCustomLabel}
-          >
-            <Cell fill={colors.blue} />
-            <Cell fill={colors.red} />
-            <Cell fill={colors.green} />
-          </Pie>
-          <Tooltip content={<CustomTooltip />} />
-          <Legend />
-        </PieChart>
-      </ChartWrapper>
 
       <ReportContent>
         <Table headers={header} rows={tableData} />
@@ -241,16 +189,6 @@ const CardsContainer = styled.div`
   @media (max-width: 768px) {
     justify-content: center;
   }
-`;
-
-const ChartWrapper = styled.div`
-  width: 320px;
-  background-color: ${colors.background};
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  margin: 20px auto;
 `;
 
 const ReportContent = styled.div`

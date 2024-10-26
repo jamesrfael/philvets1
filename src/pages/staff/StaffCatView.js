@@ -15,35 +15,32 @@ const StaffCatViewPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
-  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] = useState(false);
+  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] =
+    useState(false);
 
   // Filter products based on category and search term
   const filteredProducts = productData.products.filter((product) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const productDetail = productData.productDetails.find(
+    const productDetail = productData.PRODUCT_DETAILS.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
     );
-    const category = productData.productCategories.find(
+    const category = productData.PRODUCT_CATEGORY.find(
       (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
     );
 
     return (
       category.PROD_CAT_CODE === categoryId && // Check if product is in the selected category
       (product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
-        productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(lowerCaseSearchTerm))
+        productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(
+          lowerCaseSearchTerm
+        ))
     );
   });
 
-  const headers = [
-    "Image",
-    "Product",
-    "Brand",
-    "Price",
-    "Action",
-  ];
+  const headers = ["Image", "Product", "Brand", "Price", "Action"];
 
   const rows = filteredProducts.map((product) => {
-    const productDetail = productData.productDetails.find(
+    const productDetail = productData.PRODUCT_DETAILS.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
     );
 

@@ -13,7 +13,7 @@ import { FaPlus } from "react-icons/fa";
 
 const SharedCategoryPage = () => {
   const [categories, setCategories] = useState(productData.productCategories);
-  const [products] = useState(productData.products); // Access product data
+  const [products] = useState(productData.PRODUCT); // Correctly access product data
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
@@ -21,8 +21,7 @@ const SharedCategoryPage = () => {
 
   // Count products for each category
   const countProductsByCategory = (categoryCode) => {
-    return products.filter((product) => product.PROD_CAT_CODE === categoryCode)
-      .length;
+    return products.filter((product) => product.PROD_CAT_CODE === categoryCode).length;
   };
 
   const filteredCategories = categories.filter((category) => {
@@ -70,7 +69,7 @@ const SharedCategoryPage = () => {
         </ButtonGroup>
       </Controls>
       <AnalyticsContainer>
-        <CardTotalCategories /> {/* Display Categories */}
+        <CardTotalCategories /> {/* Display Total Categories */}
       </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {isAddModalOpen && (
@@ -82,7 +81,7 @@ const SharedCategoryPage = () => {
       {isDetailsModalOpen && (
         <CategoryDetailsModal
           category={selectedCategory} // Pass the selected category to the modal
-          products={products} // Pass the product list for the category
+          products={products.filter(product => product.PROD_CAT_CODE === selectedCategory.PROD_CAT_CODE)} // Filter products for the selected category
           onClose={() => setIsDetailsModalOpen(false)}
         />
       )}

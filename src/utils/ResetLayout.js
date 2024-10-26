@@ -7,21 +7,19 @@ const ResetLayout = ({ setCurrentCardOrder, setTableOrder }) => {
     const defaultCardOrder = [
       "CardTotalInventoryValue",
       "CardTotalSales",
-
-      "CardTotalLogs",
+      "CardTotalRequestOrder",
+      "CardTotalPurchaseOrder",
+      "CardTotalCustomerOrder",
       "CardTotalSuppliers",
       "CardTotalUsers",
-      "CardTotalPurchaseOrder",
       "CardTotalTransactions",
-      
       "CardTotalProducts",
       "CardTotalCategories",
       "CardLowStocks",
       "CardTotalCustomers",
-      "CardTotalCustomerOrder",
-      "CardTotalRequestOrder",
       "CardTotalDelivery",
       "CardTotalReturns",
+      "CardTotalLogs",
       "CardTotalNotification",
     ];
 

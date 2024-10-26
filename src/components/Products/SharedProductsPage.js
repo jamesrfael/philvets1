@@ -22,9 +22,9 @@ const SharedProductsPage = () => {
   const location = useLocation(); // Get the current location (URL)
 
   // Filter products based on search term
-  const filteredProducts = productData.products.filter((product) => {
+  const filteredProducts = productData.PRODUCT.filter((product) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const productDetail = productData.productDetails.find(
+    const productDetail = productData.PRODUCT_DETAILS.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
     );
     const category = productData.productCategories.find(
@@ -49,7 +49,7 @@ const SharedProductsPage = () => {
   ];
 
   const rows = filteredProducts.map((product) => {
-    const productDetail = productData.productDetails.find(
+    const productDetail = productData.PRODUCT_DETAILS.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
     );
     const category = productData.productCategories.find(
@@ -66,7 +66,7 @@ const SharedProductsPage = () => {
       category,
       productDetail?.PROD_DETAILS_SIZE,
       productDetail?.PROD_DETAILS_BRAND,
-      `₱${productDetail?.PROD_DETALS_PRICE}`,
+      `₱${productDetail?.PROD_DETALS_PRICE.toFixed(2)}`, // Fixed decimal price
       <ActionButton
         key="action"
         fontSize="14px"

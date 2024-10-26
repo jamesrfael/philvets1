@@ -47,11 +47,15 @@ const AddProductModal = ({ onClose, onSave }) => {
     const newErrors = {};
     if (!productName) newErrors.productName = "This field is required.";
     if (!detailsCode) newErrors.detailsCode = "This field is required.";
-    if (!roLevel || isNaN(roLevel) || roLevel < 1) newErrors.roLevel = "This field is required.";
-    if (!roQty || isNaN(roQty) || roQty < 0) newErrors.roQty = "This field is required.";
-    if (!qoh || isNaN(qoh) || qoh < 0) newErrors.qoh = "This field is required.";
+    if (!roLevel || isNaN(roLevel) || roLevel < 1)
+      newErrors.roLevel = "This field is required.";
+    if (!roQty || isNaN(roQty) || roQty < 0)
+      newErrors.roQty = "This field is required.";
+    if (!qoh || isNaN(qoh) || qoh < 0)
+      newErrors.qoh = "This field is required.";
     if (!description) newErrors.description = "This field is required.";
-    if (!price || isNaN(price) || price <= 0) newErrors.price = "This field is required.";
+    if (!price || isNaN(price) || price <= 0)
+      newErrors.price = "This field is required.";
     if (!brand) newErrors.brand = "This field is required.";
     if (!size) newErrors.size = "This field is required.";
     if (!measurement) newErrors.measurement = "This field is required.";
@@ -71,8 +75,10 @@ const AddProductModal = ({ onClose, onSave }) => {
       PROD_RO_QTY: parseInt(roQty),
       PROD_QOH: parseInt(qoh),
       PROD_IMG: image, // Store the image URL
-      PROD_DATECREATED: productData.PROD_DATECREATED || new Date().toISOString().split("T")[0],
-      PROD_DATEUPDATED: productData.PROD_DATEUPDATED || new Date().toISOString().split("T")[0],
+      PROD_DATECREATED:
+        productData.PROD_DATECREATED || new Date().toISOString().split("T")[0],
+      PROD_DATEUPDATED:
+        productData.PROD_DATEUPDATED || new Date().toISOString().split("T")[0],
       PROD_CAT_CODE: categoryCode || "C000", // Default code if none is selected
     };
 
@@ -92,7 +98,9 @@ const AddProductModal = ({ onClose, onSave }) => {
 
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
-    const categoryData = productData.productCategories.find(cat => cat.PROD_CAT_NAME === selectedCategory);
+    const categoryData = productData.PRODUCT_CATEGORY.find(
+      (cat) => cat.PROD_CAT_NAME === selectedCategory
+    );
     if (categoryData) {
       setCategory(selectedCategory);
       setCategoryCode(categoryData.PROD_CAT_CODE); // Set the category code from selected category
@@ -113,9 +121,7 @@ const AddProductModal = ({ onClose, onSave }) => {
         </ModalHeader>
         <ModalBody>
           <ImageUpload>
-            {image ? (
-              <ImagePreview src={image} alt="Product Preview" />
-            ) : null}
+            {image ? <ImagePreview src={image} alt="Product Preview" /> : null}
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </ImageUpload>
           <Field>
@@ -171,7 +177,7 @@ const AddProductModal = ({ onClose, onSave }) => {
             <Label>Category</Label>
             <Select value={category} onChange={handleCategoryChange}>
               <option value="No Category">No Category</option>
-              {productData.productCategories.map((cat) => (
+              {productData.PRODUCT_CATEGORY.map((cat) => (
                 <option key={cat.PROD_CAT_CODE} value={cat.PROD_CAT_NAME}>
                   {cat.PROD_CAT_NAME}
                 </option>

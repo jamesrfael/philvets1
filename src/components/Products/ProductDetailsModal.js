@@ -6,10 +6,10 @@ import Button from "../Layout/Button";
 
 const ProductDetailsModal = ({ productId, onClose }) => {
   const product = productData.products.find((p) => p.PROD_ID === productId);
-  const productDetail = productData.productDetails.find(
+  const productDetail = productData.PRODUCT_DETAILS.find(
     (d) => d.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
   );
-  const category = productData.productCategories.find(
+  const category = productData.PRODUCT_CATEGORY.find(
     (c) => c.PROD_CAT_CODE === product.PROD_CAT_CODE
   );
 
