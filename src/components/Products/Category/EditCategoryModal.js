@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../../colors"; // Make sure this path is correct
 import { IoCloseCircle } from "react-icons/io5";
-import Modal from "../../Layout/Modal"; // Reusable Modal component
 import Button from "../../Layout/Button"; // Reusable Button component
 
 const EditCategoryModal = ({ categoryDetails, onSave, onClose }) => {
