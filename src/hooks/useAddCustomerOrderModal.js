@@ -9,7 +9,7 @@ import productData from "../data/ProductData"; // Adjust the path as needed
 
 const useAddCustomerOrderModal = (onSave, onClose) => {
   // Initialize products from product data
-  const products = productData.products.map((product) => ({
+  const products = productData.PRODUCT.map((product) => ({
     id: product.PROD_ID,
     name: product.PROD_NAME,
     detailsCode: product.PROD_DETAILS_CODE,
