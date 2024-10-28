@@ -1,3 +1,4 @@
+//ProductData.js
 const productData = {
   PRODUCT_INVENTORY: [
     {
@@ -81,6 +82,7 @@ const productData = {
       INBOUND_DEL_DETAIL_ID: "DEL008",
     },
   ],
+
   PRODUCT: [
     // Antibiotics Category (C001)
     {
@@ -485,7 +487,7 @@ const productData = {
     },
   ],
 
-  productCategories: [
+  PRODUCT_CATEGORY: [
     {
       PROD_CAT_CODE: "C001",
       PROD_CAT_NAME: "Antibiotics",

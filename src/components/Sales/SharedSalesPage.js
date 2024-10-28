@@ -85,7 +85,7 @@ const SharedSalesPage = () => {
     <>
       <Controls>
         <SearchBar
-          placeholder="Search orders..."
+          placeholder="Search / Filter orders..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

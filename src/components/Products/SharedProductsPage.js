@@ -16,7 +16,8 @@ const SharedProductsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
-  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] = useState(false);
+  const [isProductDetailsModalOpen, setIsProductDetailsModalOpen] =
+    useState(false);
 
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location (URL)
@@ -27,14 +28,16 @@ const SharedProductsPage = () => {
     const productDetail = productData.PRODUCT_DETAILS.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
     );
-    const category = productData.productCategories.find(
+    const category = productData.PRODUCT_CATEGORY.find(
       (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
     )?.PROD_CAT_NAME;
 
     return (
       product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
       category?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(lowerCaseSearchTerm)
+      productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(
+        lowerCaseSearchTerm
+      )
     );
   });
 
@@ -52,7 +55,7 @@ const SharedProductsPage = () => {
     const productDetail = productData.PRODUCT_DETAILS.find(
       (detail) => detail.PROD_DETAILS_CODE === product.PROD_DETAILS_CODE
     );
-    const category = productData.productCategories.find(
+    const category = productData.PRODUCT_CATEGORY.find(
       (cat) => cat.PROD_CAT_CODE === product.PROD_CAT_CODE
     )?.PROD_CAT_NAME;
 

@@ -18,6 +18,7 @@ import AdminCustomerOrder from "./pages/admin/AdminCustomerOrder";
 import AdminPurchaseOrder from "./pages/admin/AdminPurchaseOrder";
 import AdminDelivery from "./pages/admin/AdminDelivery";
 import AdminProducts from "./pages/admin/AdminProducts";
+import AdminPriceHistory from "./pages/admin/AdminPriceHistory";
 import AdminSales from "./pages/admin/AdminSales";
 import AdminReturns from "./pages/admin/AdminReturns";
 import AdminLogs from "./pages/admin/AdminLogs";
@@ -37,6 +38,7 @@ import SuperAdminCustomerOrder from "./pages/superadmin/SuperAdminCustomerOrder"
 import SuperAdminPurchaseOrder from "./pages/superadmin/SuperAdminPurchaseOrder";
 import SuperAdminDelivery from "./pages/superadmin/SuperAdminDelivery";
 import SuperAdminProducts from "./pages/superadmin/SuperAdminProducts";
+import SuperAdminPriceHistory from "./pages/superadmin/SuperAdminPriceHistory";
 import SuperAdminSales from "./pages/superadmin/SuperAdminSales";
 import SuperAdminReturns from "./pages/superadmin/SuperAdminReturns";
 import SuperAdminLogs from "./pages/superadmin/SuperAdminLogs";
@@ -84,6 +86,7 @@ function App() {
           <Route path="/superadmin/purchase-order" element={<SuperAdminPurchaseOrder />} />
           <Route path="/superadmin/delivery" element={<SuperAdminDelivery />} />
           <Route path="/superadmin/products" element={<SuperAdminProducts />} />
+          <Route path="/superadmin/price-history" element={<SuperAdminPriceHistory />} />
           <Route path="/superadmin/sales" element={<SuperAdminSales />} />
           <Route path="/superadmin/returns" element={<SuperAdminReturns />} />
           <Route path="/superadmin/logs" element={<SuperAdminLogs />} />
@@ -103,6 +106,7 @@ function App() {
           <Route path="/admin/purchase-order" element={<AdminPurchaseOrder />} />
           <Route path="/admin/delivery" element={<AdminDelivery />} />
           <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/price-history" element={<AdminPriceHistory />} />
           <Route path="/admin/sales" element={<AdminSales />} />
           <Route path="/admin/returns" element={<AdminReturns />} />
           <Route path="/admin/logs" element={<AdminLogs />} />

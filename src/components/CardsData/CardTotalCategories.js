@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const CardTotalCategories = () => {
   // Calculate the total number of categories
-  const totalCategories = productData.productCategories.length;
+  const totalCategories = productData.PRODUCT_CATEGORY.length;
 
   return (
     <CardContainer>

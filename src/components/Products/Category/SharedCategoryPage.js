@@ -12,7 +12,7 @@ import Button from "../../Layout/Button";
 import { FaPlus } from "react-icons/fa";
 
 const SharedCategoryPage = () => {
-  const [categories, setCategories] = useState(productData.productCategories);
+  const [categories, setCategories] = useState(productData.PRODUCT_CATEGORY);
   const [products] = useState(productData.PRODUCT); // Correctly access product data
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -21,7 +21,8 @@ const SharedCategoryPage = () => {
 
   // Count products for each category
   const countProductsByCategory = (categoryCode) => {
-    return products.filter((product) => product.PROD_CAT_CODE === categoryCode).length;
+    return products.filter((product) => product.PROD_CAT_CODE === categoryCode)
+      .length;
   };
 
   const filteredCategories = categories.filter((category) => {
@@ -81,7 +82,10 @@ const SharedCategoryPage = () => {
       {isDetailsModalOpen && (
         <CategoryDetailsModal
           category={selectedCategory} // Pass the selected category to the modal
-          products={products.filter(product => product.PROD_CAT_CODE === selectedCategory.PROD_CAT_CODE)} // Filter products for the selected category
+          products={products.filter(
+            (product) =>
+              product.PROD_CAT_CODE === selectedCategory.PROD_CAT_CODE
+          )} // Filter products for the selected category
           onClose={() => setIsDetailsModalOpen(false)}
         />
       )}

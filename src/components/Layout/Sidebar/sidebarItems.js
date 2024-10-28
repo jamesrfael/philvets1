@@ -56,6 +56,11 @@ export const superadminSidebarItems = [
         label: "Categories",
         link: "/superadmin/categories",
       },
+      {
+        icon: TbChevronRight,
+        label: "Price History",
+        link: "/superadmin/price-history",
+      },
     ],
   },
   {
@@ -110,6 +115,11 @@ export const adminSidebarItems = [
         icon: TbChevronRight,
         label: "Categories",
         link: "/admin/categories",
+      },
+      {
+        icon: TbChevronRight,
+        label: "Price History",
+        link: "/admin/price-history",
       },
     ],
   },
