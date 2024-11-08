@@ -1,41 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 
-// Table Component
-const Table = ({ headers, rows }) => {
+const Table = ({ headers, rows, rowsPerPage = 10 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+  // Get rows for the current page
+  const currentRows = rows.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+
+  // Pagination Handlers
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
   return (
-    <TableContainer>
-      <StyledTable>
-        <thead>
-          <TableRow>
-            {headers.map((header, index) => (
-              <TableHeader key={index} data-column={header}>
-                {header}
-              </TableHeader>
-            ))}
-          </TableRow>
-        </thead>
-        <tbody>
-          {rows.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {row.map((cell, cellIndex) => (
-                <TableCell key={cellIndex} data-column={headers[cellIndex]}>
-                  {cell}
-                </TableCell>
+    <TableWrapper>
+      <TableContainer>
+        <StyledTable>
+          <thead>
+            <TableRow>
+              {headers.map((header, index) => (
+                <TableHeader key={index}>{header}</TableHeader>
               ))}
             </TableRow>
-          ))}
-        </tbody>
-      </StyledTable>
-    </TableContainer>
+          </thead>
+          <tbody>
+            {currentRows.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {row.map((cell, cellIndex) => (
+                  <TableCell key={cellIndex}>{cell}</TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </tbody>
+        </StyledTable>
+      </TableContainer>
+
+      {/* Pagination Controls */}
+      <Pagination>
+        <Button onClick={goToPreviousPage} disabled={currentPage === 1}>
+          Previous
+        </Button>
+        <PageInfo>
+          Page {currentPage} of {totalPages}
+        </PageInfo>
+        <Button onClick={goToNextPage} disabled={currentPage === totalPages}>
+          Next
+        </Button>
+      </Pagination>
+    </TableWrapper>
   );
 };
 
 // Styled Components
+const TableWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const TableContainer = styled.div`
-  max-height: 400px; /* Adjust this value as needed */
-  overflow-y: auto;
+  width: 100%;
+  overflow-x: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 `;
 
@@ -44,15 +80,13 @@ const StyledTable = styled.table`
   border-collapse: collapse;
   text-align: center;
   margin: 0 auto;
-  padding: 0 16px;
 `;
 
 const TableHeader = styled.th`
   background-color: ${colors.primary};
   color: white;
   padding: 10px;
-  border-top: 1px solid #ddd; /* Top border */
-  border-bottom: 1px solid #ddd; /* Bottom border */
+  border: 1px solid #ddd;
   font-size: 17px;
   text-align: center;
 `;
@@ -65,20 +99,35 @@ const TableRow = styled.tr`
 
 const TableCell = styled.td`
   padding: 10px;
-  border-top: 1px solid #ddd; /* Top border */
-  border-bottom: 1px solid #ddd; /* Bottom border */
+  border: 1px solid #ddd;
   font-size: 13px;
-  
-  &[data-column="Image"] {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+`;
+
+const Button = styled.button`
+  background-color: ${colors.primary};
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 5px;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
-  
-  img {
-    max-width: 100%; /* Ensure image doesn't overflow */
-    max-height: 100px; /* Limit image height */
-  }
+`;
+
+const PageInfo = styled.span`
+  font-size: 14px;
+  margin: 0 10px;
 `;
 
 export default Table;

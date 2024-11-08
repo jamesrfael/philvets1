@@ -22,14 +22,14 @@ import {
   ButtonGroup,
 } from "../OrderStyles";
 import { FaPlus } from "react-icons/fa";
-import useAddPurchaseOrderModal from "../../../hooks/useAddPurchaseOrderModal";
+import useAddSupplierOrderModal from "../../../hooks/useAddSupplierOrderModal";
 import {
   calculateLineTotal,
   calculateTotalQuantity,
   calculateTotalValue,
 } from "../../../utils/CalculationUtils"; // Import calculation utilities
 
-const AddPurchaseOrderModal = ({ onClose, onSave }) => {
+const AddSupplierOrderModal = ({ onClose, onSave }) => {
   const {
     contactPersonName,
     setContactPersonName,
@@ -56,7 +56,7 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
     handleSave,
     handleRemoveProduct,
     handleAddSupplier,
-  } = useAddPurchaseOrderModal(onSave, onClose);
+  } = useAddSupplierOrderModal(onSave, onClose);
 
   const [errors, setErrors] = useState({});
 
@@ -122,7 +122,7 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
   const totalValue = calculateTotalValue(orderDetails); // Total value without discount
 
   return (
-    <Modal title="Add Purchase Order" onClose={onClose}>
+    <Modal title="Add Supplier Order" onClose={onClose}>
       <Field>
         <Label>Supplier Search</Label>
         <SupplierSearchContainer>
@@ -324,4 +324,4 @@ const AddPurchaseOrderModal = ({ onClose, onSave }) => {
   );
 };
 
-export default AddPurchaseOrderModal;
+export default AddSupplierOrderModal;

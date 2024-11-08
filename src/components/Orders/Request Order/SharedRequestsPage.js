@@ -1,4 +1,3 @@
-// src/components/Requests/SharedRequestsPage.js
 import React, { useState } from "react";
 import styled from "styled-components";
 import RequestDetailsModal from "../../../components/Orders/Request Order/RequestDetailsModal";
@@ -11,7 +10,7 @@ import { requests as initialRequests } from "../../../data/RequestOrderData"; //
 import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa"; // Import chevron icons
 
-const SharedRequestsPage = () => {
+const SharedRequestsPage = ({ showRequestButton }) => { // Accept prop
   const [requests, setRequests] = useState(initialRequests);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -22,13 +21,13 @@ const SharedRequestsPage = () => {
   }); // Default sorting set to Request Date (latest first)
   const [statusFilter, setStatusFilter] = useState("Pending"); // Initial filter set to Pending
 
-  // Filter requests by search term and status
+  // Filter requests by search term
   const filteredRequests = requests.filter((request) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
       request.requestBy.toLowerCase().includes(lowerCaseSearchTerm) ||
       request.requestDate.toLowerCase().includes(lowerCaseSearchTerm) ||
-      request.status === statusFilter // Filter by status
+      request.status.toLowerCase().includes(lowerCaseSearchTerm) // Include status in the search
     );
   });
 
@@ -104,9 +103,12 @@ const SharedRequestsPage = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <StyledButton onClick={openAddRequestModal}>
-          <FaPlus className="icon" /> Request
-        </StyledButton>
+        {/* Conditionally render the Request button */}
+        {showRequestButton && (
+          <StyledButton onClick={openAddRequestModal}>
+            <FaPlus className="icon" /> Request Order
+          </StyledButton>
+        )}
       </Controls>
       <AnalyticsContainer>
         <CardTotalPendingRequest />

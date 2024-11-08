@@ -2,7 +2,7 @@ import React from "react";
 import { FaDollarSign } from "react-icons/fa"; // Import an icon for sales
 import Card from "../Layout/Card";
 import { SALES_ORDER } from "../../data/CustomerOrderData"; // Assuming the path is correct
-import PURCHASE_ORDERS from "../../data/PurchaseOrderData"; // Assuming the path is correct
+import PURCHASE_ORDERS from "../../data/SupplierOrderData"; // Assuming the path is correct
 import styled from "styled-components";
 
 // Function to calculate total sales for all time

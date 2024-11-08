@@ -42,7 +42,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
         {order.ORDER_TYPE === "PURCHASE ORDER" ? (
           <>
             <p>
-              <strong>Purchase Order Date:</strong> {order.ORDER_DATEUPDATED}
+              <strong>Supplier Order Date:</strong> {order.ORDER_DATEUPDATED}
             </p>
             <p>
               <strong>Total Quantity:</strong> {totalQuantity}

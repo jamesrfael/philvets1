@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import DeliveryDetailsModal from "../../components/Delivery/DeliveryDetailsModal";
 import { colors } from "../../colors";
-import { deliveries } from "../../data/DeliveryData";
+import { DELIVERY } from "../../data/DeliveryData"; // Updated import to match the new data structure
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
@@ -13,30 +13,31 @@ const SharedDeliveriesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [sortConfig, setSortConfig] = useState({
-    key: "name",
+    key: "DELIVERY_NAME", // Updated key to match the new uppercase field
     direction: "asc",
-  }); // Default sorting set to Name
+  });
 
-  const filteredDeliveries = deliveries.filter((delivery) => {
+  const filteredDeliveries = DELIVERY.filter((delivery) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
-      delivery.name.toLowerCase().includes(lowerCaseSearchTerm) ||
-      delivery.date.toLowerCase().includes(lowerCaseSearchTerm) ||
-      delivery.type.toLowerCase().includes(lowerCaseSearchTerm) ||
-      delivery.status.toLowerCase().includes(lowerCaseSearchTerm)
+      delivery.DELIVERY_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
+      delivery.DELIVERY_DATE.toLowerCase().includes(lowerCaseSearchTerm) ||
+      delivery.DELIVERY_TYPE.toLowerCase().includes(lowerCaseSearchTerm) ||
+      delivery.DELIVERY_STATUS.toLowerCase().includes(lowerCaseSearchTerm)
     );
   });
 
   // Sort filtered deliveries based on sortConfig
   const sortedDeliveries = filteredDeliveries.sort((a, b) => {
-    if (sortConfig.key === "date") {
+    if (sortConfig.key === "DELIVERY_DATE") {
       return (
-        (new Date(b.date) - new Date(a.date)) *
+        (new Date(b.DELIVERY_DATE) - new Date(a.DELIVERY_DATE)) *
         (sortConfig.direction === "asc" ? 1 : -1)
       );
     }
     return (
-      a.name.localeCompare(b.name) * (sortConfig.direction === "asc" ? 1 : -1)
+      a.DELIVERY_NAME.localeCompare(b.DELIVERY_NAME) *
+      (sortConfig.direction === "asc" ? 1 : -1)
     );
   });
 
@@ -51,20 +52,19 @@ const SharedDeliveriesPage = () => {
     setSortConfig({ key, direction });
   };
 
-  // Only include the sortable headers in the handleSort logic
   const headers = [
-    { title: "Name", key: "name" },
-    { title: "Order Date", key: "date" },
-    { title: "Type", key: "type" },
-    { title: "Status", key: "status" },
+    { title: "Name", key: "DELIVERY_NAME" }, // Updated key to uppercase field
+    { title: "Order Date", key: "DELIVERY_DATE" }, // Updated key to uppercase field
+    { title: "Type", key: "DELIVERY_TYPE" }, // Updated key to uppercase field
+    { title: "Status", key: "DELIVERY_STATUS" }, // Updated key to uppercase field
     { title: "Action", key: "action" },
   ];
 
   const rows = sortedDeliveries.map((delivery) => [
-    delivery.name,
-    delivery.date,
-    delivery.type,
-    <Status status={delivery.status}>{delivery.status}</Status>,
+    delivery.DELIVERY_NAME,
+    delivery.DELIVERY_DATE,
+    delivery.DELIVERY_TYPE,
+    <Status status={delivery.DELIVERY_STATUS}>{delivery.DELIVERY_STATUS}</Status>,
     <Button
       data-cy="details-button"
       backgroundColor={colors.primary}
@@ -93,14 +93,13 @@ const SharedDeliveriesPage = () => {
           <TableHeader
             key={header.key}
             onClick={
-              header.key === "name" || header.key === "date"
+              header.key === "DELIVERY_NAME" || header.key === "DELIVERY_DATE"
                 ? () => handleSort(header.key)
                 : undefined
             }
           >
             {header.title}
-            {/* Display chevrons for Name and Order Date */}
-            {(header.key === "date" || header.key === "name") && (
+            {(header.key === "DELIVERY_DATE" || header.key === "DELIVERY_NAME") && (
               <>
                 {sortConfig.key === header.key ? (
                   sortConfig.direction === "asc" ? (

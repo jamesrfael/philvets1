@@ -27,7 +27,10 @@ const CreateDeliveryModal = ({ onClose }) => {
   const addProduct = () => {
     setFormData({
       ...formData,
-      products: [...formData.products, { productName: "", quantity: 1, price: 0 }],
+      products: [
+        ...formData.products,
+        { productName: "", quantity: 1, price: 0 },
+      ],
     });
   };
 
@@ -98,7 +101,7 @@ const CreateDeliveryModal = ({ onClose }) => {
             onChange={(e) => handleInputChange(e)}
             required
           >
-            <option value="Purchase">Purchase</option>
+            <option value="Supplier">Supplier</option>
             <option value="Return">Return</option>
             <option value="Refund">Refund</option>
           </Select>
@@ -147,19 +150,32 @@ const CreateDeliveryModal = ({ onClose }) => {
           <SummaryRow>
             <Label>Subtotal</Label>
             <SummaryValue>
-              {formData.products.reduce((acc, product) => acc + product.price * product.quantity, 0)}
+              {formData.products.reduce(
+                (acc, product) => acc + product.price * product.quantity,
+                0
+              )}
             </SummaryValue>
           </SummaryRow>
           <SummaryRow>
             <Label>Tax</Label>
             <SummaryValue>
-              {(formData.products.reduce((acc, product) => acc + product.price * product.quantity, 0) * 0.1).toFixed(2)}
+              {(
+                formData.products.reduce(
+                  (acc, product) => acc + product.price * product.quantity,
+                  0
+                ) * 0.1
+              ).toFixed(2)}
             </SummaryValue>
           </SummaryRow>
           <SummaryRow>
             <Label>Total</Label>
             <SummaryValue>
-              {(formData.products.reduce((acc, product) => acc + product.price * product.quantity, 0) * 1.1).toFixed(2)}
+              {(
+                formData.products.reduce(
+                  (acc, product) => acc + product.price * product.quantity,
+                  0
+                ) * 1.1
+              ).toFixed(2)}
             </SummaryValue>
           </SummaryRow>
 
@@ -283,7 +299,7 @@ const AddProductButton = styled.button`
   cursor: pointer;
   margin-top: 10px;
   &:hover {
-    background: #0082AA;
+    background: #0082aa;
   }
 `;
 

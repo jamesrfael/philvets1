@@ -19,7 +19,9 @@ const SharedInventoryPage = () => {
     return (
       product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
       item.PROD_INV_BATCH_NO.toLowerCase().includes(lowerCaseSearchTerm) ||
-      item.PROD_INV_QTY_ON_HAND.toString().includes(lowerCaseSearchTerm)
+      item.PROD_INV_QTY_ON_HAND.toString().includes(lowerCaseSearchTerm) ||
+      product.PROD_IMAGE.toLowerCase().includes(lowerCaseSearchTerm) || // Include image search
+      item.PROD_INV_EXP_DATE.toLowerCase().includes(lowerCaseSearchTerm) // Include expiry date search
     );
   });
 
@@ -41,7 +43,9 @@ const SharedInventoryPage = () => {
   const rows = sortedInventory.map((item) => {
     const product = productData.PRODUCT.find(p => p.PROD_ID === item.PROD_ID);
     return [
-      <img src={product.PROD_IMAGE} alt={product.PROD_NAME} width="50" height="50" />,
+      <ImageContainer>
+        <img src={product.PROD_IMAGE} alt={product.PROD_NAME} width="50" height="50" />
+      </ImageContainer>,
       product.PROD_NAME,
       item.PROD_INV_BATCH_NO,
       item.PROD_INV_QTY_ON_HAND,
@@ -84,6 +88,14 @@ const AnalyticsContainer = styled.div`
   gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
+`;
+
+// Styled component for centering the image
+const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px; // Ensure the height matches the image height
 `;
 
 export default SharedInventoryPage;

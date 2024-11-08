@@ -1,5 +1,3 @@
-// src/components/Users/SharedUsersPage.js
-
 import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
@@ -36,10 +34,13 @@ const SharedUsersPage = ({ userType }) => {
     return (
       isActiveFilter &&
       isStaffOrAdmin &&
-      (member.USER_FIRSTNAME.toLowerCase().includes(lowerCaseSearchTerm) ||
+      (
+        member.USER_FIRSTNAME.toLowerCase().includes(lowerCaseSearchTerm) ||
         member.USER_LASTNAME.toLowerCase().includes(lowerCaseSearchTerm) ||
         member.USER_EMAIL.toLowerCase().includes(lowerCaseSearchTerm) ||
-        member.USER_USERNAME.toLowerCase().includes(lowerCaseSearchTerm))
+        member.USER_USERNAME.toLowerCase().includes(lowerCaseSearchTerm) ||
+        member.image.toLowerCase().includes(lowerCaseSearchTerm) // Optionally, include image URL in search
+      )
     );
   });
 
@@ -63,11 +64,13 @@ const SharedUsersPage = ({ userType }) => {
   const headers = ["Image", "Name", "Email", "Username", "Actions"];
 
   const rows = filteredUser.map((member) => [
-    <img
-      src={member.image}
-      alt={`${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`}
-      width="50"
-    />,
+    <ImageContainer key={member.USER_EMAIL}>
+      <img
+        src={member.image}
+        alt={`${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`}
+        width="50"
+      />
+    </ImageContainer>,
     `${member.USER_FIRSTNAME} ${member.USER_LASTNAME}`,
     member.USER_EMAIL,
     member.USER_USERNAME,
@@ -124,7 +127,7 @@ const SharedUsersPage = ({ userType }) => {
         <UserDetailsModal
           client={selectedUser}
           onClose={() => setIsDetailsModalOpen(false)}
-          onRemove={(id) => {
+          onRemove={() => {
             handleActivateDeactivateUser(selectedUser.USER_EMAIL);
           }}
         />
@@ -162,6 +165,13 @@ const AnalyticsContainer = styled.div`
   gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+  align-items: center; /* Center the image vertically */
+  height: 50px; /* Set height to match the image size */
 `;
 
 export default SharedUsersPage;

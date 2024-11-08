@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
-import PurchaseOrderReport from "../../components/Reports/PurchaseOrderReport";
+import SupplierOrderReport from "../../components/Reports/SupplierOrderReport";
 import CustomerOrderReport from "../../components/Reports/CustomerOrderReport";
 import AllOrderReport from "../../components/Reports/AllOrderReport"; // Import the AllOrderReport component
 import Button from "../../components/Layout/Button"; // For the tab buttons
 import { colors } from "../../colors"; // Ensure colors are correctly imported
 
 const SuperAdminReports = () => {
-  const [activeTab, setActiveTab] = useState("All Orders Report"); // Set default tab to Purchase Order Report
+  const [activeTab, setActiveTab] = useState("All Orders Report"); // Set default tab to Supplier Order Report
 
   // Function to render the report body based on the active tab
   const renderActiveReport = () => {
@@ -17,8 +17,8 @@ const SuperAdminReports = () => {
         return <AllOrderReport />;
       case "Customer Order Report":
         return <CustomerOrderReport />;
-      case "Purchase Order Report":
-        return <PurchaseOrderReport />;
+      case "Supplier Order Report":
+        return <SupplierOrderReport />;
       default:
         return null;
     }
@@ -27,8 +27,6 @@ const SuperAdminReports = () => {
   return (
     <MainLayout>
       <Tabs>
-
-
         <StyledTabButton
           active={activeTab === "All Orders Report"}
           onClick={() => setActiveTab("All Orders Report")}
@@ -37,12 +35,11 @@ const SuperAdminReports = () => {
         </StyledTabButton>
 
         <StyledTabButton
-          active={activeTab === "Purchase Order Report"}
-          onClick={() => setActiveTab("Purchase Order Report")}
+          active={activeTab === "Supplier Order Report"}
+          onClick={() => setActiveTab("Supplier Order Report")}
         >
-          Purchase Order Report
+          Supplier Order Report
         </StyledTabButton>
-
 
         <StyledTabButton
           active={activeTab === "Customer Order Report"}
@@ -50,8 +47,6 @@ const SuperAdminReports = () => {
         >
           Customer Order Report
         </StyledTabButton>
-
-
       </Tabs>
       {renderActiveReport()} {/* Render the report based on active tab */}
     </MainLayout>

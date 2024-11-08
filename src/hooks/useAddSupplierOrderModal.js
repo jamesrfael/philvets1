@@ -7,7 +7,7 @@ import {
 import { suppliers } from "../data/SupplierData";
 import productData from "../data/ProductData"; // Adjust the path as needed
 
-const useAddPurchaseOrderModal = (onSave, onClose) => {
+const useAddSupplierOrderModal = (onSave, onClose) => {
   // Initialize products from product data
   const products = productData.PRODUCT.map((product) => ({
     id: product.PROD_ID,
@@ -178,7 +178,7 @@ const useAddPurchaseOrderModal = (onSave, onClose) => {
     const today = new Date().toISOString().split("T")[0];
 
     const newOrder = {
-      orderType: "Purchase Order",
+      orderType: "Supplier Order",
       supplierName: supplierCompanyName,
       supplierNumber: supplierCompanyNum,
       contactPersonName,
@@ -242,4 +242,4 @@ const useAddPurchaseOrderModal = (onSave, onClose) => {
   };
 };
 
-export default useAddPurchaseOrderModal;
+export default useAddSupplierOrderModal;

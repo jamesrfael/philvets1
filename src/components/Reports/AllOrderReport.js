@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ReportBody from "./ReportBody"; // Ensure you have this component
 import { SALES_ORDER } from "../../data/CustomerOrderData"; // Import customer orders data
-import PURCHASE_ORDERS from "../../data/PurchaseOrderData"; // Import purchase orders data as default export
+import PURCHASE_ORDERS from "../../data/SupplierOrderData"; // Import purchase orders data as default export
 import { generatePDF, generateExcel } from "./GenerateAllOrdersExport"; // Import the combined export functions
 import PreviewAllOrderModal from "./PreviewAllOrderModal"; // Updated import
 import styled from "styled-components";

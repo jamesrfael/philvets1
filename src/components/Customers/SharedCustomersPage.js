@@ -29,6 +29,8 @@ const SharedCustomersPage = () => {
       if (!value) return true;
       return (
         customer.CLIENT_NAME.toLowerCase().includes(value) ||
+        customer.CLIENT_CITY.toLowerCase().includes(value) ||
+        customer.CLIENT_PROVINCE.toLowerCase().includes(value) ||
         customer.CLIENT_PHONENUM.includes(value)
       );
     });

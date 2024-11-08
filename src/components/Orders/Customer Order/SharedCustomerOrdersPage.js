@@ -10,31 +10,29 @@ import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import CustomerOrderDetailsModal from "./CustomerOrderDetailsModal";
 
-const SharedCustomerOrdersPage = () => {
-  const [customer] = useState(SALES_ORDER); // Use customer data instead of orders
+const SharedCustomerOrdersPage = ({ userRole }) => {
+  const [customer] = useState(SALES_ORDER);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isAddingCustomerOrder, setIsAddingCustomerOrder] = useState(false);
   const [sortConfig, setSortConfig] = useState({
     key: "SALES_ORDER_DATACREATED",
     direction: "desc",
-  }); // Default sorting set to Date
+  });
 
-  // Filter Customer Orders and apply search term
   const filteredSales = customer.filter((sale) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
       sale.CLIENT_ID?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      sale.SALES_ORDER_DATACREATED.toLowerCase().includes(lowerCaseSearchTerm)
+      sale.SALES_ORDER_DATACREATED.toLowerCase().includes(lowerCaseSearchTerm) ||
+      sale.SALES_ORDER_PYMNT_STAT?.toLowerCase().includes(lowerCaseSearchTerm) // Add this line to search payment status
     );
   });
 
-  // Sort filtered customer based on sortConfig
   const sortedSales = filteredSales.sort((a, b) => {
     if (sortConfig.key === "SALES_ORDER_DATACREATED") {
       return (
-        (new Date(b.SALES_ORDER_DATACREATED) -
-          new Date(a.SALES_ORDER_DATACREATED)) *
+        (new Date(b.SALES_ORDER_DATACREATED) - new Date(a.SALES_ORDER_DATACREATED)) *
         (sortConfig.direction === "asc" ? 1 : -1)
       );
     }
@@ -47,18 +45,17 @@ const SharedCustomerOrdersPage = () => {
   const openDetailsModal = (sale) => setSelectedOrder(sale);
   const closeDetailsModal = () => setSelectedOrder(null);
 
-  const openAddCustomerOrderModal = () => setIsAddingCustomerOrder(true); // Open modal function
-  const closeAddCustomerOrderModal = () => setIsAddingCustomerOrder(false); // Close modal function
+  const openAddCustomerOrderModal = () => setIsAddingCustomerOrder(true);
+  const closeAddCustomerOrderModal = () => setIsAddingCustomerOrder(false);
 
-  // Update headers to exclude Total Amount
-  const headers = ["Client ID", "Order Date", "Payment Status", "Action"]; // Updated headers
+  const headers = ["Client ID", "Order Date", "Payment Status", "Action"];
 
   const rows = sortedSales.map((sale) => [
-    sale.CLIENT_ID, // Show CLIENT_ID
-    sale.SALES_ORDER_DATACREATED, // Show order creation date
+    sale.CLIENT_ID,
+    sale.SALES_ORDER_DATACREATED,
     <Status status={sale.SALES_ORDER_PYMNT_STAT}>
       {sale.SALES_ORDER_PYMNT_STAT}
-    </Status>, // Example status mapping
+    </Status>,
     <Button onClick={() => openDetailsModal(sale)} fontSize="14px">
       Details
     </Button>,
@@ -76,7 +73,7 @@ const SharedCustomerOrdersPage = () => {
     <>
       <Controls>
         <SearchBar
-          placeholder="Search / Filter customer... "
+          placeholder="Search / Filter customer..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -137,6 +134,7 @@ const SharedCustomerOrdersPage = () => {
         <CustomerOrderDetailsModal
           order={selectedOrder}
           onClose={closeDetailsModal}
+          userRole={userRole}
         />
       )}
       {isAddingCustomerOrder && (
@@ -168,7 +166,7 @@ const Status = styled.span`
       ? "#1DBA0B"
       : props.status === "Pending"
       ? "#f08400"
-      : "#ff5757"}; // Change colors based on payment status
+      : "#ff5757"};
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -187,14 +185,14 @@ const StyledButton = styled(Button)`
 `;
 
 const TableHeader = styled.th`
-  text-align: center; /* Center the header text */
+  text-align: center;
   cursor: ${(props) =>
     props.children[0] === "Client ID" || props.children[0] === "Order Date"
       ? "pointer"
-      : "default"}; /* Change cursor to pointer only for clickable headers */
-  display: flex; /* Use flex to align items */
-  justify-content: center; /* Center content */
-  align-items: center; /* Center vertically */
+      : "default"};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default SharedCustomerOrdersPage;

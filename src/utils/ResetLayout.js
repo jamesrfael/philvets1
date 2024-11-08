@@ -8,7 +8,7 @@ const ResetLayout = ({ setCurrentCardOrder, setTableOrder }) => {
       "CardTotalInventoryValue",
       "CardTotalSales",
       "CardTotalRequestOrder",
-      "CardTotalPurchaseOrder",
+      "CardTotalSupplierOrder",
       "CardTotalCustomerOrder",
       "CardTotalSuppliers",
       "CardTotalUsers",

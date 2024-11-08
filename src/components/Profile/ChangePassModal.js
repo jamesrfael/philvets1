@@ -2,10 +2,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { IoCloseCircle } from "react-icons/io5";
 import Button from "../Layout/Button";
+
 const ChangePassModal = ({ onClose, onSave }) => {
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
@@ -26,6 +30,7 @@ const ChangePassModal = ({ onClose, onSave }) => {
 
   const validate = () => {
     const newErrors = {};
+    if (!currentPassword) newErrors.currentPassword = "Current password is required.";
     if (!newPassword) newErrors.newPassword = "New password is required.";
     if (newPassword !== confirmPassword) newErrors.confirmPassword = "Passwords do not match.";
 
@@ -40,13 +45,31 @@ const ChangePassModal = ({ onClose, onSave }) => {
   };
 
   return (
-    <ModalOverlay>
-      <ModalContent ref={modalRef}>
-        <ModalHeader>
-          <h2>Change Password</h2>
-          <CloseButton onClick={onClose}>×</CloseButton>
-        </ModalHeader>
-        <ModalBody>
+    <Backdrop onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <ModalContainer ref={modalRef}>
+        <Header>
+          <Title>Change Password</Title>
+          <CloseButton onClick={onClose}>
+            <IoCloseCircle color="#ff5757" size={24} />
+          </CloseButton>
+        </Header>
+
+        <Content>
+          <Field>
+            <Label>Current Password</Label>
+            <InputContainer>
+              <InputField
+                type={showCurrentPassword ? "text" : "password"}
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="Input Current Password"
+              />
+              <EyeIcon onClick={() => setShowCurrentPassword(!showCurrentPassword)}>
+                {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
+              </EyeIcon>
+            </InputContainer>
+            {errors.currentPassword && <ErrorText>{errors.currentPassword}</ErrorText>}
+          </Field>
           <Field>
             <Label>New Password</Label>
             <InputContainer>
@@ -54,6 +77,7 @@ const ChangePassModal = ({ onClose, onSave }) => {
                 type={showNewPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Input New Password"
               />
               <EyeIcon onClick={() => setShowNewPassword(!showNewPassword)}>
                 {showNewPassword ? <FaEyeSlash /> : <FaEye />}
@@ -68,6 +92,7 @@ const ChangePassModal = ({ onClose, onSave }) => {
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm New Password"
               />
               <EyeIcon onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                 {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
@@ -75,58 +100,69 @@ const ChangePassModal = ({ onClose, onSave }) => {
             </InputContainer>
             {errors.confirmPassword && <ErrorText>{errors.confirmPassword}</ErrorText>}
           </Field>
-        </ModalBody>
-        <ModalFooter>
-          <ButtonGroup>
-            <Button variant="red" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleSave}>
-              Save Changes
-            </Button>
-          </ButtonGroup>
-        </ModalFooter>
-      </ModalContent>
-    </ModalOverlay>
+        </Content>
+
+        <Footer>
+          <Button variant="red" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleSave}>
+            Save Changes
+          </Button>
+        </Footer>
+      </ModalContainer>
+    </Backdrop>
   );
 };
 
 // Styled Components
-const ModalOverlay = styled.div`
+const Backdrop = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const ModalContent = styled.div`
+const ModalContainer = styled.div`
   background: white;
   border-radius: 8px;
-  width: 90%;
-  max-width: 400px;
+  width: ${(props) => (props.fixedWidth ? props.fixedWidth : "80%")};
+  max-width: 1000px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 `;
 
-const ModalHeader = styled.div`
+const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
+`;
+
+const Title = styled.h2`
+  font-weight: bold;
+  margin: 0;
+  font-size: 25px;
 `;
 
 const CloseButton = styled.button`
   background: none;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
 `;
 
-const ModalBody = styled.div``;
+const Content = styled.div`
+  margin-top: 10px;
+`;
 
 const Field = styled.div`
   margin-bottom: 15px;
@@ -164,13 +200,9 @@ const ErrorText = styled.span`
   margin-top: 3px;
 `;
 
-const ModalFooter = styled.div`
+const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
   gap: 10px;
 `;
 

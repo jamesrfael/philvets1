@@ -223,7 +223,7 @@ export const ButtonGroup = styled.div`
   justify-content: flex-end;
 `;
 
-// Purchase Styles
+// Supplier Styles
 export const SupplierSearchContainer = styled.div`
   display: flex;
   align-items: center;

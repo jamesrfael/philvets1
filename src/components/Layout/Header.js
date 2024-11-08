@@ -1,18 +1,20 @@
+// src/components/Header.js
+
 import React, { useState } from "react";
 import { TbUserCircle } from "react-icons/tb";
-import { FaRegBell, FaBars } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { colors } from "../../colors";
+import BellNotif from "../Notifications/BellNotif"; // Import the new BellNotif component
 
-// Updated pageTitles with superadmin and other role titles
 const pageTitles = {
-  // Admin routes
   "/admin/dashboard": "Dashboard",
   "/admin/request-order": "Request Orders",
   "/admin/customer-order": "Customer Orders",
-  "/admin/purchase-order": "Purchase Orders",
-  "/admin/delivery": "Delivery",
+  "/admin/purchase-order": "Supplier Orders",
+  "/admin/customer-delivery": "Customer Deliveries",
+  "/admin/supplier-delivery": "Supplier Deliveries",
   "/admin/products": "Products",
   "/admin/price-history": "Price History",
   "/admin/categories": "Categories",
@@ -26,14 +28,13 @@ const pageTitles = {
   "/admin/reports": "Reports",
   "/admin/profile": "Profile",
   "/admin/notifications": "Notifications",
-  "/admin/purchase": "Purchase Orders",
 
-  // SuperAdmin routes
   "/superadmin/dashboard": "Dashboard",
   "/superadmin/request-order": "Request Orders",
   "/superadmin/customer-order": "Customer Orders",
-  "/superadmin/purchase-order": "Purchase Orders",
-  "/superadmin/delivery": "Deliveries",
+  "/superadmin/purchase-order": "Supplier Orders",
+  "/superadmin/customer-delivery": "Customer Deliveries",
+  "/superadmin/supplier-delivery": "Supplier Deliveries",
   "/superadmin/products": "Products",
   "/superadmin/price-history": "Price History",
   "/superadmin/categories": "Categories",
@@ -47,14 +48,12 @@ const pageTitles = {
   "/superadmin/reports": "Reports",
   "/superadmin/profile": "SuperAdmin Profile",
   "/superadmin/notifications": "Notifications",
-  "/superadmin/purchase": "Purchase Order",
 
-  // Staff routes
   "/staff/dashboard": "Dashboard",
   "/staff/profile": "Staff Profile",
   "/staff/request-order": "Request Orders",
   "/staff/customer-order": "Customer Orders",
-  "/staff/delivery": "Deliveries",
+  "/staff/customer-delivery": "Customer Deliveries",
   "/staff/products": "Products",
   "/staff/categories": "Categories",
   "/staff/inventory": "Inventory",
@@ -89,18 +88,7 @@ const Header = ({ toggleSidebar }) => {
     }
   };
 
-  const goToNotifications = () => {
-    if (location.pathname.startsWith("/admin")) {
-      navigate("/admin/notifications");
-    } else if (location.pathname.startsWith("/staff")) {
-      navigate("/staff/notifications");
-    } else if (location.pathname.startsWith("/superadmin")) {
-      navigate("/superadmin/notifications");
-    }
-  };
-
   const handleSignOut = () => {
-    // Add any sign out logic here (e.g., clearing tokens, etc.)
     navigate("/login");
   };
 
@@ -109,12 +97,7 @@ const Header = ({ toggleSidebar }) => {
       <HamburgerMenu onClick={toggleSidebar} />
       <PageTitle>{pageTitle}</PageTitle>
       <RightSection>
-        <BellIcon
-          className={
-            location.pathname.includes("/notifications") ? "active" : ""
-          }
-          onClick={goToNotifications}
-        />
+        <BellNotif />
         <ProfileContainer
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -147,7 +130,7 @@ const Header = ({ toggleSidebar }) => {
   );
 };
 
-// Styled components
+// Styled components (unchanged from previous)
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -235,21 +218,6 @@ const DropdownItem = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: ${colors.primary};
-    color: white;
-  }
-`;
-
-const BellIcon = styled(FaRegBell)`
-  font-size: 30px;
-  margin-right: -5px;
-  cursor: pointer;
-  background-color: white;
-  border-radius: 50%;
-  padding: 4px;
-  color: black;
-
-  &.active {
     background-color: ${colors.primary};
     color: white;
   }

@@ -16,7 +16,7 @@ import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import CardTotalLogs from "../../components/CardsData/CardTotalLogs"; // Add logs card
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers"; // Add suppliers card
 import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs"; // Add users card
-import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder"; // Add purchase order card
+import CardTotalSupplierOrder from "../../components/CardsData/CardTotalSupplierOrder"; // Add purchase order card
 import CardTotalNotification from "../../components/CardsData/CardTotalNotification"; // Add notifications card
 import { getLayout } from "../../utils/indexedDB";
 import MainLayout from "../../components/Layout/MainLayout";
@@ -37,7 +37,7 @@ const AdminDashboard = () => {
     CardTotalLogs: <CardTotalLogs />, // Add logs card
     CardTotalSuppliers: <CardTotalSuppliers />, // Add suppliers card
     CardTotalStaffs: <CardTotalStaffs />, // Add users card
-    CardTotalPurchaseOrder: <CardTotalPurchaseOrder />, // Add purchase order card
+    CardTotalSupplierOrder: <CardTotalSupplierOrder />, // Add purchase order card
     CardTotalNotification: <CardTotalNotification />, // Add notifications card
   };
 
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
     "CardTotalLogs", // Add logs to the order
     "CardTotalSuppliers", // Add suppliers to the order
     "CardTotalStaffs", // Add users to the order
-    "CardTotalPurchaseOrder", // Add purchase order to the order
+    "CardTotalSupplierOrder", // Add purchase order to the order
     "CardTotalNotification", // Add notifications to the order
   ];
 
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
     CardTotalLogs: () => navigate("/admin/logs"), // Update as necessary
     CardTotalSuppliers: () => navigate("/admin/suppliers"), // Update as necessary
     CardTotalStaffs: () => navigate("/admin/users"), // Update as necessary
-    CardTotalPurchaseOrder: () => navigate("/admin/purchase-orders"), // Update as necessary
+    CardTotalSupplierOrder: () => navigate("/admin/purchase-orders"), // Update as necessary
     CardTotalNotification: () => navigate("/admin/notifications"), // Update as necessary
   };
 

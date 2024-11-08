@@ -33,11 +33,11 @@ const SharedProductsPage = () => {
     )?.PROD_CAT_NAME;
 
     return (
-      product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) ||
-      category?.toLowerCase().includes(lowerCaseSearchTerm) ||
-      productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(
-        lowerCaseSearchTerm
-      )
+      product.PROD_NAME.toLowerCase().includes(lowerCaseSearchTerm) || // Check product name
+      category?.toLowerCase().includes(lowerCaseSearchTerm) ||       // Check category name
+      productDetail?.PROD_DETAILS_BRAND?.toLowerCase().includes(lowerCaseSearchTerm) || // Check brand
+      productDetail?.PROD_DETAILS_SIZE?.toLowerCase().includes(lowerCaseSearchTerm) ||  // Check unit/size
+      productDetail?.PROD_DETALS_PRICE.toFixed(2).includes(lowerCaseSearchTerm) // Check price (formatted)
     );
   });
 
@@ -60,11 +60,13 @@ const SharedProductsPage = () => {
     )?.PROD_CAT_NAME;
 
     return [
-      <img
-        src={product.PROD_IMAGE} // Use PROD_IMAGE here
-        alt={product.PROD_NAME}
-        style={{ width: "50px", height: "auto" }}
-      />,
+      <ImageWrapper>
+        <img
+          src={product.PROD_IMAGE} // Use PROD_IMAGE here
+          alt={product.PROD_NAME}
+          style={{ width: "50px", height: "auto" }}
+        />
+      </ImageWrapper>,
       product.PROD_NAME,
       category,
       productDetail?.PROD_DETAILS_SIZE,
@@ -199,6 +201,14 @@ const ActionButton = styled(Button)`
     font-size: 20px;
     margin-right: 8px;
   }
+`;
+
+// Centering the image column
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;  // Centers the image horizontally
+  align-items: center;      // Centers the image vertically
+  width: 100%;              // Ensure full width for centering
 `;
 
 export default SharedProductsPage;

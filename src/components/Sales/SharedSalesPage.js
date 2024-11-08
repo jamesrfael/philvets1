@@ -5,7 +5,7 @@ import Table from "../Layout/Table";
 import ReportCard from "../Layout/ReportCard";
 import { FaShoppingCart, FaDollarSign } from "react-icons/fa";
 import { SALES_ORDER } from "../../data/CustomerOrderData";
-import PURCHASE_ORDERS from "../../data/PurchaseOrderData";
+import PURCHASE_ORDERS from "../../data/SupplierOrderData";
 
 const SharedSalesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,20 +32,20 @@ const SharedSalesPage = () => {
       date: new Date(order.PURCHASE_ORDER_DATE),
       quantity: -order.PURCHASE_ORDER_TOT_QTY,
       amount: -order.PURCHASE_ORDER_TOTAL,
-      type: "Purchase Order",
+      type: "Supplier Order",
     });
   });
 
   const filteredOrders = combinedOrders.filter((order) => {
     const matchesSearchTerm =
-      order.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.date.toLocaleDateString().includes(searchTerm) ||
+      order.type.toLowerCase().includes(searchTerm.toLowerCase()) || // Filter by Type
+      order.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) || // Filter by Order ID
+      order.date.toLocaleDateString().includes(searchTerm) || // Filter by Date
       order.quantity
         .toString()
         .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      order.amount.toFixed(2).toLowerCase().includes(searchTerm.toLowerCase());
+        .includes(searchTerm.toLowerCase()) || // Filter by Quantity
+      order.amount.toFixed(2).toLowerCase().includes(searchTerm.toLowerCase()); // Filter by Amount
 
     const matchesDateRange =
       (!startDate || order.date >= new Date(startDate)) &&

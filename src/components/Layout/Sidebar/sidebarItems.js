@@ -1,4 +1,5 @@
-//sidebaritems.js
+// src/components/sidebaritems.js
+
 import {
   TbLayoutDashboard,
   TbTruckDelivery,
@@ -36,12 +37,27 @@ export const superadminSidebarItems = [
       },
       {
         icon: TbChevronRight,
-        label: "Purchase",
+        label: "Supplier",
         link: "/superadmin/purchase-order",
       },
     ],
   },
-  { icon: TbTruckDelivery, label: "Delivery", link: "/superadmin/delivery" },
+  {
+    icon: TbTruckDelivery,
+    label: "Delivery",
+    dropdown: [
+      {
+        icon: TbChevronRight,
+        label: "Customer",
+        link: "/superadmin/customer-delivery",
+      },
+      {
+        icon: TbChevronRight,
+        label: "Supplier",
+        link: "/superadmin/supplier-delivery",
+      },
+    ],
+  },
   {
     icon: LuBox,
     label: "Product",
@@ -63,11 +79,7 @@ export const superadminSidebarItems = [
       },
     ],
   },
-  {
-    icon: MdOutlineInventory2,
-    label: "Inventory",
-    link: "/superadmin/inventory",
-  },
+  { icon: MdOutlineInventory2, label: "Inventory", link: "/superadmin/inventory" },
   { icon: LuWarehouse, label: "Supplier", link: "/superadmin/suppliers" },
   { icon: TbUserDollar, label: "Customer", link: "/superadmin/customers" },
   { icon: GrGroup, label: "User", link: "/superadmin/users" },
@@ -96,12 +108,27 @@ export const adminSidebarItems = [
       },
       {
         icon: TbChevronRight,
-        label: "Purchase",
+        label: "Supplier",
         link: "/admin/purchase-order",
       },
     ],
   },
-  { icon: TbTruckDelivery, label: "Delivery", link: "/admin/delivery" },
+  {
+    icon: TbTruckDelivery,
+    label: "Delivery",
+    dropdown: [
+      {
+        icon: TbChevronRight,
+        label: "Customer",
+        link: "/admin/customer-delivery",
+      },
+      {
+        icon: TbChevronRight,
+        label: "Supplier",
+        link: "/admin/supplier-delivery",
+      },
+    ],
+  },
   {
     icon: LuBox,
     label: "Product",
@@ -152,7 +179,17 @@ export const staffSidebarItems = [
       },
     ],
   },
-  { icon: TbTruckDelivery, label: "Delivery", link: "/staff/delivery" },
+  {
+    icon: TbTruckDelivery,
+    label: "Delivery",
+    dropdown: [
+      {
+        icon: TbChevronRight,
+        label: "Customer",
+        link: "/staff/customer-delivery",
+      },
+    ],
+  },
   {
     icon: LuBox,
     label: "Product",

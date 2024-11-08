@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Modal from "../../Layout/Modal"; // Assuming you have a modal component
 import { colors } from "../../../colors"; // Ensure the path to colors is correct
+import Button from "../../Layout/Button"; // Ensure you import the Button component
 
-const PurchaseOrderDetailsModal = ({ order, onClose }) => {
+const SupplierOrderDetailsModal = ({ order, onClose }) => {
   // Early return if order is not provided
   if (!order) return null;
 
@@ -31,9 +32,22 @@ const PurchaseOrderDetailsModal = ({ order, onClose }) => {
     return total + lineTotal; // Sum up the totals
   }, 0);
 
+  // Handlers for the buttons
+  const handleAcceptOrder = () => {
+    // Logic to accept the order
+    console.log("Supplier order accepted");
+    onClose(); // Close modal after action
+  };
+
+  const handleCancelOrder = () => {
+    // Logic to cancel the order
+    console.log("Supplier order cancelled");
+    onClose(); // Close modal after action
+  };
+
   return (
     <Modal
-      title="Purchase Order Details"
+      title="Supplier Order Details"
       status={order.PURCHASE_ORDER_STATUS}
       completedDate={order.PURCHASE_ORDER_DATE}
       onClose={onClose}
@@ -97,6 +111,18 @@ const PurchaseOrderDetailsModal = ({ order, onClose }) => {
           </SummaryItem>
         </TotalSummary>
       </Section>
+
+      {/* Conditionally render the Accept and Cancel buttons if status is "Pending" */}
+      {order.PURCHASE_ORDER_STATUS === "Pending" && (
+        <ButtonGroup>
+          <Button variant="red" onClick={handleCancelOrder}>
+            Cancel Order
+          </Button>
+          <Button variant="primary" onClick={handleAcceptOrder}>
+            Accept Order
+          </Button>
+        </ButtonGroup>
+      )}
     </Modal>
   );
 };
@@ -153,4 +179,11 @@ const HighlightedTotal = styled.span`
   font-size: 16px;
 `;
 
-export default PurchaseOrderDetailsModal;
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 20px; /* Space above the buttons */
+  gap: 10px; /* Optional: add some space between buttons */
+`;
+
+export default SupplierOrderDetailsModal;

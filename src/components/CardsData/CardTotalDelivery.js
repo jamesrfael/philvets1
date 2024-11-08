@@ -1,12 +1,12 @@
 // src/components/CardsData/CardTotalDelivery.js
 import React from "react";
 import Card from "../Layout/Card"; // Import the reusable Card component
-import { deliveries } from "../../data/DeliveryData"; // Import the delivery data
+import { DELIVERY } from "../../data/DeliveryData"; // Import the delivery data
 import styled from "styled-components";
 import { FaTruck } from "react-icons/fa"; // Import an icon from react-icons
 
 const CardTotalDelivery = () => {
-  const deliveryCount = deliveries.length;
+  const deliveryCount = DELIVERY.length;
 
   return (
     <CardContainer>

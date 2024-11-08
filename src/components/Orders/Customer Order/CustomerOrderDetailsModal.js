@@ -1,38 +1,51 @@
 import React from "react";
 import styled from "styled-components";
-import Modal from "../../Layout/Modal"; // Assuming you have a modal component
-import { colors } from "../../../colors"; // Ensure the path to colors is correct
+import Modal from "../../Layout/Modal";
+import { colors } from "../../../colors";
+import Button from "../../Layout/Button"; // Ensure you import the Button component
 
-const CustomerOrderDetailsModal = ({ order, onClose }) => {
-  // Early return if order is not provided
+const CustomerOrderDetailsModal = ({ order, onClose, userRole }) => {
   if (!order) return null;
 
-  // Function to format currency values safely
   const formatCurrency = (amount) => {
     if (amount === undefined || amount === null) {
-      return "₱0.00"; // Default value if input is undefined or null
+      return "₱0.00";
     }
-    return `₱${amount.toFixed(2)}`; // Format to two decimal places
+    return `₱${amount.toFixed(2)}`;
   };
 
-  // Extract ORDER_DETAILS directly from the provided order
   const orderDetails = order.ORDER_DETAILS || [];
 
-  // Calculate total quantity and total amount safely
   const totalQuantity = orderDetails.reduce(
     (total, detail) => total + (detail.SALES_ORDER_QTY || 0),
     0
   );
+
   const totalAmount = orderDetails.reduce(
     (total, detail) => total + (detail.SALES_ORDER_LINE_TOTAL || 0),
     0
   );
 
+  // Handlers for the buttons
+  const handleAcceptOrder = () => {
+    // Logic to accept the order
+    console.log("Order accepted");
+    onClose(); // Close modal after action
+  };
+
+  const handleCancelOrder = () => {
+    // Logic to cancel the order
+    console.log("Order cancelled");
+    onClose(); // Close modal after action
+  };
+
+  // Conditionally render the Accept and Cancel buttons if status is "Pending" and role is either admin or superadmin
+  const canModifyOrder = order.SALES_ORDER_PYMNT_STAT === "Pending" && (userRole === "admin" || userRole === "superadmin");
+
   return (
     <Modal
       title="Customer Order Details"
       status={order.SALES_ORDER_PYMNT_STAT}
-      completedDate={order.SALES_ORDER_DATEUPDATED}
       onClose={onClose}
     >
       <Section>
@@ -43,19 +56,13 @@ const CustomerOrderDetailsModal = ({ order, onClose }) => {
           <strong>Order Created Date:</strong> {order.SALES_ORDER_DATACREATED}
         </p>
         <p>
-          <strong>Order Updated Date:</strong> {order.SALES_ORDER_DATEUPDATED}
+          <strong>Delivery Date:</strong> {order.SALES_ORDER_DLVRY_DATE || "N/A"}
         </p>
         <p>
-          <strong>Delivery Date:</strong>{" "}
-          {order.SALES_ORDER_DLVRY_DATE || "N/A"}
+          <strong>Discount:</strong> {formatCurrency(order.SALES_ORDER_DISCOUNT || 0)}
         </p>
         <p>
-          <strong>Discount:</strong>{" "}
-          {formatCurrency(order.SALES_ORDER_DISCOUNT || 0)}
-        </p>
-        <p>
-          <strong>Delivery Option:</strong>{" "}
-          {order.SALES_ORDER_DLVRY_OPT || "N/A"}
+          <strong>Delivery Option:</strong> {order.SALES_ORDER_DLVRY_OPT || "N/A"}
         </p>
         <p>
           <strong>Client ID:</strong> {order.CLIENT_ID}
@@ -100,6 +107,18 @@ const CustomerOrderDetailsModal = ({ order, onClose }) => {
           </TotalItem>
         </TotalSummary>
       </Section>
+
+      {/* Conditionally render the Accept and Cancel buttons if the user has permission */}
+      {canModifyOrder && (
+        <ButtonGroup>
+          <Button variant="red" onClick={handleCancelOrder}>
+            Cancel Order
+          </Button>
+          <Button variant="primary" onClick={handleAcceptOrder}>
+            Accept Order
+          </Button>
+        </ButtonGroup>
+      )}
     </Modal>
   );
 };
@@ -154,6 +173,13 @@ const TotalItem = styled.p`
 const HighlightedTotal = styled.span`
   color: green; /* Highlight total amount in green */
   font-size: 16px;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 20px; /* Space above the buttons */
+  gap: 10px; /* Optional: add some space between buttons */
 `;
 
 export default CustomerOrderDetailsModal;

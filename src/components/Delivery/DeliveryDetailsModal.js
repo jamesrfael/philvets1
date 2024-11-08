@@ -9,30 +9,30 @@ const formatCurrency = (amount) => {
   return `₱${amount.toFixed(2)}`;
 };
 
-const DeliveryDetailsModal = ({ delivery = {}, onClose, onAccept }) => {
+const DeliveryDetailsModal = ({ delivery = {}, onClose, onAccept, onCancel }) => {
   const calculateSubTotal = () => {
-    if (!delivery.orderDetails) return 0;
-    return delivery.orderDetails.reduce(
-      (sum, item) => sum + item.price * item.quantity,
+    if (!delivery.ORDER_DETAILS) return 0;
+    return delivery.ORDER_DETAILS.reduce(
+      (sum, item) => sum + item.PRICE * item.QUANTITY,
       0
     );
   };
 
   const calculateTotalAfterDiscount = () => {
     const subTotal = calculateSubTotal();
-    if (!delivery.discount) return subTotal;
-    if (typeof delivery.discount === "string" && delivery.discount.includes("%")) {
-      const discountPercentage = parseFloat(delivery.discount) / 100;
+    if (!delivery.DISCOUNT) return subTotal;
+    if (typeof delivery.DISCOUNT === "string" && delivery.DISCOUNT.includes("%")) {
+      const discountPercentage = parseFloat(delivery.DISCOUNT) / 100;
       return subTotal - subTotal * discountPercentage;
     } else {
-      return subTotal - parseFloat(delivery.discount);
+      return subTotal - parseFloat(delivery.DISCOUNT);
     }
   };
 
   const calculateTotalQuantity = () => {
-    if (!delivery.orderDetails) return 0;
-    return delivery.orderDetails.reduce(
-      (total, item) => total + item.quantity,
+    if (!delivery.ORDER_DETAILS) return 0;
+    return delivery.ORDER_DETAILS.reduce(
+      (total, item) => total + item.QUANTITY,
       0
     );
   };
@@ -41,32 +41,26 @@ const DeliveryDetailsModal = ({ delivery = {}, onClose, onAccept }) => {
     <Modal
       data-cy="delivery-details-modal"
       title="Delivery Details"
-      status={delivery.status}
-      completedDate={delivery.completedDate}
+      status={delivery.DELIVERY_STATUS}
+      completedDate={delivery.COMPLETED_DATE}
       onClose={onClose}
     >
       <DetailsContainer>
         <Column align="left">
           <FormGroup>
             <Label>Name:</Label>
-            <Value>{delivery.name || ""}</Value>
+            <Value>{delivery.DELIVERY_NAME || ""}</Value>
           </FormGroup>
           <FormGroup>
             <Label>Date:</Label>
-            <Value>{delivery.date || ""}</Value>
+            <Value>{delivery.DELIVERY_DATE || ""}</Value>
           </FormGroup>
           <FormGroup>
             <Label>Type:</Label>
-            <Value>{delivery.type || ""}</Value>
+            <Value>{delivery.DELIVERY_TYPE || ""}</Value>
           </FormGroup>
         </Column>
       </DetailsContainer>
-
-      <FormGroup>
-        <DescriptionBox>
-          <p>{delivery.description || "No description available."}</p>
-        </DescriptionBox>
-      </FormGroup>
 
       <ProductTable>
         <thead>
@@ -77,11 +71,11 @@ const DeliveryDetailsModal = ({ delivery = {}, onClose, onAccept }) => {
           </tr>
         </thead>
         <tbody>
-          {(delivery.orderDetails || []).map((item, index) => (
+          {(delivery.ORDER_DETAILS || []).map((item, index) => (
             <TableRow key={index}>
-              <TableCell>{item.productName || ""}</TableCell>
-              <TableCell>{item.quantity || 0}</TableCell>
-              <TableCell>{formatCurrency(item.price || 0)}</TableCell>
+              <TableCell>{item.PRODUCT_NAME || ""}</TableCell>
+              <TableCell>{item.QUANTITY || 0}</TableCell>
+              <TableCell>{formatCurrency(item.PRICE || 0)}</TableCell>
             </TableRow>
           ))}
         </tbody>
@@ -98,7 +92,7 @@ const DeliveryDetailsModal = ({ delivery = {}, onClose, onAccept }) => {
         </FormGroup>
         <FormGroup>
           <Label>Discount:</Label>
-          <Discount>{delivery.discount || ""}</Discount>
+          <Discount>{delivery.DISCOUNT || ""}</Discount>
         </FormGroup>
         <FormGroup>
           <Label>Order Total:</Label>
@@ -106,13 +100,16 @@ const DeliveryDetailsModal = ({ delivery = {}, onClose, onAccept }) => {
         </FormGroup>
       </FormSection>
 
-      {delivery.status === "Pending" && (
+      {delivery.DELIVERY_STATUS === "Pending" && (
         <ModalFooter>
           <ButtonGroup>
             <Button variant="red" onClick={onClose}>
               Return
             </Button>
-            <Button variant="green" onClick={onAccept}>
+            <Button variant="red" onClick={onCancel}>
+              Cancel
+            </Button>
+            <Button variant="blue" onClick={onAccept}>
               Accept
             </Button>
           </ButtonGroup>
@@ -188,17 +185,6 @@ const TableCell = styled.td`
 
 const FormSection = styled.div`
   margin-top: 20px;
-`;
-
-const DescriptionBox = styled.div`
-  border: 1px solid #3b3b3bf7;
-  border-radius: 4px;
-  padding: 10px;
-  max-height: 100px;
-  overflow-y: auto;
-  width: 100%;
-  text-align: left;
-  background: #f9f9f9;
 `;
 
 const ModalFooter = styled.div`

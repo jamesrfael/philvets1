@@ -16,7 +16,7 @@ import CardTotalCustomerOrder from "../../components/CardsData/CardTotalCustomer
 import CardTotalCustomers from "../../components/CardsData/CardTotalCustomers";
 import CardTotalDelivery from "../../components/CardsData/CardTotalDelivery";
 import CardTotalLogs from "../../components/CardsData/CardTotalLogs";
-import CardTotalPurchaseOrder from "../../components/CardsData/CardTotalPurchaseOrder";
+import CardTotalSupplierOrder from "../../components/CardsData/CardTotalSupplierOrder";
 import CardTotalRequestOrder from "../../components/CardsData/CardTotalRequestOrder";
 import CardTotalReturns from "../../components/CardsData/CardTotalReturns";
 import CardTotalSuppliers from "../../components/CardsData/CardTotalSuppliers";
@@ -41,7 +41,7 @@ const SuperAdminDashboard = () => {
     "CardTotalCustomers",
     "CardTotalDelivery",
     "CardTotalLogs",
-    "CardTotalPurchaseOrder",
+    "CardTotalSupplierOrder",
     "CardTotalRequestOrder",
     "CardTotalReturns",
     "CardTotalSuppliers",
@@ -116,7 +116,7 @@ const SuperAdminDashboard = () => {
     CardTotalCustomers: () => navigate("/superadmin/customers"),
     CardTotalDelivery: () => navigate("/superadmin/delivery"),
     CardTotalLogs: () => navigate("/superadmin/logs"),
-    CardTotalPurchaseOrder: () => navigate("/superadmin/purchase-order"),
+    CardTotalSupplierOrder: () => navigate("/superadmin/purchase-order"),
     CardTotalRequestOrder: () => navigate("/superadmin/request-order"),
     CardTotalReturns: () => navigate("/superadmin/returns"),
     CardTotalSuppliers: () => navigate("/superadmin/suppliers"),
@@ -127,8 +127,7 @@ const SuperAdminDashboard = () => {
 
   // Custom onClick handlers for tables (with superadmin role)
   const tableOnClickHandlers = {
-    HighestSellingProducts: () =>
-      navigate("/superadmin/products"),
+    HighestSellingProducts: () => navigate("/superadmin/products"),
     ExpiredItemsAlert: () => navigate("/superadmin/inventory"),
     RecentlyAddedProducts: () => navigate("/superadmin/products"),
     LowestStocks: () => navigate("/superadmin/inventory"),
@@ -145,7 +144,7 @@ const SuperAdminDashboard = () => {
     CardTotalCustomers: <CardTotalCustomers />,
     CardTotalDelivery: <CardTotalDelivery />,
     CardTotalLogs: <CardTotalLogs />,
-    CardTotalPurchaseOrder: <CardTotalPurchaseOrder />,
+    CardTotalSupplierOrder: <CardTotalSupplierOrder />,
     CardTotalRequestOrder: <CardTotalRequestOrder />,
     CardTotalReturns: <CardTotalReturns />,
     CardTotalSuppliers: <CardTotalSuppliers />,

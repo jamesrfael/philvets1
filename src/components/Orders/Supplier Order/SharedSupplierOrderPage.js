@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import PurchaseOrderDetailsModal from "../../../components/Orders/Purchase Order/PurchaseOrderDetailsModal";
-import AddPurchaseOrderModal from "../../../components/Orders/Purchase Order/AddPurchaseOrderModal";
-import SearchBar from "../../../components/Layout/SearchBar";
-import Table from "../../../components/Layout/Table";
-import CardTotalPurchaseOrder from "../../../components/CardsData/CardTotalPurchaseOrder";
-import Button from "../../../components/Layout/Button";
-import PURCHASE_ORDERS from "../../../data/PurchaseOrderData"; // Make sure this path is correct
+import SupplierOrderDetailsModal from "./SupplierOrderDetailsModal";
+import AddSupplierOrderModal from "./AddSupplierOrderModal";
+import SearchBar from "../../Layout/SearchBar";
+import Table from "../../Layout/Table";
+import CardTotalSupplierOrder from "../../../components/CardsData/CardTotalSupplierOrder";
+import Button from "../../Layout/Button";
+import PURCHASE_ORDERS from "../../../data/SupplierOrderData"; // Make sure this path is correct
 import { FaPlus, FaChevronUp, FaChevronDown } from "react-icons/fa";
 
-const SharedPurchaseOrderPage = () => {
+const SharedSupplierOrderPage = () => {
   const navigate = useNavigate();
   const [orders] = useState(PURCHASE_ORDERS); // Use PURCHASE_ORDERS directly
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isAddingPurchaseOrder, setIsAddingPurchaseOrder] = useState(false);
+  const [isAddingSupplierOrder, setIsAddingSupplierOrder] = useState(false);
   const [sortConfig, setSortConfig] = useState({
     key: "PURCHASE_ORDER_DATE",
     direction: "desc",
@@ -50,8 +50,8 @@ const SharedPurchaseOrderPage = () => {
 
   const openDetailsModal = (order) => setSelectedOrder(order);
   const closeDetailsModal = () => setSelectedOrder(null);
-  const openAddPurchaseOrderModal = () => setIsAddingPurchaseOrder(true);
-  const closeAddPurchaseOrderModal = () => setIsAddingPurchaseOrder(false);
+  const openAddSupplierOrderModal = () => setIsAddingSupplierOrder(true);
+  const closeAddSupplierOrderModal = () => setIsAddingSupplierOrder(false);
 
   const headers = ["Supplier ID", "Order Date", "Status", "Action"];
 
@@ -86,13 +86,13 @@ const SharedPurchaseOrderPage = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <StyledButton onClick={openAddPurchaseOrderModal}>
-          <FaPlus className="icon" /> Purchase Order
+        <StyledButton onClick={openAddSupplierOrderModal}>
+          <FaPlus className="icon" /> Supplier Order
         </StyledButton>
       </Controls>
       <AnalyticsContainer>
         <div onClick={() => navigate("/admin/orders/purchase-order")}>
-          <CardTotalPurchaseOrder />
+          <CardTotalSupplierOrder />
         </div>
       </AnalyticsContainer>
       <Table
@@ -142,13 +142,13 @@ const SharedPurchaseOrderPage = () => {
         rows={rows}
       />
       {selectedOrder && (
-        <PurchaseOrderDetailsModal
+        <SupplierOrderDetailsModal
           order={selectedOrder}
           onClose={closeDetailsModal}
         />
       )}
-      {isAddingPurchaseOrder && (
-        <AddPurchaseOrderModal onClose={closeAddPurchaseOrderModal} />
+      {isAddingSupplierOrder && (
+        <AddSupplierOrderModal onClose={closeAddSupplierOrderModal} />
       )}
     </>
   );
@@ -205,4 +205,4 @@ const TableHeader = styled.th`
   align-items: center;
 `;
 
-export default SharedPurchaseOrderPage;
+export default SharedSupplierOrderPage;

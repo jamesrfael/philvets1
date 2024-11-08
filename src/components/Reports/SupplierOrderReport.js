@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import ReportBody from "./ReportBody";
-import PURCHASE_ORDERS from "../../data/PurchaseOrderData";
+import PURCHASE_ORDERS from "../../data/SupplierOrderData";
 import generatePDF from "./GeneratePdf";
 import generateExcel from "./GenerateExcel";
 import PreviewModal from "./PreviewModal";
 
-const PurchaseOrderReport = () => {
+const SupplierOrderReport = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -22,20 +22,23 @@ const PurchaseOrderReport = () => {
       order.USER_ID.toString().toLowerCase().includes(searchStr) ||
       order.PURCHASE_ORDER_STATUS.toLowerCase().includes(searchStr) ||
       order.PURCHASE_ORDER_DATE.toLowerCase().includes(searchStr) ||
-      order.PURCHASE_ORDER_TOT_QTY.toString().toLowerCase().includes(searchStr) ||
+      order.PURCHASE_ORDER_TOT_QTY.toString()
+        .toLowerCase()
+        .includes(searchStr) ||
       order.PURCHASE_ORDER_TOTAL.toString().toLowerCase().includes(searchStr)
     );
   };
 
   // Filter and sort orders based on search term and date range
-  const filteredOrders = PURCHASE_ORDERS
-    .filter((order) => {
-      const matchesDateRange =
-        (!startDate || new Date(order.PURCHASE_ORDER_DATE) >= new Date(startDate)) &&
-        (!endDate || new Date(order.PURCHASE_ORDER_DATE) <= new Date(endDate));
-      return matchesSearchTerm(order) && matchesDateRange;
-    })
-    .sort((a, b) => new Date(b.PURCHASE_ORDER_DATE) - new Date(a.PURCHASE_ORDER_DATE)); // Sort by date descending
+  const filteredOrders = PURCHASE_ORDERS.filter((order) => {
+    const matchesDateRange =
+      (!startDate ||
+        new Date(order.PURCHASE_ORDER_DATE) >= new Date(startDate)) &&
+      (!endDate || new Date(order.PURCHASE_ORDER_DATE) <= new Date(endDate));
+    return matchesSearchTerm(order) && matchesDateRange;
+  }).sort(
+    (a, b) => new Date(b.PURCHASE_ORDER_DATE) - new Date(a.PURCHASE_ORDER_DATE)
+  ); // Sort by date descending
 
   const totalOrders = filteredOrders.length;
 
@@ -56,8 +59,7 @@ const PurchaseOrderReport = () => {
     `₱${(-Math.abs(order.PURCHASE_ORDER_TOTAL)).toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    })}`
-    
+    })}`,
   ]);
 
   // Updated header to match the requested fields
@@ -72,7 +74,12 @@ const PurchaseOrderReport = () => {
   ];
 
   const handlePreviewPDF = () => {
-    const pdfData = generatePDF(header, tableData, totalOrders, totalOrderValue);
+    const pdfData = generatePDF(
+      header,
+      tableData,
+      totalOrders,
+      totalOrderValue
+    );
     setPdfContent(pdfData);
     setExcelData(null);
     setIsModalOpen(true);
@@ -99,7 +106,12 @@ const PurchaseOrderReport = () => {
 
   const handleDownloadExcel = async () => {
     try {
-      const excelBlobData = await generateExcel(header, tableData, totalOrders, totalOrderValue); // Ensure this returns the Blob
+      const excelBlobData = await generateExcel(
+        header,
+        tableData,
+        totalOrders,
+        totalOrderValue
+      ); // Ensure this returns the Blob
       const url = URL.createObjectURL(excelBlobData);
       const a = document.createElement("a");
       a.href = url;
@@ -115,7 +127,7 @@ const PurchaseOrderReport = () => {
   return (
     <>
       <ReportBody
-        title="Purchase Order Report"
+        title="Supplier Order Report"
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         startDate={startDate}
@@ -142,4 +154,4 @@ const PurchaseOrderReport = () => {
   );
 };
 
-export default PurchaseOrderReport;
+export default SupplierOrderReport;

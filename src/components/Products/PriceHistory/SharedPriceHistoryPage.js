@@ -1,5 +1,3 @@
-// src/components/Products/PriceHistory/SharedPriceHistoryPage.js
-
 import React, { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../../Layout/SearchBar";
@@ -30,10 +28,16 @@ const SharedPriceHistoryPage = () => {
   const filteredPriceHistory = PRICE_HISTORY_DATA.filter((entry) => {
     const productName = productMapping[entry.PROD_ID] || "Unknown Product";
     const userName = userMapping[entry.UPDATED_BY_USER_ID] || "Unknown User";
+    const oldPrice = entry.OLD_PRICE.toFixed(2);
+    const newPrice = entry.NEW_PRICE.toFixed(2);
+    const changeDate = new Date(entry.CHANGE_DATE).toLocaleDateString();
 
     const matchesSearchTerm =
       productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      userName.toLowerCase().includes(searchTerm.toLowerCase());
+      userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      oldPrice.includes(searchTerm) ||
+      newPrice.includes(searchTerm) ||
+      changeDate.includes(searchTerm);
 
     const matchesDateRange =
       (!startDate || new Date(entry.CHANGE_DATE) >= new Date(startDate)) &&
