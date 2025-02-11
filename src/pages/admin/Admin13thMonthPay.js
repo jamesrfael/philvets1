@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
-import SupplierOrderReport from "../../components/Reports/SupplierOrderReport";
-import CustomerOrderReport from "../../components/Reports/CustomerOrderReport";
-import AllOrderReport from "../../components/Reports/AllOrderReport"; // Import the AllOrderReport component
+import SupplierOrderReport from "../../components/13thMonthPay/SupplierOrderReport";
+import CustomerOrderReport from "../../components/13thMonthPay/CustomerOrderReport";
+import AllOrderReport from "../../components/13thMonthPay/AllOrderReport"; // Import the AllOrderReport component
 import Button from "../../components/Layout/Button"; // For the tab buttons
 import { colors } from "../../colors"; // Ensure colors are correctly imported
 
-const SuperAdminReports = () => {
-  const [activeTab, setActiveTab] = useState("All Orders Report"); // Set default tab to Supplier Order Report
+const AdminReports = () => {
+  const [activeTab, setActiveTab] = useState("All Orders Report");
 
   // Function to render the report body based on the active tab
   const renderActiveReport = () => {
@@ -73,4 +73,4 @@ const StyledTabButton = styled(Button)`
   }
 `;
 
-export default SuperAdminReports;
+export default AdminReports;

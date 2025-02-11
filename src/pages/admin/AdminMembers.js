@@ -1,8 +1,8 @@
 import React from "react";
-import SharedCustomersPage from "../../components/Customers/SharedCustomersPage";
+import SharedCustomersPage from "../../components/Members/SharedCustomersPage";
 import MainLayout from "../../components/Layout/MainLayout";
 
-const SuperAdminCustomers = () => {
+const AdminMembers = () => {
   return (
     <MainLayout>
       <SharedCustomersPage />
@@ -10,4 +10,4 @@ const SuperAdminCustomers = () => {
   );
 };
 
-export default SuperAdminCustomers;
+export default AdminMembers;

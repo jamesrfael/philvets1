@@ -4,7 +4,7 @@ import SearchBar from "../Layout/SearchBar";
 import Table from "../Layout/Table";
 import CardTotalProducts from "../CardsData/CardTotalProducts";
 import CardLowStocks from "../CardsData/CardLowStocks";
-import InventoryDetailsModal from "../Inventory/InventoryDetailsModal";
+import InventoryDetailsModal from "./InventoryDetailsModal";
 import productData from "../../data/ProductData"; // Ensure the path is correct
 import Button from "../Layout/Button";
 
