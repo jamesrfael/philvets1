@@ -6,8 +6,8 @@ import { colors } from "../../colors"; // Adjust path as necessary
 const Button = ({ variant = "primary", onClick, children, ...props }) => {
   const variantColors = {
     primary: {
-      backgroundColor: colors.primary,
-      hoverColor: colors.primaryHover,
+      backgroundColor: colors.secondary,
+      hoverColor: colors.secondaryHover,
       textColor: "white",
     },
     red: {

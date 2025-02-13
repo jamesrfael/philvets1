@@ -4,11 +4,11 @@ import SearchBar from "../Layout/SearchBar";
 import Table from "../Layout/Table";
 import CardTotalProducts from "../CardsData/CardTotalProducts";
 import CardLowStocks from "../CardsData/CardLowStocks";
-import InventoryDetailsModal from "./InventoryDetailsModal";
+import InventoryDetailsModal from "./RecordsDetailsModal";
 import productData from "../../data/ProductData"; // Ensure the path is correct
 import Button from "../Layout/Button";
 
-const SharedInventoryPage = () => {
+const SharedRecordsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -98,4 +98,4 @@ const ImageContainer = styled.div`
   height: 50px; // Ensure the height matches the image height
 `;
 
-export default SharedInventoryPage;
+export default SharedRecordsPage;

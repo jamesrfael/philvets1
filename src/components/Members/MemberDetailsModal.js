@@ -3,26 +3,26 @@ import Modal from "../Layout/Modal";
 import styled from "styled-components";
 import Button from "../Layout/Button";
 
-const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
+const MemberDetailsModal = ({ member, onClose, onRemove }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedClient, setEditedClient] = useState(client || {});
+  const [editedMember, setEditedMember] = useState(member || {});
   const [errors, setErrors] = useState({});
 
-  if (!client) return null; // Ensure modal doesn't render if client is undefined
+  if (!member) return null; // Ensure modal doesn't render if member is undefined
 
   const validateFields = () => {
     let newErrors = {};
 
     // Validate required fields
-    if (!editedClient.CLIENT_NAME) newErrors.CLIENT_NAME = "Customer name is required";
-    if (!editedClient.CLIENT_CITY) newErrors.CLIENT_CITY = "City is required";
-    if (!editedClient.CLIENT_PROVINCE) newErrors.CLIENT_PROVINCE = "Province is required";
+    if (!editedMember.MEMBER_NAME) newErrors.MEMBER_NAME = "Member name is required";
+    if (!editedMember.MEMBER_CITY) newErrors.MEMBER_CITY = "City is required";
+    if (!editedMember.MEMBER_POSITION) newErrors.MEMBER_POSITION = "Province is required";
 
     // Validate phone number
-    if (!editedClient.CLIENT_PHONENUM) {
-      newErrors.CLIENT_PHONENUM = "Phone number is required";
-    } else if (!/^0\d{10}$/.test(editedClient.CLIENT_PHONENUM)) {
-      newErrors.CLIENT_PHONENUM = "Phone number must be 11 digits and start with '0'";
+    if (!editedMember.MEMBER_PHONENUM) {
+      newErrors.MEMBER_PHONENUM = "Phone number is required";
+    } else if (!/^0\d{10}$/.test(editedMember.MEMBER_PHONENUM)) {
+      newErrors.MEMBER_PHONENUM = "Phone number must be 11 digits and start with '0'";
     }
 
     setErrors(newErrors);
@@ -50,17 +50,17 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
     );
     if (confirmCancel) {
       setIsEditing(false);
-      setEditedClient(client); // Reset to original client data on cancel
+      setEditedMember (member); // Reset to original member data on cancel
       setErrors({}); // Clear errors on cancel
     }
   };
 
   const handleRemove = () => {
     const confirmRemoval = window.confirm(
-      "Are you sure you want to remove this customer?"
+      "Are you sure you want to remove this member?"
     );
     if (confirmRemoval) {
-      onRemove(client.CLIENT_ID);
+      onRemove(member.MEMBER_ID);
       onClose();
     }
   };
@@ -72,9 +72,9 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
     if (value.length <= 11) {
       // Allow only digits and start with "0"
       if (/^[0-9]*$/.test(value)) {
-        setEditedClient({
-          ...editedClient,
-          CLIENT_PHONENUM: value.length === 0 ? "0" : value, // Ensure leading zero
+        setEditedMember({
+          ...editedMember,
+          MEMBER_PHONENUM: value.length === 0 ? "0" : value, // Ensure leading zero
         });
       }
     }
@@ -82,65 +82,65 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
 
   return (
     <Modal
-      title={isEditing ? `Edit ${client.CLIENT_NAME}` : `Customer Details`}
+      title={isEditing ? `Edit ${member.MEMBER_NAME}` : `Member Details`}
       onClose={onClose}
     >
       {isEditing ? (
         <>
           <Details>
             <DetailItem>
-              <strong>Customer Name:</strong>
+              <strong>Member Name:</strong>
               <Input
                 type="text"
-                value={editedClient.CLIENT_NAME || ""} // Add fallback to empty string
+                value={editedMember.MEMBER_NAME || ""} // Add fallback to empty string
                 onChange={(e) =>
-                  setEditedClient({
-                    ...editedClient,
-                    CLIENT_NAME: e.target.value,
+                  setEditedMember({
+                    ...editedMember,
+                    MEMBER_NAME: e.target.value,
                   })
                 }
                 border
               />
-              {errors.CLIENT_NAME && <Error>{errors.CLIENT_NAME}</Error>}
+              {errors.MEMBER_NAME && <Error>{errors.MEMBER_NAME}</Error>}
             </DetailItem>
             <DetailItem>
               <strong>Location</strong>
               <LocationContainer>
                 <CityInput
                   type="text"
-                  value={editedClient.CLIENT_CITY || ""}
+                  value={editedMember.MEMBER_CITY || ""}
                   onChange={(e) =>
-                    setEditedClient({
-                      ...editedClient,
-                      CLIENT_CITY: e.target.value,
+                    setEditedMember({
+                      ...editedMember,
+                      MEMBER_CITY: e.target.value,
                     })
                   }
                   border
                 />
-                {errors.CLIENT_CITY && <Error>{errors.CLIENT_CITY}</Error>}
+                {errors.MEMBER_CITY && <Error>{errors.MEMBER_CITY}</Error>}
                 <ProvinceInput
                   type="text"
-                  value={editedClient.CLIENT_PROVINCE || ""}
+                  value={editedMember.MEMBER_POSITION || ""}
                   onChange={(e) =>
-                    setEditedClient({
-                      ...editedClient,
-                      CLIENT_PROVINCE: e.target.value,
+                    setEditedMember({
+                      ...editedMember,
+                      MEMBER_POSITION: e.target.value,
                     })
                   }
                   border
                 />
-                {errors.CLIENT_PROVINCE && <Error>{errors.CLIENT_PROVINCE}</Error>}
+                {errors.MEMBER_POSITION && <Error>{errors.MEMBER_POSITION}</Error>}
               </LocationContainer>
             </DetailItem>
             <DetailItem>
               <strong>Phone Number:</strong>
               <Input
                 type="tel"
-                value={editedClient.CLIENT_PHONENUM || "0"} // Default to "0"
+                value={editedMember.MEMBER_PHONENUM || "0"} // Default to "0"
                 onChange={handlePhoneNumberChange}
                 border
               />
-              {errors.CLIENT_PHONENUM && <Error>{errors.CLIENT_PHONENUM}</Error>}
+              {errors.MEMBER_PHONENUM && <Error>{errors.MEMBER_PHONENUM}</Error>}
             </DetailItem>
           </Details>
           <ButtonGroup>
@@ -156,16 +156,16 @@ const CustomerDetailsModal = ({ client, onClose, onRemove }) => {
         <>
           <Section>
             <Detail>
-              <DetailLabel>Client Name:</DetailLabel>{" "}
-              {client.CLIENT_NAME || "N/A"}
+              <DetailLabel>Member Name:</DetailLabel>{" "}
+              {member.MEMBER_NAME || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Location:</DetailLabel>{" "}
-              {`${client.CLIENT_CITY || "N/A"}, ${client.CLIENT_PROVINCE || "N/A"}`}
+              <DetailLabel>ID No:</DetailLabel>{" "}
+              {member.MEMBER_ID || "N/A"}
             </Detail>
             <Detail>
-              <DetailLabel>Phone:</DetailLabel>{" "}
-              {client.CLIENT_PHONENUM || "N/A"}
+              <DetailLabel>Employment Info:</DetailLabel>{" "}
+              {`${member.MEMBER_DEPARTMENT || "N/A"}, ${member.MEMBER_POSITION || "N/A"}`}
             </Detail>
           </Section>
 
@@ -238,4 +238,4 @@ const Error = styled.p`
   margin-top: 5px;
 `;
 
-export default CustomerDetailsModal;
+export default MemberDetailsModal;

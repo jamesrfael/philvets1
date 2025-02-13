@@ -1,76 +1,81 @@
 import React, { useState } from "react";
-import MainLayout from "../../components/Layout/MainLayout";
 import styled from "styled-components";
-import SupplierOrderReport from "../../components/13thMonthPay/SupplierOrderReport";
-import CustomerOrderReport from "../../components/13thMonthPay/CustomerOrderReport";
-import AllOrderReport from "../../components/13thMonthPay/AllOrderReport"; // Import the AllOrderReport component
-import Button from "../../components/Layout/Button"; // For the tab buttons
-import { colors } from "../../colors"; // Ensure colors are correctly imported
+import Sidebar from "../../components/Layout/Sidebar/Sidebar";
+import Header from "../../components/Layout/Header";
+import SearchBar from "../../components/Layout/SearchBar";
 
-const AdminReports = () => {
-  const [activeTab, setActiveTab] = useState("All Orders Report");
+const Admin13thMonthPayPage = () => {
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // Function to render the report body based on the active tab
-  const renderActiveReport = () => {
-    switch (activeTab) {
-      case "All Orders Report":
-        return <AllOrderReport />;
-      case "Customer Order Report":
-        return <CustomerOrderReport />;
-      case "Supplier Order Report":
-        return <SupplierOrderReport />;
-      default:
-        return null;
-    }
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   return (
-    <MainLayout>
-      <Tabs>
-        <StyledTabButton
-          active={activeTab === "All Orders Report"}
-          onClick={() => setActiveTab("All Orders Report")}
-        >
-          All Orders Report
-        </StyledTabButton>
+    <DashboardWrapper>
+      <Sidebar />
+      <DashboardContainer>
+        <Header />
+        <Controls>
+          <SearchBar
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </Controls>
+        <p>Welcome to the Admin Panel. Manage your application from here.</p>
 
-        <StyledTabButton
-          active={activeTab === "Supplier Order Report"}
-          onClick={() => setActiveTab("Supplier Order Report")}
-        >
-          Supplier Order Report
-        </StyledTabButton>
-
-        <StyledTabButton
-          active={activeTab === "Customer Order Report"}
-          onClick={() => setActiveTab("Customer Order Report")}
-        >
-          Customer Order Report
-        </StyledTabButton>
-      </Tabs>
-      {renderActiveReport()} {/* Render the report based on active tab */}
-    </MainLayout>
+        <DashboardCards>
+          <Card>
+            <h3>Users</h3>
+            <p>Manage user accounts and roles.</p>
+          </Card>
+          <Card>
+            <h3>Analytics</h3>
+            <p>View system statistics and reports.</p>
+          </Card>
+          <Card>
+            <h3>Settings</h3>
+            <p>Configure application settings.</p>
+          </Card>
+        </DashboardCards>
+      </DashboardContainer>
+    </DashboardWrapper>
   );
 };
 
-// Styled components for tabs layout
-const Tabs = styled.div`
+export default Admin13thMonthPayPage;
+
+// Styled Components
+const DashboardWrapper = styled.div`
   display: flex;
-  margin-bottom: 10px;
 `;
 
-const StyledTabButton = styled(Button)`
-  background-color: ${(props) =>
-    props.active
-      ? colors.primary
-      : "#e0e0e0"}; /* Use primary for active, grey for inactive */
-  color: ${(props) => (props.active ? "#fff" : "#000")};
-  &:hover {
-    background-color: ${(props) =>
-      props.active
-        ? colors.primaryHover
-        : "#c0c0c0"}; // Use primaryHover for active hover
-  }
+const DashboardContainer = styled.div`
+  flex: 1;
+  padding: 20px;
 `;
 
-export default AdminReports;
+const DashboardCards = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+`;
+
+const Card = styled.div`
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #00308F;
+  color: white;
+  width: 200px;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const Controls = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 1px;
+`;
+

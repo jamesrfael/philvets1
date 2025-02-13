@@ -9,7 +9,7 @@ const pageTitles = {
   "/admin/members": "Member",
   "/admin/payroll": "Payroll",
   "/admin/records": "Record",
-  "/admin/13monthpay": "13th Month Pay",
+  "/admin/13thmonthpay": "13th Month Pay",
   "/admin/settings": "Setting",
 };
 

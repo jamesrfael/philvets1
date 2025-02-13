@@ -5,7 +5,9 @@
 
 /* Custom global styles */
 body {
-  font-family: 'Jost', sans-serif;
+  font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
   margin: 0; /* Remove default body margin */
   padding: 0; /* Remove default body padding */
   min-height: 100vh; /* Set a minimum height for the body */

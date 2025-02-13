@@ -61,7 +61,7 @@ const ModalContainer = styled.div`
   background: white;
   border-radius: 8px;
   width: ${(props) => (props.fixedWidth ? props.fixedWidth : "80%")};
-  max-width: 1000px;
+  max-width: 680px;
   padding: 20px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
   position: relative;

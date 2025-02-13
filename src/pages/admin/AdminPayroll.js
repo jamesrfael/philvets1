@@ -2,14 +2,14 @@
 
 import React from "react";
 import MainLayout from "../../components/Layout/MainLayout";
-import SharedUsersPage from "../../components/Payroll/SharedUsersPage"; // Ensure the path is correct
+import SharedPayrollPage from "../../components/Payroll/SharedPayrollPage"; 
 
-const AdminUsers = () => {
+const AdminPayroll = () => {
   return (
     <MainLayout>
-      <SharedUsersPage userType="admin" /> {/* Pass userType to differentiate */}
+      <SharedPayrollPage userType="admin" /> {/* Pass userType to differentiate */}
     </MainLayout>
   );
 };
 
-export default AdminUsers;
+export default AdminPayroll;

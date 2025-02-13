@@ -1,11 +1,11 @@
 import React from "react";
-import SharedCustomersPage from "../../components/Members/SharedCustomersPage";
+import SharedMembersPage from "../../components/Members/SharedMembersPage";
 import MainLayout from "../../components/Layout/MainLayout";
 
 const AdminMembers = () => {
   return (
     <MainLayout>
-      <SharedCustomersPage />
+      <SharedMembersPage />
     </MainLayout>
   );
 };

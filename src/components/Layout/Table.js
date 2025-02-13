@@ -83,7 +83,7 @@ const StyledTable = styled.table`
 `;
 
 const TableHeader = styled.th`
-  background-color: ${colors.primary};
+  background-color: ${colors.secondary};
   color: white;
   padding: 10px;
   border: 1px solid #ddd;

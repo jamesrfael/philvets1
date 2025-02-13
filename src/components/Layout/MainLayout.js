@@ -51,7 +51,7 @@ const MainContent = styled.div`
 
 const Content = styled.div`
   flex-grow: 1;
-  background-color: ${colors.primary};
+  background-color: ${colors.secondary};
   overflow-x: auto;
 `;
 
@@ -62,7 +62,7 @@ const MainContentLayout = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin: 10px;
   flex-grow: 1;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 70px);
   max-height: calc(100vh - 100px);
   overflow-y: auto;
   overflow-x: auto;

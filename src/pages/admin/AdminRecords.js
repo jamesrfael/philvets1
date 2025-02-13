@@ -1,13 +1,13 @@
 import React from "react";
 import MainLayout from "../../components/Layout/MainLayout";
-import SharedInventoryPage from "../../components/Records/SharedInventoryPage"; // Ensure the path is correct
+import SharedRecordsPage from "../../components/Records/SharedRecordsPage"; // Ensure the path is correct
 
-const AdminInventory = () => {
+const AdminRecords = () => {
   return (
     <MainLayout>
-      <SharedInventoryPage />
+      <SharedRecordsPage />
     </MainLayout>
   );
 };
 
-export default AdminInventory;
+export default AdminRecords;

@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
 import { USER as initialUser } from "../../data/UserData";
-import AddUserModal from "../../components/Users/AddUserModal";
-import UserDetailsModal from "../../components/Users/UserDetailsModal";
+import AddPayrollModal from "../../components/Payroll/AddPayrollModal";
+// import UserDetailsModal from "../../components/Users/UserDetailsModal";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
-import CardTotalUsers from "../../components/CardsData/CardTotalUsers"; // Card for SuperAdmin
-import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs"; // Card for Admin
+// import CardTotalStaffs from "../../components/CardsData/CardTotalStaffs"; // Card for Admin
 import Button from "../../components/Layout/Button";
 import { FaPlus } from "react-icons/fa";
 
-const SharedUsersPage = ({ userType }) => {
+const SharedPayrollPage = ({ userType }) => {
   const [USER, setUser] = useState(initialUser);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -113,17 +112,17 @@ const SharedUsersPage = ({ userType }) => {
           </Button>
         </ButtonGroup>
       </Controls>
-      <AnalyticsContainer>
+      {/* <AnalyticsContainer>
         {userType === "admin" ? <CardTotalStaffs /> : <CardTotalUsers />}
-      </AnalyticsContainer>
+      </AnalyticsContainer> */}
       <Table headers={headers} rows={rows} />
       {isAddModalOpen && (
-        <AddUserModal
+        <AddPayrollModal
           onClose={() => setIsAddModalOpen(false)}
           onSave={handleAddUser}
         />
       )}
-      {isDetailsModalOpen && (
+      {/* {isDetailsModalOpen && (
         <UserDetailsModal
           client={selectedUser}
           onClose={() => setIsDetailsModalOpen(false)}
@@ -131,7 +130,7 @@ const SharedUsersPage = ({ userType }) => {
             handleActivateDeactivateUser(selectedUser.USER_EMAIL);
           }}
         />
-      )}
+      )} */}
     </>
   );
 };
@@ -174,4 +173,4 @@ const ImageContainer = styled.div`
   height: 50px; /* Set height to match the image size */
 `;
 
-export default SharedUsersPage;
+export default SharedPayrollPage;

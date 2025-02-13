@@ -5,7 +5,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Button from "../Layout/Button";
 
-const AddUserModal = ({ onClose, onSave }) => {
+const AddPayrollModal = ({ onClose, onSave }) => {
   const [firstname, setFirstname] = useState("");
   const [midinitial, setMidinitial] = useState("");
   const [lastname, setLastname] = useState("");
@@ -369,4 +369,4 @@ const ErrorMessage = styled.p`
   font-size: 0.875rem;
 `;
 
-export default AddUserModal;
+export default AddPayrollModal;

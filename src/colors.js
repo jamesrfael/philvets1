@@ -3,6 +3,8 @@
 export const colors = {
   primary: "#00C4FF",
   primaryHover: "#0082AA",
+  secondary: "#00308F",
+  secondaryHover: "#808080",
 
   blue: "#00C4FF",
   blueHover: "#0082AA",

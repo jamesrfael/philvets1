@@ -2,72 +2,71 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../Layout/SearchBar";
 import Table from "../Layout/Table";
-import CardTotalCustomers from "../CardsData/CardTotalCustomers";
 import Button from "../Layout/Button";
-import AddCustomerModal from "./AddCustomerModal";
-import CustomerDetailsModal from "./CustomerDetailsModal";
-import clientsData from "../../data/ClientsData"; // Adjust the import based on your file structure
+import AddMemberModal from "./AddMemberModal";
+import MemberDetailsModal from "./MemberDetailsModal";
+import membersData from "../../data/MembersData"; 
 import { FaPlus } from "react-icons/fa";
 import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { colors } from "../../colors";
 
-const SharedCustomersPage = () => {
+const SharedMembersPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCustomers, setFilteredCustomers] = useState(clientsData);
+  const [filteredMembers, setFilteredMembers] = useState(membersData);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [selectedMember, setSelectedMember] = useState(null);
   const [sortConfig, setSortConfig] = useState({
-    key: "CLIENT_NAME",
+    key: "MEMBER_NAME",
     direction: "asc",
   });
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
     setSearchTerm(value);
-    const filtered = clientsData.filter((customer) => {
+    const filtered = membersData.filter((member) => {
       if (!value) return true;
       return (
-        customer.CLIENT_NAME.toLowerCase().includes(value) ||
-        customer.CLIENT_CITY.toLowerCase().includes(value) ||
-        customer.CLIENT_PROVINCE.toLowerCase().includes(value) ||
-        customer.CLIENT_PHONENUM.includes(value)
+        member.MEMBER_NAME.toLowerCase().includes(value) ||
+        member.MEMBER_DEPARTMENT.toLowerCase().includes(value) ||
+        member.MEMBER_POSITION.toLowerCase().includes(value) ||
+        member.MEMBER_ID.includes(value)
       );
     });
-    setFilteredCustomers(filtered);
+    setFilteredMembers(filtered);
   };
 
-  const openAddCustomerModal = () => {
+  const openAddMemberModal = () => {
     setShowAddModal(true);
   };
 
-  const openDetailsModal = (customer) => {
-    setSelectedCustomer(customer);
+  const openDetailsModal = (member) => {
+    setSelectedMember(member);
     setShowDetailsModal(true);
   };
 
   const closeModals = () => {
     setShowAddModal(false);
     setShowDetailsModal(false);
-    setSelectedCustomer(null);
+    setSelectedMember(null);
   };
 
-  const handleAddCustomer = (newCustomer) => {
-    setFilteredCustomers([...filteredCustomers, newCustomer]);
+  const handleAddMember = (newMember) => {
+    setFilteredMembers([...filteredMembers, newMember]);
   };
 
-  const handleRemoveCustomer = (customerId) => {
-    const updatedCustomers = filteredCustomers.filter(
-      (customer) => customer.CLIENT_ID !== customerId
+  const handleRemoveMember = (memberId) => {
+    const updatedMembers = filteredMembers.filter(
+      (member) => member.MEMBER_ID !== memberId
     );
-    setFilteredCustomers(updatedCustomers);
+    setFilteredMembers(updatedMembers);
   };
 
   const headers = [
-    "Customer Name",
-    "City",
-    "Province",
-    "Phone",
+    "Name",
+    "ID No.",
+    "Department",
+    "Position",
     "Action",
   ];
 
@@ -79,22 +78,22 @@ const SharedCustomersPage = () => {
     setSortConfig({ key, direction });
   };
 
-  const sortedCustomers = [...filteredCustomers].sort((a, b) => {
-    if (sortConfig.key === "CLIENT_NAME") {
+  const sortedMembers = [...filteredMembers].sort((a, b) => {
+    if (sortConfig.key === "MEMBER_NAME") {
       return (
-        a.CLIENT_NAME.localeCompare(b.CLIENT_NAME) *
+        a.MEMBER_NAME.localeCompare(b.MEMBER_NAME) *
         (sortConfig.direction === "asc" ? 1 : -1)
       );
     }
     return 0;
   });
 
-  const rows = sortedCustomers.map((customer) => [
-    customer.CLIENT_NAME,
-    customer.CLIENT_CITY,
-    customer.CLIENT_PROVINCE,
-    customer.CLIENT_PHONENUM,
-    <ActionButton key="action" onClick={() => openDetailsModal(customer)}>
+  const rows = sortedMembers.map((member) => [
+    member.MEMBER_NAME,
+    member.MEMBER_ID,
+    member.MEMBER_DEPARTMENT,
+    member.MEMBER_POSITION,
+    <ActionButton key="action" onClick={() => openDetailsModal(member)}>
       Details
     </ActionButton>,
   ]);
@@ -103,29 +102,26 @@ const SharedCustomersPage = () => {
     <>
       <Controls>
         <SearchBar
-          placeholder="Search / Filter customer..."
+          placeholder="Search / Filter member..."
           value={searchTerm}
           onChange={handleSearch}
         />
-        <StyledButton onClick={openAddCustomerModal}>
-          <FaPlus className="icon" /> Customer
+        <StyledButton onClick={openAddMemberModal}>
+          <FaPlus className="icon" /> Member
         </StyledButton>
       </Controls>
-      <SummarySection>
-        <CardTotalCustomers />
-      </SummarySection>
       <Table
         headers={headers.map((header, index) => (
           <TableHeader
             key={index}
             onClick={() => {
-              if (header === "Customer Name") handleSort("CLIENT_NAME");
+              if (header === "Member Name") handleSort("MEMBER_NAME");
             }}
           >
             {header}
-            {header === "Customer Name" && (
+            {header === "Member Name" && (
               <>
-                {sortConfig.key === "CLIENT_NAME" ? (
+                {sortConfig.key === "MEMBER_NAME" ? (
                   sortConfig.direction === "asc" ? (
                     <FaChevronUp
                       style={{ marginLeft: "5px", fontSize: "12px" }}
@@ -152,13 +148,13 @@ const SharedCustomersPage = () => {
         rows={rows}
       />
       {showAddModal && (
-        <AddCustomerModal onClose={closeModals} onAdd={handleAddCustomer} />
+        <AddMemberModal onClose={closeModals} onAdd={handleAddMember} />
       )}
-      {showDetailsModal && selectedCustomer && (
-        <CustomerDetailsModal
-          client={selectedCustomer}
+      {showDetailsModal && selectedMember && (
+        <MemberDetailsModal
+          member={selectedMember}
           onClose={closeModals}
-          onRemove={handleRemoveCustomer}
+          onRemove={handleRemoveMember}
         />
       )}
     </>
@@ -174,12 +170,6 @@ const Controls = styled.div`
   padding: 0 1px;
 `;
 
-const SummarySection = styled.div`
-  display: flex;
-  justify-content: left;
-  margin-bottom: 20px;
-`;
-
 const StyledButton = styled(Button)`
   display: flex;
   align-items: center;
@@ -191,9 +181,9 @@ const StyledButton = styled(Button)`
 `;
 
 const ActionButton = styled(Button)`
-  background-color: ${colors.primary};
+  background-color: ${colors.secondary};
   &:hover {
-    background-color: ${colors.primaryHover};
+    background-color: ${colors.secondaryHover};
   }
 
   .icon {
@@ -210,4 +200,4 @@ const TableHeader = styled.th`
   align-items: center;
 `;
 
-export default SharedCustomersPage;
+export default SharedMembersPage;

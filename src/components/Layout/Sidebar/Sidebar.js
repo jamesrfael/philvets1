@@ -2,23 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useLocation, NavLink } from "react-router-dom";
 import { TbChevronDown } from "react-icons/tb";
-import philvetsLogo from "../../../assets/philvets.png";
-import { adminSidebarItems, staffSidebarItems, superadminSidebarItems } from "./sidebarItems"; // Imported superadmin items
-import { TbLogout2 } from "react-icons/tb";
+import openspaceLogo from "../../../assets/openspaceLogo.png";
+import { adminSidebarItems } from "./sidebarItems"; // Ensure this is correctly imported
 
-// Centralized theme object for colors (move this if it's defined elsewhere)
 const theme = {
-  text: "#000000", // Default text color
-  textActive: "#FFFFFF", // Text color when active
-  backgroundActive: "#00C4FF", // Background color when active
-  backgroundHover: "#00C4FF", // Background color on hover
-  primary: "#00C4FF", // Primary background color (for active state)
-  background: "#FFFFFF", // Background color (for active state)
+  text: "#000",
+  textActive: "#FFF",
+  backgroundActive: "#00C4FF",
+  backgroundHover: "#00308F",
+  primary: "#00C4FF",
+  background: "#FFF",
 };
 
-const Sidebar = ({ isOpen, onClose, userRole }) => {
+const Sidebar = ({ isOpen, onClose }) => {
+  const location = useLocation();
   const sidebarRef = useRef(null);
-  const location = useLocation(); // Get the current location
   const [openDropdown, setOpenDropdown] = useState(null);
 
   useEffect(() => {
@@ -27,86 +25,49 @@ const Sidebar = ({ isOpen, onClose, userRole }) => {
         onClose();
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
-  // Determine sidebar items based on userRole and location
-  const getSidebarItems = () => {
-    if (location.pathname.startsWith("/superadmin")) {
-      return superadminSidebarItems;
-    } else if (location.pathname.startsWith("/admin")) {
-      return adminSidebarItems;
-    } else {
-      return staffSidebarItems;
-    }
-  };
-
-  const sidebarItems = getSidebarItems();
-
-  // Ensure dropdown remains open if any of its subItems matches the current route
   useEffect(() => {
-    const matchingDropdown = sidebarItems.findIndex((item) =>
+    const matchingDropdown = adminSidebarItems.findIndex((item) =>
       item.dropdown?.some((subItem) => subItem.link === location.pathname)
     );
-    if (matchingDropdown !== -1) {
-      setOpenDropdown(matchingDropdown);
-    }
-  }, [location, sidebarItems]);
-
-  // Only toggle the dropdown when the button is clicked
-  const handleDropdownToggle = (index) => {
-    setOpenDropdown(openDropdown === index ? null : index); // Toggle only on click
-  };
+    if (matchingDropdown !== -1) setOpenDropdown(matchingDropdown);
+  }, [location]);
 
   return (
-    <SidebarContainer ref={sidebarRef} isOpen={isOpen}>
+    <SidebarContainer ref={sidebarRef} isOpen={isOpen} onSelectStart={() => false}>
       <SidebarHeader>
-        <LogoContainer>
-          <Logo src={philvetsLogo} alt="PHILVETS Logo" />
-        </LogoContainer>
+        <Logo src={openspaceLogo} alt="OPEN'SPACE Logo" />
       </SidebarHeader>
 
       <SidebarContent>
-        {sidebarItems.map((item, index) => {
-          const isParentActive = item.dropdown && openDropdown === index; // Dropdown open state
-
+        {adminSidebarItems.map((item, index) => {
+          const isParentActive = item.dropdown && openDropdown === index;
           return (
             <React.Fragment key={index}>
               <SidebarLink
-                as={item.dropdown ? "div" : NavLink} // Use div for parent dropdown items
+                as={item.dropdown ? "div" : NavLink}
                 to={item.dropdown ? "#" : item.link}
                 className={!item.dropdown && location.pathname === item.link ? "active" : ""}
-                onClick={() => {
-                  if (item.dropdown) {
-                    handleDropdownToggle(index); // Toggle dropdown
-                  }
-                }}
-                active={isParentActive} // Parent item active state is based on dropdown open
+                onClick={() => item.dropdown && setOpenDropdown(isParentActive ? null : index)}
+                active={isParentActive}
               >
-                <item.icon size={20} className="icon" />
+                <IconWrapper>
+                  <item.icon size={20} />
+                </IconWrapper>
                 <span className="label">{item.label}</span>
-                {item.dropdown && (
-                  <ChevronIconContainer isOpen={isParentActive}>
-                    <TbChevronDown size={16} className="arrow-icon" />
-                  </ChevronIconContainer>
-                )}
+                {item.dropdown && <ChevronIcon isOpen={isParentActive} />}
               </SidebarLink>
 
-              {item.dropdown && isParentActive && (
+              {isParentActive && (
                 <DropdownContainer>
                   {item.dropdown.map((subItem, subIndex) => (
-                    <NavLink
-                      key={subIndex}
-                      to={subItem.link}
-                      className={({ isActive }) =>
-                        `dropdown-item ${isActive ? "active" : ""}`
-                      }
-                    >
-                      {subItem.icon && <subItem.icon size={15} className="icon" />}
+                    <NavLink key={subIndex} to={subItem.link} className={({ isActive }) => `dropdown-item ${isActive ? "active" : ""}`}>
+                      <IconWrapper>
+                        <subItem.icon size={20} />
+                      </IconWrapper>
                       <span className="dropdown-label">{subItem.label}</span>
                     </NavLink>
                   ))}
@@ -116,63 +77,35 @@ const Sidebar = ({ isOpen, onClose, userRole }) => {
           );
         })}
       </SidebarContent>
-
-      <SidebarFooter>
-        <SidebarLink to="/login">
-          <TbLogout2 size={20} className="icon" />
-          <span className="label">Logout</span>
-        </SidebarLink>
-      </SidebarFooter>
     </SidebarContainer>
   );
 };
 
-
-// Styled Components (make sure 'theme' is in scope)
+// Styled Components
 const SidebarContainer = styled.div`
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  background-color: white;
-  color: black;
-  max-width: 190px;
+  background: ${theme.background};
+  max-width: 230px;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
+  user-select: none; /* Prevent text selection */
 
   @media (max-width: 768px) {
     position: fixed;
-    transform: ${({ isOpen }) =>
-      isOpen ? "translateX(0)" : "translateX(-100%)"};
+    transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(-100%)")};
     z-index: 1000;
-    box-shadow: ${({ isOpen }) =>
-      isOpen ? "2px 0 5px rgba(0, 0, 0, 0.5)" : "none"};
   }
-
-  @media (min-width: 769px) {
-    position: static;
-    transform: translateX(0);
-  }
-
-  top: 0;
-  left: 0;
-  height: 100%;
 `;
 
 const SidebarHeader = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
-`;
-
-const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const Logo = styled.img`
   max-width: 90%;
   height: auto;
-  padding: 5px 15px 0px 20px;
-  margin-left: 6px;
+  padding: 15px 15px 0 20px;
 `;
 
 const SidebarContent = styled.div`
@@ -181,103 +114,55 @@ const SidebarContent = styled.div`
   overflow-y: auto;
 `;
 
-const SidebarFooter = styled.div`
-  padding: 16px;
-`;
-
 const SidebarLink = styled(NavLink)`
   display: flex;
+  margin: 6px 0; 
   align-items: center;
+  gap: 10px; /* Added spacing between icon and label */
   padding: 6px;
-  margin-bottom: 4px;
   border-radius: 4px;
   color: ${({ active }) => (active ? theme.textActive : theme.text)};
   text-decoration: none;
-  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-
-  /* Ensure the background and text color of active dropdown parent item */
-  ${({ active }) =>
-    active &&
-    `
-      background-color: ${theme.primary};
-      color: ${theme.background};
-      
-      .icon {
-        color: ${theme.background};
-      }
-  `}
-
+  transition: background-color 0.3s;
+  background: ${({ active }) => (active ? theme.backgroundHover : "transparent")};
+  
   &:hover {
-    background-color: ${theme.backgroundHover};
-    color: ${theme.background};
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
-    .icon {
-      color: ${theme.background};
-    }
-  }
-
-  &.active {
-    background-color: ${theme.primary};
-    color: ${theme.background};
-
-    .icon {
-      color: ${theme.background};
-    }
-  }
-
-  .icon {
-    width: 20px;
-    height: 20px;
-    color: inherit;
-    transition: color 0.1s ease-in-out;
-  }
-
-  .label {
-    margin-left: 8px;
-    font-size: 15px;
-    transition: color 0.1s ease-in-out;
+    background: ${theme.backgroundHover};
+    color: ${theme.textActive};
   }
 `;
 
-const ChevronIconContainer = styled.div`
+const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+`;
+
+const ChevronIcon = styled(TbChevronDown)`
   margin-left: auto;
-  transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "rotate(0deg)")};
-  transition: transform 0.3s ease-in-out;
+  transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "rotate(0)")};
+  transition: transform 0.3s;
 `;
 
 const DropdownContainer = styled.div`
-  padding-left: 10px; /* Indent dropdown items */
-  margin-top: 4px;
-  
+  margin-left: 10px;
+  background: none;
+
   .dropdown-item {
     display: flex;
     align-items: center;
+    gap: 10px; /* Added spacing between icon and label */
     padding: 6px;
-    margin-bottom: 4px;
+    margin: 4px;
     border-radius: 4px;
-    color: ${theme.text}; /* Keep text color black for dropdown items */
+    color: ${theme.text};
     text-decoration: none;
-    transition: background-color 0.1s ease-in-out;
+    transition: background-color 0.1s;
 
-    &.active {
-      background-color: ${theme.primary}; /* Change background when active */
-      color: ${theme.background}; /* Keep text white */
-    }
-
-    &:hover {
-      background-color: ${theme.backgroundHover};
-      color: ${theme.background};
-    }
-
-    .icon {
-      margin-right: 8px;
-      width: 15px;
-      height: 15px;
-    }
-
-    .dropdown-label {
-      font-size: 14px;
+    &:hover, &.active {
+      background: ${theme.backgroundHover};
+      color: ${theme.textActive};
     }
   }
 `;
