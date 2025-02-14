@@ -5,40 +5,37 @@ import Table from "../Layout/Table";
 import Button from "../Layout/Button";
 import AddMemberModal from "./AddMemberModal";
 import MemberDetailsModal from "./MemberDetailsModal";
-import membersData from "../../data/MembersData"; 
+import membersData from "../../data/MembersData";
 import { FaPlus } from "react-icons/fa";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import { colors } from "../../colors";
 
 const SharedMembersPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredMembers, setFilteredMembers] = useState(membersData);
+  const [filteredMembers, setFilteredMembers] = useState(
+    [...membersData].sort((a, b) => a.MEMBER_ID - b.MEMBER_ID)
+  );
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
-  const [sortConfig, setSortConfig] = useState({
-    key: "MEMBER_NAME",
-    direction: "asc",
-  });
 
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
     setSearchTerm(value);
-    const filtered = membersData.filter((member) => {
-      if (!value) return true;
-      return (
-        member.MEMBER_NAME.toLowerCase().includes(value) ||
-        member.MEMBER_DEPARTMENT.toLowerCase().includes(value) ||
-        member.MEMBER_POSITION.toLowerCase().includes(value) ||
-        member.MEMBER_ID.includes(value)
-      );
-    });
-    setFilteredMembers(filtered);
+    setFilteredMembers(
+      membersData
+        .filter((member) =>
+          [
+            `${member.MEMBER_LASTNAME}, ${member.MEMBER_FIRSTNAME} ${member.MEMBER_MIDDLENAME}`,
+            member.MEMBER_DEPARTMENT,
+            member.MEMBER_POSITION,
+            member.MEMBER_ID.toString(),
+          ].some((field) => field.toLowerCase().includes(value))
+        )
+        .sort((a, b) => a.MEMBER_ID - b.MEMBER_ID)
+    );
   };
 
-  const openAddMemberModal = () => {
-    setShowAddModal(true);
-  };
+  const openAddMemberModal = () => setShowAddModal(true);
 
   const openDetailsModal = (member) => {
     setSelectedMember(member);
@@ -52,116 +49,65 @@ const SharedMembersPage = () => {
   };
 
   const handleAddMember = (newMember) => {
-    setFilteredMembers([...filteredMembers, newMember]);
+    setFilteredMembers((prev) =>
+      [...prev, newMember].sort((a, b) => a.MEMBER_ID - b.MEMBER_ID)
+    );
+    setSelectedMember(newMember);
+    setShowAddModal(false);
+    setShowDetailsModal(true);
   };
 
   const handleRemoveMember = (memberId) => {
-    const updatedMembers = filteredMembers.filter(
-      (member) => member.MEMBER_ID !== memberId
+    setFilteredMembers((prev) =>
+      prev.filter((member) => member.MEMBER_ID !== memberId).sort((a, b) => a.MEMBER_ID - b.MEMBER_ID)
     );
-    setFilteredMembers(updatedMembers);
+    closeModals();
   };
 
-  const headers = [
-    "Name",
-    "ID No.",
-    "Department",
-    "Position",
-    "Action",
-  ];
+  const headers = ["Name", "ID No.", "Department", "Position", "Action"];
 
-  const handleSort = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
-    setSortConfig({ key, direction });
+  const columnWidths = {
+    name: "250px",
+    id: "100px",
+    department: "200px",
+    position: "200px",
+    action: "150px",
   };
-
-  const sortedMembers = [...filteredMembers].sort((a, b) => {
-    if (sortConfig.key === "MEMBER_NAME") {
-      return (
-        a.MEMBER_NAME.localeCompare(b.MEMBER_NAME) *
-        (sortConfig.direction === "asc" ? 1 : -1)
-      );
-    }
-    return 0;
-  });
-
-  const rows = sortedMembers.map((member) => [
-    member.MEMBER_NAME,
-    member.MEMBER_ID,
-    member.MEMBER_DEPARTMENT,
-    member.MEMBER_POSITION,
-    <ActionButton key="action" onClick={() => openDetailsModal(member)}>
-      Details
-    </ActionButton>,
-  ]);
 
   return (
     <>
       <Controls>
-        <SearchBar
-          placeholder="Search / Filter member..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
+        <SearchBar placeholder="Search / Filter member..." value={searchTerm} onChange={handleSearch} />
         <StyledButton onClick={openAddMemberModal}>
           <FaPlus className="icon" /> Member
         </StyledButton>
       </Controls>
       <Table
         headers={headers.map((header, index) => (
-          <TableHeader
-            key={index}
-            onClick={() => {
-              if (header === "Member Name") handleSort("MEMBER_NAME");
-            }}
-          >
+          <TableHeader key={index} width={columnWidths[header.toLowerCase().replace(/\s/g, "")]}>
             {header}
-            {header === "Member Name" && (
-              <>
-                {sortConfig.key === "MEMBER_NAME" ? (
-                  sortConfig.direction === "asc" ? (
-                    <FaChevronUp
-                      style={{ marginLeft: "5px", fontSize: "12px" }}
-                    />
-                  ) : (
-                    <FaChevronDown
-                      style={{ marginLeft: "5px", fontSize: "12px" }}
-                    />
-                  )
-                ) : (
-                  <span style={{ opacity: 0.5 }}>
-                    <FaChevronUp
-                      style={{ marginLeft: "5px", fontSize: "12px" }}
-                    />
-                    <FaChevronDown
-                      style={{ marginLeft: "5px", fontSize: "12px" }}
-                    />
-                  </span>
-                )}
-              </>
-            )}
           </TableHeader>
         ))}
-        rows={rows}
+        rows={filteredMembers.map((member) => [
+          <TableCell width={columnWidths.name}>
+            {`${member.MEMBER_FIRSTNAME} ${member.MEMBER_MIDDLENAME} ${member.MEMBER_LASTNAME}`}
+          </TableCell>,
+          <TableCell width={columnWidths.id}>{member.MEMBER_ID}</TableCell>,
+          <TableCell width={columnWidths.department}>{member.MEMBER_DEPARTMENT}</TableCell>,
+          <TableCell width={columnWidths.position}>{member.MEMBER_POSITION}</TableCell>,
+          <TableCell width={columnWidths.action}>
+            <ActionButton onClick={() => openDetailsModal(member)}>Details</ActionButton>
+          </TableCell>,
+        ])}
       />
-      {showAddModal && (
-        <AddMemberModal onClose={closeModals} onAdd={handleAddMember} />
-      )}
+      {showAddModal && <AddMemberModal onClose={() => setShowAddModal(false)} onAdd={handleAddMember} />}
       {showDetailsModal && selectedMember && (
-        <MemberDetailsModal
-          member={selectedMember}
-          onClose={closeModals}
-          onRemove={handleRemoveMember}
-        />
+        <MemberDetailsModal member={selectedMember} onClose={closeModals} onRemove={handleRemoveMember} />
       )}
     </>
   );
 };
 
-// Styled components
 const Controls = styled.div`
   display: flex;
   justify-content: space-between;
@@ -172,32 +118,36 @@ const Controls = styled.div`
 
 const StyledButton = styled(Button)`
   display: flex;
+  width: 120px;
+  margin-top: 12px;
+  padding: 10px;
+  justify-content: center;
   align-items: center;
-
   .icon {
-    font-size: 20px;
+    font-size: 18px;
     margin-right: 8px;
   }
 `;
 
 const ActionButton = styled(Button)`
+  width: 100px;
   background-color: ${colors.secondary};
   &:hover {
     background-color: ${colors.secondaryHover};
-  }
-
-  .icon {
-    font-size: 20px;
-    margin-right: 8px;
   }
 `;
 
 const TableHeader = styled.th`
   text-align: center;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  vertical-align: middle;
+  padding: 8px;
+  width: ${({ width }) => width || "auto"};
+`;
+
+const TableCell = styled.td`
+  text-align: center;
+  vertical-align: middle;
+  width: ${({ width }) => width || "auto"};
 `;
 
 export default SharedMembersPage;

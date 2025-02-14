@@ -110,7 +110,7 @@ const Pagination = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: ${colors.primary};
+  background-color: ${colors.secondary};
   color: white;
   padding: 8px 12px;
   border: none;

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Modal from "../Layout/Modal";
 import styled from "styled-components";
 import Button from "../Layout/Button";
+import { FaCamera } from "react-icons/fa";
+import axios from "axios";
 
 const AddMemberModal = ({ onClose, onAdd }) => {
   const [member, setMember] = useState({
@@ -16,29 +18,73 @@ const AddMemberModal = ({ onClose, onAdd }) => {
     department: "",
     position: "",
     status: "",
-    monthlySalary: "",
-    sss: "",
-    philhealth: "",
-    pagibig: "",
-    vacationLeave: "",
-    sickLeave: "",
-    emergencyLeave: "",
-    maternityLeave: "",
-    paternityLeave: "",
+    monthlySalary: 0,
+    sss: 0,
+    philhealth: 0,
+    pagibig: 0,
+    vacationLeave: 0,
+    sickLeave: 0,
+    emergencyLeave: 0,
+    maternityLeave: 0,
+    paternityLeave: 0,
+    profilePicture: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
-    setMember({ ...member, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setMember((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleAddMember = () => {
-    onAdd(member);
-    onClose();
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setMember((prev) => ({ ...prev, profilePicture: reader.result }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
+
+  const handleAddMember = async () => {
+    if (!member.idNumber || !member.lastName || !member.firstName || !member.email) {
+      alert("Please fill all required fields.");
+      return;
+    }
+  
+    setLoading(true);
+    try {
+      const response = await axios.post("http://localhost:5000/api/members", member);
+      if (response.status === 201) {
+        alert("Member added successfully!");
+        onAdd(response.data.member); // Pass the new member data to parent component
+        onClose();
+      }
+    } catch (error) {
+      alert(`Error: ${error.response?.data?.error || "Failed to add member"}`);
+    }
+    setLoading(false);
+  };  
 
   return (
     <Modal title="Add New Member" onClose={onClose}>
       <Form>
+        <SectionTitle>Profile Picture</SectionTitle>
+        <ImageUploadContainer>
+          {member.profilePicture ? (
+            <ProfileImage src={member.profilePicture} alt="Profile" />
+          ) : (
+            <ImagePlaceholder>
+              <FaCamera size={30} color="#ccc" />
+            </ImagePlaceholder>
+          )}
+          <StyledInput type="file" accept="image/*" onChange={handleImageChange} />
+        </ImageUploadContainer>
         <SectionTitle>Basic Information</SectionTitle>
         <ColumnContainer>
           <Row>
@@ -76,11 +122,21 @@ const AddMemberModal = ({ onClose, onAdd }) => {
         </Row>
         <Row>
           <Label>Company:</Label>
-          <Input type="text" name="company" value={member.company} onChange={handleChange} />
+          <Select name="company" value={member.company} onChange={handleChange}>
+            <option value="">Select Company</option>
+            <option value="Open'Space Technologies Inc.">Open'Space Technologies Inc.</option>
+            <option value="IT Central Global Corp">IT Central Global Corp</option>
+          </Select>
         </Row>
         <Row>
           <Label>Department:</Label>
-          <Input type="text" name="department" value={member.department} onChange={handleChange} />
+          <Select name="department" value={member.department} onChange={handleChange}>
+            <option value="">Select Department</option>
+            <option value="Software Development">Software Development</option>
+            <option value="Admin">Admin</option>
+            <option value="Sales">Sales</option>
+            <option value="Technician">Technician</option>
+          </Select>
         </Row>
         <Row>
           <Label>Position:</Label>
@@ -88,7 +144,12 @@ const AddMemberModal = ({ onClose, onAdd }) => {
         </Row>
         <Row>
           <Label>Status:</Label>
-          <Input type="text" name="status" value={member.status} onChange={handleChange} />
+          <Select name="status" value={member.status} onChange={handleChange}>
+            <option value="">Select Status</option>
+            <option value="Regular">Regular</option>
+            <option value="Probationary">Probationary</option>
+            <option value="OJT">OJT</option>
+          </Select>
         </Row>
         <Row>
           <Label>Monthly Salary:</Label>
@@ -168,8 +229,16 @@ const Input = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 300px;
-  height: 25px;
+  width: 375px;
+  height: 35px;
+`;
+
+const Select = styled.select`
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 375px;
+  height: 35px;
 `;
 
 const ColumnContainer = styled.div`
@@ -189,6 +258,38 @@ const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+`;
+
+const ImageUploadContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+
+const ProfileImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+const StyledInput = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 400px;
+`;
+
+const ImagePlaceholder = styled.div`
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default AddMemberModal;
