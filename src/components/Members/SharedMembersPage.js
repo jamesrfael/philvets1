@@ -11,13 +11,12 @@ import { colors } from "../../colors";
 
 const SharedMembersPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredMembers, setFilteredMembers] = useState(
-    [...membersData].sort((a, b) => a.MEMBER_ID - b.MEMBER_ID)
-  );
+  const [filteredMembers, setFilteredMembers] = useState([...membersData].sort((a, b) => a.MEMBER_ID - b.MEMBER_ID));
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
 
+  // Handle search filtering
   const handleSearch = (event) => {
     const value = event.target.value.trim().toLowerCase();
     setSearchTerm(value);
@@ -35,19 +34,23 @@ const SharedMembersPage = () => {
     );
   };
 
+  // Open Add Member Modal
   const openAddMemberModal = () => setShowAddModal(true);
 
+  // Open Details Modal
   const openDetailsModal = (member) => {
     setSelectedMember(member);
     setShowDetailsModal(true);
   };
 
+  // Close Modals and Reset Selected Member
   const closeModals = () => {
     setShowAddModal(false);
     setShowDetailsModal(false);
     setSelectedMember(null);
   };
 
+  // Handle adding a new member
   const handleAddMember = (newMember) => {
     setFilteredMembers((prev) =>
       [...prev, newMember].sort((a, b) => a.MEMBER_ID - b.MEMBER_ID)
@@ -57,9 +60,18 @@ const SharedMembersPage = () => {
     setShowDetailsModal(true);
   };
 
+  // Handle removing a member
   const handleRemoveMember = (memberId) => {
     setFilteredMembers((prev) =>
       prev.filter((member) => member.MEMBER_ID !== memberId).sort((a, b) => a.MEMBER_ID - b.MEMBER_ID)
+    );
+    closeModals();
+  };
+
+  // Handle saving member changes
+  const handleSaveChanges = (updatedMember) => {
+    setFilteredMembers((prev) =>
+      prev.map((member) => (member.MEMBER_ID === updatedMember.MEMBER_ID ? updatedMember : member))
     );
     closeModals();
   };
@@ -82,6 +94,8 @@ const SharedMembersPage = () => {
           <FaPlus className="icon" /> Member
         </StyledButton>
       </Controls>
+
+      {/* Members Table */}
       <Table
         headers={headers.map((header, index) => (
           <TableHeader key={index} width={columnWidths[header.toLowerCase().replace(/\s/g, "")]}>
@@ -89,25 +103,34 @@ const SharedMembersPage = () => {
           </TableHeader>
         ))}
         rows={filteredMembers.map((member) => [
-          <TableCell width={columnWidths.name}>
-            {`${member.MEMBER_FIRSTNAME} ${member.MEMBER_MIDDLENAME} ${member.MEMBER_LASTNAME}`}
-          </TableCell>,
-          <TableCell width={columnWidths.id}>{member.MEMBER_ID}</TableCell>,
-          <TableCell width={columnWidths.department}>{member.MEMBER_DEPARTMENT}</TableCell>,
-          <TableCell width={columnWidths.position}>{member.MEMBER_POSITION}</TableCell>,
-          <TableCell width={columnWidths.action}>
-            <ActionButton onClick={() => openDetailsModal(member)}>Details</ActionButton>
-          </TableCell>,
+          `${member.MEMBER_FIRSTNAME} ${member.MEMBER_MIDDLENAME} ${member.MEMBER_LASTNAME}`,
+          member.MEMBER_ID,
+          member.MEMBER_DEPARTMENT,
+          member.MEMBER_POSITION,
+          <ActionButton key={member.MEMBER_ID} onClick={() => openDetailsModal(member)}>
+            Details
+          </ActionButton>,
         ])}
       />
+
+      {/* Add Member Modal */}
       {showAddModal && <AddMemberModal onClose={() => setShowAddModal(false)} onAdd={handleAddMember} />}
+
+      {/* Member Details Modal */}
       {showDetailsModal && selectedMember && (
-        <MemberDetailsModal member={selectedMember} onClose={closeModals} onRemove={handleRemoveMember} />
+        <MemberDetailsModal
+          show={showDetailsModal}
+          handleClose={closeModals}
+          member={selectedMember}
+          onSave={handleSaveChanges}
+          onDelete={handleRemoveMember}
+        />
       )}
     </>
   );
 };
 
+// Styled Components
 const Controls = styled.div`
   display: flex;
   justify-content: space-between;
@@ -141,12 +164,6 @@ const TableHeader = styled.th`
   text-align: center;
   vertical-align: middle;
   padding: 8px;
-  width: ${({ width }) => width || "auto"};
-`;
-
-const TableCell = styled.td`
-  text-align: center;
-  vertical-align: middle;
   width: ${({ width }) => width || "auto"};
 `;
 
