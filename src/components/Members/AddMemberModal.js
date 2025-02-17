@@ -18,6 +18,8 @@ const AddMemberModal = ({ onClose, onAdd }) => {
     department: "",
     position: "",
     status: "",
+    dailyRate: 0,
+    basicPay: 0,
     monthlySalary: 0,
     sss: 0,
     philhealth: 0,
@@ -150,6 +152,14 @@ const AddMemberModal = ({ onClose, onAdd }) => {
             <option value="Probationary">Probationary</option>
             <option value="OJT">OJT</option>
           </Select>
+        </Row>
+        <Row>
+          <Label>Daily Rate:</Label>
+          <Input type="number" name="dailyRate" value={member.dailyRate} onChange={handleChange} />
+        </Row>
+        <Row>
+          <Label>Basic Pay:</Label>
+          <Input type="number" name="basicPay" value={member.basicPay} onChange={handleChange} />
         </Row>
         <Row>
           <Label>Monthly Salary:</Label>

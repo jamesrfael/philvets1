@@ -12,8 +12,11 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2020-05-10",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2272.73,
+    BASIC_PAY: 25000,
     MONTHLY_SALARY: 50000,
     CONTRIBUTIONS: {
+    MONTHLY_SALARY: 50000,
       MEMBER_SSS: 2500,
       MEMBER_PHILHEALTH: 500,
       MEMBER_PAGIBIG: 200,
@@ -39,6 +42,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2019-08-15",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 1818.18,
+    BASIC_PAY: 20000,
     MONTHLY_SALARY: 40000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2200,
@@ -66,6 +71,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2018-07-22",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2727.27,
+    BASIC_PAY: 30000,
     MONTHLY_SALARY: 60000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2800,
@@ -93,6 +100,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2021-03-10",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Probationary",
+    DAILY_RATE: 1590.91,
+    BASIC_PAY: 17500,
     MONTHLY_SALARY: 35000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2000,
@@ -120,6 +129,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2020-05-10",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2272.73,
+    BASIC_PAY: 25000,
     MONTHLY_SALARY: 50000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2500,
@@ -147,6 +158,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2019-08-15",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 1818.18,
+    BASIC_PAY: 20000,
     MONTHLY_SALARY: 40000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2200,
@@ -174,6 +187,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2018-07-22",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2727.27,
+    BASIC_PAY: 30000,
     MONTHLY_SALARY: 60000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2800,
@@ -201,6 +216,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2021-03-10",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Probationary",
+    DAILY_RATE: 1590.91,
+    BASIC_PAY: 17500,
     MONTHLY_SALARY: 35000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2000,
@@ -228,6 +245,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2020-05-10",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2272.73,
+    BASIC_PAY: 25000,
     MONTHLY_SALARY: 50000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2500,
@@ -255,6 +274,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2019-08-15",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 1818.18,
+    BASIC_PAY: 20000,
     MONTHLY_SALARY: 40000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2200,
@@ -282,6 +303,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2018-07-22",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2727.27,
+    BASIC_PAY: 30000,
     MONTHLY_SALARY: 60000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2800,
@@ -309,6 +332,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2021-03-10",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Probationary",
+    DAILY_RATE: 1590.91,
+    BASIC_PAY: 17500,
     MONTHLY_SALARY: 35000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2000,
@@ -336,6 +361,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2020-05-10",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2272.73,
+    BASIC_PAY: 25000,
     MONTHLY_SALARY: 50000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2500,
@@ -363,6 +390,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2019-08-15",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 1818.18,
+    BASIC_PAY: 20000,
     MONTHLY_SALARY: 40000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2200,
@@ -390,6 +419,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2018-07-22",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2727.27,
+    BASIC_PAY: 30000,
     MONTHLY_SALARY: 60000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2800,
@@ -417,6 +448,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2021-03-10",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Probationary",
+    DAILY_RATE: 1590.91,
+    BASIC_PAY: 17500,
     MONTHLY_SALARY: 35000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2000,
@@ -444,6 +477,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2020-05-10",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2272.73,
+    BASIC_PAY: 25000,
     MONTHLY_SALARY: 50000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2500,
@@ -471,6 +506,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2019-08-15",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 1818.18,
+    BASIC_PAY: 20000,
     MONTHLY_SALARY: 40000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2200,
@@ -498,6 +535,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2018-07-22",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2727.27,
+    BASIC_PAY: 30000,
     MONTHLY_SALARY: 60000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2800,
@@ -525,6 +564,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2021-03-10",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Probationary",
+    DAILY_RATE: 1590.91,
+    BASIC_PAY: 17500,
     MONTHLY_SALARY: 35000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2000,
@@ -552,6 +593,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2020-05-10",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2272.73,
+    BASIC_PAY: 25000,
     MONTHLY_SALARY: 50000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2500,
@@ -579,6 +622,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2019-08-15",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 1818.18,
+    BASIC_PAY: 20000,
     MONTHLY_SALARY: 40000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2200,
@@ -606,6 +651,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2018-07-22",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2727.27,
+    BASIC_PAY: 30000,
     MONTHLY_SALARY: 60000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2800,
@@ -633,6 +680,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2021-03-10",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Probationary",
+    DAILY_RATE: 1590.91,
+    BASIC_PAY: 17500,
     MONTHLY_SALARY: 35000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2000,
@@ -660,6 +709,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2020-05-10",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2272.73,
+    BASIC_PAY: 25000,
     MONTHLY_SALARY: 50000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2500,
@@ -687,6 +738,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2019-08-15",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 1818.18,
+    BASIC_PAY: 20000,
     MONTHLY_SALARY: 40000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2200,
@@ -714,6 +767,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2018-07-22",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2727.27,
+    BASIC_PAY: 30000,
     MONTHLY_SALARY: 60000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2800,
@@ -741,6 +796,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2021-03-10",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Probationary",
+    DAILY_RATE: 1590.91,
+    BASIC_PAY: 17500,
     MONTHLY_SALARY: 35000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2000,
@@ -768,6 +825,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2019-08-15",
     MEMBER_COMPANY: "Open'Space Technologies Inc.",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 1818.18,
+    BASIC_PAY: 20000,
     MONTHLY_SALARY: 40000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2200,
@@ -795,6 +854,8 @@ const MembersData = [
     MEMBER_DATE_HIRED: "2018-07-22",
     MEMBER_COMPANY: "IT Central Global Corp",
     MEMBER_STATUS: "Regular",
+    DAILY_RATE: 2727.27,
+    BASIC_PAY: 30000,
     MONTHLY_SALARY: 60000,
     CONTRIBUTIONS: {
       MEMBER_SSS: 2800,
