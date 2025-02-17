@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import SearchBar from "../Layout/SearchBar";
 import Table from "../Layout/Table";
-import CardTotalProducts from "../CardsData/CardTotalProducts";
-import CardLowStocks from "../CardsData/CardLowStocks";
 import InventoryDetailsModal from "./RecordsDetailsModal";
 import productData from "../../data/ProductData"; // Ensure the path is correct
 import Button from "../Layout/Button";
@@ -63,10 +61,6 @@ const SharedRecordsPage = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </Controls>
-      <AnalyticsContainer>
-        <CardTotalProducts />
-        <CardLowStocks />
-      </AnalyticsContainer>
       <Table headers={headers} rows={rows} />
       {showDetailModal && selectedItem && (
         <InventoryDetailsModal item={selectedItem} onClose={closeModal} />
@@ -79,13 +73,6 @@ const Controls = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding: 0 1px;
-`;
-
-const AnalyticsContainer = styled.div`
-  display: flex;
-  gap: 16px;
   margin-bottom: 16px;
   padding: 0 1px;
 `;

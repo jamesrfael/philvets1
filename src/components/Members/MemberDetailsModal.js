@@ -98,6 +98,14 @@ const MemberDetailsModal = ({ show, handleClose, member, onSave, onDelete }) => 
               <StyledInput name="MEMBER_STATUS" value={editableMember.MEMBER_STATUS || ""} onChange={handleChange} />
             </FormGroup>
             <FormGroup>
+              <FormLabel>Daily Rate:</FormLabel>
+              <StyledInput name="DAILY_RATE" value={editableMember.DAILY_RATE || ""} onChange={handleChange} />
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>Basic Pay:</FormLabel>
+              <StyledInput name="BASIC_PAY" value={editableMember.BASIC_PAY || ""} onChange={handleChange} />
+            </FormGroup>
+            <FormGroup>
               <FormLabel>Monthly Salary:</FormLabel>
               <StyledInput name="MONTHLY_SALARY" value={editableMember.MONTHLY_SALARY || ""} onChange={handleChange} />
             </FormGroup>
@@ -189,24 +197,12 @@ const StyledForm = styled(Form)`
   padding: 0;
 `;
 
-// const ProfileContainer = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   margin-bottom: 20px;
-// `;
-
-// const ProfileImage = styled.img`
-//   width: 120px;
-//   height: 120px;
-//   border-radius: 50%;
-//   object-fit: cover;
-//   border: 2px solid #ddd;
-// `;
-
 const SectionTitle = styled.h3`
   font-size: 18px;
   font-weight: bold;
   margin-top: 20px;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 15px;
 `;
 
 const FormGroup = styled.div`

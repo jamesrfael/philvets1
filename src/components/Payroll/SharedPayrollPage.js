@@ -1,25 +1,27 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../colors";
-import initialEmployee from "../../data/MembersData"; // Correct import
+import initialEmployee from "../../data/MembersData";
 import SearchBar from "../../components/Layout/SearchBar";
 import Table from "../../components/Layout/Table";
 import Button from "../../components/Layout/Button";
+import MemberPayrollDetailsModal from "../Payroll/MemberPayrollDetailsModal";
 
 const SharedPayrollPage = () => {
   const [EMPLOYEE] = useState(initialEmployee);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedMember, setSelectedMember] = useState(null);
 
-  // Filtering employee list based on search term
+  // Filtering employee list based on search term (trim the input for better matching)
   const filteredEmployee = EMPLOYEE.filter((member) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-
+    const lowerCaseSearchTerm = searchTerm.trim().toLowerCase();
     return (
       member.MEMBER_FIRSTNAME.toLowerCase().includes(lowerCaseSearchTerm) ||
-      (member.MEMBER_MIDDLENAME && member.MEMBER_MIDDLENAME.toLowerCase().includes(lowerCaseSearchTerm)) ||
+      (member.MEMBER_MIDDLENAME &&
+        member.MEMBER_MIDDLENAME.toLowerCase().includes(lowerCaseSearchTerm)) ||
       member.MEMBER_LASTNAME.toLowerCase().includes(lowerCaseSearchTerm) ||
       member.MEMBER_EMAIL.toLowerCase().includes(lowerCaseSearchTerm) ||
-      member.MEMBER_ID.toString().includes(lowerCaseSearchTerm) // Searching by ID
+      member.MEMBER_ID.toString().includes(lowerCaseSearchTerm)
     );
   });
 
@@ -47,19 +49,30 @@ const SharedPayrollPage = () => {
     <TableHeader width={columnWidths.action}>Action</TableHeader>,
   ];
 
-  // Table Rows
-  const rows = filteredEmployee.map((member) => [
+  // Table Rows with destructuring
+  const rows = filteredEmployee.map(({ 
+    MEMBER_FIRSTNAME, 
+    MEMBER_MIDDLENAME, 
+    MEMBER_LASTNAME, 
+    MEMBER_PAYSLIP_NO, 
+    MEMBER_ID, 
+    MEMBER_COMPANY, 
+    MEMBER_DEPARTMENT, 
+    MEMBER_POSITION, 
+    MEMBER_STATUS }) => [
     <TableCell width={columnWidths.name}>
-      {`${member.MEMBER_FIRSTNAME} ${member.MEMBER_MIDDLENAME ? member.MEMBER_MIDDLENAME + " " : ""}${member.MEMBER_LASTNAME}`}
+      {`${MEMBER_FIRSTNAME} ${MEMBER_MIDDLENAME ? MEMBER_MIDDLENAME + " " : ""}${MEMBER_LASTNAME}`}
     </TableCell>,
-    <TableCell width={columnWidths.payslip}>{member.MEMBER_PAYSLIP_NO || "N/A"}</TableCell>,
-    <TableCell width={columnWidths.id}>{member.MEMBER_ID}</TableCell>,
-    <TableCell width={columnWidths.company}>{member.MEMBER_COMPANY || "N/A"}</TableCell>,
-    <TableCell width={columnWidths.department}>{member.MEMBER_DEPARTMENT || "N/A"}</TableCell>,
-    <TableCell width={columnWidths.position}>{member.MEMBER_POSITION || "N/A"}</TableCell>,
-    <TableCell width={columnWidths.status}>{member.MEMBER_STATUS || "N/A"}</TableCell>,
+    <TableCell width={columnWidths.payslip}>{MEMBER_PAYSLIP_NO || "N/A"}</TableCell>,
+    <TableCell width={columnWidths.id}>{MEMBER_ID}</TableCell>,
+    <TableCell width={columnWidths.company}>{MEMBER_COMPANY || "N/A"}</TableCell>,
+    <TableCell width={columnWidths.department}>{MEMBER_DEPARTMENT || "N/A"}</TableCell>,
+    <TableCell width={columnWidths.position}>{MEMBER_POSITION || "N/A"}</TableCell>,
+    <TableCell width={columnWidths.status}>{MEMBER_STATUS || "N/A"}</TableCell>,
     <TableCell width={columnWidths.action}>
-      <ActionButton>Details</ActionButton>
+      <ActionButton onClick={() => setSelectedMember({ MEMBER_FIRSTNAME, MEMBER_MIDDLENAME, MEMBER_LASTNAME })}>
+        Details
+      </ActionButton>
     </TableCell>,
   ]);
 
@@ -73,6 +86,12 @@ const SharedPayrollPage = () => {
         />
       </Controls>
       <Table headers={headers} rows={rows} />
+      {selectedMember && (
+        <MemberPayrollDetailsModal
+          member={selectedMember}
+          onClose={() => setSelectedMember(null)}
+        />
+      )}
     </>
   );
 };
